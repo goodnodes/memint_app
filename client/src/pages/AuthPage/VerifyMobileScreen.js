@@ -261,7 +261,7 @@ const styles = StyleSheet.create({
   form: {
     marginTop: 32,
     width: '100%',
-    paddingHorizontal: 32,
+    paddin: 32,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
