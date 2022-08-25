@@ -28,6 +28,9 @@ import fallinlove from '../../assets/icons/fallinlove.png';
 import soso from '../../assets/icons/soso.png';
 import notgood from '../../assets/icons/notgood.png';
 import terrible from '../../assets/icons/terrible.png';
+import SafeStatusBar from '../../components/common/SafeStatusBar';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import LinearGradient from 'react-native-linear-gradient';
 
 function AlarmDetail({route}) {
   const userInfo = useUser();
@@ -99,7 +102,7 @@ function AlarmDetail({route}) {
               /> */}
             <BasicButton
               text="수락하기"
-              width={120}
+              width={240}
               height={50}
               textSize={17}
               margin={[5, 20, 5, 20]}
@@ -152,78 +155,96 @@ function AlarmDetail({route}) {
   };
 
   return (
-    <SafeAreaView style={styles.screen}>
-      <BackButton />
-      <View style={styles.container}>
-        <View style={styles.profileArea}>
+    <View style={styles.screen}>
+      <SafeStatusBar />
+      <LinearGradient
+        colors={['#3D3E44', '#5A7064']}
+        start={{x: 0.3, y: 0.3}}
+        end={{x: 1, y: 1}}
+        style={styles.gradientBackground}>
+        <View style={styles.closeRow}>
           <TouchableOpacity
             onPress={() => {
-              setUserId(alarm.sender);
-
-              setUserInfoModalVisible(true);
+              navigation.pop();
             }}>
-            <Image
-              source={{uri: alarm.senderInfo.nftProfile}}
-              style={styles.userImage}
+            <Icon
+              name="close"
+              size={24}
+              color={'#ffffff'}
+              style={styles.closeIcon}
             />
           </TouchableOpacity>
+        </View>
+        <View style={styles.container}>
+          <View style={styles.profileArea}>
+            <TouchableOpacity
+              onPress={() => {
+                setUserId(alarm.sender);
 
-          <UserInfoModal
-            userId={userId}
-            userInfoModalVisible={userInfoModalVisible}
-            visible={checkIsVisible(alarm.sender)}
-            setUserInfoModalVisible={setUserInfoModalVisible}
-            pFunction={() => {}}
-          />
+                setUserInfoModalVisible(true);
+              }}>
+              <Image
+                source={{uri: alarm.senderInfo.nftProfile}}
+                style={styles.userImage}
+              />
+            </TouchableOpacity>
 
-          <View style={styles.userInfo}>
-            <View style={styles.userInfoElement}>
-              <Text style={styles.key}>닉네임</Text>
-              <Text style={styles.value}>{alarm.senderInfo.nickName}</Text>
-            </View>
-            <View style={styles.userInfoElement}>
-              <Text style={styles.key}>나이</Text>
-              <Text style={styles.value}>
-                {handleBirth(alarm.senderInfo.birth)}
-              </Text>
-            </View>
-            <View style={styles.userInfoElement}>
-              <Text style={styles.key}>성별</Text>
-              <Text style={styles.value}>{alarm.senderInfo.gender}</Text>
+            <UserInfoModal
+              userId={userId}
+              userInfoModalVisible={userInfoModalVisible}
+              visible={checkIsVisible(alarm.sender)}
+              setUserInfoModalVisible={setUserInfoModalVisible}
+              pFunction={() => {}}
+            />
+
+            <View style={styles.userInfo}>
+              <View style={styles.userInfoElement}>
+                <Text style={styles.key}>닉네임</Text>
+                <Text style={styles.value}>{alarm.senderInfo.nickName}</Text>
+              </View>
+              <View style={styles.userInfoElement}>
+                <Text style={styles.key}>나이</Text>
+                <Text style={styles.value}>
+                  {handleBirth(alarm.senderInfo.birth)}
+                </Text>
+              </View>
+              <View style={styles.userInfoElement}>
+                <Text style={styles.key}>성별</Text>
+                <Text style={styles.value}>{alarm.senderInfo.gender}</Text>
+              </View>
             </View>
           </View>
-        </View>
-        <Text style={styles.key}>
-          {alarm.type === 'feedback' ? '후기 내용' : '메시지'}
-        </Text>
-        {alarm.type === 'feedback' ? renderEmotion() : null}
-        <Text style={styles.message}>{alarm.message}</Text>
-        <View>
-          <Text style={styles.key}>미팅 정보</Text>
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate('MeetingDetail', {data: alarm.meetingInfo})
-            }>
-            <Text style={styles.meetingTitle}>{alarm.meetingInfo.title}</Text>
-            <View style={styles.meetingInfo}>
-              <Text style={styles.meetingElement}>
-                {alarm.meetingInfo.region}
-              </Text>
-              <View style={styles.bar} />
-              <Text style={styles.meetingElement}>
-                {alarm.meetingInfo.peopleNum +
-                  ':' +
-                  alarm.meetingInfo.peopleNum}
-              </Text>
-              <View style={styles.bar} />
-              <Text style={styles.meetingElement}>
-                {handleDateInFormat(alarm.meetingInfo.meetDate)}
-              </Text>
-            </View>
-          </TouchableOpacity>
-        </View>
+          <Text style={styles.key}>
+            {alarm.type === 'feedback' ? '후기 내용' : '메시지'}
+          </Text>
+          {alarm.type === 'feedback' ? renderEmotion() : null}
+          <Text style={styles.message}>{alarm.message}</Text>
+          <View>
+            <Text style={styles.key}>미팅 정보</Text>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate('MeetingDetail', {data: alarm.meetingInfo})
+              }>
+              <Text style={styles.meetingTitle}>{alarm.meetingInfo.title}</Text>
+              <View style={styles.meetingInfo}>
+                <Text style={styles.meetingElement}>
+                  {alarm.meetingInfo.region}
+                </Text>
+                <View style={styles.bar} />
+                <Text style={styles.meetingElement}>
+                  {alarm.meetingInfo.peopleNum +
+                    ':' +
+                    alarm.meetingInfo.peopleNum}
+                </Text>
+                <View style={styles.bar} />
+                <Text style={styles.meetingElement}>
+                  {handleDateInFormat(alarm.meetingInfo.meetDate)}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
 
-        {/*
+          {/*
         {alarm.meetingInfo.members.filter(
           el =>
             el === {[alarm.sender]: 'accepted'} ||
@@ -246,8 +267,10 @@ function AlarmDetail({route}) {
             </View>
           </>
         )} */}
-        {alarm.type === 'proposal' ? renderAcceptedStatus() : null}
-      </View>
+          {alarm.type === 'proposal' ? renderAcceptedStatus() : null}
+        </View>
+      </LinearGradient>
+
       <DoubleModal
         text="수락하시겠습니까?"
         nButtonText="아니요"
@@ -262,59 +285,63 @@ function AlarmDetail({route}) {
           setModalVisible(!modalVisible);
         }}
       />
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: 'white',
+  },
+  gradientBackground: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    // alignItems: 'flex-end',
+    paddingHorizontal: 15,
+  },
+  closeRow: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  closeIcon: {
+    paddingVertical: 15,
   },
   container: {
     backgroundColor: 'white',
-    marginVertical: 50,
-    paddingVertical: 40,
-    paddingHorizontal: 30,
+    paddingVertical: 33,
+    paddingHorizontal: 40,
     justifyContent: 'center',
-    borderColor: 'black',
-    borderRadius: 30,
+    borderColor: '#58FF7D',
+    borderRadius: 12,
     borderWidth: 1,
-    marginHorizontal: 10,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.23,
-    shadowRadius: 2.62,
-
-    elevation: 4,
+    marginBottom: 30,
   },
   profileArea: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 40,
+    marginBottom: 30,
   },
   userImage: {
     borderRadius: 100,
-    width: 80,
-    height: 80,
-    // borderColor: 'black',
-    // borderWidth: 1,
+    width: 79,
+    height: 79,
+    borderColor: '#58FF7D',
+    borderWidth: 2,
   },
   buttonArea: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: 40,
+    // marginBottom: 40,
   },
   acceptText: {
     textAlign: 'center',
-    fontSize: 17,
-    fontWeight: 'bold',
-    marginTop: 50,
-    marginBottom: 20,
+    fontSize: 15,
+    marginTop: 30,
+    marginBottom: 15,
+    letterSpacing: -0.5,
+    fontFamily: 'NeoDunggeunmoPro-Regular',
   },
   userInfo: {
     marginLeft: 10,
@@ -324,6 +351,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginVertical: 8,
     alignItems: 'center',
+    marginLeft: 25,
   },
   meetingInfo: {
     flexDirection: 'row',
@@ -331,7 +359,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   meetingElement: {
-    fontSize: 11,
+    fontSize: 13,
+    color: '#3C3D43',
+    fontWeight: '500',
+    letterSpacing: -0.5,
   },
   bar: {
     width: 1,
@@ -340,27 +371,27 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   key: {
-    color: 'gray',
+    color: '#3C3D43',
     width: 60,
-    fontSize: 12,
-    fontWeight: '500',
+    fontSize: 15,
+    letterSpacing: -0.5,
   },
   value: {
     width: 130,
     justifyContent: 'flex-end',
     fontSize: 15,
-    fontWeight: '500',
+    letterSpacing: -0.5,
   },
   message: {
     marginTop: 10,
     marginBottom: 25,
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: 15,
+    letterSpacing: -0.5,
   },
   meetingTitle: {
     marginTop: 10,
     fontSize: 15,
-    fontWeight: 'bold',
+    letterSpacing: -0.5,
   },
   emotionIcon: {
     height: 30,

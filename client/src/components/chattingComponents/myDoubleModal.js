@@ -43,13 +43,23 @@ function MyDoubleModal({
               <View style={styles.buttonRow}>
                 <BasicButton
                   text={nButtonText}
-                  size="small"
-                  variant="disable"
+                  textSize={16}
+                  width={100}
+                  height={45}
+                  backgroundColor="white"
+                  textColor="black"
+                  border={true}
+                  margin={[0, 5, 0, 5]}
                   onPress={() => setModalVisible(!modalVisible)}
                 />
                 <BasicButton
                   text={pButtonText}
-                  size="small"
+                  textSize={16}
+                  width={100}
+                  height={45}
+                  margin={[0, 5, 0, 5]}
+                  backgroundColor="#AEFFC1"
+                  textColor="black"
                   onPress={() => {
                     changeJoinerState(id, user, setModalVisible).then(
                       result => {
@@ -74,23 +84,18 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    width: 300,
+    width: 290,
     backgroundColor: 'white',
-    borderRadius: 30,
-    padding: 35,
+    borderRadius: 12,
+    padding: 25,
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    borderColor: '#AEFFC1',
+    borderWidth: 1,
     position: 'absolute',
   },
   modalText: {
-    fontWeight: 'bold',
+    fontSize: 17,
+    fontWeight: '500',
     margin: 15,
     textAlign: 'center',
   },

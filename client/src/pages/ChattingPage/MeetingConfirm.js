@@ -60,14 +60,14 @@ function MeetingConfirm({route}) {
       {
         title: '사진 업로드',
         //사진 선택하기는 이후 삭제될 수 있음
-        options: ['카메라로 촬영하기', '사진 선택하기', '취소'],
-        cancelButtonIndex: 2,
+        options: ['카메라로 촬영하기', '취소'],
+        cancelButtonIndex: 1,
       },
       buttonIndex => {
         if (buttonIndex === 0) {
           launchCamera(imagePickerOption, onPickImage);
-        } else if (buttonIndex === 1) {
-          launchImageLibrary(imagePickerOption, onPickImage);
+          // } else if (buttonIndex === 1) {
+          //   launchImageLibrary(imagePickerOption, onPickImage);
         }
       },
     );
@@ -241,7 +241,7 @@ function MeetingConfirm({route}) {
                   onPress={handleCamera}>
                   <Icon
                     name="photo-camera"
-                    size={30}
+                    size={25}
                     style={styles.photoIcon}
                     color="#33ED96"
                   />
@@ -264,7 +264,9 @@ function MeetingConfirm({route}) {
               {renderMessage()}
             </View>
           ) : (
-            <Text>호스트가 이미지를 업로드하지 않았습니다.</Text>
+            <Text style={styles.joinerText}>
+              호스트가 이미지를 업로드하지 않았습니다.
+            </Text>
           )}
         </View>
       );
@@ -372,6 +374,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     letterSpacing: -0.5,
     color: '#1D1E1E',
+    marginRight: 3,
   },
   plainText: {
     fontSize: 13,
@@ -476,6 +479,10 @@ const styles = StyleSheet.create({
     top: window.height / 2.2,
     left: window.width / 2.25,
     zIndex: 3,
+  },
+  joinerText: {
+    color: '#ffffff',
+    marginBottom: 10,
   },
 });
 

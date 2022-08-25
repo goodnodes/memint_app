@@ -83,14 +83,14 @@ function MyProfile({User, navigation}) {
       <View style={styles.userTags}>
         <Text style={styles.plainText}>{User.nickName}님의 미팅 스타일은?</Text>
         <View style={styles.userTag}>
-          <Icon name="circle" size={9} color={'#4E00F5'} />
+          {/* <Icon name="circle" size={9} color={'#4E00F5'} /> */}
           <Text style={styles.tagText}>주량 </Text>
           <View style={styles.tag}>
             <Text style={styles.tagFont}>{User.property.drinkCapa}</Text>
           </View>
         </View>
         <View style={styles.userTag}>
-          <Icon name="circle" size={9} color={'#4E00F5'} />
+          {/* <Icon name="circle" size={9} color={'#4E00F5'} /> */}
           <Text style={styles.tagText}>주종 </Text>
           {User.property.alcoholType.map((el, index) => (
             <View style={styles.tag} key={index}>
@@ -99,7 +99,7 @@ function MyProfile({User, navigation}) {
           ))}
         </View>
         <View style={styles.userTag}>
-          <Icon name="circle" size={9} color={'#4E00F5'} />
+          {/* <Icon name="circle" size={9} color={'#4E00F5'} /> */}
           <Text style={styles.tagText}>스타일 </Text>
           {User.property.drinkStyle.map((el, index) => (
             <View style={styles.tag} key={index}>
@@ -188,10 +188,11 @@ const styles = StyleSheet.create({
   userTag: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingLeft: 5,
+    marginVertical: 5,
+    // paddingLeft: 5,
   },
   tagText: {
-    marginLeft: 5,
+    // marginLeft: 5,
     fontWeight: '500',
     fontSize: 15,
     marginVertical: 3,

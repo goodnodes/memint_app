@@ -1,3 +1,4 @@
+import {useIsFocused} from '@react-navigation/native';
 import React, {useCallback, useEffect, useState} from 'react';
 import {SafeAreaView, View, Text, StyleSheet, ScrollView} from 'react-native';
 import BackButton from '../../components/common/BackButton';
@@ -9,13 +10,14 @@ import useUser from '../../utils/hooks/UseUser';
 
 function MyLikesRooms() {
   const [likesRooms, setLikesRooms] = useState([]);
+  const isFocused = useIsFocused();
   useEffect(() => {
     getMyLikesRooms();
-  }, [getMyLikesRooms]);
+  }, [getMyLikesRooms, isFocused]);
   const userInfo = useUser();
   const getMyLikesRooms = useCallback(async () => {
     const meetings = await Promise.all(
-      userInfo.likesroomId.map(async meetingId => {
+      userInfo?.likesroomId?.map(async meetingId => {
         const res = await getMeeting(meetingId);
         if (res.data() === undefined) {
           return;

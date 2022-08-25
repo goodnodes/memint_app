@@ -2,14 +2,15 @@ import React from 'react';
 import {View, StyleSheet, Text, TouchableOpacity, Image} from 'react-native';
 import klayIcon from '../../assets/icons/klaytn-klay-logo.png';
 import ethIcon from '../../assets/icons/ethereum.png';
-import lovechainIcon from '../../assets/icons/lovechain.png';
+import tingsymbol from '../../assets/icons/tingsymbol.png';
+
 function WalletAccountElement({onPress, balance, content}) {
-  const imgSrc = content === 'KLAY' ? klayIcon : lovechainIcon;
+  const imgSrc = content === 'KLAY' ? klayIcon : tingsymbol;
   return (
     <TouchableOpacity onPress={() => onPress(content)}>
       <View style={[styles.button]}>
         <View style={styles.tokenWrapper}>
-          {/* <Image source={imgSrc} style={styles.icon} /> */}
+          <Image source={imgSrc} style={styles.icon} />
           <Text style={styles.contentText}>{content}</Text>
         </View>
 
@@ -30,8 +31,8 @@ WalletAccountElement.defaultProps = {
 
 const styles = StyleSheet.create({
   icon: {
-    width: 35,
-    height: 35,
+    width: 24,
+    height: 24,
     marginLeft: 20,
     // backgroundColor: 'green',
   },
@@ -41,7 +42,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   contentText: {
-    marginLeft: 10,
+    marginLeft: 8,
     fontSize: 15,
     fontWeight: '600',
   },
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderWidth: 1,
     borderRadius: 12,
-    margin: 1,
+    marginVertical: 3,
   },
 });
 

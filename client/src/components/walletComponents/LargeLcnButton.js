@@ -2,7 +2,7 @@ import React from 'react';
 import {View, StyleSheet, Text, Image, TextInput} from 'react-native';
 import klayIcon from '../../assets/icons/klaytn-klay-logo.png';
 import ethIcon from '../../assets/icons/ethereum.png';
-import lovechainIcon from '../../assets/icons/lovechain.png';
+import tingsymbol from '../../assets/icons/tingsymbol.png';
 function LargeLcnButton({
   width,
   height,
@@ -15,7 +15,7 @@ function LargeLcnButton({
   balance,
   content,
 }) {
-  const imgSrc = content === 'KLAY' ? klayIcon : lovechainIcon;
+  const imgSrc = content === 'KLAY' ? klayIcon : tingsymbol;
   const [marginTop, marginRight, marginBottom, marginLeft] = margin;
   return (
     <View
@@ -35,7 +35,7 @@ function LargeLcnButton({
         style={{
           flexDirection: 'column',
           width: '100%',
-          justifyContent: 'space-between',
+          justifyContent: 'flex-start',
           height: '100%',
         }}>
         <View style={styles.leftWrapper}>
@@ -51,7 +51,13 @@ function LargeLcnButton({
             onChangeText={setAmount}
             keyboardType="numeric"
           />
-          <Text>{content}</Text>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Image source={imgSrc} style={styles.icon} />
+            <Text
+              style={{fontSize: 15, fontWeight: '600', letterSpacing: -0.5}}>
+              {content}
+            </Text>
+          </View>
         </View>
       </View>
 
@@ -78,9 +84,9 @@ LargeLcnButton.defaultProps = {
 
 const styles = StyleSheet.create({
   icon: {
-    marginLeft: 30,
-    width: 35,
-    height: 35,
+    marginRight: 8,
+    width: 24,
+    height: 24,
   },
   textInput: {
     fontWeight: 'bold',
@@ -90,6 +96,7 @@ const styles = StyleSheet.create({
   leftWrapper: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginBottom: 8,
   },
   rightWrapper: {
     marginRight: 20,

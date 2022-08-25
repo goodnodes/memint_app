@@ -173,26 +173,40 @@ function ChattingRoom({route}) {
           <MyDoubleModal
             body={
               <>
-                <Text style={{marginTop: 7}}>
-                  '미팅 참가를 확정하시겠습니까?'
+                <Text
+                  style={{
+                    marginTop: 7,
+                    fontSize: 17,
+                    fontWeight: '500',
+                    letterSpacing: -0.5,
+                  }}>
+                  미팅 참가를 확정하시겠습니까?
                 </Text>
                 <View style={{alignItems: 'flex-start'}}>
                   {/* 리덕스에서 받아오는 meeting 정보로 업데이트할 것  */}
-                  <Text style={{marginTop: 7}}>
-                    🗓 날짜:{' '}
+                  <Text
+                    style={{marginTop: 10, fontSize: 16, letterSpacing: -0.5}}>
+                    🗓 날짜:{'   '}
                     {route.params.data.meetDate
                       .toDate()
                       .toLocaleString()
                       .slice(0, 11)}
                   </Text>
-                  <Text style={{marginTop: 7}}>
-                    ⏰ 시간:{' '}
+                  <Text
+                    style={{marginTop: 7, fontSize: 16, letterSpacing: -0.5}}>
+                    ⏰ 시간:{'   '}
                     {route.params.data.meetDate
                       .toDate()
                       .toLocaleString()
                       .slice(12, 19)}
                   </Text>
-                  <Text style={{marginTop: 7}}>
+                  <Text
+                    style={{
+                      marginTop: 7,
+                      fontSize: 16,
+                      letterSpacing: -0.5,
+                      marginBottom: 20,
+                    }}>
                     🏖 장소: {route.params.data.region}
                   </Text>
                 </View>

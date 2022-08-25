@@ -19,6 +19,9 @@ import firestore from '@react-native-firebase/firestore';
 import {useIsFocused} from '@react-navigation/native';
 import {setFeedbackEnd} from '../../lib/Meeting';
 import DoubleModal from '../../components/common/DoubleModal';
+import LinearGradient from 'react-native-linear-gradient';
+import SafeStatusBar from '../../components/common/SafeStatusBar';
+import BackButton from '../../components/common/BackButton';
 
 function FeedbackChoicePage({route}) {
   const isFocused = useIsFocused();
@@ -75,70 +78,96 @@ function FeedbackChoicePage({route}) {
 
   return (
     <View style={{flex: 1}}>
-      <SafeAreaView style={{backgroundColor: 'yellow'}}>
-        <RoomHeader title="돌아가기" />
-      </SafeAreaView>
-      <View style={styles.container}>
-        <View style={styles.wrapper}>
-          <Text style={{fontSize: 15, fontWeight: '700', marginBottom: 60}}>
-            {owner.nickName}님,{'\n'}
-            {userInfo.length === 2
-              ? `${
-                  userInfo.filter(el => {
-                    return el[2] !== owner.id;
-                  })[0][0]
-                } 님과의 미팅은 어떠셨나요?`
-              : `${
-                  userInfo.filter(el => {
-                    return el[2] !== owner.id;
-                  })[0][0]
-                }님 외 ${userInfo.length - 2}명과의 미팅은 어떠셨나요?`}
-          </Text>
-          <View>
-            <Text style={{fontSize: 15, fontWeight: '700', marginBottom: 7}}>
-              후기를 남길 미팅 상대를 선택하세요.
-            </Text>
-            <Text style={{fontWeight: '200'}}>
-              최소 한 명 이상 후기를 작성해주세요.
-            </Text>
-          </View>
-          <View
-            style={{
-              flex: 1,
-            }}>
-            {other && other}
-            <Pressable
-              style={styles.confirmButton}
-              onPress={() => {
-                setModalVisible(true);
+      <SafeStatusBar />
+      <LinearGradient
+        colors={['#3D3E44', '#5A7064']}
+        start={{x: 0.3, y: 0.3}}
+        end={{x: 1, y: 1}}
+        style={styles.gradientBackground}>
+        <BackButton />
+
+        <View style={styles.container}>
+          <Text style={styles.title}>미팅참여 인증하기</Text>
+
+          <View style={styles.wrapper}>
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: '500',
+                marginBottom: 20,
+                color: '#ffffff',
+                letterSpacing: -0.5,
               }}>
-              <Text style={{color: 'white', fontSize: 20, fontWeight: 'bold'}}>
-                후기 작성 완료하기
+              {owner.nickName}님,{'\n'}
+              {userInfo.length === 2
+                ? `${
+                    userInfo.filter(el => {
+                      return el[2] !== owner.id;
+                    })[0][0]
+                  } 님과의 미팅은 어땠어요?`
+                : `${
+                    userInfo.filter(el => {
+                      return el[2] !== owner.id;
+                    })[0][0]
+                  }님 외 ${userInfo.length - 2}명과의 미팅은 어땠어요?`}
+            </Text>
+            <Text
+              style={{
+                fontSize: 14,
+                fontWeight: '500',
+                marginBottom: 50,
+                color: '#ffffff',
+                letterSpacing: -0.5,
+              }}>
+              최소 한명 이상의 후기를 작성해주세요
+            </Text>
+            {/* <View>
+              <Text style={{fontSize: 15, fontWeight: '700', marginBottom: 7}}>
+                후기를 남길 미팅 상대를 선택하세요.
               </Text>
-            </Pressable>
+              <Text style={{fontWeight: '200'}}>
+                최소 한 명 이상 후기를 작성해주세요.
+              </Text>
+            </View> */}
+            <View
+              style={{
+                flex: 1,
+              }}>
+              {other && other}
+              <Pressable
+                style={styles.confirmButton}
+                onPress={() => {
+                  setModalVisible(true);
+                }}>
+                <Text
+                  style={{color: '#1D1E1E', fontSize: 18, fontWeight: '600'}}>
+                  완료
+                </Text>
+              </Pressable>
+            </View>
+            <DoubleModal
+              text="후기 작성을 완료하시겠습니까?"
+              nButtonText="아니요"
+              pButtonText="네"
+              modalVisible={modalVisible}
+              setModalVisible={setModalVisible}
+              pFunction={() => {
+                confirmable
+                  ? setFeedbackEnd(data.id, owner.id).then(() => {
+                      showToast('success', '후기 보내기를 완료하였습니다.');
+                      navigation.pop();
+                      // 토큰 보상 로직 추가
+                    })
+                  : setModalVisible(!modalVisible);
+                showToast('error', '한 명 이상의 후기를 작성해주세요.');
+              }}
+              nFunction={() => {
+                setModalVisible(!modalVisible);
+              }}
+            />
           </View>
-          <DoubleModal
-            text="후기 작성을 완료하시겠습니까?"
-            nButtonText="아니요"
-            pButtonText="네"
-            modalVisible={modalVisible}
-            setModalVisible={setModalVisible}
-            pFunction={() => {
-              confirmable
-                ? setFeedbackEnd(data.id, owner.id).then(() => {
-                    showToast('success', '후기 보내기를 완료하였습니다.');
-                    navigation.pop();
-                    // 토큰 보상 로직 추가
-                  })
-                : setModalVisible(!modalVisible);
-              showToast('error', '한 명 이상의 후기를 작성해주세요.');
-            }}
-            nFunction={() => {
-              setModalVisible(!modalVisible);
-            }}
-          />
         </View>
-      </View>
+      </LinearGradient>
     </View>
   );
 }
@@ -153,20 +182,28 @@ function Human({person, meetingId, data, userInfo}) {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        paddingTop: 20,
-        paddingHorizontal: 10,
+        width: '100%',
       }}>
       <View style={{alignItems: 'center', flexDirection: 'row'}}>
         <Image
           source={{uri: person[1]}}
-          style={{width: 50, height: 50, borderRadius: 25}}
+          style={{width: 30, height: 30, borderRadius: 999}}
         />
-        <Text style={{fontSize: 16, marginLeft: 12}}>{person[0]}</Text>
+        <Text
+          style={{
+            fontSize: 18,
+            marginLeft: 5,
+            color: '#ffffff',
+            letterSpacing: -0.5,
+            fontWeight: '500',
+          }}>
+          {person[0]}
+        </Text>
       </View>
       <TouchableOpacity
         style={
           person[4]
-            ? [styles.button, {backgroundColor: '#b7b7b7'}]
+            ? [styles.button, {backgroundColor: '#1D1E1E'}] //여기가 완료
             : styles.button
         }
         onPress={() => {
@@ -178,8 +215,23 @@ function Human({person, meetingId, data, userInfo}) {
                 userInfo,
               });
         }}>
-        <Text style={{color: 'white', fontSize: 14, fontWeight: '700'}}>
-          후기 작성하기
+        <Text
+          style={
+            person[4]
+              ? {
+                  color: '#58FF7D',
+                  fontSize: 15,
+                  fontWeight: '500',
+                  letterSpacing: -0.5,
+                }
+              : {
+                  color: '#C7D8CC',
+                  fontSize: 15,
+                  fontWeight: '500',
+                  letterSpacing: -0.5,
+                }
+          }>
+          {person[4] ? '후기 작성 완료' : '후기 작성하기'}
         </Text>
       </TouchableOpacity>
     </View>
@@ -187,36 +239,51 @@ function Human({person, meetingId, data, userInfo}) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    justifyContent: 'center',
+  gradientBackground: {
     flex: 1,
-    width: '100%',
-
-    borderTopWidth: 0.3,
+  },
+  container: {
+    flex: 1,
+    paddingHorizontal: 15,
   },
   wrapper: {
-    height: '87%',
-    width: '90%',
+    flex: 1,
+  },
+  title: {
+    fontWeight: '400',
+    fontSize: 24,
+    marginVertical: 30,
+    letterSpacing: -0.5,
+    color: '#ffffff',
+    fontFamily: 'NeoDunggeunmoPro-Regular',
   },
 
   button: {
-    height: 34,
-    width: 100,
-    backgroundColor: '#0D99FF',
-    borderRadius: 3,
+    height: 30,
+    width: 103,
+    backgroundColor: '#1D1E1E',
+    borderRadius: 999,
     alignItems: 'center',
     justifyContent: 'center',
   },
   confirmButton: {
-    backgroundColor: '#040404',
+    backgroundColor: '#ffffff',
     width: '100%',
-    height: 57,
-    borderRadius: 17,
+    height: 50,
+    borderRadius: 999,
     alignItems: 'center',
     justifyContent: 'center',
     position: 'absolute',
-    bottom: 0,
+    bottom: 20,
+    shadowColor: 'rgba(174, 255, 192, 0.5)',
+    shadowOffset: {
+      width: 0,
+      height: 9,
+    },
+    shadowOpacity: 0.48,
+    shadowRadius: 11.95,
+
+    elevation: 18,
   },
 });
 

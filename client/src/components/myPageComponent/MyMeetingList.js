@@ -152,8 +152,6 @@ const styles = StyleSheet.create({
   tagcontainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 3,
-    height: 10,
   },
   meetingInfo: {
     flexDirection: 'row',
@@ -175,15 +173,16 @@ const styles = StyleSheet.create({
     height: 185,
     borderRadius: 30,
     marginVertical: 8,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.23,
-    shadowRadius: 2.62,
+    marginHorizontal: 15,
+    // shadowColor: '#000',
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2,
+    // },
+    // shadowOpacity: 0.23,
+    // shadowRadius: 2.62,
 
-    elevation: 5,
+    // elevation: 5,
   },
   titleRow: {
     marginBottom: 4,
@@ -193,7 +192,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '400',
     height: 43,
-    width: '100%',  
+    width: '100%',
     fontFamily: 'NeoDunggeunmoPro-Regular',
     letterSpacing: -0.5,
   },
@@ -235,7 +234,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   bar: {
-     width: 1,
+    width: 1,
     height: 9,
     marginHorizontal: 4,
     backgroundColor: '#3C3D43',

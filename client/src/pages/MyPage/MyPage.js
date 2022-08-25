@@ -31,7 +31,17 @@ function MyPage({navigation}) {
           <Icon name="arrow-back-ios" size={20} color={'#1D1E1E'} />
           {/* <Text style={styles.buttonText}>Back</Text> */}
         </TouchableOpacity>
-        <Icon name="menu" size={25} color="#1D1E1E" style={{marginRight: 10}} />
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('EditMyInfo');
+          }}>
+          <Icon
+            name="menu"
+            size={25}
+            color="#1D1E1E"
+            style={{marginRight: 10}}
+          />
+        </TouchableOpacity>
       </View>
       {/* 유저 프로필 */}
       <MyProfile User={user} navigation={navigation} />

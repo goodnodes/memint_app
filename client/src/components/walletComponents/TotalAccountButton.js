@@ -1,15 +1,13 @@
 import React from 'react';
 import {View, StyleSheet, Text, TouchableOpacity, Image} from 'react-native';
+import tingsymbol from '../../assets/icons/tingsymbol.png';
 
 function TotalAccountButton({amount, onPress, backgroundColor}) {
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={[styles.button]}>
         <View style={styles.coinwrap}>
-          {/* <Image
-            source={require('../../assets/icons/lovechain.png')}
-            style={styles.icon}
-          /> */}
+          <Image source={tingsymbol} style={styles.icon} />
           <Text style={[styles.text]}>TING</Text>
         </View>
 
@@ -28,9 +26,9 @@ TotalAccountButton.defaultProps = {
 
 const styles = StyleSheet.create({
   icon: {
-    marginLeft: 10,
-    width: 35,
-    height: 35,
+    marginLeft: 20,
+    width: 24,
+    height: 24,
   },
   button: {
     flexDirection: 'row',
@@ -46,7 +44,7 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   text: {
-    marginHorizontal: 20,
+    marginHorizontal: 8,
     textSize: 20,
     fontSize: 15,
     color: 'black',

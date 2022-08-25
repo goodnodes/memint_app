@@ -1,8 +1,8 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, TouchableOpacity, View, Image, Text} from 'react-native';
-import wallet from '../../assets/icons/wallet.png';
 import useUser from '../../utils/hooks/UseUser';
+import tingsymbol from '../../assets/icons/tingsymbol.png';
 
 /*
 props 필요 없음.
@@ -18,7 +18,7 @@ function WalletButton() {
       onPress={() => navigation.navigate('Wallet')}>
       {/* <Text style={styles.buttonText}>Wallet</Text> */}
       <View style={styles.walletButton}>
-        <Image source={wallet} style={styles.image} />
+        <Image source={tingsymbol} style={styles.image} />
         <Text style={styles.buttonText}>{userInfo?.tokenAmount}</Text>
       </View>
     </TouchableOpacity>

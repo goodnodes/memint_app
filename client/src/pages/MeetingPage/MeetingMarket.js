@@ -218,6 +218,16 @@ function MeetingMarket({navigation}) {
         {/* <Button title="로그아웃 하기" color="red" onPress={handleSignOut} /> */}
         <Image source={Sauropod} style={styles.backgroundImage} />
         <ScrollView style={styles.scrollView}>
+          <View style={styles.areaEnd}>
+            <TouchableOpacity
+              style={styles.createButton}
+              onPress={() => {
+                setConfirmModalVisible(true);
+              }}>
+              <Text style={styles.createButtonText}>미팅 생성</Text>
+              <Icon name="add" size={16} color={'#58FF7D'} />
+            </TouchableOpacity>
+          </View>
           <View style={styles.titleArea}>
             <Text style={styles.title}>새로운 친구들과 술 한잔 어때?</Text>
             <Pressable style={styles.areaEnd}>
@@ -237,16 +247,6 @@ function MeetingMarket({navigation}) {
                 }}
               />
             </Pressable>
-          </View>
-
-          <View style={styles.areaEnd}>
-            <TouchableOpacity
-              style={styles.createButton}
-              onPress={() => {
-                setConfirmModalVisible(true);
-              }}>
-              <Icon name="add-box" size={35} color={'#ffffff'} />
-            </TouchableOpacity>
           </View>
 
           <View style={styles.listfilterArea}>
@@ -344,7 +344,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     // paddingRight: 10,
   },
-  createButton: {},
+  createButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  createButtonText: {
+    fontSize: 14,
+    letterSpacing: -0.5,
+    color: '#58FF7D',
+    marginRight: 7,
+  },
   titleArea: {
     width: '100%',
     paddingTop: 25,

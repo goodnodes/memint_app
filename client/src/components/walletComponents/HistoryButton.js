@@ -1,11 +1,13 @@
 import React from 'react';
 import {View, StyleSheet, Text, TouchableOpacity, Image} from 'react-native';
+import tingsymbol from '../../assets/icons/tingsymbol.png';
 
 function HistoryButton({onPress, time, balanceChange, balance, content}) {
   return (
     <View style={[styles.button]}>
       <View style={styles.contentWrapper}>
         <View style={styles.contentRow}>
+          <Image source={tingsymbol} style={styles.icon} />
           <Text style={styles.contentText}>{content}</Text>
         </View>
         <Text style={styles.timeText}>{time}</Text>
@@ -54,13 +56,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     // paddingHorizontal: 16,
     width: 330,
-    height: 60,
+    height: 76,
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: '#EAFFEFCC',
     borderRadius: 10,
     margin: 3,
-    paddingVertical: 10,
+    paddingVertical: 15,
   },
   contentWrapper: {
     flexDirection: 'column',
@@ -105,6 +107,11 @@ const styles = StyleSheet.create({
   contentRow: {
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  icon: {
+    width: 24,
+    height: 24,
+    marginRight: 8,
   },
 });
 
