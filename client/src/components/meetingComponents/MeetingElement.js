@@ -74,12 +74,12 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'rgba(234, 255, 239, 0.8)',
     flexDirection: 'column',
-    marginBottom: 5,
     paddingHorizontal: 30,
     paddingVertical: 25,
     height: 185,
     borderRadius: 30,
     marginVertical: 8,
+    justifyContent: 'space-between',
   },
   usernamelikes: {
     width: '100%',
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   title: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '400',
     height: 43,
     width: '100%',
@@ -141,15 +141,15 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   username: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '500',
     letterSpacing: -0.5,
     textAlign: 'right',
   },
   button: {
     backgroundColor: '#ffffff',
-    width: 120,
-    height: 50,
+    width: 113,
+    height: 49,
     borderRadius: 99,
     flexDirection: 'row',
     justifyContent: 'center',
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
     elevation: 18,
   },
   buttonText: {
-    fontSize: 18,
+    fontSize: 16,
     letterSpacing: -0.5,
     fontWeight: '600',
   },

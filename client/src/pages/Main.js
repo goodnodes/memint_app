@@ -22,6 +22,7 @@ import WalletOffchainMain from './WalletPage/WalletOffchainMain';
 import WalletOffchainRecieve from './WalletPage/WalletOffchainRecieve';
 import WalletOnchainMain from './WalletPage/WalletOnchainMain';
 import MyLikesRooms from './MyPage/MyLikesRooms';
+import MyMainPage from './MyPage/MyMainPage';
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -30,7 +31,7 @@ function Main() {
   return (
     <>
       <Tab.Navigator
-        initialRouteName="Mypage"
+        initialRouteName="MyMainPage"
         barStyle={{
           backgroundColor: 'rgba(0, 0, 0, 0.6)',
           paddingHorizontal: 8,
@@ -41,9 +42,21 @@ function Main() {
           marginHorizontal: 15,
           marginBottom: 15,
           position: 'absolute',
+          zIndex: 10,
         }}
         // style={{backgroundColor: 'rgba(0,0,0,0.0)'}}
       >
+        <Tab.Screen
+          name="mymainpage"
+          component={MyPageScreen}
+          options={{
+            tabBarLabel: 'MY',
+            tabBarIcon: ({color}) => (
+              <Icon name="person" color={color} size={24} />
+            ),
+            tabBarColor: 'transparent',
+          }}
+        />
         <Tab.Screen
           name="meeting"
           component={MeetingScreen}
@@ -51,17 +64,6 @@ function Main() {
             tabBarLabel: '홈',
             tabBarIcon: ({color}) => (
               <Icon name="home" color={color} size={24} />
-            ),
-            tabBarColor: 'transparent',
-          }}
-        />
-        <Tab.Screen
-          name="alarm"
-          component={AlarmScreen}
-          options={{
-            tabBarLabel: '알림',
-            tabBarIcon: ({color}) => (
-              <Icon name="notifications" color={color} size={24} />
             ),
             tabBarColor: 'transparent',
           }}
@@ -78,12 +80,12 @@ function Main() {
           }}
         />
         <Tab.Screen
-          name="mypage"
-          component={MyPageScreen}
+          name="alarm"
+          component={AlarmScreen}
           options={{
-            tabBarLabel: '마이페이지',
+            tabBarLabel: '알림',
             tabBarIcon: ({color}) => (
-              <Icon name="person" color={color} size={24} />
+              <Icon name="notifications" color={color} size={24} />
             ),
             tabBarColor: 'transparent',
           }}
@@ -95,7 +97,12 @@ function Main() {
 
 const MyPageScreen = () => {
   return (
-    <Stack.Navigator initialRouteName="MyPage">
+    <Stack.Navigator initialRouteName="MyMainPage">
+      <Stack.Screen
+        name="MyMainPage"
+        component={MyMainPage}
+        options={{headerShown: false}}
+      />
       <Stack.Screen
         name="MyPage"
         component={MyPage}

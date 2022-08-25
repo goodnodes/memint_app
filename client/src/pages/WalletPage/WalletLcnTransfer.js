@@ -10,6 +10,9 @@ import {
   Keyboard,
   Platform,
   TouchableWithoutFeedback,
+  StatusBar,
+  TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import BackButton from '../../components/common/BackButton';
 import BasicButton from '../../components/common/BasicButton';
@@ -19,16 +22,21 @@ import lcnIcon from '../../assets/icons/lovechain.png';
 import {transferLCN} from '../../lib/api/wallet';
 import {getUser} from '../../lib/Users';
 import useUser from '../../utils/hooks/UseUser';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import useAuthActions from '../../utils/hooks/UseAuthActions';
 import {getOnchainTokenLog} from '../../lib/OnchainTokenLog';
 import useOnchainActions from '../../utils/hooks/UseOnchainActions';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {useNavigation} from '@react-navigation/native';
 
 const WalletLcnTransfer = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const {showToast} = useToast();
   const userInfo = useUser();
   const {addLcnLog} = useOnchainActions();
+  const {top} = useSafeAreaInsets();
   const {updateTokenInfo} = useAuthActions();
+  const navigation = useNavigation();
   const [form, setForm] = useState({
     address: '',
     amount: '',
@@ -57,9 +65,17 @@ const WalletLcnTransfer = () => {
       <KeyboardAvoidingView
         style={styles.KeyboardAvoidingView}
         behavior={Platform.select({ios: 'padding'})}>
-        <SafeAreaView style={styles.fullscreen}>
-          <BackButton />
-          <View style={styles.container}>
+        <View style={styles.fullscreen}>
+          <StatusBar barStyle="dark-content" />
+
+          <View style={{backgroundColor: '#AAD1C1', height: top}} />
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => navigation.pop()}>
+            <Icon name="arrow-back-ios" size={20} color={'#1D1E1E'} />
+            {/* <Text style={styles.buttonText}>Back</Text> */}
+          </TouchableOpacity>
+          <ScrollView style={styles.container}>
             <Text style={styles.transferText}>Transfer</Text>
             <View style={styles.imageContainer}>
               <Image source={lcnIcon} style={styles.icon} />
@@ -87,6 +103,8 @@ const WalletLcnTransfer = () => {
                 width={330}
                 height={50}
                 text={'보내기'}
+                backgroundColor="#ffffff"
+                border={false}
                 textSize={18}
                 onPress={() => {
                   setModalVisible(true);
@@ -126,8 +144,8 @@ const WalletLcnTransfer = () => {
                 setModalVisible(false);
               }}
             />
-          </View>
-        </SafeAreaView>
+          </ScrollView>
+        </View>
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
@@ -140,6 +158,7 @@ const styles = StyleSheet.create({
   },
   fullscreen: {
     flex: 1,
+    backgroundColor: '#AAD1C1',
   },
   container: {
     flex: 1,
@@ -181,5 +200,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   text: {fontWeight: 'bold', fontSize: 16, marginTop: 20, marginLeft: 25},
+  backButton: {
+    paddingLeft: 15,
+    paddingRight: 10,
+    paddingTop: 5,
+  },
 });
 export default WalletLcnTransfer;

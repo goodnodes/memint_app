@@ -6,11 +6,13 @@ import {updateUserMeetingIn, updateUserMeetingOut} from '../../lib/Users';
 import useAuthActions from '../../utils/hooks/UseAuthActions';
 import likesInactive from '../../assets/icons/likesInactive.png';
 import likesActive from '../../assets/icons/likesActive.png';
+import {useRoute} from '@react-navigation/native';
 
 function MeetingLikes({meetingId}) {
   const [likes, setLikes] = useState(false);
   const {saveInfo} = useAuthActions();
   const userInfo = useUser();
+  const route = useRoute();
   useEffect(() => {
     if (
       userInfo?.likesroomId &&
@@ -53,7 +55,13 @@ function MeetingLikes({meetingId}) {
   return (
     <TouchableOpacity onPress={handleLikes}>
       {likes ? (
-        <Image source={likesActive} style={styles.image} />
+        <Image
+          source={likesActive}
+          style={[
+            styles.image,
+            route.name === 'MeetingDetail' ? {tintColor: '#58FF7D'} : null,
+          ]}
+        />
       ) : (
         <Image source={likesInactive} style={styles.image} />
       )}
