@@ -6,9 +6,16 @@ const transactionRouter = require("./routes/transaction");
 const auth = require("./routes/auth");
 const mintNFT = require("./routes/mintNFT");
 const notification = require("./routes/notification");
+const notification = require("./routes/notification");
 const app = express();
 const fs = require("fs");
 const port = process.env.PORT || 5000;
+const web = require("./routes/web");
+const cors = require("cors");
+let corsOptions = {
+  origin: "https://www.memint.xyz",
+  credentials: true,
+};
 
 //Firebase setting
 const admin = require("firebase-admin");
@@ -25,15 +32,18 @@ const db = (module.exports.db = firestore.getFirestore(firebaseApp));
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cors(corsOptions));
 
 app.get("/", (req, res) => {
 	res.send("hello Web3");
 });
 
+app.use("/web", web);
 app.use("/auth", auth);
 app.use("/wallet", wallet);
 app.use("/transaction", transactionRouter);
 app.use("/mintNFT", mintNFT);
+app.use("/notification", notification);
 app.use("/notification", notification);
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
