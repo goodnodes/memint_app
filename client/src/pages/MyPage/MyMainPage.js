@@ -19,7 +19,7 @@ import ParticipatedMeetingList from '../../components/myPageComponent/Participat
 import WalletButton from '../../components/common/WalletButton';
 import * as Progress from 'react-native-progress';
 import dinoegg from '../../assets/icons/dinoegg.png';
-import dummyDino from '../../assets/icons/dummyCharater.png';
+import dummyDino from '../../assets/icons/dummyCharacter.png';
 import BasicButton from '../../components/common/BasicButton';
 import likesActive from '../../assets/icons/likesActive.png';
 import eggS from '../../assets/icons/eggS.png';
@@ -84,6 +84,8 @@ function MyMainPage({navigation}) {
               color={'#2ACFC2'}
               unfilledColor={'#ffffff'}
               borderWidth={0}
+              thickness={6}
+              // radius={2}
             />
             <Image source={dummyDino} style={styles.characterImage} />
           </View>
@@ -237,10 +239,11 @@ const styles = StyleSheet.create({
   },
   characterImage: {
     position: 'absolute',
-    top: '15%',
-    left: '13%',
-    width: 161,
-    height: 172,
+    width: 237,
+    height: 237,
+    zIndex: -4,
+    left: 2,
+    top: 1,
   },
   characterDes: {
     marginTop: 5,

@@ -22,6 +22,7 @@ import useAuthActions from '../../utils/hooks/UseAuthActions';
 import messaging from '@react-native-firebase/messaging';
 import useUser from '../../utils/hooks/UseUser';
 import {deleteTokenFromDatabase} from '../../lib/Users';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const EditMyInfo = ({route}) => {
   const userInfo = useUser();
@@ -76,7 +77,7 @@ const EditMyInfo = ({route}) => {
           </TouchableOpacity>
         </View>
 
-        <View style={styles.fullscreenSub}>
+        <ScrollView style={styles.fullscreenSub} contentContainerStyle={{paddingBottom: 100}}>
           <View style={styles.cameraButton}>
             <CameraButton response={response} setResponse={setResponse} />
           </View>
@@ -132,10 +133,11 @@ const EditMyInfo = ({route}) => {
               navigation.pop();
             }}
           />
-        </View>
-        <View style={styles.signoutButton}>
+                  <View style={styles.signoutButton}>
           <Button title="로그아웃 하기" color="red" onPress={handleSignOut} />
         </View>
+        </ScrollView>
+
       </SafeAreaView>
     </KeyboardAvoidingView>
   );
@@ -156,8 +158,8 @@ const styles = StyleSheet.create({
   fullscreenSub: {
     flex: 1,
     flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
+    // alignItems: 'center',
+    // justifyContent: 'center',
     paddingTop: 50,
   },
   headerBar: {
@@ -230,8 +232,8 @@ const styles = StyleSheet.create({
     height: 30,
   },
   signoutButton: {
-    marginTop: 80,
-    marginLeft: 10,
+    marginTop: 20,
+    marginLeft: 40,
     alignItems: 'flex-start',
   },
   cameraButton: {

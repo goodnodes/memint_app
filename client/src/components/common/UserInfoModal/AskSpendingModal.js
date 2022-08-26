@@ -31,8 +31,8 @@ function AskSpendingModal({
         <View style={[styles.centeredView, styles.backgroudDim]}>
           <View style={styles.modalView}>
             <View style={{alignItems: 'center'}}>
-              <Text>프로필 사진을 확인하시겠어요?</Text>
-              <Text style={{fontWeight: 'bold', margin: 10}}>
+              <Text style={{fontSize: 18, fontWeight: '500'}}>프로필 사진을 확인하시겠어요?</Text>
+              <Text style={{fontWeight: '600', margin: 10, fontSize: 16}}>
                 1LCN이 소모됩니다.
               </Text>
             </View>
@@ -41,6 +41,7 @@ function AskSpendingModal({
                 text={nButtonText}
                 size="small"
                 variant="disable"
+                backgroundColor={'#ffffff'}
                 onPress={() =>
                   setAskSpendingModalVisible(!askSpendingModalVisible)
                 }
@@ -66,18 +67,11 @@ const styles = StyleSheet.create({
     margin: 20,
     width: 300,
     backgroundColor: 'white',
-    borderRadius: 30,
+    borderRadius: 12,
     padding: 35,
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-    position: 'absolute',
+    borderColor: '#58FF7D',
+    borderWidth: 1,
   },
   modalText: {
     fontWeight: 'bold',
