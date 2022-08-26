@@ -29,6 +29,7 @@ const EditMyInfo = ({route}) => {
     drink: [],
     drinkStyle: [],
   });
+  const [response, setResponse] = useState(null);
   const [confirmModalVisible, setConfirmModalVisible] = useState(false);
   const navigation = useNavigation();
   const {showToast} = useToast();
@@ -77,7 +78,7 @@ const EditMyInfo = ({route}) => {
 
         <View style={styles.fullscreenSub}>
           <View style={styles.cameraButton}>
-            <CameraButton />
+            <CameraButton response={response} setResponse={setResponse} />
           </View>
           <View style={styles.form}>
             <Text style={styles.text}>나의 주량</Text>
