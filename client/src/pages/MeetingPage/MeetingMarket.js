@@ -184,7 +184,7 @@ function MeetingMarket({navigation}) {
     {label: '이태원', value: '이태원'},
   ];
   const SortDropDownData = [
-    {label: '정렬', value: 0},
+    {label: 'sorting', value: 0},
     {label: '시간 가까운 순', value: 1},
     {label: '나이 젊은 순', value: 2},
     {label: '위치 가까운 순', value: 3},
@@ -224,12 +224,12 @@ function MeetingMarket({navigation}) {
               onPress={() => {
                 setConfirmModalVisible(true);
               }}>
-              <Text style={styles.createButtonText}>미팅 생성</Text>
+              <Text style={styles.createButtonText}>Create</Text>
               <Icon name="add" size={16} color={'#58FF7D'} />
             </TouchableOpacity>
           </View>
           <View style={styles.titleArea}>
-            <Text style={styles.title}>새로운 친구들과 술 한잔 어때?</Text>
+            <Text style={styles.title}>Let's hang out with new friends.</Text>
             <Pressable style={styles.areaEnd}>
               <RNPickerSelect
                 placeholder={{}}
@@ -256,7 +256,7 @@ function MeetingMarket({navigation}) {
                 setFilterModalVisible(true);
               }}>
               <Icon name="filter-alt" size={20} color={'#ffffff'} />
-              <Text style={styles.smallText}> 조건 설정</Text>
+              <Text style={styles.smallText}> condition</Text>
               <FilterModal
                 setFilter={setFilter}
                 FilterPeopleDropDownData={FilterPeopleDropDownData}
@@ -305,9 +305,9 @@ function MeetingMarket({navigation}) {
           )}
 
           <DoubleModal
-            text="미팅을 생성하시겠습니까?"
+            text="Do you want to create a group dating room?"
             //body={<Text>정말로?</Text>}
-            buttonText="네"
+            buttonText="Yes"
             modalVisible={confirmModalVisible}
             setModalVisible={setConfirmModalVisible}
             pFunction={() => {
@@ -406,6 +406,7 @@ const styles = StyleSheet.create({
     height: 250,
   },
   icon: {
+    marginRight: 20,
     width: 45,
   },
 });

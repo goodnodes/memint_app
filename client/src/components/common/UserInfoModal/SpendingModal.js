@@ -70,26 +70,26 @@ function SpendingModal({
               }}>
               <View style={styles.calcText}>
                 <Text style={{fontWeight: '500', fontSize: 17}}>
-                  현재 보유 LCN
+                  TING balance
                 </Text>
                 <Text style={{fontWeight: '500', fontSize: 17}}>
                   {user.tokenAmount}
                 </Text>
               </View>
               <View style={styles.calcText}>
-                <Text style={{fontWeight: '500', fontSize: 17}}>필요 LCN</Text>
                 <Text style={{fontWeight: '500', fontSize: 17}}>
-                  {amount}개
+                  required TING
                 </Text>
+                <Text style={{fontWeight: '500', fontSize: 17}}>{amount}</Text>
               </View>
               {
                 user.tokenAmount > amount ? (
                   <View style={styles.calcText}>
                     <Text style={{fontWeight: '500', fontSize: 17}}>
-                      차감 후 LCN
+                      remaining balance
                     </Text>
                     <Text style={{fontWeight: '500', fontSize: 17}}>
-                      {user.tokenAmount - amount}개
+                      {user.tokenAmount - amount}
                     </Text>
                   </View>
                 ) : null
@@ -103,7 +103,7 @@ function SpendingModal({
             {user.tokenAmount > amount ? (
               <View style={styles.buttonRow}>
                 <BasicButton
-                  text="아니오"
+                  text="No"
                   textSize={16}
                   width={100}
                   height={45}
@@ -114,7 +114,7 @@ function SpendingModal({
                   onPress={() => setSpendingModalVisible(false)}
                 />
                 <BasicButton
-                  text="네"
+                  text="Yes"
                   textSize={16}
                   width={100}
                   height={45}
@@ -129,7 +129,7 @@ function SpendingModal({
               </View>
             ) : (
               <BasicButton
-                text="돌아가기"
+                text="Back"
                 textSize={16}
                 width={100}
                 height={45}

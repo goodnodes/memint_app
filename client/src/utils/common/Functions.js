@@ -8,41 +8,42 @@ export const handleDate = obj => {
 
 export const handleDateInFormat = obj => {
   const day = obj.toDate().getDay();
-  const date = obj.toDate().toLocaleString();
+  const date = obj.toDate().toLocaleString('en-US');
   let str = '';
   switch (day) {
     case 0:
-      str = '일';
+      str = 'Sun';
       break;
     case 1:
-      str = '월';
+      str = 'Mon';
       break;
     case 2:
-      str = '화';
+      str = 'Tue';
       break;
     case 3:
-      str = '수';
+      str = 'Wed';
       break;
     case 4:
-      str = '목';
+      str = 'Thur';
       break;
     case 5:
-      str = '금';
+      str = 'Fri';
       break;
     case 6:
-      str = '토';
+      str = 'Sat';
   }
-  if (date.length === 22) {
-    return `${date.slice(5, 7)}월 ${date.slice(9, 10)}일(${str}) ${date.slice(
-      12,
-      -6,
-    )}시`;
-  } else {
-    return `${date.slice(5, 7)}월 ${date.slice(9, 11)}일(${str}) ${date.slice(
-      13,
-      -6,
-    )}시`;
-  }
+  return date;
+  // if (date.length === 22) {
+  //   return `${date.slice(5, 7)}월 ${date.slice(9, 10)}일(${str}) ${date.slice(
+  //     12,
+  //     -6,
+  //   )}시`;
+  // } else {
+  //   return `${date.slice(5, 7)}월 ${date.slice(9, 11)}일(${str}) ${date.slice(
+  //     13,
+  //     -6,
+  //   )}시`;
+  // }
 };
 
 export const handleDateFromNow = obj => {
@@ -67,25 +68,25 @@ export const handleISOtoLocale = dateInISO => {
   let str = '';
   switch (day) {
     case 0:
-      str = '일';
+      str = 'Sun';
       break;
     case 1:
-      str = '월';
+      str = 'Mon';
       break;
     case 2:
-      str = '화';
+      str = 'Tue';
       break;
     case 3:
-      str = '수';
+      str = 'Wed';
       break;
     case 4:
-      str = '목';
+      str = 'Thur';
       break;
     case 5:
-      str = '금';
+      str = 'Fri';
       break;
     case 6:
-      str = '토';
+      str = 'Sat';
   }
   return `${localeDate.slice(5, 7)}월 ${localeDate.slice(
     9,
@@ -100,17 +101,17 @@ export const handleBirth = str => {
 
   let res = '';
   if (age > 40) {
-    res = '40대';
+    res = '40s';
   } else if (age > 35) {
-    res = '30 후';
+    res = 'late 30s';
   } else if (age > 30) {
-    res = '30 초';
+    res = 'early 30s';
   } else if (age > 25) {
-    res = '20 후';
+    res = 'late 20s';
   } else if (age > 20) {
-    res = '20 초';
+    res = 'early 20s';
   } else {
-    res = '넘 어린디';
+    res = 'too young';
   }
   return res;
 };

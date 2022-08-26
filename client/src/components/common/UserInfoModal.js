@@ -99,34 +99,34 @@ function UserInfoModal({
                   <View
                     style={{marginLeft: 20, justifyContent: 'space-around'}}>
                     <View style={styles.userinfo}>
-                      <Text style={styles.userinfoKey}>닉네임</Text>
+                      <Text style={styles.userinfoKey}>Nickname</Text>
                       <Text style={styles.userinfoValue}>{user.nickName}</Text>
                     </View>
                     <View style={styles.userinfo}>
-                      <Text style={styles.userinfoKey}>나이</Text>
+                      <Text style={styles.userinfoKey}>Age</Text>
                       <Text style={styles.userinfoValue}>
                         {handleBirth(user.birth)}
                       </Text>
                     </View>
                     <View style={styles.userinfo}>
-                      <Text style={styles.userinfoKey}>성별</Text>
+                      <Text style={styles.userinfoKey}>Gender</Text>
                       <Text style={styles.userinfoValue}>{user.gender}</Text>
                     </View>
                   </View>
                 </View>
                 <View style={styles.usertag}>
-                  <Text style={styles.hilightText}>주량</Text>
+                  <Text style={styles.hilightText}>Drinking Capa.</Text>
                   <View style={styles.tags}>
                     <View style={styles.tag}>
                       <Text style={styles.tagText}>{user.drinkCapa}</Text>
                     </View>
                   </View>
-                  <Text style={styles.hilightText}>선호 주류</Text>
+                  <Text style={styles.hilightText}>Favorite drink</Text>
                   <View style={styles.tags}>
                     {user ? (
                       user.alcoholType.map((ele, index) => {
                         return (
-                          <View style={styles.tag}>
+                          <View key={index} style={styles.tag}>
                             <Text style={styles.tagText}>{ele}</Text>
                           </View>
                         );
@@ -139,7 +139,7 @@ function UserInfoModal({
                   <View style={styles.tags}>
                     {user.drinkStyle.map((ele, index) => {
                       return (
-                        <View style={styles.tag}>
+                        <View key={index} style={styles.tag}>
                           <Text style={styles.tagText}>{ele}</Text>
                         </View>
                       );
@@ -197,8 +197,8 @@ function UserInfoModal({
           </View>
         </View>
         <AskSpendingModal
-          nButtonText="아니오"
-          pButtonText="네"
+          nButtonText="No"
+          pButtonText="Yes"
           askSpendingModalVisible={askSpendingModalVisible}
           setAskSpendingModalVisible={setAskSpendingModalVisible}
           pFunction={() => {
@@ -207,8 +207,8 @@ function UserInfoModal({
           }}
         />
         <SpendingModal
-          nButtonText="취소"
-          pButtonText="확인"
+          nButtonText="Cancel"
+          pButtonText="Confirm"
           spendingModalVisible={spendingModalVisible}
           setSpendingModalVisible={setSpendingModalVisible}
           pFunction={() => {
@@ -320,7 +320,7 @@ const styles = StyleSheet.create({
   },
   userinfoKey: {
     color: '#787878',
-    width: 55,
+    width: 75,
   },
   usertag: {
     marginTop: 10,

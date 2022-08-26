@@ -159,7 +159,7 @@ function MetaData({item, navigation, refresh, setRefresh}) {
               {item.title}
             </Text>
             <Text numberOfLines={1} style={styles.plainText}>
-              {lastMsg ? lastMsg : '채팅을 시작해보세요!'}
+              {lastMsg ? lastMsg : "Let's get started!"}
             </Text>
           </View>
           <View style={styles.date}>

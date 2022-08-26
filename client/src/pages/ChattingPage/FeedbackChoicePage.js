@@ -87,7 +87,7 @@ function FeedbackChoicePage({route}) {
         <BackButton />
 
         <View style={styles.container}>
-          <Text style={styles.title}>미팅참여 인증하기</Text>
+          <Text style={styles.title}>Send feedback</Text>
 
           <View style={styles.wrapper}>
             <Text
@@ -98,18 +98,18 @@ function FeedbackChoicePage({route}) {
                 color: '#ffffff',
                 letterSpacing: -0.5,
               }}>
-              {owner.nickName}님,{'\n'}
+              {owner.nickName},{'\n'}
               {userInfo.length === 2
-                ? `${
+                ? `How was your date with ${
                     userInfo.filter(el => {
                       return el[2] !== owner.id;
                     })[0][0]
-                  } 님과의 미팅은 어땠어요?`
-                : `${
+                  }`
+                : `How was your gruop date with ${
                     userInfo.filter(el => {
                       return el[2] !== owner.id;
                     })[0][0]
-                  }님 외 ${userInfo.length - 2}명과의 미팅은 어땠어요?`}
+                  }and the other ${userInfo.length - 2} members`}
             </Text>
             <Text
               style={{
@@ -118,9 +118,7 @@ function FeedbackChoicePage({route}) {
                 marginBottom: 50,
                 color: '#ffffff',
                 letterSpacing: -0.5,
-              }}>
-              최소 한명 이상의 후기를 작성해주세요
-            </Text>
+              }}></Text>
             {/* <View>
               <Text style={{fontSize: 15, fontWeight: '700', marginBottom: 7}}>
                 후기를 남길 미팅 상대를 선택하세요.
@@ -141,20 +139,20 @@ function FeedbackChoicePage({route}) {
                 }}>
                 <Text
                   style={{color: '#1D1E1E', fontSize: 18, fontWeight: '600'}}>
-                  완료
+                  Done
                 </Text>
               </Pressable>
             </View>
             <DoubleModal
-              text="후기 작성을 완료하시겠습니까?"
-              nButtonText="아니요"
-              pButtonText="네"
+              text="Do you want to submit the feedback?"
+              nButtonText="No"
+              pButtonText="Yes"
               modalVisible={modalVisible}
               setModalVisible={setModalVisible}
               pFunction={() => {
                 confirmable
                   ? setFeedbackEnd(data.id, owner.id).then(() => {
-                      showToast('success', '후기 보내기를 완료하였습니다.');
+                      showToast('success', 'Feedback has been submited.');
                       navigation.pop();
                       // 토큰 보상 로직 추가
                     })
@@ -229,9 +227,10 @@ function Human({person, meetingId, data, userInfo}) {
                   fontSize: 15,
                   fontWeight: '500',
                   letterSpacing: -0.5,
+                  letterSpacing: -0.5,
                 }
           }>
-          {person[4] ? '후기 작성 완료' : '후기 작성하기'}
+          {person[4] ? 'Feedback completed' : 'Go to write feedback'}
         </Text>
       </TouchableOpacity>
     </View>
@@ -260,7 +259,7 @@ const styles = StyleSheet.create({
 
   button: {
     height: 30,
-    width: 103,
+    width: 163,
     backgroundColor: '#1D1E1E',
     borderRadius: 999,
     alignItems: 'center',

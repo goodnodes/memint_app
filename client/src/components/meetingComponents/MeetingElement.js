@@ -59,7 +59,7 @@ function MeetingElement({item}) {
         </View>
       </View>
       <TouchableOpacity style={styles.button} onPress={handleNavigate}>
-        <Text style={styles.buttonText}> 함께하기 </Text>
+        <Text style={styles.buttonText}> Join </Text>
         <Icon name="play-arrow" size={20} color={'#58FF7D'} />
       </TouchableOpacity>
     </View>

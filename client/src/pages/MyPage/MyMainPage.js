@@ -92,7 +92,7 @@ function MyMainPage({navigation}) {
           <Text style={styles.nickName}>Lv.3 {userInfo?.nickName}</Text>
           <View style={styles.characterDes}>
             <Image source={likesActive} style={styles.footImage} />
-            <Text style={styles.characterText}>티라노 80 / 100 A</Text>
+            <Text style={styles.characterText}>T.rex 80 / 100 A</Text>
           </View>
           <View style={styles.characterStatus}>
             <View style={styles.status}>
@@ -167,7 +167,7 @@ function MyMainPage({navigation}) {
           <TouchableOpacity
             style={styles.mylikesButton}
             onPress={handleLikesNavigate}>
-            <Text style={styles.mylikesText}>내가 찜한 미팅</Text>
+            <Text style={styles.mylikesText}>Bookmark</Text>
             <Image source={likesActive} style={styles.likesfootImage} />
           </TouchableOpacity>
         </View>
@@ -216,6 +216,7 @@ const styles = StyleSheet.create({
   fullScreen: {
     flex: 1,
     backgroundColor: '#82EFC1',
+    // backgroundColor: '#AAD1C1',
   },
   myCharacterView: {
     flex: 1,
@@ -235,7 +236,7 @@ const styles = StyleSheet.create({
   },
   characterWrap: {
     marginTop: 32,
-    marginBottom: 16,
+    margittom: 16,
   },
   characterImage: {
     position: 'absolute',

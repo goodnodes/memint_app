@@ -88,7 +88,7 @@ function RoomInfo({chatInfo, userDetail, setModalVisible}) {
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
-        <Text style={styles.hilightText}>미팅 참여자</Text>
+        <Text style={styles.hilightText}>Members</Text>
         {people}
         <View style={styles.buttons}>
           <Pressable
@@ -104,7 +104,7 @@ function RoomInfo({chatInfo, userDetail, setModalVisible}) {
                 letterSpacing: -0.5,
               }}>
               {' '}
-              미팅참여 인증하기
+              Upload Photo
             </Text>
           </Pressable>
           <Pressable
@@ -135,7 +135,7 @@ function RoomInfo({chatInfo, userDetail, setModalVisible}) {
                 letterSpacing: -0.5,
               }}>
               {' '}
-              미팅 후기 보내기
+              Send a feedback
             </Text>
           </Pressable>
           <Pressable
@@ -202,7 +202,7 @@ function Joiner({nickName, state, img, isHost, id, setModalVisible, chatInfo}) {
             fontWeight: '500',
             letterSpacing: -0.5,
           }}>
-          확정
+          Confirm
         </Text>
       </Pressable>
     </View>

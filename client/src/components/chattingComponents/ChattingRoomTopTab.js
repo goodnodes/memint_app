@@ -25,11 +25,11 @@ function ChattingRoomTopTab({data}) {
   }, [meetingRef]);
 
   useEffect(() => {
-    if (roomStatus === 'open') setRoomStatus('모집중');
-    else if (roomStatus === 'full') setRoomStatus('모집완료');
-    else if (roomStatus === 'fixed') setRoomStatus('확정');
-    else if (roomStatus === 'confirmed') setRoomStatus('현장확인');
-    else if (roomStatus === 'end') setRoomStatus('미팅종료');
+    if (roomStatus === 'open') setRoomStatus('open');
+    else if (roomStatus === 'full') setRoomStatus('full');
+    else if (roomStatus === 'fixed') setRoomStatus('fixed');
+    else if (roomStatus === 'confirmed') setRoomStatus('confirmed');
+    else if (roomStatus === 'end') setRoomStatus('end');
   }, [roomStatus]);
 
   return (
@@ -76,7 +76,7 @@ function ChattingRoomTopTab({data}) {
               fontSize: 14,
               letterSpacing: -0.5,
             }}>
-            미팅 정보 보러가기 >
+            Go to detail page >
           </Text>
         </TouchableOpacity>
       </View>

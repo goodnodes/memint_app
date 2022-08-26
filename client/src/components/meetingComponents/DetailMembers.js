@@ -31,7 +31,7 @@ function DetailMembers({membersInfo, peopleNum, hostId}) {
     // <LinearGradient colors={['#A7BFEB', '#FBC2EA']} style={styles.box}>
     <View style={styles.memberBox}>
       <View style={styles.memberBoxInfo}>
-        <Text style={styles.title}>현재 모인 멤버</Text>
+        <Text style={styles.title}>Gathered members</Text>
         <View style={styles.memberBoxInfopeopleNum}>
           <Text style={styles.currentPeopleNum}>
             {membersInfo.length}/{peopleNum * 2}

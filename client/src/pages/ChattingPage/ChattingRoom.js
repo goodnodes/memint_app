@@ -180,13 +180,13 @@ function ChattingRoom({route}) {
                     fontWeight: '500',
                     letterSpacing: -0.5,
                   }}>
-                  미팅 참가를 확정하시겠습니까?
+                  Do you want to confirm the appointment?
                 </Text>
                 <View style={{alignItems: 'flex-start'}}>
                   {/* 리덕스에서 받아오는 meeting 정보로 업데이트할 것  */}
                   <Text
                     style={{marginTop: 10, fontSize: 16, letterSpacing: -0.5}}>
-                    🗓 날짜:{'   '}
+                    🗓 Date:{'   '}
                     {route.params.data.meetDate
                       .toDate()
                       .toLocaleString()
@@ -194,7 +194,7 @@ function ChattingRoom({route}) {
                   </Text>
                   <Text
                     style={{marginTop: 7, fontSize: 16, letterSpacing: -0.5}}>
-                    ⏰ 시간:{'   '}
+                    ⏰ Time:{'   '}
                     {route.params.data.meetDate
                       .toDate()
                       .toLocaleString()
@@ -207,13 +207,13 @@ function ChattingRoom({route}) {
                       letterSpacing: -0.5,
                       marginBottom: 20,
                     }}>
-                    🏖 장소: {route.params.data.region}
+                    🏖 Location: {route.params.data.region}
                   </Text>
                 </View>
               </>
             }
-            nButtonText="아니요"
-            pButtonText="네"
+            nButtonText="No"
+            pButtonText="Yes"
             modalVisible={modalVisible}
             setModalVisible={setModalVisible}
             setIsConfirmed={setIsConfirmed}

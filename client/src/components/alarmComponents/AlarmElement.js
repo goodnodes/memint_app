@@ -32,7 +32,7 @@ function AlarmElement({alarm}) {
     } else if (alarm.type === 'accept') {
       return `${alarm.senderInfo?.nickName}님이 신청을 수락했습니다!`;
     } else if (alarm.type === 'proposal') {
-      return `${alarm.senderInfo?.nickName}님의 신청이 도착했습니다!`;
+      return `Request has arrived from ${alarm.senderInfo?.nickName}`;
     } else if (alarm.type === 'earned') {
       return '미팅 참여 보상을 받았습니다!';
     } else {
@@ -42,10 +42,10 @@ function AlarmElement({alarm}) {
   return (
     <TouchableOpacity style={styles.container} onPress={handleClick}>
       <DoubleModal
-        text="채팅창으로 이동하시겠습니까?"
+        text="Want to go to chat?"
         //body={<Text>정말로?</Text>}
-        nButtonText="아니요"
-        pButtonText="네"
+        nButtonText="No"
+        pButtonText="Yes"
         modalVisible={chattingConfirmModal}
         setModalVisible={setChattingConfirmModal}
         pFunction={() => {

@@ -55,19 +55,27 @@ function MeetingConfirm({route}) {
     setImage(res);
   };
 
+  const onLaunchCamera = () => {
+    launchCamera(imagePickerOption, onPickImage);
+  };
+  const onLaunchImageLibrary = () => {
+    launchImageLibrary(imagePickerOption, onPickImage);
+  };
+
   const handleCamera = () => {
     ActionSheetIOS.showActionSheetWithOptions(
       {
-        title: '사진 업로드',
-        //사진 선택하기는 이후 삭제될 수 있음
-        options: ['카메라로 촬영하기', '취소'],
-        cancelButtonIndex: 1,
+        title: 'Upload photo',
+        options: ['Take a photo', 'Select a photo from the album', '취소'],
+        cancelButtonIndex: 2,
       },
       buttonIndex => {
         if (buttonIndex === 0) {
-          launchCamera(imagePickerOption, onPickImage);
-          // } else if (buttonIndex === 1) {
-          //   launchImageLibrary(imagePickerOption, onPickImage);
+          onLaunchCamera();
+          console.log('Take a photo');
+        } else if (buttonIndex === 1) {
+          onLaunchImageLibrary();
+          console.log('사진 선택');
         }
       },
     );
@@ -130,11 +138,11 @@ function MeetingConfirm({route}) {
 
   const renderStatus = () => {
     if (meetingInfo.confirmStatus === 'pending') {
-      return <Text style={styles.subText}>인증 대기중</Text>;
+      return <Text style={styles.subText}>Waiting for confirm</Text>;
     } else if (meetingInfo.confirmStatus === 'confirmed') {
       return (
         <>
-          <Text style={styles.plainText}>인증 완료</Text>
+          <Text style={styles.plainText}>confirmation done</Text>
           <Icon
             name="check-circle"
             size={15}
@@ -195,7 +203,10 @@ function MeetingConfirm({route}) {
                 source={{uri: image?.assets[0]?.uri}}
                 style={styles.image}
               />
-              <BasicButton text="인증보내기" onPress={handleSecondSubmit} />
+              <BasicButton
+                text="Request confirmation"
+                onPress={handleSecondSubmit}
+              />
             </View>
           ) : (
             <View style={styles.deniedArea}>
@@ -233,7 +244,11 @@ function MeetingConfirm({route}) {
                     source={{uri: image?.assets[0]?.uri}}
                     style={styles.image}
                   />
-                  <BasicButton text="인증보내기" onPress={handleSubmit} />
+                  <BasicButton
+                    width={250}
+                    text="Request confirmation"
+                    onPress={handleSubmit}
+                  />
                 </View>
               ) : (
                 <TouchableOpacity
@@ -245,7 +260,7 @@ function MeetingConfirm({route}) {
                     style={styles.photoIcon}
                     color="#33ED96"
                   />
-                  <Text style={styles.buttonText}>미팅 인증샷</Text>
+                  <Text style={styles.buttonText}>Select photo</Text>
                 </TouchableOpacity>
               )}
             </>
@@ -291,7 +306,7 @@ function MeetingConfirm({route}) {
               onRefresh={getMeetingInfo}
             />
           }>
-          <Text style={styles.title}>미팅참여 인증하기</Text>
+          <Text style={styles.title}>Upload photo</Text>
 
           <View style={styles.section}>
             <View style={styles.confirmTitleArea}>
@@ -301,24 +316,25 @@ function MeetingConfirm({route}) {
             {renderByUser()}
           </View>
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>인증 방법 및 주의사항</Text>
+            <Text style={styles.sectionTitle}>Notification</Text>
             <View style={styles.warningBox}>
               <Text style={styles.boldText}>
-                미팅 참여자 전원의 얼굴이 보이게 사진을 찍어주세요!
+                Please take a picture to show the faces of all the participants.
               </Text>
             </View>
             <View style={styles.guideSection}>
               <Text style={styles.plainText}>
-                1. 호스트도 사진에 반드시 포함되어야 합니다.
+                1. The host must take a photo together.
               </Text>
               <Text style={styles.plainText}>
-                2. 다음의 경우에는 스탭의 판단에 따라 인증이 반려됩니다.
+                2. Photo certification will be rejected by staff in the
+                following cases.
               </Text>
               <Text style={styles.subText}>
-                • 미팅 구성원 전원이 참석하지 않은 경우
+                • All group dating members are not present in photo
               </Text>
               <Text style={styles.subText}>
-                • 음식점이 아닌 것 같다고 판단되는 경우
+                {/* • 음식점이 아닌 것 같다고 판단되는 경우 */}
               </Text>
             </View>
           </View>

@@ -29,7 +29,7 @@ function AddChat({chatId}) {
     <View style={styles.inputWrapper}>
       <TextInput
         style={styles.input}
-        placeholder="메시지를 입력하세요"
+        placeholder="Please enter a message"
         placeholderTextColor="#ffffff"
         value={text}
         onChangeText={setText}

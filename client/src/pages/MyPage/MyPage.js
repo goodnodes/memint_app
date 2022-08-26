@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
   view: {
     flex: 1,
     backgroundColor: '#82EFC1',
+    // backgroundColor: '#AAD1C1',
   },
   header: {
     flexDirection: 'row',

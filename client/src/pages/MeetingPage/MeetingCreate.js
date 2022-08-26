@@ -54,20 +54,20 @@ function MeetingCreate({route}) {
   const navigation = useNavigation();
   const {showToast} = useToast();
   const RegionDropDownData = [
-    {label: '서울 전체', value: '서울 전체'},
-    {label: '강남', value: '강남'},
-    {label: '신사', value: '신사'},
-    {label: '홍대', value: '홍대'},
-    {label: '신촌', value: '신촌'},
-    {label: '여의도', value: '여의도'},
-    {label: '구로', value: '구로'},
-    {label: '신도림', value: '신도림'},
-    {label: '혜화', value: '혜화'},
-    {label: '안암', value: '안암'},
-    {label: '종로', value: '종로'},
-    {label: '동대문', value: '동대문'},
-    {label: '성수', value: '성수'},
-    {label: '이태원', value: '이태원'},
+    {label: 'Seoul', value: 'Seoul'},
+    {label: 'Gangnam', value: 'Gangnam'},
+    {label: 'Sin-sa', value: 'Sin-sa'},
+    {label: 'Hong-dae', value: 'Hong-dae'},
+    {label: 'Shin-chon', value: 'Shin-chon'},
+    {label: 'Yeo-ui-do', value: 'Yeo-ui-do'},
+    {label: 'Guro', value: 'Guro'},
+    {label: 'Sindorim', value: 'Sindorim'},
+    {label: 'Hye-hwa', value: 'Hye-hwa'},
+    {label: 'Anam', value: 'Anam'},
+    {label: 'Jong-no', value: 'Jong-no'},
+    {label: 'Dong-dae-moon', value: 'Dong-dae-moon'},
+    {label: 'Seong-su', value: 'Seong-su'},
+    {label: 'Iteawon', value: 'Iteawon'},
   ];
   const PeopleDropDownData = [
     {label: '1:1', value: 1},
@@ -160,11 +160,11 @@ function MeetingCreate({route}) {
       //   ],
       // });
       setConfirmModalVisible(false);
-      showToast('success', '미팅이 생성되었습니다');
+      showToast('success', 'Room has been created');
       navigation.navigate('MeetingMarket');
     } catch (e) {
       setConfirmModalVisible(false);
-      showToast('error', '미팅 생성에 실패했습니다');
+      showToast('error', 'Fail');
       console.log(e);
     }
   };
@@ -191,13 +191,13 @@ function MeetingCreate({route}) {
               style={
                 submittable ? styles.completeButton : styles.incompleteButton
               }>
-              완료
+              Done
             </Text>
           </Pressable>
         </View>
         <DoubleModal
-          text="미팅 생성 시 LCN이 차감됩니다.    미팅을 생성하시겠습니까?"
-          buttonText="네"
+          text="Your TING is burned when you create a new room. Do you want to crate a new room?"
+          buttonText="Yes"
           modalVisible={confirmModalVisible}
           setModalVisible={setConfirmModalVisible}
           nFunction={() => {
@@ -213,14 +213,14 @@ function MeetingCreate({route}) {
           setSpendingModalVisible={setCreateSpendingModalVisible}
           pFunction={handleCreateMeeting}
           amount={1}
-          txType="미팅 생성"
+          txType="Create"
         />
         <ScrollView style={styles.createContainer}>
-          <Text style={styles.title}>미팅 생성</Text>
+          <Text style={styles.title}>Create</Text>
 
           <TextInput
             style={styles.textInputTitle}
-            placeholder="제목"
+            placeholder="Title"
             placeholderTextColor="#EAFFEF"
             onChangeText={text => {
               setMeetingInfo({...meetingInfo, title: text});
@@ -237,7 +237,7 @@ function MeetingCreate({route}) {
           />
           <TextInput
             style={styles.textInputDes}
-            placeholder="설명"
+            placeholder="Description"
             placeholderTextColor="#EAFFEF"
             multiline={true}
             onChangeText={text => {
@@ -253,9 +253,9 @@ function MeetingCreate({route}) {
             ]}
           />
           <View style={[styles.createElement, styles.flexRow]}>
-            <Text style={styles.text}>날짜</Text>
+            <Text style={styles.text}>Date</Text>
             <RNDateTimePicker
-              locale="ko"
+              locale="eng"
               value={meetingInfo.meetDate}
               mode="datetime"
               // textColor="#EAFFEF"
@@ -270,7 +270,7 @@ function MeetingCreate({route}) {
           <View style={[styles.createElement, styles.flexRow]}>
             <Pressable style={styles.selectButton}>
               <RNPickerSelect
-                placeholder={{label: '지역'}}
+                placeholder={{label: 'Location'}}
                 onValueChange={value => {
                   setMeetingInfo({...meetingInfo, region: value});
                 }}
@@ -307,7 +307,7 @@ function MeetingCreate({route}) {
           <View style={[styles.createElement, styles.flexRow]}>
             <Pressable style={[styles.selectButton, styles.rightMargin]}>
               <RNPickerSelect
-                placeholder={{label: '인원'}}
+                placeholder={{label: 'Joiner'}}
                 onValueChange={value => {
                   setMeetingInfo({...meetingInfo, peopleNum: value});
                 }}
@@ -356,9 +356,7 @@ function MeetingCreate({route}) {
                 }
                 handleNavigate();
               }}>
-              <Text style={[styles.text, styles.leftMargin]}>
-                친구 초대하기
-              </Text>
+              <Text style={[styles.text, styles.leftMargin]}>Invite</Text>
             </Pressable>
           </View>
           <View
