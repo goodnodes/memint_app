@@ -32,7 +32,6 @@ const FindPWVerifyScreen = ({navigation}) => {
 
   const onSubmit = () => {
     Keyboard.dismiss();
-    console.log(form);
   };
   const goToNextPage = () => {
     passwordReset(form.email).then(() => {

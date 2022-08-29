@@ -160,7 +160,6 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
                     '2003',
                   ]}
                   onSelect={(selectedItem, index) => {
-                    console.log(selectedItem, index);
                     setForm({...form, birthYear: selectedItem});
                   }}
                   defaultButtonText=" "
@@ -186,7 +185,6 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
                     '12',
                   ]}
                   onSelect={(selectedItem, index) => {
-                    console.log(selectedItem, index);
                     setForm({...form, birthMonth: selectedItem});
                   }}
                   defaultButtonText=" "
@@ -231,7 +229,6 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
                     '31',
                   ]}
                   onSelect={(selectedItem, index) => {
-                    console.log(selectedItem, index);
                     setForm({...form, birthDay: selectedItem});
                   }}
                   defaultButtonText=" "
@@ -248,7 +245,6 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
               <SelectDropdown
                 data={['남자', '여자']}
                 onSelect={(selectedItem, index) => {
-                  console.log(selectedItem, index);
                   setForm({...form, gender: selectedItem});
                 }}
                 defaultButtonText=" "

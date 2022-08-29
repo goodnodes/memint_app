@@ -52,8 +52,6 @@ function UserInfoModal({
     getOtherUser(userId).then(result => {
       setUser(result);
     });
-    console.log(visible);
-    console.log(owner);
   }, [userId, visible]);
 
   return (

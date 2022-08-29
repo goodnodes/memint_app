@@ -31,7 +31,6 @@ const SetNewPWScreen = ({navigation}) => {
 
   const onSubmit = () => {
     Keyboard.dismiss();
-    console.log(form);
   };
   const goToNextPage = () => {
     navigation.navigate('SignIn');

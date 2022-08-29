@@ -102,7 +102,7 @@ const WalletOnchainTrade = () => {
               height={110}
               margin={[30, 0, 30, 0]}
               text="From"
-              content={fromKlay ? 'KLAY' : 'LCN'}
+              content={fromKlay ? 'KLAY' : 'TING'}
               //   backgroundColor={'lightblue'}
             />
             <TouchableOpacity onPress={() => setFromKlay(!fromKlay)}>
@@ -115,7 +115,7 @@ const WalletOnchainTrade = () => {
               height={110}
               margin={[30, 0, 0, 0]}
               text="To (Estimated)"
-              content={fromKlay ? 'LCN' : 'KLAY'}
+              content={fromKlay ? 'TING' : 'KLAY'}
             />
             <BasicButton
               margin={[80, 0, 0, 0]}

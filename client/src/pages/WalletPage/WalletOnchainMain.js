@@ -27,7 +27,6 @@ const WalletOnchainMain = ({navigation}) => {
   // const slicedAddress = userInfo.address
   //   ? `${userInfo.address.substr(0, 15)}....${userInfo.address.substr(30)}`
   //   : null;
-  console.log({userInfo});
   const slicedAddress = `${userInfo.address.substr(
     0,
     15,
@@ -101,7 +100,13 @@ const WalletOnchainMain = ({navigation}) => {
             <View style={styles.iconWrapper}>
               <TouchableOpacity
                 style={styles.iconCircle}
-                onPress={goToOnchainTrade}>
+                // onPress={goToOnchainTrade}
+                onPress={() => {
+                  showToast(
+                    'Coming soon',
+                    '클로즈베타에서 지원하지 않는 기능입니다',
+                  );
+                }}>
                 <Image
                   style={styles.icon}
                   source={require('../../assets/icons/transfer.png')}

@@ -166,11 +166,9 @@ export async function getUserByNickname(str, loginUser) {
 }
 
 export async function getUserByPhoneNumber(phoneNumber) {
-  console.log({phoneNumber});
   const res = await usersCollection
     .where('phoneNumber', '==', phoneNumber)
     .get();
-  console.log({res});
   if (res.docs.length === 0) {
     return 'NA';
   } else {

@@ -41,7 +41,6 @@ const VerifyMobileScreen = ({navigation, route}) => {
   const passwordRef = useRef();
 
   const createChangeTextHandler = name => value => {
-    console.log({value}, value.length);
     setForm({...form, [name]: value});
     if (name === 'mobileNumber') {
       if (value.length === 0) {
@@ -61,13 +60,11 @@ const VerifyMobileScreen = ({navigation, route}) => {
 
   const onSubmit = async () => {
     Keyboard.dismiss();
-    console.log(form);
   };
 
   async function verifyPhoneNumber(phoneNumber) {
     try {
       const userEmail = await getUserByPhoneNumber(form.mobileNumber);
-      console.log({userEmail});
       if (userEmail === 'NA') {
         const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
         setFiexedPhoneNumber(form.mobileNumber);

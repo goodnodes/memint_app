@@ -27,7 +27,6 @@ const SignUpUserDetailScreen = ({navigation, route}) => {
     drinkStyle: [],
     alcoholType: [],
   });
-  console.log(drinkInfo);
 
   const goToNextPage = () => {
     if (
@@ -98,7 +97,6 @@ const SignUpUserDetailScreen = ({navigation, route}) => {
                     '세 병 이상',
                   ]}
                   onSelect={(selectedItem, index) => {
-                    console.log(selectedItem, index);
                     setDrinkInfo({...drinkInfo, drinkCapa: selectedItem});
                   }}
                   defaultButtonText=" "

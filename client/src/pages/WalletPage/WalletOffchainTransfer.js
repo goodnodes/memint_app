@@ -109,7 +109,6 @@ const WalletOffchainTransfer = ({navigation}) => {
               if (result.data.message === 'success') {
                 showToast('success', 'LCN을 보냈습니다!');
                 getUser(userInfo.id).then(userDetail => {
-                  console.log(userDetail);
                   updateTokenInfo({
                     tokenAmount: Number(userDetail.tokenAmount),
                     klayAmount: userInfo.klayAmount,

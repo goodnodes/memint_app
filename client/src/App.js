@@ -203,15 +203,12 @@ function App() {
 
   useEffect(() => {
     const unsubscribe = subscribeAuth(user => {
-      console.log({user});
       const userProvider = user
         ? user.additionalUserInfo
           ? user.additionalUserInfo.providerId
           : user.providerId
         : null;
-      console.log({userProvider});
       if (user && user.email !== null) {
-        console.log('DEBUG');
         authorize({
           id: user.uid,
           email: user.email,
@@ -264,8 +261,6 @@ function App() {
     return null;
   }
   console.log('@@Re-rendering@@@@');
-  console.log('currentUser is');
-  console.log(userInfo);
   // if (!user) {
   //   console.log('Login Necessary');
   // } else {

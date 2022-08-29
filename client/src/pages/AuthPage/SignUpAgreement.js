@@ -22,7 +22,6 @@ const SignUpAgreementScreen = ({navigation, route}) => {
 
   const onSubmitSignUp = async () => {
     if (!(serviceCheck && ageCheck && useCheck)) {
-      console.log(serviceCheck, ageCheck, useCheck);
       Alert.alert('실패', '약관에 동의해주세요');
     } else {
       navigation.push('SignUpAlarm', {userInfo});

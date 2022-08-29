@@ -38,7 +38,6 @@ const FindIdVerifyMobileScreen = ({navigation}) => {
   const passwordRef = useRef();
 
   const createChangeTextHandler = name => value => {
-    console.log({value}, value.length);
     setForm({...form, [name]: value});
     if (name === 'mobileNumber') {
       if (value.length === 0) {
@@ -58,7 +57,6 @@ const FindIdVerifyMobileScreen = ({navigation}) => {
 
   const onSubmit = async () => {
     Keyboard.dismiss();
-    console.log(form);
   };
 
   async function verifyPhoneNumber(phoneNumber) {
@@ -70,14 +68,11 @@ const FindIdVerifyMobileScreen = ({navigation}) => {
   // Handle confirm code button press
   async function confirmCode() {
     try {
-      console.log(form.code);
-      console.log(confirm);
-      await confirm.confirm(form.code).then(console.log);
+      await confirm.confirm(form.code);
       setVerified(true);
       setVerifyTextColor('#58FF7D');
       auth().signOut();
       getUserByPhoneNumber(fixedPhoneNumber).then(result => {
-        console.log(result);
         if (result) {
           setEmail(result);
         } else {
