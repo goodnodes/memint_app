@@ -67,9 +67,9 @@ export async function getOtherUser(id) {
     gender: userDetail.gender,
     nftProfile: userDetail.nftProfile,
     picture: userDetail.picture,
-    alcoholType: userProperty[0].alcoholType,
-    drinkStyle: userProperty[0].drinkStyle,
-    drinkCapa: userProperty[0].drinkCapa,
+    alcoholType: userDetail.property.alcoholType,
+    drinkCapa: userDetail.property.drinkCapa,
+    drinkStyle: userDetail.property.drinkStyle,
   };
   return otherUser;
 }
@@ -168,11 +168,9 @@ export async function getUserByNickname(str, loginUser) {
 }
 
 export async function getUserByPhoneNumber(phoneNumber) {
-  console.log({phoneNumber});
   const res = await usersCollection
     .where('phoneNumber', '==', phoneNumber)
     .get();
-  console.log({res});
   if (res.docs.length === 0) {
     return 'NA';
   } else {

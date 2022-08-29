@@ -47,7 +47,7 @@ function SingleModal({
               <BasicButton
                 text={buttonText}
                 textSize={16}
-                width={100}
+                width={120}
                 height={45}
                 backgroundColor="#AEFFC1"
                 textColor="black"
@@ -69,16 +69,17 @@ const styles = StyleSheet.create({
     left: 0,
     width: '100%',
     height: '100%',
-    zIndex: -1,
+    zIndex: -100,
   },
   modalView: {
     width: 290,
     backgroundColor: 'white',
-    borderRadius: 30,
+    borderRadius: 12,
     padding: 25,
     alignItems: 'center',
     borderColor: '#AEFFC1',
     borderWidth: 1,
+    zIndex: -1,
     // shadowColor: '#000',
     // shadowOffset: {
     //   width: 0,

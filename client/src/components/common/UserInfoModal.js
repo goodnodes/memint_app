@@ -52,8 +52,6 @@ function UserInfoModal({
     getOtherUser(userId).then(result => {
       setUser(result);
     });
-    console.log(visible);
-    console.log(owner);
   }, [userId, visible]);
 
   return (
@@ -117,27 +115,18 @@ function UserInfoModal({
                 <View style={styles.usertag}>
                   <Text style={styles.hilightText}>주량</Text>
                   <View style={styles.tags}>
-                    <LinearGradient
-                      colors={['#A7BFEB', '#FBC2EA']}
-                      start={{x: 0, y: 0}}
-                      end={{x: 1, y: 1}}
-                      style={styles.tag}>
+                    <View style={styles.tag}>
                       <Text style={styles.tagText}>{user.drinkCapa}</Text>
-                    </LinearGradient>
+                    </View>
                   </View>
                   <Text style={styles.hilightText}>선호 주류</Text>
                   <View style={styles.tags}>
                     {user ? (
                       user.alcoholType.map((ele, index) => {
                         return (
-                          <LinearGradient
-                            key={index}
-                            colors={['#A7BFEB', '#FBC2EA']}
-                            start={{x: 0, y: 0}}
-                            end={{x: 1, y: 1}}
-                            style={styles.tag}>
-                            <Text style={styles.tagText}># {ele}</Text>
-                          </LinearGradient>
+                          <View style={styles.tag}>
+                            <Text style={styles.tagText}>{ele}</Text>
+                          </View>
                         );
                       })
                     ) : (
@@ -148,14 +137,9 @@ function UserInfoModal({
                   <View style={styles.tags}>
                     {user.drinkStyle.map((ele, index) => {
                       return (
-                        <LinearGradient
-                          key={index}
-                          colors={['#A7BFEB', '#FBC2EA']}
-                          start={{x: 0, y: 0}}
-                          end={{x: 1, y: 1}}
-                          style={styles.tag}>
-                          <Text style={styles.tagText}># {ele}</Text>
-                        </LinearGradient>
+                        <View style={styles.tag}>
+                          <Text style={styles.tagText}>{ele}</Text>
+                        </View>
                       );
                     })}
                   </View>
@@ -198,6 +182,7 @@ function UserInfoModal({
                     text="닫기"
                     size="large"
                     variant="basic"
+                    margin={[0, 0, 0, 0]}
                     onPress={() =>
                       setUserInfoModalVisible(!userInfoModalVisible)
                     }
@@ -252,20 +237,21 @@ const styles = StyleSheet.create({
   modalView: {
     margin: 20,
     width: 300,
-    height: 550,
     backgroundColor: 'white',
-    borderRadius: 30,
-    padding: 35,
+    borderRadius: 12,
+    padding: 30,
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    // shadowColor: '#000',
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2,
+    // },
+    // shadowOpacity: 0.25,
+    // shadowRadius: 4,
+    // elevation: 5,
     position: 'absolute',
+    borderColor: '#58FF7D',
+    borderWidth: 1,
   },
   userInfoWrapper: {
     height: '100%',
@@ -286,7 +272,7 @@ const styles = StyleSheet.create({
   buttonRow: {
     justifyContent: 'space-around',
     flexDirection: 'row',
-    paddingTop: 45,
+    paddingTop: 20,
   },
   images: {
     height: 80,
@@ -308,20 +294,24 @@ const styles = StyleSheet.create({
   },
   hilightText: {
     fontSize: 16,
-    fontWeight: 'bold',
-    marginTop: 25,
+    fontWeight: '600',
+    marginTop: 15,
+    color: '#3C3D43',
+    marginBottom: 7,
   },
   tags: {
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
   tag: {
-    backgroundColor: 'lightgray',
-    paddingVertical: 5,
-    paddingHorizontal: 8,
-    borderRadius: 5,
-    marginTop: 7,
-    marginRight: 10,
+    backgroundColor: '#3C3D43',
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderRadius: 99,
+    borderColor: 'transparent',
+    borderWidth: 1,
+    marginHorizontal: 5,
+    marginVertical: 3,
   },
   userinfo: {
     flexDirection: 'row',
@@ -331,11 +321,12 @@ const styles = StyleSheet.create({
     width: 55,
   },
   usertag: {
-    marginTop: 20,
+    marginTop: 10,
   },
   tagText: {
-    color: 'white',
-    fontWeight: '500',
+    fontSize: 14,
+    fontWeight: '400',
+    color: '#EAFFEF',
   },
 });
 export default UserInfoModal;

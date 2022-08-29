@@ -1,6 +1,6 @@
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState, useCallback} from 'react';
-import {Text, StyleSheet, View, TouchableOpacity} from 'react-native';
+import {Text, StyleSheet, View, TouchableOpacity, Image} from 'react-native';
 
 import DoubleModal from '../../components/common/DoubleModal';
 import {changeJoinerToConfirmed, getMeeting} from '../../lib/Meeting';
@@ -11,6 +11,7 @@ import useMeetingActions from '../../utils/hooks/UseMeetingActions';
 import {useToast} from '../../utils/hooks/useToast';
 import useUser from '../../utils/hooks/UseUser';
 import EarnModal from '../common/UserInfoModal/EarnModal';
+import MeetingLikes from '../meetingComponents/MeetingLikes';
 
 // function ParticipatedMeetingList({List}) {
 //   return (
@@ -42,7 +43,7 @@ function ParticipatedMeetingList({user}) {
   const isFocused = useIsFocused();
 
   const getJoinedRoom = useCallback(async () => {
-    const userData = await getUser(user.id);
+    const userData = await getUser(user?.id);
 
     const data = await Promise.all(
       userData.joinedroomId.map(async el => {
@@ -127,9 +128,33 @@ function ParticipatedMeetings({item, getJoinedRoom}) {
           navigation.navigate('ChattingRoom', {data: item});
         }}>
         <View>
+          <View style={styles.usernamelikes}>
+            <View style={styles.imageNickname}>
+              <Image
+                source={{uri: item.hostInfo.nftProfile}}
+                style={styles.userImage}
+              />
+              <Text style={styles.username}>{item.hostInfo.nickName}</Text>
+            </View>
+            <MeetingLikes meetingId={item.id} />
+          </View>
           <View style={styles.titleRow}>
             <Text style={styles.title}>{item.title}</Text>
           </View>
+
+          <View style={styles.meetingInfo}>
+            <Text style={styles.details}>{item.region}</Text>
+            <View style={styles.bar} />
+
+            <Text style={styles.details}>
+              {handleDateInFormat(item.meetDate)}
+            </Text>
+            <View style={styles.bar} />
+            <Text Text style={styles.details}>
+              {item.peopleNum + ':' + item.peopleNum}
+            </Text>
+          </View>
+          {/* <View style={styles.spaceBetween}>{renderButton()}</View> */}
 
           <View style={styles.tagcontainer}>
             {item.meetingTags.map((tag, index) => {
@@ -140,7 +165,6 @@ function ParticipatedMeetings({item, getJoinedRoom}) {
               );
             })}
           </View>
-
           {/* <View style={styles.container}>
             <Image
               style={styles.hostImage}
@@ -150,40 +174,6 @@ function ParticipatedMeetings({item, getJoinedRoom}) {
             />
             <Text style={styles.hostName}>{item.hostId}</Text>
           </View> */}
-          <View style={styles.container}>
-            <View style={styles.meetingInfo}>
-              <Text style={styles.details}>{item.region}</Text>
-              <View style={styles.bar} />
-
-              <Text style={styles.details}>
-                {handleDateInFormat(item.meetDate)}
-              </Text>
-              <View style={styles.bar} />
-
-              {/* <Text
-              style={[
-                styles.details,
-                item.peopleNum === item.hostSide.gathered.length
-                  ? styles.title
-                  : '',
-              ]}>
-              {item.peopleNum}({item.hostSide.sex}):
-            </Text>
-            <Text
-              style={[
-                styles.details,
-                item.peopleNum === item.joinerSide.gathered.length
-                  ? styles.title
-                  : '',
-              ]}>
-              {item.joinerSide.gathered.length}({item.joinerSide.sex})
-            </Text> */}
-              <Text Text style={styles.details}>
-                {item.peopleNum + ':' + item.peopleNum}
-              </Text>
-            </View>
-            <View style={styles.spaceBetween}>{renderButton()}</View>
-          </View>
           {/* <View
           style={{
             ...styles.container,
@@ -253,18 +243,16 @@ function ParticipatedMeetings({item, getJoinedRoom}) {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  meetingInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginVertical: 6,
+    alignItems: 'space-between',
   },
   tagcontainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 3,
-    height: 10,
+  },
+  meetingInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 5,
   },
   // meetingCard: {
   //   backgroundColor: 'white',
@@ -273,41 +261,46 @@ const styles = StyleSheet.create({
   //   paddingHorizontal: '10%',
   // },
   meetingCard: {
-    justifyContent: 'center',
-    backgroundColor: 'white',
+    justifyContent: 'space-between',
+    backgroundColor: 'rgba(234, 255, 239, 0.8)',
     marginBottom: 5,
-    paddingHorizontal: 27,
-    paddingVertical: 22,
-    height: 110,
+    paddingHorizontal: 30,
+    paddingVertical: 25,
+    height: 185,
     borderRadius: 30,
-    marginHorizontal: 10,
-    marginVertical: 6,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.23,
-    shadowRadius: 2.62,
+    marginVertical: 8,
+    marginHorizontal: 15,
+    // shadowColor: '#000',
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2,
+    // },
+    // shadowOpacity: 0.23,
+    // shadowRadius: 2.62,
 
-    elevation: 4,
+    // elevation: 5,
   },
   titleRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 5,
+    marginBottom: 4,
+    marginTop: 16,
   },
   title: {
-    fontWeight: '700',
-    fontSize: 14,
+    fontSize: 16,
+    fontWeight: '400',
+    height: 43,
+    width: '100%',
+    fontFamily: 'NeoDunggeunmoPro-Regular',
+    letterSpacing: -0.5,
   },
 
   details: {
-    fontSize: 10,
+    fontSize: 13,
+    color: '#3C3D43',
+    letterSpacing: -0.5,
+    fontWeight: '500',
   },
 
-  button: {
+  deleteButton: {
     justifyContent: 'center',
     borderRadius: 10,
     padding: 5,
@@ -320,28 +313,32 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     fontSize: 10,
   },
-  finishText: {
-    fontSize: 12,
-    fontWeight: '500',
-  },
   tag: {
-    alignSelf: 'flex-start',
-    marginRight: 5,
+    marginRight: 3,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   tagFont: {
-    fontSize: 10,
-    color: '#787878',
+    fontSize: 13,
+    fontWeight: '500',
+    color: '#3C3D43',
+    letterSpacing: -0.5,
   },
   spaceBetween: {
     flexDirection: 'row',
-    alignItems: 'flex-end',
-    justifyContent: 'flex-end',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   bar: {
     width: 1,
     height: 9,
     marginHorizontal: 4,
-    backgroundColor: 'black',
+    backgroundColor: '#3C3D43',
+  },
+
+  finishText: {
+    fontSize: 11,
+    fontWeight: '500',
   },
   emptyView: {
     justifyContent: 'center',
@@ -349,6 +346,27 @@ const styles = StyleSheet.create({
     paddingTop: 30,
   },
   emptyText: {color: 'lightgray'},
+  imageNickname: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  usernamelikes: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  userImage: {
+    borderRadius: 100,
+    width: 30,
+    height: 30,
+    marginRight: 5,
+  },
+  username: {
+    fontSize: 15,
+    fontWeight: '500',
+    letterSpacing: -0.5,
+    textAlign: 'right',
+  },
 });
 
 export default ParticipatedMeetingList;

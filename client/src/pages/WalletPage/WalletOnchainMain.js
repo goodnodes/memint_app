@@ -27,7 +27,6 @@ const WalletOnchainMain = ({navigation}) => {
   // const slicedAddress = userInfo.address
   //   ? `${userInfo.address.substr(0, 15)}....${userInfo.address.substr(30)}`
   //   : null;
-  console.log({userInfo});
   const slicedAddress = `${userInfo.address.substr(
     0,
     15,
@@ -101,7 +100,13 @@ const WalletOnchainMain = ({navigation}) => {
             <View style={styles.iconWrapper}>
               <TouchableOpacity
                 style={styles.iconCircle}
-                onPress={goToOnchainTrade}>
+                // onPress={goToOnchainTrade}
+                onPress={() => {
+                  showToast(
+                    'Coming soon',
+                    '클로즈베타에서 지원하지 않는 기능입니다',
+                  );
+                }}>
                 <Image
                   style={styles.icon}
                   source={require('../../assets/icons/transfer.png')}
@@ -119,7 +124,7 @@ const WalletOnchainMain = ({navigation}) => {
             <View style={styles.contentContainer}>
               <WalletKlayHistory />
             </View>
-          ) : currentTab === 'LCN' ? (
+          ) : currentTab === 'TING' ? (
             <WalletLcnHistory />
           ) : (
             <View style={styles.contentContainer}>
@@ -132,7 +137,7 @@ const WalletOnchainMain = ({navigation}) => {
                 onPress={setCurrentTab}
               />
               <WalletAccountElement
-                content="LCN"
+                content="TING"
                 balance={
                   Math.round(
                     (userInfo.onChainTokenAmount + Number.EPSILON) * 10000,
@@ -201,11 +206,12 @@ const styles = StyleSheet.create({
   button: {
     justifyContent: 'center',
     borderColor: 'black',
+    backgroundColor: '#ffffff',
     borderWidth: 1,
-    borderRadius: 30,
+    borderRadius: 999,
     margin: 5,
-    width: 200,
-    height: 60,
+    width: 122,
+    height: 38,
     marginBottom: 20,
   },
   iconWrapper: {
@@ -246,21 +252,23 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   icon: {
-    width: 40,
-    height: 40,
-    // backgroundColor: 'green',
+    width: 35,
+    height: 35,
+    paddingTop: 20,
   },
   balanceText: {
-    fontSize: 40,
-    fontWeight: 'bold',
-    marginTop: 30,
+    fontSize: 36,
+    fontWeight: '600',
+    marginTop: 20,
     marginBottom: 20,
     marginLeft: 10,
+    letterSpacing: -0.5,
   },
   walletText: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: 16,
+    fontWeight: '600',
     textAlign: 'center',
+    letterSpacing: -0.5,
   },
 });
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Modal, StyleSheet} from 'react-native';
+import {View, Modal, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 import BasicButton from '../common/BasicButton';
 import {changeJoinerState} from '../../lib/Chatting';
 import {useToast} from '../../utils/hooks/useToast';
@@ -33,29 +33,46 @@ function MyDoubleModal({
   return (
     <View style={styles.centeredView}>
       <Modal animationType="fade" transparent={true} visible={modalVisible}>
-        <View style={[styles.centeredView, styles.backgroudDim]}>
-          <View style={styles.modalView}>
-            {body}
-            <View style={styles.buttonRow}>
-              <BasicButton
-                text={nButtonText}
-                size="small"
-                variant="disable"
-                onPress={() => setModalVisible(!modalVisible)}
-              />
-              <BasicButton
-                text={pButtonText}
-                size="small"
-                onPress={() => {
-                  changeJoinerState(id, user, setModalVisible).then(result => {
-                    result === 'runModal' &&
-                      showToast('basic', '미팅 참가가 확정되었습니다!');
-                  });
-                }}
-              />
+        <TouchableWithoutFeedback
+          onPress={() => {
+            setModalVisible(false);
+          }}>
+          <View style={[styles.centeredView, styles.backgroudDim]}>
+            <View style={styles.modalView}>
+              {body}
+              <View style={styles.buttonRow}>
+                <BasicButton
+                  text={nButtonText}
+                  textSize={16}
+                  width={100}
+                  height={45}
+                  backgroundColor="white"
+                  textColor="black"
+                  border={true}
+                  margin={[0, 5, 0, 5]}
+                  onPress={() => setModalVisible(!modalVisible)}
+                />
+                <BasicButton
+                  text={pButtonText}
+                  textSize={16}
+                  width={100}
+                  height={45}
+                  margin={[0, 5, 0, 5]}
+                  backgroundColor="#AEFFC1"
+                  textColor="black"
+                  onPress={() => {
+                    changeJoinerState(id, user, setModalVisible).then(
+                      result => {
+                        result === 'runModal' &&
+                          showToast('basic', '미팅 참가가 확정되었습니다!');
+                      },
+                    );
+                  }}
+                />
+              </View>
             </View>
           </View>
-        </View>
+        </TouchableWithoutFeedback>
       </Modal>
     </View>
   );
@@ -67,23 +84,18 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    width: 300,
+    width: 290,
     backgroundColor: 'white',
-    borderRadius: 30,
-    padding: 35,
+    borderRadius: 12,
+    padding: 25,
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    borderColor: '#AEFFC1',
+    borderWidth: 1,
     position: 'absolute',
   },
   modalText: {
-    fontWeight: 'bold',
+    fontSize: 17,
+    fontWeight: '500',
     margin: 15,
     textAlign: 'center',
   },

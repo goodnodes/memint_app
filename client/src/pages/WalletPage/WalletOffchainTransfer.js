@@ -68,7 +68,7 @@ const WalletOffchainTransfer = ({navigation}) => {
             width={330}
             height={100}
             margin={[10, 0, 10, 0]}
-            backgroundColor={'lightblue'}
+            backgroundColor={'#EAFFEFCC'}
             amount={amount}
           />
           <Icon name="arrow-upward" size={50} />
@@ -85,6 +85,8 @@ const WalletOffchainTransfer = ({navigation}) => {
             margin={[40, 0, 0, 0]}
             width={330}
             height={45}
+            backgroundColor="#ffffff"
+            border={false}
             text={'내보내기'}
             textSize={18}
             onPress={() => {
@@ -107,7 +109,6 @@ const WalletOffchainTransfer = ({navigation}) => {
               if (result.data.message === 'success') {
                 showToast('success', 'LCN을 보냈습니다!');
                 getUser(userInfo.id).then(userDetail => {
-                  console.log(userDetail);
                   updateTokenInfo({
                     tokenAmount: Number(userDetail.tokenAmount),
                     klayAmount: userInfo.klayAmount,

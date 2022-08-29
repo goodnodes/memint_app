@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {Alert, StatusBar, Text} from 'react-native';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import {NavigationContainer} from '@react-navigation/native';
 import {Provider} from 'react-redux';
@@ -205,15 +204,12 @@ function App() {
 
   useEffect(() => {
     const unsubscribe = subscribeAuth(user => {
-      console.log({user});
       const userProvider = user
         ? user.additionalUserInfo
           ? user.additionalUserInfo.providerId
           : user.providerId
         : null;
-      console.log({userProvider});
       if (user && user.email !== null) {
-        console.log('DEBUG');
         authorize({
           id: user.uid,
           email: user.email,
@@ -266,8 +262,6 @@ function App() {
     return null;
   }
   console.log('@@Re-rendering@@@@');
-  console.log('currentUser is');
-  console.log(userInfo);
   // if (!user) {
   //   console.log('Login Necessary');
   // } else {
@@ -275,8 +269,6 @@ function App() {
   // }
   return (
     <SafeAreaProvider>
-      <StatusBar barStyle="light-content" />
-
       <NavigationContainer>
         <ToastProvider>
           <ChatContextProvider>

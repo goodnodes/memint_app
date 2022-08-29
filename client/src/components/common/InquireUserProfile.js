@@ -15,7 +15,6 @@ function InquireUserProfile({width, height, margin, userId}) {
   const getUserInfo = async userId => {
     try {
       const user = await getOtherUser(userId);
-      console.log(user);
       setUserDetail(user);
     } catch (e) {
       console.log(e);

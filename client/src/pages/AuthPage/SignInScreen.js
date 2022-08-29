@@ -27,6 +27,9 @@ import useUser from '../../utils/hooks/UseUser';
 import useNftActions from '../../utils/hooks/UseNftActions';
 import {getNFTs, getProfile, getMemin} from '../../lib/NFT';
 import GradientButton from '../../components/common/GradientButton';
+import SafeStatusBar from '../../components/common/SafeStatusBar';
+import LinearGradient from 'react-native-linear-gradient';
+import memintDino from '../../assets/icons/memintDino.png';
 
 const SignInScreen = ({navigation, route}) => {
   const userInfo = useUser();
@@ -47,22 +50,18 @@ const SignInScreen = ({navigation, route}) => {
     Keyboard.dismiss();
     // navigation.navigate('SignUp');
     navigation.navigate('SignUp');
-    console.log(form);
   };
 
   const onSubmitSignIn = async () => {
     Keyboard.dismiss();
     const {email, password} = form;
     const info = {email, password};
-    console.log(info);
     setLoading(true);
     try {
       const {user} = await signIn(info);
-      // console.log({user});
       const userDetail = await getUser(user.uid);
       const userProperty = await getUserProperty(user.uid);
 
-      console.log(userDetail);
       const res = await getNFTs(user.uid);
       const nfts = res.docs.map(el => {
         return {...el.data()};
@@ -123,8 +122,9 @@ const SignInScreen = ({navigation, route}) => {
       <KeyboardAvoidingView
         style={styles.KeyboardAvoidingView}
         behavior={Platform.select({ios: 'padding'})}>
-        <SafeAreaView style={styles.fullscreen}>
-          <Image source={logo} style={styles.logo} />
+        <SafeStatusBar />
+        <View style={styles.fullscreen}>
+          <Image source={memintDino} style={styles.logo} />
           <View style={styles.form}>
             <SignForm
               onSubmit={onSubmitSignIn}
@@ -140,12 +140,14 @@ const SignInScreen = ({navigation, route}) => {
             <View style={styles.textContainer}>
               <Text style={styles.textAsk}>이미 회원이신가요?</Text>
               {/* <Text style={styles.textFind}>아이디 / 비밀번호 찾기</Text> */}
-              <TouchableOpacity style={styles.textFind} onPress={goToFindId}>
-                <Text> 아이디 찾기</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.textFind} onPress={goToFindPW}>
-                <Text> 비밀번호 찾기</Text>
-              </TouchableOpacity>
+              <View style={styles.buttons}>
+                <TouchableOpacity style={styles.textFind} onPress={goToFindId}>
+                  <Text style={styles.plainText}> 아이디 찾기</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.textFind} onPress={goToFindPW}>
+                  <Text style={styles.plainText}> 비밀번호 찾기</Text>
+                </TouchableOpacity>
+              </View>
             </View>
             {/* <View style={styles.oauthbutton}>
             <OauthButton
@@ -165,7 +167,7 @@ const SignInScreen = ({navigation, route}) => {
             />
           </View> */}
           </View>
-        </SafeAreaView>
+        </View>
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
@@ -174,17 +176,19 @@ const SignInScreen = ({navigation, route}) => {
 const styles = StyleSheet.create({
   KeyboardAvoidingView: {
     flex: 1,
-    backgroundColor: 'white',
   },
   fullscreen: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'white',
+    backgroundColor: '#3C3D43',
+  },
+  gradientBackground: {
+    flex: 1,
   },
   logo: {
-    width: 290,
-    height: 200,
+    width: 101,
+    height: 108.77,
     marginTop: 70,
     marginBottom: 20,
   },
@@ -194,25 +198,30 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: 52,
     marginBottom: 60,
   },
   textAsk: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: 'black',
+    fontSize: 14,
+    color: '#ffffff',
+    letterSpacing: -0.5,
   },
   textFind: {
     fontSize: 16,
     fontWeight: 'bold',
     color: 'grey',
+    marginLeft: 15,
+    letterSpacing: -0.5,
   },
   form: {
     marginTop: 50,
     width: '100%',
     paddingHorizontal: 16,
+  },
+  plainText: {
+    color: '#ffffff',
   },
 
   oauthbutton: {
@@ -226,6 +235,9 @@ const styles = StyleSheet.create({
     height: 104,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  buttons: {
+    flexDirection: 'row',
   },
 });
 

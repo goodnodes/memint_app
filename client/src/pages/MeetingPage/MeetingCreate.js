@@ -255,9 +255,11 @@ function MeetingCreate({route}) {
           <View style={[styles.createElement, styles.flexRow]}>
             <Text style={styles.text}>날짜</Text>
             <RNDateTimePicker
+              locale="ko"
               value={meetingInfo.meetDate}
               mode="datetime"
-              textColor="#EAFFEF"
+              // textColor="#EAFFEF"
+              accentColor="#AEFFC1"
               themeVariant="dark"
               style={styles.datepicker}
               onChange={(event, date) =>
@@ -510,7 +512,7 @@ const styles = StyleSheet.create({
     letterSpacing: -0.5,
   },
   datepicker: {
-    width: 240,
+    width: 230,
   },
   textInputTitle: {
     backgroundColor: 'transparent',

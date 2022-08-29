@@ -9,8 +9,7 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import klayIcon from '../../assets/icons/klaytn-klay-logo.png';
-import lcnIcon from '../../assets/icons/lovechain.png';
-import ethIcon from '../../assets/icons/ethereum.png';
+import tingsymbol from '../../assets/icons/tingsymbol.png';
 /*
   사용할 컴포넌트에서 state 사용이 필요함.
   Ex)
@@ -52,7 +51,7 @@ function WalletCustomModal({
                 <Text style={styles.contentText}>KLAY</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.tokenWrapper} onPress={pFunction}>
-                <Image source={lcnIcon} style={styles.icon} />
+                <Image source={tingsymbol} style={styles.icon} />
                 <Text style={styles.contentText}>LCN</Text>
               </TouchableOpacity>
             </View>
@@ -77,21 +76,23 @@ const styles = StyleSheet.create({
     width: 300,
     height: 200,
     backgroundColor: 'white',
-    borderRadius: 30,
+    borderRadius: 12,
+    borderColor: '#AEFFC1',
+    borderWidth: 1,
     padding: 30,
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    // shadowColor: '#000',
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2,
+    // },
+    // shadowOpacity: 0.25,
+    // shadowRadius: 4,
+    // elevation: 5,
   },
   icon: {
-    width: 35,
-    height: 35,
+    width: 24,
+    height: 24,
     marginLeft: 20,
     // backgroundColor: 'green',
   },
@@ -103,13 +104,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     width: 250,
-    height: 60,
+    height: 52,
     marginTop: 10,
   },
   contentText: {
     marginLeft: 10,
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: 15,
+    fontWeight: '600',
   },
   backgroudDim: {
     flex: 1,
