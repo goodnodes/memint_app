@@ -91,6 +91,7 @@ const SignInScreen = ({navigation, route}) => {
           drinkStyle: userDetail.property.drinkStyle,
         },
         visibleUser: userDetail.visibleUser,
+        marketingAgreement: userDetail.marketingAgreement,
       }),
         navigation.navigate('Main');
     } catch (e) {

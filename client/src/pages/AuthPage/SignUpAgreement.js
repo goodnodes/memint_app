@@ -1,16 +1,33 @@
 import React, {useState, useEffect} from 'react';
-import {Alert, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Alert,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Platform,
+} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import BackButton from '../../components/common/BackButton';
 import BasicButton from '../../components/common/BasicButton';
 import CheckElement from '../../components/AuthComponents/CheckElement';
 import CheckBox from '@react-native-community/checkbox';
-import {signUp} from '../../lib/Auth';
+import {signUp, signIn} from '../../lib/Auth';
 import GradientButton from '../../components/common/GradientButton';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
+import {createUser, getUser} from '../../lib/Users';
+import storage from '@react-native-firebase/storage';
+import {createWallet} from '../../lib/api/wallet';
+import {createNFT, getImgUrl} from '../../lib/NFT';
+import {createUserNFT} from '../../lib/Users';
+import {getNFTs, getProfile, getMemin} from '../../lib/NFT';
+import useNftActions from '../../utils/hooks/UseNftActions';
+import useAuthActions from '../../utils/hooks/UseAuthActions';
 
 const SignUpAgreementScreen = ({navigation, route}) => {
   let {userInfo} = route.params || {};
+  const {saveNFT, setNftProfile, setMemin} = useNftActions();
+  const {saveInfo} = useAuthActions();
   const [checkInfo, setCheckInfo] = useState({
     service: '',
     privacy: '',
@@ -24,7 +41,105 @@ const SignUpAgreementScreen = ({navigation, route}) => {
     if (!(serviceCheck && ageCheck && useCheck)) {
       Alert.alert('실패', '약관에 동의해주세요');
     } else {
-      navigation.push('SignUpAlarm', {userInfo});
+      try {
+        setLoading(true);
+        //SignUp User
+        const {user} = await signUp({
+          email: userInfo.email,
+          password: userInfo.password,
+        });
+
+        //add photo in storage
+        let photoURL = null;
+        if (userInfo.photoRes) {
+          const asset = userInfo.photoRes.assets[0];
+          const extension = asset.fileName.split('.').pop(); //확장자 추출
+          const reference = storage().ref(`/profile/${user.uid}.${extension}`);
+          if (Platform.OS === 'android') {
+            await reference.putString(asset.base64, 'base64', {
+              contentType: asset.type,
+            });
+          } else {
+            await reference.putFile(asset.uri);
+          }
+          photoURL = userInfo.photoRes
+            ? await reference.getDownloadURL()
+            : null;
+        }
+        const res = await createNFT({
+          userId: user.uid,
+          nftImg: userInfo.nftImg,
+        });
+        const newNFTId = res._documentPath._parts[1];
+        setNftProfile(userInfo.nftImg);
+
+        await createUser({
+          userId: user.uid,
+          email: userInfo.email,
+          nickName: userInfo.nickName,
+          gender: userInfo.gender,
+          birth: `${userInfo.birthYear}년 ${userInfo.birthMonth}월 ${userInfo.birthDay}일`,
+          picture: photoURL,
+
+          phoneNumber: userInfo.phoneNumber,
+          drinkCapa: userInfo.drinkCapa,
+          drinkStyle: userInfo.drinkStyle,
+          alcoholType: userInfo.alcoholType,
+          marketingAgreement: marketingCheck,
+        });
+
+        await createUserNFT({
+          userId: user.uid,
+          nftProfile: userInfo.nftImg,
+          nftId: newNFTId,
+        });
+        //create Wallet
+        const body = {
+          id: user.uid,
+        };
+        const account = await createWallet(body).then(console.log);
+        ///////Sigin In process
+        const userDetail = await getUser(user.uid);
+        const response = await getNFTs(user.uid);
+        const nfts = response.docs.map(el => {
+          return {...el.data()};
+        });
+        saveNFT(nfts);
+        setNftProfile(...getProfile(nfts));
+        setMemin(...getMemin(nfts));
+
+        saveInfo({
+          ...userInfo,
+          id: user.uid,
+          email: user.email,
+          nickName: userDetail.nickName,
+          gender: userDetail.gender,
+          birth: userDetail.birth,
+          nftIds: userDetail.nftIds,
+          picture: userDetail.picture,
+          address: userDetail.address,
+          phoneNumber: userDetail.phoneNumber,
+          tokenAmount: userDetail.tokenAmount,
+          klayAmount: userDetail.klayAmount,
+          onChainTokenAmount: userDetail.onChainTokenAmount,
+          nftProfile: userDetail.nftProfile.toString(),
+          property: {
+            alcoholType: userDetail.property.alcoholType,
+            drinkCapa: userDetail.property.drinkCapa,
+            drinkStyle: userDetail.property.drinkStyle,
+          },
+          visibleUser: userDetail.visibleUser,
+          marketingAgreement: marketingCheck,
+        }),
+          ////////////////////
+          await signIn({email: userInfo.email, password: userInfo.password});
+        navigation.navigate('Main');
+      } catch (e) {
+        console.log(e);
+      } finally {
+        setLoading(false);
+      }
+      // navigation.push('SignUpAlarm', {userInfo});
     }
     // const {email, password} = route.params;
     // const info = {email, password};

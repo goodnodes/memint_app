@@ -13,6 +13,7 @@ export function createUser({
   drinkCapa,
   drinkStyle,
   alcoholType,
+  marketingAgreement,
 }) {
   // return usersCollection.doc(id).get();
   // console.log(usersCollection);
@@ -45,6 +46,7 @@ export function createUser({
       drinkStyle: drinkStyle,
       alcoholType: alcoholType,
     },
+    marketingAgreement: marketingAgreement,
   });
 }
 

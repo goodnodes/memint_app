@@ -156,6 +156,7 @@ function App() {
         },
         visibleUser: userDetail.visibleUser,
         likesroomId: userDetail.likesroomId,
+        marketingAgreement: userDetail.marketingAgreement,
       });
     } catch (e) {
       console.log(e);
