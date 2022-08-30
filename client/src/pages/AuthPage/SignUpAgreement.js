@@ -23,10 +23,12 @@ import {createUserNFT} from '../../lib/Users';
 import {getNFTs, getProfile, getMemin} from '../../lib/NFT';
 import useNftActions from '../../utils/hooks/UseNftActions';
 import useAuthActions from '../../utils/hooks/UseAuthActions';
+import useUser from '../../utils/hooks/UseUser';
 
 const SignUpAgreementScreen = ({navigation, route}) => {
   let {userInfo} = route.params || {};
   const {saveNFT, setNftProfile, setMemin} = useNftActions();
+  const userState = useUser();
   const {saveInfo} = useAuthActions();
   const [checkInfo, setCheckInfo] = useState({
     service: '',
@@ -48,7 +50,6 @@ const SignUpAgreementScreen = ({navigation, route}) => {
           email: userInfo.email,
           password: userInfo.password,
         });
-
         //add photo in storage
         let photoURL = null;
         if (userInfo.photoRes) {
@@ -72,7 +73,6 @@ const SignUpAgreementScreen = ({navigation, route}) => {
         });
         const newNFTId = res._documentPath._parts[1];
         setNftProfile(userInfo.nftImg);
-
         await createUser({
           userId: user.uid,
           email: userInfo.email,
@@ -87,7 +87,6 @@ const SignUpAgreementScreen = ({navigation, route}) => {
           alcoholType: userInfo.alcoholType,
           marketingAgreement: marketingCheck,
         });
-
         await createUserNFT({
           userId: user.uid,
           nftProfile: userInfo.nftImg,
@@ -97,7 +96,7 @@ const SignUpAgreementScreen = ({navigation, route}) => {
         const body = {
           id: user.uid,
         };
-        const account = await createWallet(body).then(console.log);
+        const account = await createWallet(body);
         ///////Sigin In process
         const userDetail = await getUser(user.uid);
         const response = await getNFTs(user.uid);
@@ -108,8 +107,10 @@ const SignUpAgreementScreen = ({navigation, route}) => {
         setNftProfile(...getProfile(nfts));
         setMemin(...getMemin(nfts));
 
+        ////////////////////
+        await signIn({email: userInfo.email, password: userInfo.password});
         saveInfo({
-          ...userInfo,
+          ...userState,
           id: user.uid,
           email: user.email,
           nickName: userDetail.nickName,
@@ -129,11 +130,10 @@ const SignUpAgreementScreen = ({navigation, route}) => {
             drinkStyle: userDetail.property.drinkStyle,
           },
           visibleUser: userDetail.visibleUser,
+          likesroomId: userDetail.likesroomId,
           marketingAgreement: marketingCheck,
         }),
-          ////////////////////
-          await signIn({email: userInfo.email, password: userInfo.password});
-        navigation.navigate('Main');
+          navigation.navigate('Main');
       } catch (e) {
         console.log(e);
       } finally {

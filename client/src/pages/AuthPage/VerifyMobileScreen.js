@@ -134,7 +134,7 @@ const VerifyMobileScreen = ({navigation, route}) => {
                     autoCapitalize="none"
                     keyboardType="numeric"
                     autoCorrect={false}
-                    returnKeyType={'done'}
+                    // returnKeyType={'done'}
                     // onSubmitEditing={() => passwordRef.current.focus()}
                   />
                 </View>
