@@ -23,6 +23,10 @@ function MySettings({route}) {
   const handleCsCenter = () => {
     navigation.navigate('CsCenter');
   };
+
+  const handleDeletePage = () => {
+    navigation.navigate('DeleteUser', route.params);
+  };
   const [pushAgree, setPushAgree] = useState(false);
   const [mailAgree, setMailAgree] = useState(false);
   const [smsAgree, setSMSAgree] = useState(false);
@@ -35,6 +39,7 @@ function MySettings({route}) {
   const handleSmsTogle = () => {
     setSMSAgree(!smsAgree);
   };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -70,7 +75,7 @@ function MySettings({route}) {
       <View style={styles.li}>
         <Text style={styles.liText}>메일 수신 동의</Text>
         <Switch
-          trackColor={{false: '#767577', true: '#81b0ff'}}
+          trackColor={{false: '#ABDCC1', true: '#81b0ff'}}
           thumbColor={mailAgree ? '#f5dd4b' : '#f4f3f4'}
           ios_backgroundColor="#3e3e3e"
           onValueChange={handleMailTogle}
@@ -87,11 +92,11 @@ function MySettings({route}) {
           value={smsAgree}
         />
       </View>
-      <TouchableOpacity style={styles.li}>
+      <TouchableOpacity style={styles.li} onPress={handleDeletePage}>
         <Text style={styles.liText}>회원 탈퇴</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.li} onPress={handleSignOut}>
-        <Text style={styles.deleteText}>로그아웃 하기</Text>
+        <Text style={styles.liText}>로그아웃</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );

@@ -77,7 +77,7 @@ function MyProfile({User, navigation}) {
         />
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate('EditMyInfo', User);
+            navigation.push('EditMyInfo', User);
           }}>
           <Icon
             name="edit"

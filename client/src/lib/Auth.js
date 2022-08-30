@@ -32,3 +32,15 @@ export function checkUniqueEmail(emailAddress) {
       }
     });
 }
+
+export function deleteUserAuth() {
+  const user = auth().currentUser;
+  user
+    .delete()
+    .then(() => {
+      console.log('User deleted.');
+    })
+    .catch(error => {
+      console.log('An error ocurred');
+    });
+}

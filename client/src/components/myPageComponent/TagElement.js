@@ -2,7 +2,9 @@ import React, {useState} from 'react';
 import {TouchableOpacity, Text, StyleSheet, View} from 'react-native';
 
 function TagElement({tag, drinkInfo, setDrinkInfo, type}) {
-  const [colored, setColored] = useState(false);
+  const [colored, setColored] = useState(
+    drinkInfo.indexOf(tag) !== -1 ? true : false,
+  );
   const handleClick = () => {
     if (colored) {
       setColored(false);

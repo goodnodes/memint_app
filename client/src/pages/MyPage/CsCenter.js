@@ -40,7 +40,7 @@ function CsCenter() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
+    backgroundColor: '#ABDCC1',
     flex: 1,
   },
   header: {

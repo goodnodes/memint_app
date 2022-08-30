@@ -5,18 +5,14 @@ import BackButton from '../../components/common/BackButton';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
 import SelectDropdown from 'react-native-select-dropdown';
-import TagElement from '../../components/AuthComponents/TagElement';
+import TagElement from '../../components/myPageComponent/TagElement';
 import BorderedInput from '../../components/AuthComponents/BorderedInput';
 import {white} from 'react-native-paper/lib/typescript/styles/colors';
 function EditMyInfo({route}) {
   // useEffect(() => {
-  //   console.log(route.params.alcoholType);
+  //   console.log(drinkInfo);
   // });
-  const [drinkInfo, setDrinkInfo] = useState({
-    alcoholType: route.params.alcoholType,
-    drinkCapa: route.params.drinkCapa,
-    drinkStyle: route.params.drinkStyle,
-  });
+  const [drinkInfo, setDrinkInfo] = useState(route.params.property);
 
   const tagData = {
     alcoholType: [

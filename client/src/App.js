@@ -48,6 +48,10 @@ import MeetingConfirm from './pages/ChattingPage/MeetingConfirm';
 import firestore from '@react-native-firebase/firestore';
 import messaging from '@react-native-firebase/messaging';
 import {useToast} from './utils/hooks/useToast';
+import MySettings from './pages/MyPage/MySettings';
+import CsCenter from './pages/MyPage/CsCenter';
+import DeleteUser from './pages/MyPage/DeleteUser';
+import EditMyInfo from './pages/MyPage/EditMyInfo';
 
 const Stack = createNativeStackNavigator();
 const store = createStore(rootReducer);
@@ -383,6 +387,26 @@ function App() {
               <Stack.Screen
                 name="MeetingConfirm"
                 component={MeetingConfirm}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="MySettings"
+                component={MySettings}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="CsCenter"
+                component={CsCenter}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="DeleteUser"
+                component={DeleteUser}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="EditMyInfo"
+                component={EditMyInfo}
                 options={{headerShown: false}}
               />
             </Stack.Navigator>

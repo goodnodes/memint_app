@@ -205,3 +205,7 @@ export const deleteTokenFromDatabase = async (token, userId) => {
       deviceTokens: firestore.FieldValue.arrayRemove(token),
     });
 };
+
+export function deleteUserDB(userId) {
+  usersCollection.doc(userId).delete();
+}
