@@ -23,6 +23,8 @@ import WalletOffchainRecieve from './WalletPage/WalletOffchainRecieve';
 import WalletOnchainMain from './WalletPage/WalletOnchainMain';
 import MyLikesRooms from './MyPage/MyLikesRooms';
 import MyMainPage from './MyPage/MyMainPage';
+import MySettings from './MyPage/MySettings';
+import CsCenter from './MyPage/CsCenter';
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -116,6 +118,16 @@ const MyPageScreen = () => {
       <Stack.Screen
         name="MyLikesRooms"
         component={MyLikesRooms}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="MySettings"
+        component={MySettings}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="CsCenter"
+        component={CsCenter}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

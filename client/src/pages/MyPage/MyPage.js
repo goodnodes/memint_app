@@ -33,7 +33,7 @@ function MyPage({navigation}) {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate('EditMyInfo');
+            navigation.navigate('MySettings', user);
           }}>
           <Icon
             name="menu"
