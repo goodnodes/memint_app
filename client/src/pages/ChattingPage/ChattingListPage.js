@@ -16,6 +16,7 @@ import {useIsFocused} from '@react-navigation/native';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 import LinearGradient from 'react-native-linear-gradient';
 import {handleDate, handleDateInFormat} from '../../utils/common/Functions';
+import AsyncStorage from '@react-native-community/async-storage';
 
 function ChattingListPage({navigation}) {
   const [chatLog, setChatLog] = useState('');
@@ -149,7 +150,10 @@ function MetaData({item, navigation, refresh, setRefresh}) {
   }, [lastMsg]);
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate('ChattingRoom', {data: item})}>
+      onPress={async () => {
+        await AsyncStorage.setItem('key', 'value');
+        navigation.navigate('ChattingRoom', {data: item});
+      }}>
       <View style={styles.container}>
         <Image style={styles.image} source={{uri: item.hostInfo}} />
         <View style={styles.chatInfo}>
