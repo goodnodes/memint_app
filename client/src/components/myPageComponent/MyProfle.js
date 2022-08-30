@@ -6,6 +6,7 @@ import {
   Image,
   useWindowDimensions,
   ScrollView,
+  TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useMemin, useNftProfile} from '../../utils/hooks/UseNft';
@@ -74,6 +75,17 @@ function MyProfile({User, navigation}) {
             uri: User.picture,
           }}
         />
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('EditMyInfo', User);
+          }}>
+          <Icon
+            name="edit"
+            size={25}
+            color="#1D1E1E"
+            style={{marginRight: 10}}
+          />
+        </TouchableOpacity>
       </View>
 
       <View style={styles.userInfos}>

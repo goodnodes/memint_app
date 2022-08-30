@@ -1,40 +1,33 @@
-import React, {useState, useCallback} from 'react';
-
-import {
-  Button,
-  KeyboardAvoidingView,
-  Platform,
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import React, {useEffect, useState, useCallback} from 'react';
+import {SafeAreaView, StyleSheet, Text, View, Image} from 'react-native';
+import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import BackButton from '../../components/common/BackButton';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import {useNavigation} from '@react-navigation/native';
 import SelectDropdown from 'react-native-select-dropdown';
 import TagElement from '../../components/AuthComponents/TagElement';
-import CameraButton from '../../components/AuthComponents/CameraButton';
-import SingleModal from '../../components/common/SingleModal';
-import {useNavigation} from '@react-navigation/native';
-import {useToast} from '../../utils/hooks/useToast';
-import {signOut} from '../../lib/Auth';
-import useAuthActions from '../../utils/hooks/UseAuthActions';
-import messaging from '@react-native-firebase/messaging';
-import useUser from '../../utils/hooks/UseUser';
-import {deleteTokenFromDatabase} from '../../lib/Users';
-import { ScrollView } from 'react-native-gesture-handler';
-
-const EditMyInfo = ({route}) => {
-  const userInfo = useUser();
+import BorderedInput from '../../components/AuthComponents/BorderedInput';
+import {white} from 'react-native-paper/lib/typescript/styles/colors';
+function EditMyInfo({route}) {
+  // useEffect(() => {
+  //   console.log(route.params.alcoholType);
+  // });
   const [drinkInfo, setDrinkInfo] = useState({
-    drink: [],
-    drinkStyle: [],
+    alcoholType: route.params.alcoholType,
+    drinkCapa: route.params.drinkCapa,
+    drinkStyle: route.params.drinkStyle,
   });
-  const [confirmModalVisible, setConfirmModalVisible] = useState(false);
-  const navigation = useNavigation();
-  const {showToast} = useToast();
+
   const tagData = {
-    drink: ['소주', '맥주', '보드카', '칵테일', '고량주', '막걸리', '와인'],
+    alcoholType: [
+      '소주',
+      '맥주',
+      '보드카',
+      '칵테일',
+      '고량주',
+      '막걸리',
+      '와인',
+    ],
     drinkStyle: [
       '진지한 분위기를 좋아해요. 함께 이야기 나눠요!',
       '신나는 분위기를 좋아해요. 친해져요!',
@@ -43,183 +36,141 @@ const EditMyInfo = ({route}) => {
       '술보다 안주가 좋아요.',
     ],
   };
-  const handleSubmit = () => {
-    setConfirmModalVisible(true);
-  };
-  const {logout} = useAuthActions();
-  const handleSignOut = useCallback(async () => {
-    try {
-      logout();
-      await signOut();
-      const token = await messaging().getToken();
-      await deleteTokenFromDatabase(token, userInfo.id);
-    } catch (e) {
-      console.log(e);
-    } finally {
-      navigation.reset({routes: [{name: 'SignIn'}]});
-      // navigation.navigate('SignIn');
-    }
-  }, [navigation, logout, userInfo.id]);
 
   return (
-    <KeyboardAvoidingView
-      style={styles.KeyboardAvoidingView}
-      behavior={Platform.select({ios: 'padding'})}>
-      <SafeAreaView style={styles.fullscreen}>
-        <View style={styles.headerBar}>
-          <View style={styles.flexRow}>
-            <BackButton />
-            <Text style={styles.title}>나의 정보 수정</Text>
-          </View>
-          <TouchableOpacity onPress={handleSubmit}>
-            <Text style={styles.submit}>저장</Text>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <View style={styles.flexRow}>
+          <BackButton />
+          <Text style={styles.title}>내 정보 수정</Text>
+        </View>
+        <View>
+          <TouchableOpacity>
+            <Text style={styles.title}>완료</Text>
           </TouchableOpacity>
         </View>
+      </View>
 
-        <ScrollView style={styles.fullscreenSub} contentContainerStyle={{paddingBottom: 100}}>
-          <View style={styles.cameraButton}>
-            <CameraButton />
-          </View>
-          <View style={styles.form}>
-            <Text style={styles.text}>나의 주량</Text>
-            <SelectDropdown
-              data={[
-                '한 잔만',
-                '반 병 이하',
-                '한 병 이하',
-                '두 병 이하',
-                '세 병 이하',
-                '세 병 이상',
-              ]}
-              onSelect={(selectedItem, index) => {
-                console.log(selectedItem, index);
-              }}
-              defaultButtonText=" "
-              buttonStyle={styles.dropdown}
-            />
-          </View>
+      <ScrollView style={styles.scrollview}>
+        <View style={styles.li}>
+          <Image
+            style={styles.profileImage}
+            source={{
+              uri: route.params.picture,
+            }}
+          />
+        </View>
 
-          <Text style={styles.text}>내가 선호하는 주류</Text>
+        <View style={styles.li}>
+          <Text style={styles.liText}>닉네임</Text>
+          <Text style={styles.liGrayText}>{route.params.nickName}</Text>
+        </View>
+        <View style={styles.liColumn}>
+          <Text style={{...styles.liText, marginBottom: 10}}>자기소개</Text>
+          <BorderedInput size="wide" placeholder="자기소개를 입력해 주세요" />
+        </View>
+
+        <View style={styles.li}>
+          <Text style={styles.liText}>주량</Text>
+          <SelectDropdown
+            data={[
+              '한 잔만',
+              '반 병 이하',
+              '한 병 이하',
+              '두 병 이하',
+              '세 병 이하',
+              '세 병 이상',
+            ]}
+            defaultButtonText={drinkInfo.drinkCapa}
+            buttonStyle={styles.dropdown}
+          />
+        </View>
+
+        <View style={styles.liColumn}>
+          <Text style={styles.liText}>선호하는 주류</Text>
           <View style={styles.tagsContainer}>
-            {tagData.drink.map((tag, idx) => (
+            {tagData.alcoholType.map((tag, idx) => (
               <TagElement
                 key={idx}
                 tag={tag}
-                drinkInfo={drinkInfo}
+                drinkInfo={drinkInfo.alcoholType}
                 setDrinkInfo={setDrinkInfo}
+                type="alcoholType"
               />
             ))}
           </View>
-          <Text style={styles.text}>나의 음주 스타일</Text>
+        </View>
+        <View style={styles.liColumn}>
+          <Text style={styles.liText}>음주 스타일</Text>
           <View style={styles.tagsContainer}>
             {tagData.drinkStyle.map((tag, idx) => (
               <TagElement
                 key={idx}
                 tag={tag}
-                drinkInfo={drinkInfo}
+                drinkInfo={drinkInfo.drinkStyle}
                 setDrinkInfo={setDrinkInfo}
+                type="drinkStyle"
               />
             ))}
           </View>
-          <SingleModal
-            text="나의 정보를 수정하시겠까습니?"
-            buttonText="네"
-            modalVisible={confirmModalVisible}
-            setModalVisible={setConfirmModalVisible}
-            pFunction={() => {
-              setConfirmModalVisible(false);
-              showToast('success', '수정되었습니다');
-              navigation.pop();
-            }}
-          />
-                  <View style={styles.signoutButton}>
-          <Button title="로그아웃 하기" color="red" onPress={handleSignOut} />
         </View>
-        </ScrollView>
-
-      </SafeAreaView>
-    </KeyboardAvoidingView>
+      </ScrollView>
+    </SafeAreaView>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  KeyboardAvoidingView: {
-    flex: 1,
-    backgroundColor: 'white',
+  scrollview: {
+    marginVertical: 20,
   },
-  submit: {
-    fontSize: 15,
-    fontWeight: '700',
-  },
-  fullscreen: {
+  container: {
+    backgroundColor: '#3C3D43',
     flex: 1,
   },
-  fullscreenSub: {
-    flex: 1,
-    flexDirection: 'column',
-    // alignItems: 'center',
-    // justifyContent: 'center',
-    paddingTop: 50,
-  },
-  headerBar: {
+  header: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     paddingRight: 20,
     alignItems: 'center',
     height: 60,
     borderBottomColor: 'gray',
     borderBottomWidth: 1,
-  },
-  title: {
-    fontWeight: 'bold',
-    fontSize: 18,
-    margin: 5,
-    marginLeft: 10,
-  },
-  grayButton: {
-    fontWeight: 'bold',
-    fontSize: 18,
-    margin: 5,
-    marginLeft: 10,
-    color: 'gray',
+    justifyContent: 'space-between',
   },
   flexRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
   },
-  form: {
-    marginTop: 16,
-    marginBottom: 16,
-    width: '100%',
-    paddingHorizontal: 32,
+  title: {
+    fontSize: 18,
+    fontWeight: '700',
+    marginLeft: 10,
+    color: 'white',
+  },
+
+  ul: {
+    marginTop: 10,
+  },
+  li: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
     alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 30,
+    marginVertical: 15,
   },
-  text: {
-    paddingHorizontal: 6,
-    fontSize: 20,
-    fontWeight: 'bold',
-    margin: 10,
+  liColumn: {
+    flexDirection: 'column',
+    // alignItems: 'center',
+    // justifyContent: 'space-between',
+    paddingHorizontal: 30,
+    marginVertical: 15,
   },
-  contentText: {
+  liText: {
+    color: 'white',
     fontSize: 16,
-    marginTop: 30,
   },
-  contentTextSub: {
-    fontSize: 18,
-    margin: 8,
-  },
-  contentTextVerify: {
-    fontSize: 18,
-    marginTop: 20,
-  },
-  tagsContainer: {
-    flexWrap: 'wrap',
-    marginBottom: 10,
-    flexDirection: 'row',
-    paddingHorizontal: 14,
+  liGrayText: {
+    fontSize: 16,
+    color: '#868686',
   },
   dropdown: {
     fontSize: 10,
@@ -230,13 +181,15 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     height: 30,
   },
-  signoutButton: {
-    marginTop: 20,
-    marginLeft: 40,
-    alignItems: 'flex-start',
+  profileImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 100,
   },
-  cameraButton: {
-    marginTop: 50,
+  tagsContainer: {
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
   },
 });
 
