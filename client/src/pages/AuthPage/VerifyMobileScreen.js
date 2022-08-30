@@ -134,7 +134,7 @@ const VerifyMobileScreen = ({navigation, route}) => {
                     autoCapitalize="none"
                     keyboardType="numeric"
                     autoCorrect={false}
-                    returnKeyType={'done'}
+                    // returnKeyType={'done'}
                     // onSubmitEditing={() => passwordRef.current.focus()}
                   />
                 </View>
@@ -294,8 +294,7 @@ const styles = StyleSheet.create({
   form: {
     marginTop: 32,
     width: '100%',
-    padding: 32,
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'space-between',
   },
   formRow: {

@@ -26,14 +26,14 @@ function ChattingListPage({navigation}) {
   useEffect(() => {
     const getChatLogs = async () => {
       const meetingList = [];
-
+      console.log({user});
       const rawUserInfo = await firestore()
         .collection('User')
         .doc(user.id)
         .get();
-
+      console.log({rawUserInfo});
       const userInfo = rawUserInfo.data();
-
+      console.log({userInfo});
       userInfo.createdroomId && meetingList.push(...userInfo.createdroomId);
       userInfo.joinedroomId && meetingList.push(...userInfo.joinedroomId);
 

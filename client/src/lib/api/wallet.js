@@ -1,7 +1,7 @@
 import axios from '.';
 
 export const createWallet = async body => {
-  axios.post('/auth/register', body);
+  await axios.post('/auth/register', body);
 };
 
 export const KlayToLCN = async body => {
