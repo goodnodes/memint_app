@@ -124,7 +124,7 @@ function UserInfoModal({
                     {user ? (
                       user.alcoholType.map((ele, index) => {
                         return (
-                          <View style={styles.tag}>
+                          <View style={styles.tag} key={index}>
                             <Text style={styles.tagText}>{ele}</Text>
                           </View>
                         );
@@ -137,7 +137,7 @@ function UserInfoModal({
                   <View style={styles.tags}>
                     {user.drinkStyle.map((ele, index) => {
                       return (
-                        <View style={styles.tag}>
+                        <View style={styles.tag} key={index}>
                           <Text style={styles.tagText}>{ele}</Text>
                         </View>
                       );
