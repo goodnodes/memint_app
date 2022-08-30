@@ -97,15 +97,22 @@ function MyMainPage({navigation}) {
           <View style={styles.characterStatus}>
             <View style={styles.status}>
               <Image source={eggS} style={styles.eggImage} />
-              <View style={styles.statusBackground}>
+              {/* <View style={styles.statusBackground}>
                 <View style={styles.statusBar}>
                   <Text style={styles.statusText}>72.8 / 100</Text>
                 </View>
-              </View>
+              </View> */}
+              <Progress.Bar
+                width={310}
+                height={18}
+                progress={0.72}
+                color={'#2ACFC2'}
+                unfilledColor={'#EDEEF6'}
+              />
             </View>
             <View style={styles.status}>
               <Image source={eggD} style={styles.eggImage} />
-              <View style={styles.statusBackground}>
+              {/* <View style={styles.statusBackground}>
                 <View
                   style={[
                     styles.statusBar,
@@ -119,11 +126,18 @@ function MyMainPage({navigation}) {
                     51.8 / 100
                   </Text>
                 </View>
-              </View>
+              </View> */}
+              <Progress.Bar
+                width={310}
+                height={18}
+                progress={0.51}
+                color={'#4E00F5'}
+                unfilledColor={'#EDEEF6'}
+              />
             </View>
             <View style={styles.status}>
               <Image source={eggB} style={styles.eggImage} />
-              <View style={styles.statusBackground}>
+              {/* <View style={styles.statusBackground}>
                 <View
                   style={[
                     styles.statusBar,
@@ -135,7 +149,14 @@ function MyMainPage({navigation}) {
                   ]}>
                   <Text style={styles.statusText}>68.3 / 100</Text>
                 </View>
-              </View>
+              </View> */}
+              <Progress.Bar
+                width={310}
+                height={18}
+                progress={0.68}
+                color={'#CFAB2A'}
+                unfilledColor={'#EDEEF6'}
+              />
             </View>
           </View>
         </View>
@@ -295,6 +316,7 @@ const styles = StyleSheet.create({
   },
   status: {
     flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
     marginVertical: 6,

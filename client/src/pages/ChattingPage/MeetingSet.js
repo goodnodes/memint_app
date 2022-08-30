@@ -17,10 +17,12 @@ import useUser from '../../utils/hooks/UseUser';
 import {useMeeting} from '../../utils/hooks/UseMeeting';
 import useMeetingActions from '../../utils/hooks/UseMeetingActions';
 import useAuthActions from '../../utils/hooks/UseAuthActions';
+import SafeStatusBar from '../../components/common/SafeStatusBar';
 
 function MeetingSet({route}) {
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [editModal, setEditModal] = useState(false);
+  const [outModal, setOutModal] = useState(false);
   const isFocused = useIsFocused();
   useEffect(() => {
     // console.log({meetingInfo: route.params.meetingInfo.id});
@@ -109,17 +111,6 @@ function MeetingSet({route}) {
 
   const handleMeetingOut = async () => {
     //미팅이 확정상태라면 나가지 못함
-    console.log();
-    if (
-      Object.values(
-        meetingInfo.members.filter(el => {
-          return Object.keys(el)[0] === userInfo.id;
-        })[0],
-      )[0] !== 'accepted'
-    ) {
-      showToast('error', '미팅 확정 이후에는 나갈 수 없습니다');
-      return;
-    }
 
     updateMembersOut(meetingInfo.id, userInfo.id)
       .then(() => {
@@ -173,11 +164,11 @@ function MeetingSet({route}) {
               setEditModal(true);
             }}>
             <Text style={styles.liText}>미팅 정보 변경하기</Text>
-            <Icon name="arrow-forward-ios" size={20} />
+            <Icon name="arrow-forward-ios" size={15} color={'#ffffff'} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.li} onPress={handleNavigateToReport}>
             <Text style={styles.liText}>신고하기</Text>
-            <Icon name="arrow-forward-ios" size={20} />
+            <Icon name="arrow-forward-ios" size={15} color={'#ffffff'} />
           </TouchableOpacity>
 
           {route.params.meetingInfo.status === 'open' ||
@@ -230,42 +221,70 @@ function MeetingSet({route}) {
         <>
           <TouchableOpacity style={styles.li} onPress={handleNavigateToReport}>
             <Text style={styles.liText}>신고하기</Text>
-            <Icon name="arrow-forward-ios" size={20} />
+            <Icon name="arrow-forward-ios" size={15} color={'#ffffff'} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.li} onPress={handleMeetingOut}>
+          <TouchableOpacity
+            style={styles.li}
+            onPress={() => {
+              if (
+                Object.values(
+                  meetingInfo.members.filter(el => {
+                    return Object.keys(el)[0] === userInfo.id;
+                  })[0],
+                )[0] !== 'accepted'
+              ) {
+                showToast('error', '미팅 확정 이후에는 나갈 수 없습니다');
+                return;
+              }
+              setOutModal(true);
+            }}>
             <Text style={[styles.liText, styles.deleteText]}>미팅 나가기</Text>
           </TouchableOpacity>
+          <DoubleModal
+            text="미팅방에서 나가시겠습니까?"
+            nButtonText="아니오"
+            pButtonText="네"
+            modalVisible={outModal}
+            setModalVisible={setOutModal}
+            pFunction={handleMeetingOut}
+            nFunction={() => {
+              setOutModal(false);
+            }}
+          />
         </>
       );
     }
   };
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
+      <SafeStatusBar />
+      <BackButton />
       <View style={styles.header}>
-        <BackButton />
         <Text style={styles.title}>채팅방 설정</Text>
       </View>
       <View style={styles.ul}>{renderByUser()}</View>
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
+    backgroundColor: '#3C3D43',
     flex: 1,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingBottom: 10,
-    borderBottomColor: 'black',
-    borderBottomWidth: 1,
+    paddingHorizontal: 15,
   },
   title: {
-    fontSize: 18,
-    fontWeight: '700',
-    marginLeft: 10,
+    fontWeight: '400',
+    fontSize: 24,
+    marginVertical: 40,
+    color: '#ffffff',
+    fontFamily: 'NeoDunggeunmoPro-Regular',
+    letterSpacing: -0.5,
   },
   ul: {
     marginTop: 10,
@@ -274,14 +293,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 30,
+    paddingHorizontal: 15,
     marginVertical: 15,
   },
   liText: {
     fontSize: 16,
+    color: '#ffffff',
   },
   deleteText: {
-    color: '#f87171',
+    color: '#FF5029',
   },
 });
 

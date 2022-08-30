@@ -83,7 +83,7 @@ function FeedbackSendPage({route}) {
               <Emotion
                 uri={befriend}
                 state="befriend"
-                text="친구가 되고싶어요"
+                text="친구가 되고 싶어요"
                 form={form}
                 setForm={setForm}
               />
@@ -106,7 +106,7 @@ function FeedbackSendPage({route}) {
               <Emotion
                 uri={notgood}
                 state="notgood"
-                text="다시는 안 보고 싶어요"
+                text="다신 안 보고 싶어요"
                 form={form}
                 setForm={setForm}
               />
@@ -240,11 +240,10 @@ function Emotion({uri, text, state, form, setForm}) {
       }}>
       <Image
         source={uri}
-        style={
-          form.emotion === state
-            ? styles.image
-            : {...styles.image, tintColor: '#EAFFEFCC'}
-        }
+        style={[
+          styles.image,
+          form.emotion === state ? null : {tintColor: '#EAFFEFCC'},
+        ]}
       />
       <Text
         style={[
@@ -300,7 +299,7 @@ const styles = StyleSheet.create({
     height: 50,
     width: 50,
     borderRadius: 30,
-    resizeMode: 'center',
+    resizeMode: 'contain',
     overflow: 'visible',
     tintColor: '#58FF7D',
   },

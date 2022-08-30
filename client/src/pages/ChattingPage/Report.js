@@ -1,18 +1,31 @@
 import React from 'react';
-import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
-import BackButton from '../../components/common/BackButton';
+import {SafeAreaView, StatusBar, StyleSheet, Text, View} from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import BasicButton from '../../components/common/BasicButton';
 
-function Report() {
+function Report({navigation}) {
+  const {top} = useSafeAreaInsets();
+
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
+      <StatusBar barStyle="dark-content" />
+      <View style={{backgroundColor: '#ABDCC1', height: top}} />
       <View style={styles.header}>
-        <BackButton />
-        <Text style={styles.title}>신고하기</Text>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.pop()}>
+          <Icon name="arrow-back-ios" size={20} color={'#1D1E1E'} />
+          {/* <Text style={styles.buttonText}>Back</Text> */}
+        </TouchableOpacity>
+        <Text style={styles.title}>고객센터</Text>
       </View>
       <View style={styles.wrapper}>
         <View style={styles.section}>
-          <Text style={styles.bigText}>불편한 점이 있으신가요?</Text>
+          <Text style={styles.bigText}>
+            궁금하시거나 불편한 점이 있으신가요?
+          </Text>
           <Text style={styles.bigText}>
             문의사항에 대해 친절히 답변해 드리겠습니다.
           </Text>
@@ -26,7 +39,7 @@ function Report() {
           width={332}
           height={50}
           textSize={18}
-          backgroundColor="#F2DD1C"
+          backgroundColor="#ffffff"
           textColor="#000000"
           margin={[30, 3, 3, 3]}
           borderRadius={10}
@@ -34,33 +47,35 @@ function Report() {
           border={false}
         />
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
+    backgroundColor: '#ABDCC1',
     flex: 1,
   },
   header: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
     paddingBottom: 10,
-    borderBottomColor: 'black',
-    borderBottomWidth: 1,
+    paddingHorizontal: 15,
   },
   title: {
-    fontSize: 18,
-    fontWeight: '700',
-    marginLeft: 10,
+    fontWeight: '400',
+    fontSize: 24,
+    marginTop: 40,
+    color: '#1D1E1E',
+    fontFamily: 'NeoDunggeunmoPro-Regular',
+    letterSpacing: -0.5,
   },
   wrapper: {
     flexDirection: 'column',
     alignItems: 'center',
     flex: 1,
-    paddingHorizontal: 30,
-    paddingTop: 40,
+    paddingHorizontal: 15,
+    paddingTop: 20,
   },
   section: {
     width: '100%',
@@ -70,9 +85,10 @@ const styles = StyleSheet.create({
   },
   bigText: {
     fontSize: 16,
-    fontWeight: '700',
+    fontWeight: '500',
     textAlign: 'left',
     marginVertical: 2,
+    letterSpacing: -0.5,
   },
   boldText: {
     fontWeight: '700',

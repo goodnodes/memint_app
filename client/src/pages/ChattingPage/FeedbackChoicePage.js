@@ -183,6 +183,7 @@ function Human({person, meetingId, data, userInfo}) {
         justifyContent: 'space-between',
         alignItems: 'center',
         width: '100%',
+        marginBottom: 18,
       }}>
       <View style={{alignItems: 'center', flexDirection: 'row'}}>
         <Image
