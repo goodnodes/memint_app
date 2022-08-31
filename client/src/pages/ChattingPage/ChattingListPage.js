@@ -33,7 +33,6 @@ function ChattingListPage({navigation}) {
         .get();
       console.log({rawUserInfo});
       const userInfo = rawUserInfo.data();
-      console.log({userInfo});
       userInfo.createdroomId && meetingList.push(...userInfo.createdroomId);
       userInfo.joinedroomId && meetingList.push(...userInfo.joinedroomId);
 

@@ -23,7 +23,7 @@ import {signUp} from '../../lib/Auth';
 import {createUser, getUser} from '../../lib/Users';
 import storage from '@react-native-firebase/storage';
 import {getImgUrl} from '../../lib/NFT';
-
+import {useToast} from '../../utils/hooks/useToast';
 import {createWallet} from '../../lib/api/wallet';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 // const reference = storage().ref('/directory/filename.png');
@@ -32,6 +32,7 @@ import SafeStatusBar from '../../components/common/SafeStatusBar';
 
 const SignUpUserInfoScreen = ({navigation, route}) => {
   let {userInfo} = route.params || {};
+  const {showToast} = useToast();
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState(null);
   const [form, setForm] = useState({
@@ -55,7 +56,8 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
         form.birthMonth === '' ||
         form.gender === ''
       ) {
-        Alert.alert('실패', '회원 정보를 올바르게 입력해주세요');
+        // Alert.alert('실패', '회원 정보를 올바르게 입력해주세요');
+        showToast('error', '회원 정보를 올바르게 입력해주세요.');
       } else {
         Keyboard.dismiss();
         setLoading(true);

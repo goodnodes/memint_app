@@ -19,9 +19,11 @@ import TagElement from '../../components/AuthComponents/TagElement';
 import {createProperty} from '../../lib/Users';
 import LinearGradient from 'react-native-linear-gradient';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
+import {useToast} from '../../utils/hooks/useToast';
 
 const SignUpUserDetailScreen = ({navigation, route}) => {
   let {userInfo} = route.params || {};
+  const {showToast} = useToast();
   const [drinkInfo, setDrinkInfo] = useState({
     drinkCapa: '',
     drinkStyle: [],
@@ -29,12 +31,14 @@ const SignUpUserDetailScreen = ({navigation, route}) => {
   });
 
   const goToNextPage = () => {
+    console.log(drinkInfo);
     if (
       drinkInfo.drinkCapa === '' ||
       drinkInfo.drinkStyle.length === 0 ||
       drinkInfo.alcoholType.length === 0
     ) {
-      Alert.alert('실패', '회원 정보를 올바르게 입력해주세요');
+      // Alert.alert('실패', '회원 정보를 올바르게 입력해주세요');
+      showToast('error', '회원 정보를 올바르게 입력해주세요.');
     } else {
       userInfo = {
         ...userInfo,

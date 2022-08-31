@@ -21,8 +21,11 @@ import memintLogo from '../../assets/icons/logo.png';
 import {createPhoneNumber, getUserByPhoneNumber} from '../../lib/Users';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
+import {useToast} from '../../utils/hooks/useToast';
+
 const VerifyMobileScreen = ({navigation, route}) => {
   let {userInfo} = route.params || {};
+  const {showToast} = useToast();
   const [buttonReady, setButtonReady] = useState(false);
   const [validNumber, setValidNumber] = useState(
     '11자리 숫자 전화번호를 입력해주세요',
@@ -78,7 +81,8 @@ const VerifyMobileScreen = ({navigation, route}) => {
         'auth/too-many-requests': `인증 번호 요청을 너무 많이했습니다. ${'\n'} 잠시 후 다시 시도해주세요.`,
       };
       const msg = messages[e.code];
-      Alert.alert('실패', msg);
+      // Alert.alert('실패', msg);
+      showToast('error', msg);
       console.log(e);
     }
   }

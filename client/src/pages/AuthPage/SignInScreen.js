@@ -30,9 +30,11 @@ import GradientButton from '../../components/common/GradientButton';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 import LinearGradient from 'react-native-linear-gradient';
 import memintDino from '../../assets/icons/memintDino.png';
+import {useToast} from '../../utils/hooks/useToast';
 
 const SignInScreen = ({navigation, route}) => {
   const userInfo = useUser();
+  const {showToast} = useToast();
 
   const {saveInfo} = useAuthActions();
   const {saveNFT, setNftProfile, setMemin} = useNftActions();
@@ -96,7 +98,7 @@ const SignInScreen = ({navigation, route}) => {
       }),
         navigation.navigate('Main');
     } catch (e) {
-      Alert.alert('실패');
+      showToast('error', '로그인 실패');
       console.log(e);
     } finally {
       setLoading(false);

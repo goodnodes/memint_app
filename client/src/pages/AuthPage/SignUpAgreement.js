@@ -24,6 +24,7 @@ import {getNFTs, getProfile, getMemin} from '../../lib/NFT';
 import useNftActions from '../../utils/hooks/UseNftActions';
 import useAuthActions from '../../utils/hooks/UseAuthActions';
 import useUser from '../../utils/hooks/UseUser';
+import {useToast} from '../../utils/hooks/useToast';
 
 const SignUpAgreementScreen = ({navigation, route}) => {
   let {userInfo} = route.params || {};
@@ -38,10 +39,11 @@ const SignUpAgreementScreen = ({navigation, route}) => {
     all: '',
   });
   const [loading, setLoading] = useState();
-
+  const {showToast} = useToast();
   const onSubmitSignUp = async () => {
     if (!(serviceCheck && ageCheck && useCheck)) {
-      Alert.alert('실패', '약관에 동의해주세요');
+      // Alert.alert('실패', '약관에 동의해주세요');
+      showToast('error', '약관에 동의해주세요');
     } else {
       try {
         setLoading(true);

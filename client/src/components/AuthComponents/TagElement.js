@@ -14,7 +14,7 @@ function TagElement({tag, drinkInfo, setDrinkInfo, type}) {
       } else if (type === 'drinkStyle') {
         setDrinkInfo({
           ...drinkInfo,
-          alcoholType: drinkInfo.drinkStyle.filter(el => el !== tag),
+          drinkStyle: drinkInfo.drinkStyle.filter(el => el !== tag),
         });
       }
     } else {
