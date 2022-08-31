@@ -27,6 +27,9 @@ function MySettings({route}) {
   const handleDeletePage = () => {
     navigation.navigate('DeleteUser', route.params);
   };
+  const handleChangePw = () => {
+    navigation.navigate('ChangePw', route.params);
+  };
   const [pushAgree, setPushAgree] = useState(false);
   const [mailAgree, setMailAgree] = useState(false);
   const [smsAgree, setSMSAgree] = useState(false);
@@ -54,7 +57,7 @@ function MySettings({route}) {
         <Text style={styles.liText}>이메일</Text>
         <Text style={styles.liGrayText}>{route.params.email}</Text>
       </View>
-      <TouchableOpacity style={styles.li}>
+      <TouchableOpacity style={styles.li} onPress={handleChangePw}>
         <Text style={styles.liText}>비밀번호 변경</Text>
         <Icon name="arrow-forward-ios" size={20} />
       </TouchableOpacity>

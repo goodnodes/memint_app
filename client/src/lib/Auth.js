@@ -35,12 +35,30 @@ export function checkUniqueEmail(emailAddress) {
 
 export function deleteUserAuth() {
   const user = auth().currentUser;
+  user.delete();
+}
+
+export async function reauthenticate(userProvidedPassword) {
+  const user = auth().currentUser;
+  const credential = auth.EmailAuthProvider.credential(
+    user.email,
+    userProvidedPassword,
+  );
+  try {
+    return await user.reauthenticateWithCredential(credential);
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+export function setNewPassword(newPw) {
+  const user = auth().currentUser;
   user
-    .delete()
+    .updatePassword(newPw)
     .then(() => {
-      console.log('User deleted.');
+      console.log('Password changed');
     })
-    .catch(error => {
-      console.log('An error ocurred');
+    .catch(e => {
+      console.log(e);
     });
 }

@@ -52,6 +52,7 @@ import MySettings from './pages/MyPage/MySettings';
 import CsCenter from './pages/MyPage/CsCenter';
 import DeleteUser from './pages/MyPage/DeleteUser';
 import EditMyInfo from './pages/MyPage/EditMyInfo';
+import ChangePw from './pages/MyPage/ChangePw';
 
 const Stack = createNativeStackNavigator();
 const store = createStore(rootReducer);
@@ -408,6 +409,11 @@ function App() {
               <Stack.Screen
                 name="EditMyInfo"
                 component={EditMyInfo}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="ChangePw"
+                component={ChangePw}
                 options={{headerShown: false}}
               />
             </Stack.Navigator>
