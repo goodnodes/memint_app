@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {TouchableOpacity, Text, StyleSheet, View} from 'react-native';
 
-function TagElement({tag, drinkInfo, setDrinkInfo, type}) {
+function TagElement({tag, drinkInfo, setDrinkInfo, type, wholeInfo}) {
   const [colored, setColored] = useState(
     drinkInfo.indexOf(tag) !== -1 ? true : false,
   );
@@ -9,28 +9,29 @@ function TagElement({tag, drinkInfo, setDrinkInfo, type}) {
     if (colored) {
       setColored(false);
       if (type === 'alcoholType') {
+        console.log(drinkInfo);
         setDrinkInfo({
-          ...drinkInfo,
-          alcoholType: drinkInfo.alcoholType.filter(el => el !== tag),
+          ...wholeInfo,
+          alcoholType: drinkInfo.filter(el => el !== tag),
         });
-      } else if (type === 'drinkStyle') {
+      } else {
         setDrinkInfo({
-          ...drinkInfo,
-          alcoholType: drinkInfo.drinkStyle.filter(el => el !== tag),
+          ...wholeInfo,
+          drinkStyle: drinkInfo.filter(el => el !== tag),
         });
       }
     } else {
       setColored(true);
       if (type === 'alcoholType') {
-        const alcoholType = [...drinkInfo.alcoholType, tag];
+        const alcoholType = [...drinkInfo, tag];
         setDrinkInfo({
-          ...drinkInfo,
+          ...wholeInfo,
           alcoholType: alcoholType,
         });
       } else if (type === 'drinkStyle') {
-        const drinkStyle = [...drinkInfo.drinkStyle, tag];
+        const drinkStyle = [...drinkInfo, tag];
         setDrinkInfo({
-          ...drinkInfo,
+          ...wholeInfo,
           drinkStyle: drinkStyle,
         });
       }

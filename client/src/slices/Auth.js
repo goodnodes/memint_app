@@ -32,6 +32,11 @@ const authSlice = createSlice({
     decreaseBy(state, action) {
       state.user.tokenAmount -= action.payload;
     },
+    editUserInfo(state, action) {
+      state.user.property = action.payload.property;
+      state.user.picture = action.payload.picture;
+      state.user.selfIntroduction = action.payload.selfIntroduction;
+    },
   },
 });
 
@@ -43,4 +48,5 @@ export const {
   logout,
   increaseBy,
   decreaseBy,
+  editUserInfo,
 } = authSlice.actions;

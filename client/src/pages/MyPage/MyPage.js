@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -18,6 +18,9 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 function MyPage({navigation}) {
   const user = useUser();
   const {top} = useSafeAreaInsets();
+  useEffect(() => {
+    console.log(user);
+  }, []);
 
   return (
     <View style={styles.view}>

@@ -209,3 +209,16 @@ export const deleteTokenFromDatabase = async (token, userId) => {
 export function deleteUserDB(userId) {
   usersCollection.doc(userId).delete();
 }
+
+export const EditUserInfo = async (
+  userId,
+  profileImg,
+  drinkInfo,
+  selfIntroduction,
+) => {
+  await usersCollection.doc(userId).update({
+    picture: profileImg,
+    property: drinkInfo,
+    selfIntroduction,
+  });
+};

@@ -77,7 +77,7 @@ function MyProfile({User, navigation}) {
         />
         <TouchableOpacity
           onPress={() => {
-            navigation.push('EditMyInfo', User);
+            navigation.push('EditMyInfo', User, navigation);
           }}>
           <Icon
             name="edit"
@@ -91,6 +91,7 @@ function MyProfile({User, navigation}) {
       <View style={styles.userInfos}>
         <Text style={styles.userNickName}>Lv.3 {User.nickName}</Text>
         <Text style={styles.userBirth}>{User.birth}</Text>
+        <Text style={styles.userBirth}>{User.selfIntroduction}</Text>
       </View>
       <View style={styles.userTags}>
         <Text style={styles.plainText}>{User.nickName}님의 미팅 스타일은?</Text>
