@@ -24,12 +24,16 @@ import LinearGradient from 'react-native-linear-gradient';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 import Sauropod from '../../assets/icons/Sauropod.png';
 import DoubleModal from '../../components/common/DoubleModal';
+import useUser from '../../utils/hooks/UseUser';
+import ActivationModal from '../../components/common/ActivationModal';
 
 function MeetingMarket({navigation}) {
+  const userState = useUser();
   const [meetings, setMeetings] = useState([]);
   const [filteredMeetings, setFilteredMeetings] = useState([]);
   const [shownMeetings, setShownMeetings] = useState([]);
   const [confirmModalVisible, setConfirmModalVisible] = useState(false);
+  const [activationModalVisible, setActivationModalVisible] = useState(false);
   const [sortSelect, setSortSelect] = useState(undefined);
   const [filterModalVisible, setFilterModalVisible] = useState(false);
   const [filter, setFilter] = useState({
@@ -50,7 +54,13 @@ function MeetingMarket({navigation}) {
     setFilteredMeetings(handleFilter(meetings));
     handleSort();
   }, [handleFilter, meetings, filter, handleSort, sortSelect]);
-
+  const handleCreateMeeting = async () => {
+    if (userState.isActivated) {
+      setConfirmModalVisible(true);
+    } else {
+      setActivationModalVisible(true);
+    }
+  };
   const getMeetingMarket = useCallback(async () => {
     try {
       const res = await getMeetings();
@@ -221,9 +231,7 @@ function MeetingMarket({navigation}) {
           <View style={styles.areaEnd}>
             <TouchableOpacity
               style={styles.createButton}
-              onPress={() => {
-                setConfirmModalVisible(true);
-              }}>
+              onPress={handleCreateMeeting}>
               <Text style={styles.createButtonText}>미팅 생성</Text>
               <Icon name="add" size={16} color={'#58FF7D'} />
             </TouchableOpacity>
@@ -317,6 +325,14 @@ function MeetingMarket({navigation}) {
             nFunction={() => {
               setConfirmModalVisible(!confirmModalVisible);
             }}
+          />
+          <ActivationModal
+            text="Activation Code가 필요합니다."
+            //body={<Text>정말로?</Text>}
+            buttonText="인증하기"
+            modalVisible={activationModalVisible}
+            setModalVisible={setActivationModalVisible}
+            setNextModalVisible={setConfirmModalVisible}
           />
         </ScrollView>
         <WalletButton />

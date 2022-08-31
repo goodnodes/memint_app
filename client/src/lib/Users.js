@@ -47,6 +47,7 @@ export function createUser({
       alcoholType: alcoholType,
     },
     marketingAgreement: marketingAgreement,
+    isActivated: false,
   });
 }
 
@@ -104,6 +105,11 @@ export function createUserNFT({userId, nftProfile, nftId}) {
 export function updateTokenAmount(userId, balance) {
   return usersCollection.doc(userId).update({
     tokenAmount: balance,
+  });
+}
+export function updateActivation(userId, valid) {
+  return usersCollection.doc(userId).update({
+    isActivated: valid,
   });
 }
 

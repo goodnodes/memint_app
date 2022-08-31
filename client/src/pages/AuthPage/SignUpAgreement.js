@@ -132,6 +132,7 @@ const SignUpAgreementScreen = ({navigation, route}) => {
           visibleUser: userDetail.visibleUser,
           likesroomId: userDetail.likesroomId,
           marketingAgreement: marketingCheck,
+          isActivated: userDetail.isActivated,
         }),
           navigation.navigate('Main');
       } catch (e) {
