@@ -36,41 +36,44 @@ function ChatText({data, roomInfo, userDetail, setRoomInfo}) {
   };
 
   useEffect(() => {
-    const getContent = async () => {
-      chatRef.orderBy('createdAt').onSnapshot(result => {
-        if (result.docs.length === 0) {
-          return;
-        } else if (
-          result.docChanges()[result.docChanges().length - 1].doc._data
-            .createdAt
-        ) {
-          const data = result.docs.map(el => {
-            return el.data();
-          });
-          setChattings(data);
-        }
-      });
-    };
+    // legacy;
     // const getContent = async () => {
-    //   chatRef.orderBy('createdAt').onSnapshot(async result => {
+    //   chatRef.orderBy('createdAt').onSnapshot(result => {
     //     if (result.docs.length === 0) {
     //       return;
     //     } else if (
     //       result.docChanges()[result.docChanges().length - 1].doc._data
     //         .createdAt
     //     ) {
-    //       const a = result.docs.map(el => el.data());
-    //       const id = data.id;
-
-    //       const stringify = JSON.stringify(a);
-    //       console.log(stringify);
-    //       await AsyncStorage.setItem(id, stringify).then(async () => {
-    //         const data = await AsyncStorage.getItem(id);
-    //         setChattings(JSON.parse(data));
+    //       const data = result.docs.map(el => {
+    //         return el.data();
     //       });
+    //       setChattings(data);
     //     }
     //   });
     // };
+
+    // new
+    const getContent = async () => {
+      chatRef.orderBy('createdAt').onSnapshot(async result => {
+        if (result.docs.length === 0) {
+          return;
+        } else if (
+          result.docChanges()[result.docChanges().length - 1].doc._data
+            .createdAt
+        ) {
+          const a = result.docs.map(el => el.data());
+          const id = data.id;
+
+          const stringify = JSON.stringify(a);
+          // console.log(stringify);
+          await AsyncStorage.setItem(id, stringify).then(async () => {
+            const data = await AsyncStorage.getItem(id);
+            setChattings(JSON.parse(data));
+          });
+        }
+      });
+    };
     getContent();
   }, [chatRef]);
 
@@ -126,8 +129,10 @@ function ChatText({data, roomInfo, userDetail, setRoomInfo}) {
 }
 
 function NotMyChat({item, userDetail, setUserInfoModalVisible, setUserId}) {
+  const [date, setDate] = useState();
   useEffect(() => {
-    console.log(item);
+    const date = new Date(item.createdAt.seconds * 1000).toLocaleString();
+    setDate(date);
   }, []);
   return (
     <View style={styles.messageWrapper}>
@@ -176,10 +181,7 @@ function NotMyChat({item, userDetail, setUserInfoModalVisible, setUserId}) {
                 color: '#ffffff',
                 letterSpacing: -0.5,
               }}>
-              {/* {item.createdAt
-                .toDate()
-                .toLocaleString()
-                .slice(6, item.createdAt.toDate().toLocaleString().length - 3)} */}
+              {date && date.slice(6, date.length - 3)}
             </Text>
           </View>
         </View>
@@ -189,6 +191,11 @@ function NotMyChat({item, userDetail, setUserInfoModalVisible, setUserId}) {
 }
 
 function MyChat({item}) {
+  const [date, setDate] = useState();
+  useEffect(() => {
+    const date = new Date(item.createdAt.seconds * 1000).toLocaleString();
+    setDate(date);
+  }, []);
   return (
     <View style={{...styles.MymessageWrapper, paddingTop: 10}}>
       <View style={[styles.textWrapper, {alignItems: 'flex-end'}]}>
@@ -205,6 +212,7 @@ function MyChat({item}) {
                 .toDate()
                 .toLocaleString()
                 .slice(6, item.createdAt.toDate().toLocaleString().length - 3)} */}
+              {date && date.slice(6, date.length - 3)}
             </Text>
           </View>
           <View
