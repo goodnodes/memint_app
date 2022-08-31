@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   Pressable,
   Keyboard,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import ChatText from '../../components/chattingComponents/chatText';
 import RoomHeader from '../../components/chattingComponents/roomHeader';
@@ -145,18 +146,13 @@ function ChattingRoom({route}) {
             setModalVisible={setModalVisible}
             data={route.params.data}
           />
-          <Pressable
-            style={{flex: 1}}
-            onPress={() => {
-              Keyboard.dismiss();
-              setRoomInfo(false);
-            }}>
-            <ChatText
-              data={route.params.data}
-              roomINfo={roomInfo}
-              userDetail={userDetail}
-            />
-          </Pressable>
+
+          <ChatText
+            data={route.params.data}
+            roomInfo={roomInfo}
+            setRoomInfo={setRoomInfo}
+            userDetail={userDetail}
+          />
 
           {roomInfoExist ? (
             <Animated.View

@@ -6,6 +6,7 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
+  Pressable,
 } from 'react-native';
 import AddChat from './addChat';
 import firestore from '@react-native-firebase/firestore';
@@ -14,7 +15,7 @@ import UserInfoModal from '../common/UserInfoModal';
 import person from '../../assets/icons/person.png';
 import AsyncStorage from '@react-native-community/async-storage';
 
-function ChatText({data, roomInfo, userDetail}) {
+function ChatText({data, roomInfo, userDetail, setRoomInfo}) {
   const [chattings, setChattings] = useState('');
   const [userInfoModalVisible, setUserInfoModalVisible] = useState(false);
   const [userId, setUserId] = useState('');
@@ -74,7 +75,7 @@ function ChatText({data, roomInfo, userDetail}) {
   }, [chatRef]);
 
   return (
-    <View style={roomInfo ? {flex: 1, opacity: 0.8} : {flex: 1}}>
+    <View style={{flex: 1, position: 'relative'}}>
       <FlatList
         // horizontal={true}
         // 플랫리스트에서 하단부터 렌더링을 해주는 설정
@@ -108,6 +109,18 @@ function ChatText({data, roomInfo, userDetail}) {
         visible={checkIsVisible(userId)}
       />
       <AddChat chatId={data.id} />
+      {roomInfo && (
+        <Pressable
+          style={{
+            position: 'absolute',
+            height: '100%',
+            width: '100%',
+          }}
+          onPress={() => {
+            setRoomInfo(false);
+          }}
+        />
+      )}
     </View>
   );
 }
