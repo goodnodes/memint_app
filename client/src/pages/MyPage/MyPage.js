@@ -18,9 +18,9 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 function MyPage({navigation}) {
   const user = useUser();
   const {top} = useSafeAreaInsets();
-  useEffect(() => {
-    console.log(user);
-  }, []);
+  // useEffect(() => {
+  //   console.log(user);
+  // }, []);
 
   return (
     <View style={styles.view}>
