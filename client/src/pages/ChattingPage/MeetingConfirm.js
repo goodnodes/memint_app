@@ -122,6 +122,7 @@ function MeetingConfirm({route}) {
     await updateMeeting(meetingInfo.id, {
       confirmImage: photoURL,
       confirmStatus: 'pending',
+      confirmCreatedAt: firestore.FieldValue.serverTimestamp(),
     });
     await createConfirmAlarm({sender: userInfo.id, meetingId: meetingInfo.id});
 

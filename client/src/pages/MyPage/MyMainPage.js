@@ -75,64 +75,64 @@ function MyMainPage({navigation}) {
             setTabActive(false);
           }
         }}>
-        <View style={styles.flex}>
-          <ScrollView
-            style={styles.myCharacterView}
-            contentContainerStyle={styles.paddingBottom}>
-            <View style={styles.header}>
-              <TouchableOpacity onPress={handleNavigate}>
-                <Image
-                  source={{uri: userInfo?.picture}}
-                  style={styles.pictureImage}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={handleMyEgg}>
-                <Image source={dinoegg} style={styles.bigEggImage} />
-              </TouchableOpacity>
-              <MyEggModal
-                buttonText="네"
-                modalVisible={modalVisible}
-                setModalVisible={setModalVisible}
+        <ScrollView
+          style={styles.myCharacterView}
+          contentContainerStyle={styles.paddingBottom}>
+          <View style={styles.header}>
+            <TouchableOpacity onPress={handleNavigate}>
+              <Image
+                source={{uri: userInfo?.picture}}
+                style={styles.pictureImage}
               />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleMyEgg}>
+              <Image source={dinoegg} style={styles.bigEggImage} />
+            </TouchableOpacity>
+            <MyEggModal
+              buttonText="네"
+              modalVisible={modalVisible}
+              setModalVisible={setModalVisible}
+            />
+          </View>
+          <View style={styles.character}>
+            <View style={styles.characterWrap}>
+              <Progress.Circle
+                size={240}
+                progress={0.2}
+                color={'#2ACFC2'}
+                unfilledColor={'#ffffff'}
+                borderWidth={0}
+                thickness={6}
+                // radius={2}
+              />
+              <Image source={dummyDino} style={styles.characterImage} />
             </View>
-            <View style={styles.character}>
-              <View style={styles.characterWrap}>
-                <Progress.Circle
-                  size={240}
-                  progress={0.2}
-                  color={'#2ACFC2'}
-                  unfilledColor={'#ffffff'}
-                  borderWidth={0}
-                  thickness={6}
-                  // radius={2}
-                />
-                <Image source={dummyDino} style={styles.characterImage} />
-              </View>
-              <Text style={styles.nickName}>Lv.3 {userInfo?.nickName}</Text>
-              <View style={styles.characterDes}>
-                <Image source={likesActive} style={styles.footImage} />
-                <Text style={styles.characterText}>티라노 80 / 100 A</Text>
-              </View>
-              <View style={styles.characterStatus}>
-                <View style={styles.status}>
-                  <Image source={eggS} style={styles.eggImage} />
-                  {/* <View style={styles.statusBackground}>
+            <Text style={styles.nickName}>Lv.3 {userInfo?.nickName}</Text>
+            <View style={styles.characterDes}>
+              <Image source={likesActive} style={styles.footImage} />
+              <Text style={styles.characterText}>티라노 80 / 100 A</Text>
+            </View>
+            <View style={styles.characterStatus}>
+              <View style={styles.status}>
+                <Image source={eggS} style={styles.eggImage} />
+                {/* <View style={styles.statusBackground}>
                 <View style={styles.statusBar}>
                   <Text style={styles.statusText}>72.8 / 100</Text>
                 </View>
               </View> */}
-                  <Progress.Bar
-                    width={310}
-                    height={18}
-                    progress={0.72}
-                    color={'#2ACFC2'}
-                    unfilledColor={'#EDEEF6'}>
-                    <Text style={styles.statusText}>72.8 / 100</Text>
-                  </Progress.Bar>
-                </View>
-                <View style={styles.status}>
-                  <Image source={eggD} style={styles.eggImage} />
-                  {/* <View style={styles.statusBackground}>
+                <Progress.Bar
+                  width={310}
+                  height={18}
+                  progress={0.72}
+                  color={'#2ACFC2'}
+                  unfilledColor={'#EDEEF6'}
+                  style={styles.progressBar}>
+                  <Text style={styles.statusText}>72.8 / 100</Text>
+                </Progress.Bar>
+              </View>
+              <View style={styles.status}>
+                <Image source={eggD} style={styles.eggImage} />
+                {/* <View style={styles.statusBackground}>
                 <View
                   style={[
                     styles.statusBar,
@@ -147,20 +147,21 @@ function MyMainPage({navigation}) {
                   </Text>
                 </View>
               </View> */}
-                  <Progress.Bar
-                    width={310}
-                    height={18}
-                    progress={0.51}
-                    color={'#4E00F5'}
-                    unfilledColor={'#EDEEF6'}>
-                    <Text style={[styles.statusText, {color: '#ffffff'}]}>
-                      {51} / 100
-                    </Text>
-                  </Progress.Bar>
-                </View>
-                <View style={styles.status}>
-                  <Image source={eggB} style={styles.eggImage} />
-                  {/* <View style={styles.statusBackground}>
+                <Progress.Bar
+                  width={310}
+                  height={18}
+                  progress={0.51}
+                  color={'#4E00F5'}
+                  unfilledColor={'#EDEEF6'}
+                  style={styles.progressBar}>
+                  <Text style={[styles.statusText, {color: '#ffffff'}]}>
+                    {51} / 100
+                  </Text>
+                </Progress.Bar>
+              </View>
+              <View style={styles.status}>
+                <Image source={eggB} style={styles.eggImage} />
+                {/* <View style={styles.statusBackground}>
                 <View
                   style={[
                     styles.statusBar,
@@ -173,19 +174,19 @@ function MyMainPage({navigation}) {
                   <Text style={styles.statusText}>68.3 / 100</Text>
                 </View>
               </View> */}
-                  <Progress.Bar
-                    width={310}
-                    height={18}
-                    progress={0.68}
-                    color={'#CFAB2A'}
-                    unfilledColor={'#EDEEF6'}>
-                    <Text style={styles.statusText}>68.3 / 100</Text>
-                  </Progress.Bar>
-                </View>
+                <Progress.Bar
+                  width={310}
+                  height={18}
+                  progress={0.68}
+                  color={'#CFAB2A'}
+                  unfilledColor={'#EDEEF6'}
+                  style={styles.progressBar}>
+                  <Text style={styles.statusText}>68.3 / 100</Text>
+                </Progress.Bar>
               </View>
             </View>
-          </ScrollView>
-        </View>
+          </View>
+        </ScrollView>
       </TouchableWithoutFeedback>
       <Animated.View
         style={[
@@ -339,7 +340,7 @@ const styles = StyleSheet.create({
   eggImage: {
     width: 21.09,
     height: 27,
-    marginRight: 13,
+    marginLeft: 20,
   },
   status: {
     flexDirection: 'row',
@@ -356,6 +357,9 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: '#B9C5D1',
     zIndex: -1,
+  },
+  progressBar: {
+    marginLeft: 8,
   },
   statusBar: {
     width: '72.8%',

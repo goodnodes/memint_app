@@ -242,6 +242,7 @@ function MeetingDetail({route}) {
                 onChangeText={setTextMessage}
                 autoComplete={false}
                 autoCorrect={false}
+                maxLength={200}
               />
             </View>
           }

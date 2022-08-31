@@ -173,6 +173,56 @@ function MeetingCreate({route}) {
     navigation.navigate('InviteFriend');
   };
 
+  const checkTitleByte = text => {
+    const maxByte = 64; //최대 100바이트
+    const text_val = text; //입력한 문자
+    const text_len = text_val.length; //입력한 문자수
+
+    let totalByte = 0;
+    for (let i = 0; i < text_len; i++) {
+      const each_char = text_val.charAt(i);
+      const uni_char = each_char.charCodeAt(0); //유니코드 형식으로 변환
+      if (uni_char.toString().length > 4) {
+        // 한글 : 2Byte
+        totalByte += 2;
+      } else {
+        // 영문,숫자,특수문자 : 1Byte
+        totalByte += 1;
+      }
+    }
+
+    if (totalByte > maxByte) {
+      showToast('error', '최대 길이입니다');
+    } else {
+      setMeetingInfo({...meetingInfo, title: text});
+    }
+  };
+
+  const checkDescByte = text => {
+    const maxByte = 300; //최대 100바이트
+    const text_val = text; //입력한 문자
+    const text_len = text_val.length; //입력한 문자수
+
+    let totalByte = 0;
+    for (let i = 0; i < text_len; i++) {
+      const each_char = text_val.charAt(i);
+      const uni_char = each_char.charCodeAt(0); //유니코드 형식으로 변환
+      if (uni_char.toString().length > 4) {
+        // 한글 : 2Byte
+        totalByte += 2;
+      } else {
+        // 영문,숫자,특수문자 : 1Byte
+        totalByte += 1;
+      }
+    }
+
+    if (totalByte > maxByte) {
+      showToast('error', '최대 길이입니다');
+    } else {
+      setMeetingInfo({...meetingInfo, description: text});
+    }
+  };
+
   return (
     <View style={styles.view}>
       <SafeStatusBar />
@@ -223,11 +273,12 @@ function MeetingCreate({route}) {
             placeholder="제목"
             placeholderTextColor="#EAFFEF"
             onChangeText={text => {
-              setMeetingInfo({...meetingInfo, title: text});
+              checkTitleByte(text);
             }}
             autoComplete={false}
             autoCorrect={false}
-            maxLength={30}
+            value={meetingInfo.title}
+            // maxLength={0}
           />
           <View
             style={[
@@ -241,10 +292,11 @@ function MeetingCreate({route}) {
             placeholderTextColor="#EAFFEF"
             multiline={true}
             onChangeText={text => {
-              setMeetingInfo({...meetingInfo, description: text});
+              checkDescByte(text);
             }}
             autoComplete={false}
             autoCorrect={false}
+            value={meetingInfo.description}
           />
           <View
             style={[
