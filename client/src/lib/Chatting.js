@@ -1,4 +1,5 @@
 import firestore from '@react-native-firebase/firestore';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const meetingCollection = firestore().collection('Meeting');
 
@@ -36,4 +37,14 @@ export const changeMeetingState = async meetingId => {
   return await meetingCollection.doc(meetingId).update({
     status: 'fixed',
   });
+};
+
+export const setItem = async (id, data) => {
+  const stringify = JSON.stringify(data);
+  await AsyncStorage.setItem(id, stringify);
+};
+
+export const getItem = async id => {
+  const result = await AsyncStorage.getItem(id);
+  return JSON.parse(result);
 };

@@ -20,11 +20,12 @@ import ChattingRoomTopTab from '../../components/chattingComponents/ChattingRoom
 import SpendingModal from '../../components/common/UserInfoModal/SpendingModal';
 import firestore from '@react-native-firebase/firestore';
 import {useToast} from '../../utils/hooks/useToast';
-import {changeMeetingState} from '../../lib/Chatting';
+import {changeMeetingState, getItem} from '../../lib/Chatting';
 import useUser from '../../utils/hooks/UseUser';
 import {useNavigation} from '@react-navigation/native';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 import LinearGradient from 'react-native-linear-gradient';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const windowWidth = Dimensions.get('window').width;
 

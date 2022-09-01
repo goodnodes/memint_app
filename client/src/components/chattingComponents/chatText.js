@@ -37,43 +37,43 @@ function ChatText({data, roomInfo, userDetail, setRoomInfo}) {
 
   useEffect(() => {
     // legacy;
-    // const getContent = async () => {
-    //   chatRef.orderBy('createdAt').onSnapshot(result => {
-    //     if (result.docs.length === 0) {
-    //       return;
-    //     } else if (
-    //       result.docChanges()[result.docChanges().length - 1].doc._data
-    //         .createdAt
-    //     ) {
-    //       const data = result.docs.map(el => {
-    //         return el.data();
-    //       });
-    //       setChattings(data);
-    //     }
-    //   });
-    // };
-
-    // new
     const getContent = async () => {
-      chatRef.orderBy('createdAt').onSnapshot(async result => {
+      chatRef.orderBy('createdAt').onSnapshot(result => {
         if (result.docs.length === 0) {
           return;
         } else if (
           result.docChanges()[result.docChanges().length - 1].doc._data
             .createdAt
         ) {
-          const a = result.docs.map(el => el.data());
-          const id = data.id;
-
-          const stringify = JSON.stringify(a);
-          // console.log(stringify);
-          await AsyncStorage.setItem(id, stringify).then(async () => {
-            const data = await AsyncStorage.getItem(id);
-            setChattings(JSON.parse(data));
+          const data = result.docs.map(el => {
+            return el.data();
           });
+          setChattings(data);
         }
       });
     };
+
+    // new
+    // const getContent = async () => {
+    //   chatRef.orderBy('createdAt').onSnapshot(async result => {
+    //     if (result.docs.length === 0) {
+    //       return;
+    //     } else if (
+    //       result.docChanges()[result.docChanges().length - 1].doc._data
+    //         .createdAt
+    //     ) {
+    //       const a = result.docs.map(el => el.data());
+    //       const id = data.id;
+
+    //       const stringify = JSON.stringify(a);
+    //       // console.log(stringify);
+    //       await AsyncStorage.setItem(id, stringify).then(async () => {
+    //         const data = await AsyncStorage.getItem(id);
+    //         setChattings(JSON.parse(data));
+    //       });
+    //     }
+    //   });
+    // };
     getContent();
   }, [chatRef]);
 
