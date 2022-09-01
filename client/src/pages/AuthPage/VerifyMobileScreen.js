@@ -164,7 +164,10 @@ const VerifyMobileScreen = ({navigation, route}) => {
                         3,
                         7,
                       )}-${form.mobileNumber.slice(7, 11)}`,
-                    ).then(setValidNumber('인증번호가 발송되었습니다'))
+                    ).then(() => {
+                      setTextColor('#58FF7D');
+                      setValidNumber('인증번호가 발송되었습니다');
+                    })
                   }
                 />
               </View>

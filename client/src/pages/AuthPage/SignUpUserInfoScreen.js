@@ -53,7 +53,7 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
         form.nickName === '' ||
         form.birthYear === '' ||
         form.birthMonth === '' ||
-        form.birthMonth === '' ||
+        form.birthDay === '' ||
         form.gender === ''
       ) {
         // Alert.alert('실패', '회원 정보를 올바르게 입력해주세요');
@@ -67,7 +67,7 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
           nickName: form.nickName,
           birthYear: form.birthYear,
           birthMonth: form.birthMonth,
-          birthDay: form.birthMonth,
+          birthDay: form.birthDay,
           gender: form.gender,
         };
         // let photoURL = null;
