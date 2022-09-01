@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  Modal,
 } from 'react-native';
 import Clipboard from '@react-native-clipboard/clipboard';
 import WalletAccountElement from '../../components/walletComponents/WalletAccountElement';
@@ -18,8 +19,11 @@ import {useToast} from '../../utils/hooks/useToast';
 import useUser from '../../utils/hooks/UseUser';
 import klayIcon from '../../assets/icons/klaytn-klay-logo.png';
 import lovechainIcon from '../../assets/icons/lovechain.png';
+import BasicButton from '../../components/common/BasicButton';
 const WalletOnchainMain = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [alarmModalVisible, setAlarmModalVisible] = useState(false);
+
   const [transferModalVisible, setTransferModalVisible] = useState(false);
   const [currentTab, setCurrentTab] = useState('account');
   const {showToast} = useToast();
@@ -52,6 +56,11 @@ const WalletOnchainMain = ({navigation}) => {
   const copyToClipboard = text => {
     Clipboard.setString(text);
   };
+
+  useEffect(() => {
+    setAlarmModalVisible(true);
+  }, []);
+
   return (
     <TouchableWithoutFeedback
       onPress={() => {
@@ -177,6 +186,46 @@ const WalletOnchainMain = ({navigation}) => {
             navigation.navigate('WalletLcnTransfer');
           }}
         />
+        {/*알림 모달 */}
+        {alarmModalVisible ? (
+          <View style={styles.centeredView}>
+            <Modal
+              animationType="fade"
+              transparent={true}
+              visible={alarmModalVisible}>
+              <TouchableWithoutFeedback
+                onPress={() => {
+                  setAlarmModalVisible(false);
+                }}>
+                <View style={[styles.centeredView, styles.backgroudDim]}>
+                  <View style={styles.modalView}>
+                    <Text style={styles.modalText}>
+                      MEMINT WALLET 내 모든 거래는 Baobab Test Network 상에서
+                      이루어집니다.
+                      {/* MEMINT 지갑 내 모든 거래는{'\n'}Baobab Test Network 상에서{'\n'}이루어집니다. */}
+                    </Text>
+                    <Text style={styles.subText}>
+                      ※ 실제 가상 자산 거래가 이루어지지 않습니다.
+                    </Text>
+                    <View style={styles.buttonRow}>
+                      <BasicButton
+                        text={'확인'}
+                        textSize={16}
+                        width={120}
+                        height={45}
+                        backgroundColor="#AEFFC1"
+                        textColor="black"
+                        onPress={() => {
+                          setAlarmModalVisible(false);
+                        }}
+                      />
+                    </View>
+                  </View>
+                </View>
+              </TouchableWithoutFeedback>
+            </Modal>
+          </View>
+        ) : null}
       </View>
     </TouchableWithoutFeedback>
   );
@@ -269,6 +318,58 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     textAlign: 'center',
     letterSpacing: -0.5,
+  },
+  centeredView: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    zIndex: -100,
+  },
+  modalView: {
+    width: 330,
+    height: 280,
+    backgroundColor: 'white',
+    borderRadius: 12,
+    padding: 30,
+    paddingTop: 50,
+    paddingBottom: 40,
+    alignItems: 'center',
+    borderColor: '#AEFFC1',
+    borderWidth: 1,
+    zIndex: -1,
+    // shadowColor: '#000',
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2,
+    // },
+    // shadowOpacity: 0.25,
+    // shadowRadius: 4,
+    // elevation: 5,
+  },
+  modalText: {
+    fontWeight: '500',
+    marginBottom: 15,
+    textAlign: 'center',
+    lineHeight: 20,
+    fontSize: 17,
+  },
+  backgroudDim: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  subText: {
+    fontWeight: '500',
+    textAlign: 'center',
+    lineHeight: 20,
+    fontSize: 14,
+    color: '#1D1E1E',
+  },
+  buttonRow: {
+    marginTop: 'auto',
   },
 });
 

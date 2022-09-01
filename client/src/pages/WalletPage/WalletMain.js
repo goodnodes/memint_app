@@ -6,10 +6,12 @@ import WalletOffchainMain from './WalletOffchainMain';
 import WalletOnchainMain from './WalletOnchainMain';
 import {Icon} from 'react-native-vector-icons/MaterialIcons';
 import WalletOffchainRecieve from './WalletOffchainRecieve';
+import SingleModal from '../../components/common/SingleModal';
 // import useAuthActions from '../utils/hooks/UseAuthActions';
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 function WalletMain() {
+  const [modalVisible, setModalVisible] = useState(true);
   // const {updateTokenAmount} = useAuthActions();
   // useEffect(() => {
   //   updateTokenAmount();
@@ -45,6 +47,18 @@ function WalletMain() {
           }}
         />
       </Tab.Navigator>
+      {modalVisible ? (
+        <SingleModal
+          text="MEMINT 지갑 내 모든 거래는 Baobab Network에서 이루어집니다"
+          //body={<Text>정말로?</Text>}
+          buttonText="확인"
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          pFunction={() => {
+            setModalVisible(false);
+          }}
+        />
+      ) : null}
     </>
   );
 }
