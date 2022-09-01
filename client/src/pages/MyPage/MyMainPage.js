@@ -98,7 +98,7 @@ function MyMainPage({navigation}) {
             <View style={styles.characterWrap}>
               <Progress.Circle
                 size={240}
-                progress={0.2}
+                progress={1}
                 color={'#2ACFC2'}
                 unfilledColor={'#ffffff'}
                 borderWidth={0}
@@ -107,7 +107,7 @@ function MyMainPage({navigation}) {
               />
               <Image source={dummyDino} style={styles.characterImage} />
             </View>
-            <Text style={styles.nickName}>Lv.3 {userInfo?.nickName}</Text>
+            <Text style={styles.nickName}>Lv.1 {userInfo?.nickName}</Text>
             <View style={styles.characterDes}>
               <Image source={likesActive} style={styles.footImage} />
               <Text style={styles.characterText}>티라노 80 / 100 A</Text>
@@ -123,11 +123,11 @@ function MyMainPage({navigation}) {
                 <Progress.Bar
                   width={310}
                   height={18}
-                  progress={0.72}
+                  progress={0.5}
                   color={'#2ACFC2'}
                   unfilledColor={'#EDEEF6'}
                   style={styles.progressBar}>
-                  <Text style={styles.statusText}>72.8 / 100</Text>
+                  <Text style={styles.statusText}>50 / 100</Text>
                 </Progress.Bar>
               </View>
               <View style={styles.status}>
@@ -150,12 +150,12 @@ function MyMainPage({navigation}) {
                 <Progress.Bar
                   width={310}
                   height={18}
-                  progress={0.51}
+                  progress={0.5}
                   color={'#4E00F5'}
                   unfilledColor={'#EDEEF6'}
                   style={styles.progressBar}>
                   <Text style={[styles.statusText, {color: '#ffffff'}]}>
-                    {51} / 100
+                    {50} / 100
                   </Text>
                 </Progress.Bar>
               </View>
@@ -177,11 +177,11 @@ function MyMainPage({navigation}) {
                 <Progress.Bar
                   width={310}
                   height={18}
-                  progress={0.68}
+                  progress={0.5}
                   color={'#CFAB2A'}
                   unfilledColor={'#EDEEF6'}
                   style={styles.progressBar}>
-                  <Text style={styles.statusText}>68.3 / 100</Text>
+                  <Text style={styles.statusText}>50 / 100</Text>
                 </Progress.Bar>
               </View>
             </View>

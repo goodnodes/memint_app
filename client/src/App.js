@@ -164,6 +164,7 @@ function App() {
         likesroomId: userDetail.likesroomId,
         marketingAgreement: userDetail.marketingAgreement,
         isActivated: userDetail.isActivated,
+        selfIntroduction: userDetail.selfIntroduction,
       });
     } catch (e) {
       console.log(e);

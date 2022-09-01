@@ -35,14 +35,15 @@ const ChangeProfile = ({profile, setProfile, uid}) => {
     await reference.putFile(asset.uri);
 
     photoURL = res ? await reference.getDownloadURL() : null;
-    try {
-      setProfile(photoURL);
-    } catch (e) {
-      console.log(e);
-    } finally {
-      const existedReference = storage().refFromURL(existImg);
-      await existedReference.delete();
-    }
+    setProfile(photoURL);
+    // try {
+    //   setProfile(photoURL);
+    // } catch (e) {
+    //   console.log(e);
+    // } finally {
+    //   // const existedReference = storage().refFromURL(existImg);
+    //   // await existedReference.delete();
+    // }
   };
   const onLaunchCamera = () => {
     launchCamera(imagePickerOption, onPickImage);

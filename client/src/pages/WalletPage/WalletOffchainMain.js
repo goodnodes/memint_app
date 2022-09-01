@@ -57,8 +57,6 @@ function WalletOffchainMain({navigation}) {
     }
   }, [navigation, logout]);
 
-
-
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" />

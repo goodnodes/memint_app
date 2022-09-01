@@ -46,9 +46,15 @@ function MySettings({route}) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <BackButton />
-        <Text style={styles.title}>설정</Text>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.pop()}>
+          <Icon name="arrow-back-ios" size={20} color={'#1D1E1E'} />
+          {/* <Text style={styles.buttonText}>Back</Text> */}
+        </TouchableOpacity>
       </View>
+      <Text style={styles.title}>설정</Text>
+
       <View style={{...styles.li, paddingVertical: 20}}>
         <Text style={{...styles.liText, fontWeight: 'bold'}}>현재 버전</Text>
         <Text style={styles.liGrayText}>1.0.0</Text>
@@ -114,13 +120,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingBottom: 10,
-    borderBottomColor: 'black',
-    borderBottomWidth: 1,
   },
   title: {
-    fontSize: 18,
-    fontWeight: '700',
-    marginLeft: 10,
+    marginLeft: 15,
+    fontWeight: '400',
+    marginTop: 20,
+    fontSize: 24,
+    color: '#1D1E1E',
+    fontFamily: 'NeoDunggeunmoPro-Regular',
+    letterSpacing: -0.5,
   },
   ul: {
     marginTop: 10,
@@ -129,7 +137,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 30,
+    paddingHorizontal: 15,
     marginVertical: 15,
   },
   liText: {
@@ -142,6 +150,9 @@ const styles = StyleSheet.create({
   deleteText: {
     fontSize: 16,
     color: '#EE3232',
+  },
+  backButton: {
+    marginLeft: 15,
   },
 });
 

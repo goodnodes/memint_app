@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import BackButton from '../../components/common/BackButton';
 import BasicButton from '../../components/common/BasicButton';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
 
 function DeleteUser({route}) {
@@ -23,10 +24,18 @@ function DeleteUser({route}) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <BackButton />
-        <Text style={styles.title}>회원탈퇴</Text>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.pop()}>
+          <Icon name="arrow-back-ios" size={20} color={'#1D1E1E'} />
+          {/* <Text style={styles.buttonText}>Back</Text> */}
+        </TouchableOpacity>
       </View>
       <View style={styles.wrapper}>
+        <View style={styles.titleRow}>
+          <Text style={styles.title}>회원탈퇴</Text>
+        </View>
+
         <View style={styles.section}>
           <Text style={styles.bigText}>{user.nickName}님,</Text>
           <Text style={styles.bigText}>MEMINT를 탈퇴하시겠습니까?</Text>
@@ -58,19 +67,21 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingBottom: 10,
-    borderBottomColor: 'black',
-    borderBottomWidth: 1,
+    // borderBottomColor: 'black',
+    // borderBottomWidth: 1,
   },
   title: {
-    fontSize: 18,
-    fontWeight: '700',
-    marginLeft: 10,
+    fontWeight: '400',
+    fontSize: 24,
+    color: '#1D1E1E',
+    fontFamily: 'NeoDunggeunmoPro-Regular',
+    letterSpacing: -0.5,
   },
   wrapper: {
     flexDirection: 'column',
     alignItems: 'center',
     flex: 1,
-    paddingHorizontal: 30,
+    paddingHorizontal: 15,
     paddingTop: 40,
   },
   section: {
@@ -115,6 +126,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     letterSpacing: -0.01,
+  },
+  backButton: {
+    marginLeft: 15,
+  },
+  titleRow: {
+    width: '100%',
   },
 });
 export default DeleteUser;

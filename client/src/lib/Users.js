@@ -48,6 +48,7 @@ export function createUser({
     },
     marketingAgreement: marketingAgreement,
     isActivated: false,
+    selfIntroduction: '',
   });
 }
 

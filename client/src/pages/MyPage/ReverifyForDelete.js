@@ -10,8 +10,9 @@ import {
   Alert,
   ScrollView,
   TouchableOpacity,
+  StatusBar,
 } from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import BasicButton from '../../components/common/BasicButton';
 import BorderedInput from '../../components/AuthComponents/BorderedInput';
 import BackButton from '../../components/common/BackButton';
@@ -20,6 +21,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 import {useToast} from '../../utils/hooks/useToast';
 import {deleteUserAuth, signIn} from '../../lib/Auth';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import {deleteUserDB, deletePhoneNumber} from '../../lib/Users';
 import DoubleModal from '../../components/common/DoubleModal';
 const ReverifyForDelete = ({navigation, route}) => {
@@ -40,6 +42,8 @@ const ReverifyForDelete = ({navigation, route}) => {
   const [confirmNo, setConfirmNo] = useState(null);
   const [confirmTextColor, setConfirmTextColor] = useState('gray');
   const [confirm, setConfirm] = useState(null);
+  const {top} = useSafeAreaInsets();
+
   const [form, setForm] = useState({
     password: '',
     mobileNumber: '',
@@ -150,8 +154,15 @@ const ReverifyForDelete = ({navigation, route}) => {
       <KeyboardAvoidingView
         style={styles.KeyboardAvoidingView}
         behavior="padding">
-        <SafeStatusBar />
-        <BackButton />
+        <StatusBar barStyle="dark-content" />
+        <View style={{backgroundColor: '#ABDCC1', height: top}} />
+
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.pop()}>
+          <Icon name="arrow-back-ios" size={20} color={'#1D1E1E'} />
+          {/* <Text style={styles.buttonText}>Back</Text> */}
+        </TouchableOpacity>
         <View style={styles.fullscreen}>
           <Text style={styles.title}>본인 인증</Text>
           <Text style={styles.contentText}>
@@ -341,7 +352,7 @@ const ReverifyForDelete = ({navigation, route}) => {
 const styles = StyleSheet.create({
   KeyboardAvoidingView: {
     flex: 1,
-    backgroundColor: '#3C3D43',
+    backgroundColor: '#ABDCC1',
   },
   fullscreen: {
     paddingHorizontal: 15,
@@ -358,7 +369,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginTop: 20,
     marginBottom: 15,
-    color: '#ffffff',
+    color: '#1D1E1E',
     fontFamily: 'NeoDunggeunmoPro-Regular',
     letterSpacing: -0.5,
   },
@@ -376,10 +387,9 @@ const styles = StyleSheet.create({
   },
   contentText: {
     fontSize: 14,
-    color: '#ffffff',
     letterSpacing: -0.5,
     marginBottom: 8,
-
+    color: '#1D1E1E',
     // fontWeight: 'bold',
   },
   contentTextSub: {
@@ -432,6 +442,9 @@ const styles = StyleSheet.create({
   },
   inputWrap: {
     flex: 1,
+  },
+  backButton: {
+    marginLeft: 15,
   },
 });
 

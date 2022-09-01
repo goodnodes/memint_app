@@ -24,7 +24,11 @@ import GradientButton from '../../components/common/GradientButton';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 import {reauthenticate, setNewPassword} from '../../lib/Auth';
 import {useToast} from '../../utils/hooks/useToast';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+
 const ChangePw = ({navigation}) => {
+  const {top} = useSafeAreaInsets();
   const [verified, setVerified] = useState(null);
   const [confirmed, setConfirmed] = useState(null);
   const [verifyTextColor, setVerifyTextColor] = useState('gray');
@@ -76,9 +80,14 @@ const ChangePw = ({navigation}) => {
       <KeyboardAvoidingView
         style={styles.KeyboardAvoidingView}
         behavior={'padding'}>
-        <SafeStatusBar />
+        <View style={{backgroundColor: '#ABDCC1', height: top}} />
 
-        <BackButton />
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.pop()}>
+          <Icon name="arrow-back-ios" size={20} color={'#1D1E1E'} />
+          {/* <Text style={styles.buttonText}>Back</Text> */}
+        </TouchableOpacity>
         <View style={styles.fullscreen}>
           <Text style={styles.title}>비밀번호 변경</Text>
 
@@ -255,6 +264,9 @@ const styles = StyleSheet.create({
     letterSpacing: -0.5,
     // marginBottom: 20,
     // marginRight: 100,
+  },
+  backButton: {
+    marginLeft: 15,
   },
 });
 
