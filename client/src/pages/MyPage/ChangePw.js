@@ -87,7 +87,7 @@ const ChangePw = ({navigation}) => {
               <Text style={styles.infoText}>현재 비밀번호</Text>
               <BorderedInput
                 size="wide"
-                placeholder="현재 비밀번호"
+                placeholder="현재 비밀번호를 입력해주세요"
                 value={form.currentPw}
                 onChangeText={createChangeTextHandler('currentPw')}
                 autoCapitalize="none"

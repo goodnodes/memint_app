@@ -216,6 +216,10 @@ export function deleteUserDB(userId) {
   usersCollection.doc(userId).delete();
 }
 
+export async function deletePhoneNumber(userId) {
+  await usersCollection.doc(userId).update({phoneNumber: null});
+}
+
 export const EditUserInfo = async (
   userId,
   profileImg,

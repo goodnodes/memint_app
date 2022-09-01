@@ -22,6 +22,7 @@ const imagePickerOption = {
 
 const ChangeProfile = ({profile, setProfile, uid}) => {
   const insets = useSafeAreaInsets();
+  const existImg = profile;
   let photoURL = null;
   const onPickImage = async res => {
     if (res.didCancel || !res) {
@@ -34,7 +35,14 @@ const ChangeProfile = ({profile, setProfile, uid}) => {
     await reference.putFile(asset.uri);
 
     photoURL = res ? await reference.getDownloadURL() : null;
-    setProfile(photoURL);
+    try {
+      setProfile(photoURL);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      const existedReference = storage().refFromURL(existImg);
+      await existedReference.delete();
+    }
   };
   const onLaunchCamera = () => {
     launchCamera(imagePickerOption, onPickImage);

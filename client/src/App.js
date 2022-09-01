@@ -53,6 +53,7 @@ import CsCenter from './pages/MyPage/CsCenter';
 import DeleteUser from './pages/MyPage/DeleteUser';
 import EditMyInfo from './pages/MyPage/EditMyInfo';
 import ChangePw from './pages/MyPage/ChangePw';
+import ReverifyForDelete from './pages/MyPage/ReverifyForDelete';
 
 const Stack = createNativeStackNavigator();
 const store = createStore(rootReducer);
@@ -414,6 +415,11 @@ function App() {
               <Stack.Screen
                 name="ChangePw"
                 component={ChangePw}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="ReverifyForDelete"
+                component={ReverifyForDelete}
                 options={{headerShown: false}}
               />
             </Stack.Navigator>

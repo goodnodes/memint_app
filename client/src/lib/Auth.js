@@ -35,7 +35,9 @@ export function checkUniqueEmail(emailAddress) {
 
 export function deleteUserAuth() {
   const user = auth().currentUser;
-  user.delete();
+  user.delete().then(() => {
+    console.log('User Deleted');
+  });
 }
 
 export async function reauthenticate(userProvidedPassword) {
