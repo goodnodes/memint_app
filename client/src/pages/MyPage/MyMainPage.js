@@ -28,6 +28,7 @@ import eggD from '../../assets/icons/eggD.png';
 import eggB from '../../assets/icons/eggB.png';
 import MyEggModal from './MyEggModal';
 import useUser from '../../utils/hooks/UseUser';
+import LinearGradient from 'react-native-linear-gradient';
 import BottomDrawer from '../../components/myPageComponent/BottomDrawer';
 
 const windowHeight = Dimensions.get('window').height;
@@ -70,91 +71,99 @@ function MyMainPage({navigation}) {
       <StatusBar barStyle="dark-content" />
 
       <View style={{backgroundColor: '#82EFC1', height: top}} />
+
       {/* <TouchableWithoutFeedback
         onPress={() => {
           if (tabActive) {
             setTabActive(false);
           }
         }}> */}
-      <ScrollView
-        style={styles.myCharacterView}
-        contentContainerStyle={styles.paddingBottom}>
-        <View style={styles.header}>
-          <TouchableOpacity onPress={handleNavigate}>
-            <Image
-              source={{uri: userInfo?.picture}}
-              style={styles.pictureImage}
+      <LinearGradient
+        colors={['#82EFC1', '#ffffff']}
+        start={{x: 0.5, y: 0.4}}
+        end={{x: 1, y: 1}}
+        style={styles.gradientBackground}>
+        <ScrollView
+          style={styles.myCharacterView}
+          contentContainerStyle={styles.paddingBottom}>
+          <View style={styles.header}>
+            <TouchableOpacity onPress={handleNavigate}>
+              <Image
+                source={{uri: userInfo?.picture}}
+                style={styles.pictureImage}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleMyEgg}>
+              <Image source={dinoegg} style={styles.bigEggImage} />
+            </TouchableOpacity>
+            <MyEggModal
+              buttonText="네"
+              modalVisible={modalVisible}
+              setModalVisible={setModalVisible}
             />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={handleMyEgg}>
-            <Image source={dinoegg} style={styles.bigEggImage} />
-          </TouchableOpacity>
-          <MyEggModal
-            buttonText="네"
-            modalVisible={modalVisible}
-            setModalVisible={setModalVisible}
-          />
-        </View>
-        <View style={styles.character}>
-          <View style={styles.characterWrap}>
-            <Progress.Circle
-              size={240}
-              progress={1}
-              color={'#2ACFC2'}
-              unfilledColor={'#ffffff'}
-              borderWidth={0}
-              thickness={6}
-              // radius={2}
-            />
-            <Image source={dummyDino} style={styles.characterImage} />
           </View>
-          <Text style={styles.nickName}>Lv.1 {userInfo?.nickName}</Text>
-          <View style={styles.characterDes}>
-            <Image source={likesActive} style={styles.footImage} />
-            <Text style={styles.characterText}>티라노 80 / 100 A</Text>
-          </View>
-          <View style={styles.characterStatus}>
-            <View style={styles.status}>
-              <Image source={eggS} style={styles.eggImage} />
-              <Progress.Bar
-                width={310}
-                height={18}
-                progress={0.5}
+          <View style={styles.character}>
+            <View style={styles.characterWrap}>
+              <Progress.Circle
+                size={240}
+                progress={1}
                 color={'#2ACFC2'}
-                unfilledColor={'#EDEEF6'}
-                style={styles.progressBar}>
-                <Text style={styles.statusText}>50 / 100</Text>
-              </Progress.Bar>
+                unfilledColor={'#ffffff'}
+                borderWidth={0}
+                thickness={6}
+                // radius={2}
+              />
+              <Image source={dummyDino} style={styles.characterImage} />
             </View>
-            <View style={styles.status}>
-              <Image source={eggD} style={styles.eggImage} />
-              <Progress.Bar
-                width={310}
-                height={18}
-                progress={0.5}
-                color={'#4E00F5'}
-                unfilledColor={'#EDEEF6'}
-                style={styles.progressBar}>
-                <Text style={[styles.statusText, {color: '#ffffff'}]}>
-                  {50} / 100
-                </Text>
-              </Progress.Bar>
+            <Text style={styles.nickName}>Lv.1 {userInfo?.nickName}</Text>
+            <View style={styles.characterDes}>
+              <Image source={likesActive} style={styles.footImage} />
+              <Text style={styles.characterText}>티라노 80 / 100 A</Text>
             </View>
-            <View style={styles.status}>
-              <Image source={eggB} style={styles.eggImage} />
-              <Progress.Bar
-                width={310}
-                height={18}
-                progress={0.5}
-                color={'#CFAB2A'}
-                unfilledColor={'#EDEEF6'}
-                style={styles.progressBar}>
-                <Text style={styles.statusText}>50 / 100</Text>
-              </Progress.Bar>
+            <View style={styles.characterStatus}>
+              <View style={styles.status}>
+                <Image source={eggS} style={styles.eggImage} />
+                <Progress.Bar
+                  width={310}
+                  height={18}
+                  progress={0.5}
+                  color={'#2ACFC2'}
+                  unfilledColor={'#EDEEF6'}
+                  borderRadius={999}
+                  style={styles.progressBar}>
+                  <Text style={styles.statusText}>50 / 100</Text>
+                </Progress.Bar>
+              </View>
+              <View style={styles.status}>
+                <Image source={eggD} style={styles.eggImage} />
+                <Progress.Bar
+                  width={310}
+                  height={18}
+                  progress={0.5}
+                  color={'#4E00F5'}
+                  unfilledColor={'#EDEEF6'}
+                  borderRadius={999}
+                  style={styles.progressBar}>
+                  <Text style={styles.statusText}>{50} / 100</Text>
+                </Progress.Bar>
+              </View>
+              <View style={styles.status}>
+                <Image source={eggB} style={styles.eggImage} />
+                <Progress.Bar
+                  width={310}
+                  height={18}
+                  progress={0.5}
+                  color={'#CFAB2A'}
+                  unfilledColor={'#EDEEF6'}
+                  borderRadius={999}
+                  style={styles.progressBar}>
+                  <Text style={styles.statusText}>50 / 100</Text>
+                </Progress.Bar>
+              </View>
             </View>
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </LinearGradient>
       {/* </TouchableWithoutFeedback> */}
       <BottomDrawer
         onDrawerStateChange={() => {
@@ -225,6 +234,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '100%',
     paddingVertical: 5,
+  },
+  gradientBackground: {
+    flex: 1,
   },
   character: {
     width: '100%',
@@ -326,12 +338,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   statusText: {
-    color: '#1D1E1E',
-    fontSize: 12,
-    letterSpacing: -0.5,
+    color: '#ffffff',
+    fontSize: 14,
+    letterSpacing: -1.9,
     position: 'absolute',
     left: 10,
-    top: 1.5,
+    top: 2,
+    fontFamily: 'Silkscreen',
   },
   paddingBottom: {
     paddingBottom: 150,

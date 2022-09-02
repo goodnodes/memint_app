@@ -15,9 +15,9 @@ function HistoryButton({onPress, time, balanceChange, balance, content}) {
       <View style={styles.balanceWrapper}>
         <View style={styles.balanceChange}>
           <Text style={styles.balanceChangeText}>{balanceChange} </Text>
-          <Text style={styles.lcnText}> LCN</Text>
+          <Text style={styles.lcnText}> TING</Text>
         </View>
-        <Text style={styles.balanceText}>잔액 {balance} LCN</Text>
+        <Text style={styles.balanceText}>잔액 {balance} TING</Text>
       </View>
     </View>
   );

@@ -246,7 +246,7 @@ function MeetingCreate({route}) {
           </Pressable>
         </View>
         <DoubleModal
-          text="미팅 생성 시 LCN이 차감됩니다.    미팅을 생성하시겠습니까?"
+          text="미팅 생성 시 TING이 차감됩니다.    미팅을 생성하시겠습니까?"
           buttonText="네"
           modalVisible={confirmModalVisible}
           setModalVisible={setConfirmModalVisible}

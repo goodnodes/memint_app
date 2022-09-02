@@ -52,7 +52,7 @@ function WalletCustomModal({
               </TouchableOpacity>
               <TouchableOpacity style={styles.tokenWrapper} onPress={pFunction}>
                 <Image source={tingsymbol} style={styles.icon} />
-                <Text style={styles.contentText}>LCN</Text>
+                <Text style={styles.contentText}>TING</Text>
               </TouchableOpacity>
             </View>
           </View>

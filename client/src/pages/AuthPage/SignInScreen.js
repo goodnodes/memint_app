@@ -17,8 +17,6 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import OauthButton from '../../components/AuthComponents/OauthButton';
 import SignForm from '../../components/AuthComponents/SignForm';
 import SignButtons from '../../components/AuthComponents/SignButtons';
-import memintLogo from '../../assets/icons/memint.png';
-import logo from '../../assets/icons/logo.png';
 import useAuth from '../../utils/hooks/UseAuth';
 import useAuthActions from '../../utils/hooks/UseAuthActions';
 import {signIn} from '../../lib/Auth';
@@ -115,7 +113,7 @@ const SignInScreen = ({navigation, route}) => {
     return (
       <SafeAreaView style={styles.fullscreen}>
         <View style={styles.spinnerWrapper}>
-          <ActivityIndicator size={32} color="#FAC3E9" />
+          <ActivityIndicator size={32} color="#58FF7D" />
         </View>
       </SafeAreaView>
     );

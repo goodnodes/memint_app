@@ -70,14 +70,14 @@ function SpendingModal({
               }}>
               <View style={styles.calcText}>
                 <Text style={{fontWeight: '500', fontSize: 17}}>
-                  현재 보유 LCN
+                  현재 보유 TING
                 </Text>
                 <Text style={{fontWeight: '500', fontSize: 17}}>
                   {user.tokenAmount}
                 </Text>
               </View>
               <View style={styles.calcText}>
-                <Text style={{fontWeight: '500', fontSize: 17}}>필요 LCN</Text>
+                <Text style={{fontWeight: '500', fontSize: 17}}>필요 TING</Text>
                 <Text style={{fontWeight: '500', fontSize: 17}}>
                   {amount}개
                 </Text>
@@ -86,7 +86,7 @@ function SpendingModal({
                 user.tokenAmount > amount ? (
                   <View style={styles.calcText}>
                     <Text style={{fontWeight: '500', fontSize: 17}}>
-                      차감 후 LCN
+                      차감 후 TING
                     </Text>
                     <Text style={{fontWeight: '500', fontSize: 17}}>
                       {user.tokenAmount - amount}개

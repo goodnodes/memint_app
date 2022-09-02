@@ -18,11 +18,11 @@ import BackButton from '../../components/common/BackButton';
 import BasicButton from '../../components/common/BasicButton';
 import DoubleModal from '../../components/common/DoubleModal';
 import {useToast} from '../../utils/hooks/useToast';
-import lcnIcon from '../../assets/icons/lovechain.png';
 import {transferLCN} from '../../lib/api/wallet';
 import {getUser} from '../../lib/Users';
 import useUser from '../../utils/hooks/UseUser';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import tingsymbol from '../../assets/icons/tingsymbol.png';
 import useAuthActions from '../../utils/hooks/UseAuthActions';
 import {getOnchainTokenLog} from '../../lib/OnchainTokenLog';
 import useOnchainActions from '../../utils/hooks/UseOnchainActions';
@@ -78,7 +78,7 @@ const WalletLcnTransfer = () => {
           <ScrollView style={styles.container}>
             <Text style={styles.transferText}>Transfer</Text>
             <View style={styles.imageContainer}>
-              <Image source={lcnIcon} style={styles.icon} />
+              <Image source={tingsymbol} style={styles.icon} />
             </View>
             <Text style={styles.text}>To Address</Text>
             <TextInput
@@ -92,7 +92,7 @@ const WalletLcnTransfer = () => {
               style={styles.input}
               value={form.amount}
               onChangeText={createChangeTextHandler('amount')}
-              placeholder="LCN"
+              placeholder="TING"
               keyboardType="numeric"
               // returnKeyType={'done'}
               onPress={onSubmit}
@@ -123,7 +123,7 @@ const WalletLcnTransfer = () => {
               pFunction={() => {
                 sendLCN().then(result => {
                   if (result.data.message === 'success') {
-                    showToast('success', 'LCN 전송이 완료되었습니다!');
+                    showToast('success', 'TING 전송이 완료되었습니다!');
                     getUser(userInfo.id).then(userDetail => {
                       updateTokenInfo({
                         tokenAmount: Number(userDetail.tokenAmount),

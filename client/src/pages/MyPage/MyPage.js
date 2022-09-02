@@ -13,6 +13,7 @@ import MyProfile from '../../components/myPageComponent/MyProfle';
 import useUser from '../../utils/hooks/UseUser';
 import WalletButton from '../../components/common/WalletButton';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import LinearGradient from 'react-native-linear-gradient';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 function MyPage({navigation}) {
@@ -27,28 +28,34 @@ function MyPage({navigation}) {
       <StatusBar barStyle="dark-content" />
 
       <View style={{backgroundColor: '#82EFC1', height: top}} />
-      <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => navigation.pop()}>
-          <Icon name="arrow-back-ios" size={20} color={'#1D1E1E'} />
-          {/* <Text style={styles.buttonText}>Back</Text> */}
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('MySettings', user);
-          }}>
-          <Icon
-            name="menu"
-            size={25}
-            color="#1D1E1E"
-            style={{marginRight: 10}}
-          />
-        </TouchableOpacity>
-      </View>
-      {/* 유저 프로필 */}
-      <MyProfile User={user} navigation={navigation} />
-      <WalletButton />
+      <LinearGradient
+        colors={['#82EFC1', '#ffffff']}
+        start={{x: 0.5, y: 0.3}}
+        end={{x: 1, y: 1}}
+        style={styles.gradientBackground}>
+        <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => navigation.pop()}>
+            <Icon name="arrow-back-ios" size={20} color={'#1D1E1E'} />
+            {/* <Text style={styles.buttonText}>Back</Text> */}
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('MySettings', user);
+            }}>
+            <Icon
+              name="menu"
+              size={25}
+              color="#1D1E1E"
+              style={{marginRight: 10}}
+            />
+          </TouchableOpacity>
+        </View>
+        {/* 유저 프로필 */}
+        <MyProfile User={user} navigation={navigation} />
+        <WalletButton />
+      </LinearGradient>
     </View>
   );
 }
@@ -62,6 +69,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingVertical: 5,
+  },
+  gradientBackground: {
+    flex: 1,
   },
   backButton: {
     paddingLeft: 15,

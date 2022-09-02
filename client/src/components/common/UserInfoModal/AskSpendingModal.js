@@ -33,7 +33,7 @@ function AskSpendingModal({
             <View style={{alignItems: 'center'}}>
               <Text style={{fontSize: 18, fontWeight: '500'}}>프로필 사진을 확인하시겠어요?</Text>
               <Text style={{fontWeight: '600', margin: 10, fontSize: 16}}>
-                1LCN이 소모됩니다.
+                1TING이 소모됩니다.
               </Text>
             </View>
             <View style={styles.buttonRow}>

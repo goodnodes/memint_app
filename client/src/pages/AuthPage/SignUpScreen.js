@@ -101,7 +101,7 @@ const SignUpScreen = ({navigation}) => {
     return (
       <View style={styles.loading}>
         <View style={styles.spinnerWrapper}>
-          <ActivityIndicator size={32} color="#FAC3E9" />
+          <ActivityIndicator size={32} color="#58FF7D" />
         </View>
       </View>
     );

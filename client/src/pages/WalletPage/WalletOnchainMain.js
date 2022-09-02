@@ -18,7 +18,7 @@ import WalletCustomModal from '../../components/walletComponents/WalletCustomMod
 import {useToast} from '../../utils/hooks/useToast';
 import useUser from '../../utils/hooks/UseUser';
 import klayIcon from '../../assets/icons/klaytn-klay-logo.png';
-import lovechainIcon from '../../assets/icons/lovechain.png';
+import tingsymbol from '../../assets/icons/tingsymbol.png';
 import BasicButton from '../../components/common/BasicButton';
 const WalletOnchainMain = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -42,7 +42,7 @@ const WalletOnchainMain = ({navigation}) => {
     currentTab === 'KLAY'
       ? klayIcon
       : currentTab === 'LCN'
-      ? lovechainIcon
+      ? tingsymbol
       : klayIcon;
   const ticker =
     currentTab === 'KLAY' ? 'KLAY' : currentTab === 'LCN' ? 'LCN' : 'KLAY';

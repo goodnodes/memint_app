@@ -1,7 +1,13 @@
 import React, {useEffect, useState, useCallback} from 'react';
-import {SafeAreaView, StyleSheet, Text, View, Switch} from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  Switch,
+  Linking,
+} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import BackButton from '../../components/common/BackButton';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
 import {signOut} from '../../lib/Auth';
@@ -22,7 +28,7 @@ function MySettings({route}) {
   }, [navigation, logout]);
 
   const handleCsCenter = () => {
-    navigation.navigate('CsCenter');
+    navigation.navigate('Report');
   };
 
   const handleDeletePage = () => {
@@ -72,16 +78,20 @@ function MySettings({route}) {
         <Text style={styles.liText}>고객센터</Text>
         <Icon name="arrow-forward-ios" size={20} />
       </TouchableOpacity>
-      <View style={styles.li}>
+      <TouchableOpacity
+        style={styles.li}
+        onPress={async () => {
+          await Linking.openSettings();
+        }}>
         <Text style={styles.liText}>Push 알림 동의</Text>
-        <Switch
+        {/* <Switch
           trackColor={{false: '#767577', true: '#81b0ff'}}
           thumbColor={pushAgree ? '#f5dd4b' : '#f4f3f4'}
           ios_backgroundColor="#3e3e3e"
           onValueChange={handlePushToggle}
           value={pushAgree}
-        />
-      </View>
+        /> */}
+      </TouchableOpacity>
       <View style={styles.li}>
         <Text style={styles.liText}>메일 수신 동의</Text>
         <Switch

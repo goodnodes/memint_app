@@ -87,8 +87,8 @@ const styles = StyleSheet.create({
     color: 'white',
     textAlign: 'center',
     fontWeight: 'bold',
-    fontFamily: 'NeoDunggeunmoPro-Regular',
-    letterSpacing: 2,
+    fontFamily: 'Silkscreen',
+    letterSpacing: -0.5,
   },
 });
 
