@@ -78,7 +78,7 @@ const CameraButton = ({response, setResponse, uid}) => {
 const styles = StyleSheet.create({
   wrapper: {
     marginTop: 30,
-    marginBottom: 50,
+    marginBottom: 20,
     borderRadius: 54,
     height: 108,
     width: 108,

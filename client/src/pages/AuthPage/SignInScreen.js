@@ -190,8 +190,7 @@ const styles = StyleSheet.create({
   logo: {
     width: 101,
     height: 108.77,
-    marginTop: 70,
-    marginBottom: 20,
+    marginTop: 30,
   },
   text: {
     fontSize: 32,
@@ -217,7 +216,7 @@ const styles = StyleSheet.create({
     letterSpacing: -0.5,
   },
   form: {
-    marginTop: 50,
+    marginTop: 40,
     width: '100%',
     paddingHorizontal: 16,
   },

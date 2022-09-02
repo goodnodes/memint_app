@@ -125,9 +125,16 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
         style={styles.KeyboardAvoidingView}
         behavior={Platform.select({ios: 'padding'})}>
         <SafeStatusBar />
-        <BackButton />
+        <BackButton />1
         <View style={styles.fullscreen}>
-          <ScrollView style={styles.fullscreenSub}>
+          <ScrollView
+            style={styles.fullscreenSub}
+            contentContainerStyle={styles.paddingBottom}>
+            <Text style={styles.title}>프로필 설정</Text>
+            <Text style={styles.alertText}>
+              프로필 사진, 닉네임, 생년월일, 성별을 추가해야{'\n'}
+              다음 페이지로 넘어갈 수 있어요.
+            </Text>
             <View style={styles.cameraArea}>
               <CameraButton response={response} setResponse={setResponse} />
             </View>
@@ -297,6 +304,14 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     // justifyContent: 'center',
   },
+  title: {
+    fontWeight: '400',
+    marginTop: 20,
+    fontSize: 24,
+    color: '#ffffff',
+    fontFamily: 'NeoDunggeunmoPro-Regular',
+    letterSpacing: -0.5,
+  },
   text: {
     fontSize: 32,
     fontWeight: 'bold',
@@ -314,7 +329,7 @@ const styles = StyleSheet.create({
     marginBottom: 60,
   },
   alertText: {
-    marginVertical: 30,
+    marginTop: 30,
     fontSize: 14,
     letterSpacing: -0.5,
     color: '#ffffff',
@@ -423,6 +438,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     letterSpacing: -0.01,
+  },
+  paddingBottom: {
+    paddingBottom: 80,
   },
 });
 
