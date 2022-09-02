@@ -7,6 +7,7 @@ import {
   FlatList,
   Image,
   SafeAreaView,
+  DeviceEventEmitter,
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import useUser from '../../utils/hooks/UseUser';
@@ -116,13 +117,26 @@ function ChattingListPage({navigation}) {
 }
 
 function MetaData({item, navigation, refresh, setRefresh}) {
+  const isFocused = useIsFocused();
   const user = useUser();
   const [lastMsg, setLastMsg] = useState('');
   const [lastTime, setLastTime] = useState('');
   const [allMsgs, setAllMsgs] = useState('');
   const [unChecked, setUnChecked] = useState(0);
+  const [lock, setLock] = useState(false);
   const [last, setLast] = useState('');
-  const [msgs, setMsgs] = useState('');
+
+  useEffect(() => {
+    DeviceEventEmitter.addListener(item.id, () => {
+      setUnChecked(0);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (lock) {
+      setLock(false);
+    }
+  }, [isFocused]);
 
   // 페이지 열 때 한번만 실행되는 useEffect
   // AsyncStorage에 정보가 없으면 만들어주고, 있다면 받아와서 allMsgs에 넣어주는 역할을 한다.
@@ -147,7 +161,6 @@ function MetaData({item, navigation, refresh, setRefresh}) {
         };
         earlySetting();
       } else {
-        // console.log(result);
         if (result.length === 1) {
           const getDatas = async () => {
             const msgs = await firestore()
@@ -171,44 +184,62 @@ function MetaData({item, navigation, refresh, setRefresh}) {
           return getDatas();
         } else {
           const getAfterMsgs = async () => {
-            const lastTime = firestore.Timestamp.fromDate(
-              new Date(result[result.length - 1].createdAt.seconds * 1000.0001),
+            // console.log(result[result.length - 1].createdAt);
+            const Time = firestore.Timestamp.fromDate(
+              new Date(result[result.length - 1].createdAt.seconds * 1000),
             );
+            // console.log(lastTime);
             const msgs = await firestore()
               .collection('Meeting')
               .doc(item.id)
               .collection('Messages')
-              .where('createdAt', '>', lastTime)
+              .where('createdAt', '>', Time)
               .orderBy('createdAt')
               .get();
+            // console.log({updates: msgs.docs});
             if (msgs.docs.length === 0) {
-              // console.log(result);
+              // console.log('docs.length === 0');
+              // console.log({length: result.length, checked: result[0].checked});
+
+              setUnChecked(result.length - result[0].checked);
               return setAllMsgs(result);
+            } else {
+              const datas = msgs.docs.slice(1).map(el => {
+                return el.data();
+              });
+              const all = result.concat(datas);
+              // console.log('hi');
+              setAllMsgs(all);
+              setItem(item.id, all);
+              // console.log('docs.length > 0');
+              // console.log({length: all.length, checked: result[0].checked});
+              setUnChecked(all.length - result[0].checked);
             }
-            const datas = msgs.docs.map(el => {
-              return el.data();
-            });
-            const all = result.concat(datas);
-            setAllMsgs(all);
-            setItem(item.id, all);
-            setUnChecked(all.length - result[0].checked);
           };
           return getAfterMsgs();
         }
       }
     });
-    // console.log(allMsgs);
   }, []);
 
   // firestore를 통해 lastMsg가 업데이트되면 AsyncStorage에 lastMsg를 업데이트해주는 함수
   useEffect(() => {
     if (allMsgs === '') {
       return;
+    } else if (allMsgs.length === 1) {
+      // setUnChecked(unChecked + 1);
+      setAllMsgs([...allMsgs, last]);
+      setItem(item.id, [...allMsgs, last]);
+    } else if (
+      allMsgs[allMsgs.length - 1].createdAt.seconds !== last.createdAt.seconds
+    ) {
+      if (!lock) {
+        setUnChecked(unChecked + 1);
+      }
+      setAllMsgs([...allMsgs, last]);
+      setItem(item.id, [...allMsgs, last]);
     }
-    setUnChecked(unChecked + 1);
-    setAllMsgs([...allMsgs, last]);
-    setItem(item.id, [...allMsgs, last]);
-    // setUnChecked(unChecked + 1);
+    // console.log(allMsgs);
   }, [lastTime.seconds]);
 
   // firestore에서 새로운 msg를 받아서 lastMsg를 업데이트해주는 함수
@@ -227,12 +258,15 @@ function MetaData({item, navigation, refresh, setRefresh}) {
             .createdAt
         ) {
           if (result.docs[0].data().status) {
-            return;
+            // console.log(result.docs[0].data());
+            setLastMsg('info');
+            setLast(result.docs[0].data());
+            setLastTime(result.docs[0].data().createdAt);
+          } else {
+            setLast(result.docs[0].data());
+            setLastMsg(result.docs[0].data().text);
+            setLastTime(result.docs[0].data().createdAt);
           }
-
-          setLast(result.docs[0].data());
-          setLastMsg(result.docs[0].data().text);
-          setLastTime(result.docs[0].data().createdAt);
         }
       });
 
@@ -245,11 +279,10 @@ function MetaData({item, navigation, refresh, setRefresh}) {
     <TouchableOpacity
       onPress={() => {
         navigation.navigate('ChattingRoom', {data: item});
-
+        setLock(true);
         setUnChecked(0);
         const temp = [...allMsgs];
         temp[0].checked = allMsgs.length;
-        // console.log(temp);
         setItem(item.id, temp);
       }}>
       <View style={styles.container}>
@@ -262,14 +295,36 @@ function MetaData({item, navigation, refresh, setRefresh}) {
                 : item.title}
             </Text>
             <Text numberOfLines={1} style={styles.plainText}>
-              {lastMsg ? lastMsg : '채팅을 시작해보세요!'}
+              {lastMsg && lastMsg !== 'info' ? lastMsg : '채팅을 시작해보세요!'}
             </Text>
           </View>
           <View style={styles.date}>
             <Text style={styles.dateText}>
               {lastTime ? handleDate(lastTime) : ''}
             </Text>
-            <Text style={{color: 'white'}}>{unChecked && unChecked}</Text>
+            <View
+              style={{
+                width: '100%',
+                height: '100%',
+                justifyContent: 'center',
+                alignItems: 'flex-end',
+              }}>
+              {unChecked !== 0 && (
+                <View
+                  style={{
+                    minWidth: 22,
+                    backgroundColor: '#58FF7D',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: 13,
+                    bottom: 3,
+                  }}>
+                  <Text style={{fontSize: 13, margin: 3, fontWeight: 'bold'}}>
+                    {unChecked}
+                  </Text>
+                </View>
+              )}
+            </View>
           </View>
         </View>
       </View>

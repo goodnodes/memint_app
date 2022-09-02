@@ -11,6 +11,7 @@ import {
   Pressable,
   Keyboard,
   TouchableWithoutFeedback,
+  DeviceEventEmitter,
 } from 'react-native';
 import ChatText from '../../components/chattingComponents/chatText';
 import RoomHeader from '../../components/chattingComponents/roomHeader';
@@ -20,12 +21,13 @@ import ChattingRoomTopTab from '../../components/chattingComponents/ChattingRoom
 import SpendingModal from '../../components/common/UserInfoModal/SpendingModal';
 import firestore from '@react-native-firebase/firestore';
 import {useToast} from '../../utils/hooks/useToast';
-import {changeMeetingState, getItem} from '../../lib/Chatting';
 import useUser from '../../utils/hooks/UseUser';
 import {useNavigation} from '@react-navigation/native';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 import LinearGradient from 'react-native-linear-gradient';
 import AsyncStorage from '@react-native-community/async-storage';
+import {getItem, setItem} from '../../lib/Chatting';
+import {set} from 'immer/dist/internal';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -118,6 +120,10 @@ function ChattingRoom({route}) {
     // console.log(userDetail);
 
     setIsHost(route.params.data.hostId === user);
+
+    return () => {
+      DeviceEventEmitter.emit(route.params.data.id);
+    };
   }, [animation, roomInfo, route.params, userRef, users, user, ex]);
   return (
     <KeyboardAvoidingView

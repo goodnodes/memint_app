@@ -13,10 +13,11 @@ import firestore from '@react-native-firebase/firestore';
 import useUser from '../../utils/hooks/UseUser';
 import UserInfoModal from '../common/UserInfoModal';
 import person from '../../assets/icons/person.png';
-import AsyncStorage from '@react-native-community/async-storage';
+import {getItem, setItem} from '../../lib/Chatting';
 
 function ChatText({data, roomInfo, userDetail, setRoomInfo}) {
   const [chattings, setChattings] = useState('');
+  const [lastChat, setLastChat] = useState('');
   const [userInfoModalVisible, setUserInfoModalVisible] = useState(false);
   const [userId, setUserId] = useState('');
   const userDesc = useUser();
@@ -35,47 +36,53 @@ function ChatText({data, roomInfo, userDetail, setRoomInfo}) {
     return false;
   };
 
+  // 채팅방에 들어올 때, AsyncStorage로부터 데이터를 받아와 chattings에 넣어주는 함수
+  useEffect(() => {
+    getItem(data.id).then(result => {
+      setChattings(result.slice(1));
+    });
+  }, []);
+
+  // lastChat이 변경되면 이를 토대로 전체 채팅 list를 변경해주는 함수
+  useEffect(() => {
+    if (lastChat === '') {
+      return;
+    } else {
+      if (chattings.length === 0) {
+        setChattings(lastChat);
+      } else if (
+        chattings[chattings.length - 1].createdAt.seconds ===
+        lastChat.createdAt.seconds
+      ) {
+        return;
+      }
+      const temp = [...chattings];
+      temp.push(lastChat);
+      setChattings(temp);
+    }
+  }, [lastChat]);
+
+  // firebase에서 live로 마지막 채팅을 받아오는 함수, lastChat에다가 저장해줌
   useEffect(() => {
     // legacy;
-    const getContent = async () => {
-      chatRef.orderBy('createdAt').onSnapshot(result => {
+    const getContent = chatRef
+      .orderBy('createdAt', 'desc')
+      .limit(1)
+      .onSnapshot(result => {
         if (result.docs.length === 0) {
           return;
         } else if (
           result.docChanges()[result.docChanges().length - 1].doc._data
             .createdAt
         ) {
-          const data = result.docs.map(el => {
-            return el.data();
-          });
-          setChattings(data);
+          const data = result.docs[0].data();
+          setLastChat(data);
+          // setChattings(data);
         }
       });
-    };
 
-    // new
-    // const getContent = async () => {
-    //   chatRef.orderBy('createdAt').onSnapshot(async result => {
-    //     if (result.docs.length === 0) {
-    //       return;
-    //     } else if (
-    //       result.docChanges()[result.docChanges().length - 1].doc._data
-    //         .createdAt
-    //     ) {
-    //       const a = result.docs.map(el => el.data());
-    //       const id = data.id;
-
-    //       const stringify = JSON.stringify(a);
-    //       // console.log(stringify);
-    //       await AsyncStorage.setItem(id, stringify).then(async () => {
-    //         const data = await AsyncStorage.getItem(id);
-    //         setChattings(JSON.parse(data));
-    //       });
-    //     }
-    //   });
-    // };
-    getContent();
-  }, [chatRef]);
+    return () => getContent;
+  }, []);
 
   return (
     <View style={{flex: 1, position: 'relative'}}>
@@ -90,17 +97,23 @@ function ChatText({data, roomInfo, userDetail, setRoomInfo}) {
         }}
         style={styles.container}
         data={chattings}
-        renderItem={({item}) =>
+        renderItem={({item, idx}) =>
           item.status ? (
             <StatusMessage item={item} />
           ) : item.sender === user ? (
-            <MyChat item={item} user={userDesc} userDetail={userDetail} />
+            <MyChat
+              item={item}
+              user={userDesc}
+              userDetail={userDetail}
+              key={idx}
+            />
           ) : (
             <NotMyChat
               item={item}
               userDetail={userDetail}
               setUserId={setUserId}
               setUserInfoModalVisible={setUserInfoModalVisible}
+              key={idx}
             />
           )
         }
