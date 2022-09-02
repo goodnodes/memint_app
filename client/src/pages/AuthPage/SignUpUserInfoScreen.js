@@ -120,141 +120,56 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
     );
   }
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <KeyboardAvoidingView
-        style={styles.KeyboardAvoidingView}
-        behavior={Platform.select({ios: 'padding'})}>
-        <SafeStatusBar />
-        <BackButton />1
-        <View style={styles.fullscreen}>
-          <ScrollView
-            style={styles.fullscreenSub}
-            contentContainerStyle={styles.paddingBottom}>
-            <Text style={styles.title}>프로필 설정</Text>
-            <Text style={styles.alertText}>
-              프로필 사진, 닉네임, 생년월일, 성별을 추가해야{'\n'}
-              다음 페이지로 넘어갈 수 있어요.
-            </Text>
-            <View style={styles.cameraArea}>
-              <CameraButton response={response} setResponse={setResponse} />
-            </View>
-            <View style={styles.form}>
-              <Text style={styles.infoText}>닉네임</Text>
-              <BorderedInput
-                size="wide"
-                placeholder="닉네임"
-                value={form.nickName}
-                onChangeText={createChangeTextHandler('nickName')}
-                autoCapitalize="none"
-                autoCorrect={false}
-                returnKeyType={'next'}
-              />
-            </View>
-            <View style={styles.form}>
-              <Text style={styles.infoText}>생년월일</Text>
-              <View style={styles.birthform}>
-                <SelectDropdown
-                  data={[
-                    '1992',
-                    '1993',
-                    '1994',
-                    '1995',
-                    '1996',
-                    '1997',
-                    '1998',
-                    '1999',
-                    '2000',
-                    '2001',
-                    '2002',
-                    '2003',
-                  ]}
-                  onSelect={(selectedItem, index) => {
-                    setForm({...form, birthYear: selectedItem});
-                  }}
-                  defaultButtonText=" "
-                  buttonStyle={styles.dropdown}
-                  dropdownStyle={styles.dropdownStyle}
-                  rowTextStyle={styles.dropdownTextStyle}
-                  buttonTextStyle={styles.buttonTextStyle}
-                />
-                <Text style={styles.infoText}> 년 </Text>
-                <SelectDropdown
-                  data={[
-                    '1',
-                    '2',
-                    '3',
-                    '4',
-                    '5',
-                    '6',
-                    '7',
-                    '8',
-                    '9',
-                    '10',
-                    '11',
-                    '12',
-                  ]}
-                  onSelect={(selectedItem, index) => {
-                    setForm({...form, birthMonth: selectedItem});
-                  }}
-                  defaultButtonText=" "
-                  buttonStyle={styles.dropdownSmall}
-                  dropdownStyle={styles.dropdownStyle}
-                  rowTextStyle={styles.dropdownTextStyle}
-                  buttonTextStyle={styles.buttonTextStyle}
-                />
-                <Text style={styles.infoText}> 월 </Text>
-                <SelectDropdown
-                  data={[
-                    '1',
-                    '2',
-                    '3',
-                    '4',
-                    '5',
-                    '6',
-                    '7',
-                    '8',
-                    '9',
-                    '10',
-                    '11',
-                    '12',
-                    '13',
-                    '14',
-                    '15',
-                    '16',
-                    '17',
-                    '18',
-                    '19',
-                    '20',
-                    '21',
-                    '22',
-                    '23',
-                    '24',
-                    '25',
-                    '26',
-                    '27',
-                    '28',
-                    '29',
-                    '30',
-                    '31',
-                  ]}
-                  onSelect={(selectedItem, index) => {
-                    setForm({...form, birthDay: selectedItem});
-                  }}
-                  defaultButtonText=" "
-                  buttonStyle={styles.dropdownSmall}
-                  dropdownStyle={styles.dropdownStyle}
-                  rowTextStyle={styles.dropdownTextStyle}
-                  buttonTextStyle={styles.buttonTextStyle}
-                />
-                <Text style={styles.infoText}> 일 </Text>
-              </View>
-            </View>
-            <View style={styles.form}>
-              <Text style={styles.infoText}>성별</Text>
+    // <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+    <KeyboardAvoidingView
+      style={styles.KeyboardAvoidingView}
+      behavior={Platform.select({ios: 'padding'})}>
+      <SafeStatusBar />
+      <BackButton />
+      <View style={styles.fullscreen}>
+        <ScrollView
+          style={styles.fullscreenSub}
+          contentContainerStyle={styles.paddingBottom}>
+          <Text style={styles.title}>프로필 설정</Text>
+          <Text style={styles.alertText}>
+            프로필 사진, 닉네임, 생년월일, 성별을 추가해야{'\n'}
+            다음 페이지로 넘어갈 수 있어요.
+          </Text>
+          <View style={styles.cameraArea}>
+            <CameraButton response={response} setResponse={setResponse} />
+          </View>
+          <View style={styles.form}>
+            <Text style={styles.infoText}>닉네임</Text>
+            <BorderedInput
+              size="wide"
+              placeholder="닉네임"
+              value={form.nickName}
+              onChangeText={createChangeTextHandler('nickName')}
+              autoCapitalize="none"
+              autoCorrect={false}
+              returnKeyType={'next'}
+            />
+          </View>
+          <View style={styles.form}>
+            <Text style={styles.infoText}>생년월일</Text>
+            <View style={styles.birthform}>
               <SelectDropdown
-                data={['남자', '여자']}
+                data={[
+                  '1992',
+                  '1993',
+                  '1994',
+                  '1995',
+                  '1996',
+                  '1997',
+                  '1998',
+                  '1999',
+                  '2000',
+                  '2001',
+                  '2002',
+                  '2003',
+                ]}
                 onSelect={(selectedItem, index) => {
-                  setForm({...form, gender: selectedItem});
+                  setForm({...form, birthYear: selectedItem});
                 }}
                 defaultButtonText=" "
                 buttonStyle={styles.dropdown}
@@ -262,15 +177,100 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
                 rowTextStyle={styles.dropdownTextStyle}
                 buttonTextStyle={styles.buttonTextStyle}
               />
+              <Text style={styles.infoText}> 년 </Text>
+              <SelectDropdown
+                data={[
+                  '1',
+                  '2',
+                  '3',
+                  '4',
+                  '5',
+                  '6',
+                  '7',
+                  '8',
+                  '9',
+                  '10',
+                  '11',
+                  '12',
+                ]}
+                onSelect={(selectedItem, index) => {
+                  setForm({...form, birthMonth: selectedItem});
+                }}
+                defaultButtonText=" "
+                buttonStyle={styles.dropdownSmall}
+                dropdownStyle={styles.dropdownStyle}
+                rowTextStyle={styles.dropdownTextStyle}
+                buttonTextStyle={styles.buttonTextStyle}
+              />
+              <Text style={styles.infoText}> 월 </Text>
+              <SelectDropdown
+                data={[
+                  '1',
+                  '2',
+                  '3',
+                  '4',
+                  '5',
+                  '6',
+                  '7',
+                  '8',
+                  '9',
+                  '10',
+                  '11',
+                  '12',
+                  '13',
+                  '14',
+                  '15',
+                  '16',
+                  '17',
+                  '18',
+                  '19',
+                  '20',
+                  '21',
+                  '22',
+                  '23',
+                  '24',
+                  '25',
+                  '26',
+                  '27',
+                  '28',
+                  '29',
+                  '30',
+                  '31',
+                ]}
+                onSelect={(selectedItem, index) => {
+                  setForm({...form, birthDay: selectedItem});
+                }}
+                defaultButtonText=" "
+                buttonStyle={styles.dropdownSmall}
+                dropdownStyle={styles.dropdownStyle}
+                rowTextStyle={styles.dropdownTextStyle}
+                buttonTextStyle={styles.buttonTextStyle}
+              />
+              <Text style={styles.infoText}> 일 </Text>
             </View>
-            <View style={styles.alertTextArea}>
-              <Text style={styles.alertText}>
-                닉네임, 생년월일, 성별 등 개인을 식별할 수 있는 정보는{'\n'}
-                추후 수정이 불가능합니다.
-              </Text>
-            </View>
+          </View>
+          <View style={styles.form}>
+            <Text style={styles.infoText}>성별</Text>
+            <SelectDropdown
+              data={['남자', '여자']}
+              onSelect={(selectedItem, index) => {
+                setForm({...form, gender: selectedItem});
+              }}
+              defaultButtonText=" "
+              buttonStyle={styles.dropdown}
+              dropdownStyle={styles.dropdownStyle}
+              rowTextStyle={styles.dropdownTextStyle}
+              buttonTextStyle={styles.buttonTextStyle}
+            />
+          </View>
+          <View style={styles.alertTextArea}>
+            <Text style={styles.alertText}>
+              닉네임, 생년월일, 성별 등 개인을 식별할 수 있는 정보는{'\n'}
+              추후 수정이 불가능합니다.
+            </Text>
+          </View>
 
-            {/* <BasicButton
+          {/* <BasicButton
             style={styles.button}
             width={300}
             height={40}
@@ -280,13 +280,13 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
             hasMarginBottom
             onPress={onSubmit}
           /> */}
-          </ScrollView>
-          <TouchableOpacity style={styles.button} onPress={onSubmit}>
-            <Text style={styles.buttonText}>다음</Text>
-          </TouchableOpacity>
-        </View>
-      </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
+        </ScrollView>
+        <TouchableOpacity style={styles.button} onPress={onSubmit}>
+          <Text style={styles.buttonText}>다음</Text>
+        </TouchableOpacity>
+      </View>
+    </KeyboardAvoidingView>
+    // </TouchableWithoutFeedback>
   );
 };
 

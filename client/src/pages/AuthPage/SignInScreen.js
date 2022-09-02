@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 52,
+    marginTop: 35,
     marginBottom: 60,
   },
   textAsk: {

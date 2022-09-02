@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -6,15 +6,9 @@ import {
   StatusBar,
   Image,
   TouchableOpacity,
-  Animated,
   ScrollView,
-  Modal,
-  TouchableWithoutFeedback,
-  Pressable,
-  Dimensions,
 } from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import MyMeetingList from '../../components/myPageComponent/MyMeetingList';
 import ParticipatedMeetingList from '../../components/myPageComponent/ParticipatedMeetingList';
 import WalletButton from '../../components/common/WalletButton';
@@ -30,8 +24,6 @@ import MyEggModal from './MyEggModal';
 import useUser from '../../utils/hooks/UseUser';
 import LinearGradient from 'react-native-linear-gradient';
 import BottomDrawer from '../../components/myPageComponent/BottomDrawer';
-
-const windowHeight = Dimensions.get('window').height;
 
 function MyMainPage({navigation}) {
   // const user = useUser();
@@ -111,7 +103,6 @@ function MyMainPage({navigation}) {
                 unfilledColor={'#ffffff'}
                 borderWidth={0}
                 thickness={6}
-                // radius={2}
               />
               <Image source={dummyDino} style={styles.characterImage} />
             </View>
