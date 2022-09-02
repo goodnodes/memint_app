@@ -155,7 +155,9 @@ function MetaData({item, navigation, refresh, setRefresh}) {
         <View style={styles.chatInfo}>
           <View>
             <Text style={styles.titleText} numberOfLines={1}>
-              {item.title}
+              {item.title.length > 14
+                ? item.title.slice(0, 14) + '...'
+                : item.title}
             </Text>
             <Text numberOfLines={1} style={styles.plainText}>
               {lastMsg ? lastMsg : '채팅을 시작해보세요!'}
