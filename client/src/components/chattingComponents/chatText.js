@@ -23,6 +23,20 @@ function ChatText({data, roomInfo, userDetail, setRoomInfo}) {
   const userDesc = useUser();
   const user = userDesc.id;
   const visibleList = userDesc.visibleUser;
+  const renderItem = ({item, idx}) =>
+    item.status ? (
+      <StatusMessage item={item} />
+    ) : item.sender === user ? (
+      <MyChat item={item} user={userDesc} userDetail={userDetail} />
+    ) : (
+      <NotMyChat
+        item={item}
+        userDetail={userDetail}
+        setUserId={setUserId}
+        setUserInfoModalVisible={setUserInfoModalVisible}
+      />
+    );
+  const keyExtractor = item => item.createdAt.seconds;
   const chatRef = useMemo(
     () => firestore().collection('Meeting').doc(data.id).collection('Messages'),
     [data.id],
@@ -89,6 +103,9 @@ function ChatText({data, roomInfo, userDetail, setRoomInfo}) {
       <FlatList
         // horizontal={true}
         // 플랫리스트에서 하단부터 렌더링을 해주는 설정
+        // windowSize => https://codingbroker.tistory.com/110
+        windowSize={999}
+        removeClippedSubviews={true}
         inverted={true}
         contentContainerStyle={{
           flexGrow: 1,
@@ -97,26 +114,8 @@ function ChatText({data, roomInfo, userDetail, setRoomInfo}) {
         }}
         style={styles.container}
         data={chattings}
-        renderItem={({item, idx}) =>
-          item.status ? (
-            <StatusMessage item={item} />
-          ) : item.sender === user ? (
-            <MyChat
-              item={item}
-              user={userDesc}
-              userDetail={userDetail}
-              key={idx}
-            />
-          ) : (
-            <NotMyChat
-              item={item}
-              userDetail={userDetail}
-              setUserId={setUserId}
-              setUserInfoModalVisible={setUserInfoModalVisible}
-              key={idx}
-            />
-          )
-        }
+        renderItem={renderItem}
+        keyExtractor={keyExtractor}
       />
       <UserInfoModal
         userInfoModalVisible={userInfoModalVisible}

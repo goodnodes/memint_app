@@ -151,12 +151,52 @@ function MetaData({item, navigation, refresh, setRefresh}) {
             .collection('Messages')
             .where('nickName', '==', user.nickName)
             .get();
+          // Host일 때
           if (firstMsg.docs.length === 0) {
-            setItem(item.id, [{checked: 0}]);
-            setAllMsgs([{checked: 0}]);
+            console.log('Host');
+            const messages = await firestore()
+              .collection('Meeting')
+              .doc(item.id)
+              .collection('Messages')
+              .orderBy('createdAt')
+              .get();
+            setItem(item.id, [
+              {checked: 0},
+              ...messages.docs.map(el => {
+                return el.data();
+              }),
+            ]);
+            setAllMsgs([
+              {checked: 0},
+              ...messages.docs.map(el => {
+                return el.data();
+              }),
+            ]);
+            setUnChecked(messages.docs.length);
+            // Joiner일 때
           } else {
-            setItem(item.id, [{checked: 0}, firstMsg.docs[0].data()]);
-            setAllMsgs([{checked: 0}, firstMsg.docs[0].data()]);
+            console.log('Joiner');
+            const messages = await firestore()
+              .collection('Meeting')
+              .doc(item.id)
+              .collection('Messages')
+              .where('createdAt', '>', firstMsg.docs[0].data().createdAt)
+              .orderBy('createdAt')
+              .get();
+
+            setItem(item.id, [
+              {checked: 0},
+              ...messages.docs.map(el => {
+                return el.data();
+              }),
+            ]);
+            setAllMsgs([
+              {checked: 0},
+              ...messages.docs.map(el => {
+                return el.data();
+              }),
+            ]);
+            setUnChecked(messages.docs.length);
           }
         };
         earlySetting();
@@ -300,7 +340,7 @@ function MetaData({item, navigation, refresh, setRefresh}) {
           </View>
           <View style={styles.date}>
             <Text style={styles.dateText}>
-              {lastTime ? handleDate(lastTime) : ''}
+              {lastTime && lastMsg !== 'info' ? handleDate(lastTime) : ''}
             </Text>
             <View
               style={{
