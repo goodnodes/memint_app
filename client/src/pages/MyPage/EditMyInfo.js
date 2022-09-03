@@ -7,6 +7,7 @@ import {
   Image,
   Platform,
   ActionSheetIOS,
+  KeyboardAvoidingView,
 } from 'react-native';
 import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import BackButton from '../../components/common/BackButton';
@@ -19,6 +20,7 @@ import ChangeProfile from '../../components/myPageComponent/ChangeProfile';
 import {useToast} from '../../utils/hooks/useToast';
 import {EditUserInfo} from '../../lib/Users';
 import useAuthActions from '../../utils/hooks/UseAuthActions';
+import SafeStatusBar from '../../components/common/SafeStatusBar';
 function EditMyInfo({route, navigation}) {
   const [drinkInfo, setDrinkInfo] = useState(route.params.property);
   const [selfIntro, setSelfIntro] = useState(route.params.selfIntroduction);
@@ -68,20 +70,17 @@ function EditMyInfo({route, navigation}) {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <KeyboardAvoidingView style={styles.container}>
+      <SafeStatusBar />
       <View style={styles.header}>
-        <View style={styles.flexRow}>
-          <BackButton />
-          <Text style={styles.title}>내 정보 수정</Text>
-        </View>
-        <View>
-          <TouchableOpacity onPress={handleSubmit}>
-            <Text style={styles.title}>완료</Text>
-          </TouchableOpacity>
-        </View>
+        <BackButton />
+        <TouchableOpacity onPress={handleSubmit}>
+          <Text style={styles.completeText}>완료</Text>
+        </TouchableOpacity>
       </View>
 
       <ScrollView style={styles.scrollview}>
+        <Text style={styles.title}>내 정보 수정</Text>
         <ChangeProfile
           profile={profileImg}
           setProfile={setProfileImg}
@@ -159,7 +158,7 @@ function EditMyInfo({route, navigation}) {
           </View>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -173,22 +172,25 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    paddingRight: 20,
+    paddingRight: 15,
     alignItems: 'center',
-    height: 60,
-    borderBottomColor: 'gray',
-    borderBottomWidth: 1,
+    // borderBottomColor: 'gray',
+    // borderBottomWidth: 1,
     justifyContent: 'space-between',
+    paddingTop: 5,
   },
   flexRow: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   title: {
-    fontSize: 18,
-    fontWeight: '700',
-    marginLeft: 10,
-    color: 'white',
+    fontWeight: '400',
+    fontSize: 24,
+    marginTop: 10,
+    marginLeft: 15,
+    color: '#ffffff',
+    fontFamily: 'NeoDunggeunmoPro-Regular',
+    letterSpacing: -0.5,
   },
 
   ul: {
@@ -198,32 +200,33 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 30,
+    paddingHorizontal: 15,
     marginVertical: 15,
   },
   liColumn: {
     flexDirection: 'column',
     // alignItems: 'center',
     // justifyContent: 'space-between',
-    paddingHorizontal: 30,
+    paddingHorizontal: 15,
     marginVertical: 15,
   },
   liText: {
     color: 'white',
     fontSize: 16,
+    marginBottom: 5,
   },
   liGrayText: {
     fontSize: 16,
     color: '#868686',
   },
   dropdown: {
-    fontSize: 10,
-    width: 130,
-    borderColor: '#bdbdbd',
+    width: '50%',
+    borderColor: '#EAFFEF',
     borderWidth: 1,
     paddingHorizontal: 16,
-    borderRadius: 4,
-    height: 30,
+    borderRadius: 99,
+    height: 36,
+    backgroundColor: '#EAFFEF',
   },
   dropdownStyle: {
     backgroundColor: '#3C3D43',
@@ -249,6 +252,12 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     flexDirection: 'row',
     justifyContent: 'flex-start',
+  },
+  completeText: {
+    fontWeight: 'bold',
+    fontSize: 18,
+    color: '#ffffff',
+    letterSpacing: -0.5,
   },
 });
 

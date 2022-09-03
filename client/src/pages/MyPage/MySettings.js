@@ -52,14 +52,12 @@ function MySettings({route}) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => navigation.pop()}>
-          <Icon name="arrow-back-ios" size={20} color={'#1D1E1E'} />
-          {/* <Text style={styles.buttonText}>Back</Text> */}
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity
+        style={styles.backButton}
+        onPress={() => navigation.pop()}>
+        <Icon name="arrow-back-ios" size={20} color={'#1D1E1E'} />
+        {/* <Text style={styles.buttonText}>Back</Text> */}
+      </TouchableOpacity>
       <Text style={styles.title}>설정</Text>
 
       <View style={{...styles.li, paddingVertical: 20}}>
@@ -163,7 +161,8 @@ const styles = StyleSheet.create({
     color: '#EE3232',
   },
   backButton: {
-    marginLeft: 15,
+    paddingLeft: 15,
+    paddingTop: 5,
   },
 });
 

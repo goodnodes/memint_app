@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     letterSpacing: -0.5,
   },
   alarmContainer: {
-    paddingBottom: 70,
+    paddingBottom: 150,
   },
   emptyView: {
     justifyContent: 'center',

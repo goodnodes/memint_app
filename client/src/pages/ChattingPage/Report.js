@@ -1,5 +1,5 @@
 import React from 'react';
-import {SafeAreaView, StatusBar, StyleSheet, Text, View} from 'react-native';
+import {StatusBar, StyleSheet, Text, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: '400',
     fontSize: 24,
-    marginTop: 40,
+    marginTop: 20,
     color: '#1D1E1E',
     fontFamily: 'NeoDunggeunmoPro-Regular',
     letterSpacing: -0.5,
@@ -93,6 +93,9 @@ const styles = StyleSheet.create({
   boldText: {
     fontWeight: '700',
     marginBottom: 3,
+  },
+  backButton: {
+    paddingTop: 5,
   },
 });
 export default Report;

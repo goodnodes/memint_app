@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 17,
-    fontFamily: 'NeoDunggeunmoPro-Regular',
+    fontFamily: 'Silkscreen',
     letterSpacing: 2,
     color: '#1D1E1E',
   },

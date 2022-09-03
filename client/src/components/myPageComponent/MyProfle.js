@@ -78,12 +78,13 @@ function MyProfile({User, navigation}) {
         <TouchableOpacity
           onPress={() => {
             navigation.push('EditMyInfo', User, navigation);
-          }}>
+          }}
+          style={styles.editButton}>
           <Icon
             name="edit"
-            size={25}
+            size={23}
             color="#1D1E1E"
-            style={{marginRight: 10}}
+            style={{marginRight: 10, position: 'absolute', top: 7, left: 9}}
           />
         </TouchableOpacity>
       </View>
@@ -253,6 +254,15 @@ const styles = StyleSheet.create({
   },
   marginBottom: {
     paddingBottom: 140,
+  },
+  editButton: {
+    width: 40,
+    height: 40,
+    backgroundColor: '#ffffff',
+    borderRadius: 999,
+    position: 'absolute',
+    bottom: 0,
+    right: 100,
   },
 });
 

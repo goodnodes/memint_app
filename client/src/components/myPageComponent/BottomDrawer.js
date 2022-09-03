@@ -9,8 +9,8 @@ import {
 const {height} = Dimensions.get('window');
 
 export const DrawerState = {
-  Open: height - 230,
-  Peek: 230,
+  Open: height - height / 2.5,
+  // Peek: 230,
   Closed: 0,
 };
 
@@ -27,23 +27,22 @@ export const animateMove = (y, toValue, callback) => {
 
 export const getNextState = (currentState, val, margin) => {
   switch (currentState) {
-    case DrawerState.Peek:
-      return val >= currentState + margin
-        ? DrawerState.Open
-        : val <= DrawerState.Peek - margin
-        ? DrawerState.Closed
-        : DrawerState.Peek;
+    // case DrawerState.Peek:
+    //   return val >= currentState + margin
+    //     ? DrawerState.Open
+    //     : val <= DrawerState.Peek - margin
+    //     ? DrawerState.Closed
+    //     : DrawerState.Peek;
     case DrawerState.Open:
-      return val >= currentState
-        ? DrawerState.Open
-        : val <= DrawerState.Peek
-        ? DrawerState.Closed
-        : DrawerState.Peek;
+      return val >= currentState ? DrawerState.Open : DrawerState.Closed;
+    // ? DrawerState.Closed
+    // : DrawerState.Peek;
     case DrawerState.Closed:
       return val >= currentState + margin
-        ? val <= DrawerState.Peek + margin
-          ? DrawerState.Peek
-          : DrawerState.Open
+        ? // ? val <= DrawerState.Peek + margin
+          //   ? DrawerState.Peek
+          //   :
+          DrawerState.Open
         : DrawerState.Closed;
     default:
       return currentState;

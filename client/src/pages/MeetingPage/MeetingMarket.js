@@ -227,7 +227,9 @@ function MeetingMarket({navigation}) {
         style={styles.gradientBackground}>
         {/* <Button title="로그아웃 하기" color="red" onPress={handleSignOut} /> */}
         <Image source={Sauropod} style={styles.backgroundImage} />
-        <ScrollView style={styles.scrollView}>
+        <ScrollView
+          style={styles.scrollView}
+          contentContainerStyle={styles.paddingBottom}>
           <View style={styles.areaEnd}>
             <TouchableOpacity
               style={styles.createButton}
@@ -423,6 +425,9 @@ const styles = StyleSheet.create({
   },
   icon: {
     width: 45,
+  },
+  paddingBottom: {
+    paddingBottom: 50,
   },
 });
 

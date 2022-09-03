@@ -20,7 +20,7 @@ import likesActive from '../../assets/icons/likesActive.png';
 import eggS from '../../assets/icons/eggS.png';
 import eggD from '../../assets/icons/eggD.png';
 import eggB from '../../assets/icons/eggB.png';
-import MyEggModal from './MyEggModal';
+import MyEggModal from '../../components/myPageComponent/MyEggModal';
 import useUser from '../../utils/hooks/UseUser';
 import LinearGradient from 'react-native-linear-gradient';
 import BottomDrawer from '../../components/myPageComponent/BottomDrawer';

@@ -1,6 +1,17 @@
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState, useCallback} from 'react';
-import {Text, StyleSheet, View, TouchableOpacity, Image} from 'react-native';
+import {
+  Text,
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Image,
+  Dimensions,
+} from 'react-native';
+import {
+  ScrollView,
+  TouchableWithoutFeedback,
+} from 'react-native-gesture-handler';
 
 import DoubleModal from '../../components/common/DoubleModal';
 import {changeJoinerToConfirmed, getMeeting} from '../../lib/Meeting';
@@ -23,6 +34,9 @@ import MeetingLikes from '../meetingComponents/MeetingLikes';
 //     </>
 //   );
 // }
+
+const {width} = Dimensions.get('window');
+
 function ParticipatedMeetingList({user}) {
   const meetingData = useMeeting();
   const {saveMeeting} = useMeetingActions();
@@ -61,7 +75,7 @@ function ParticipatedMeetingList({user}) {
   }, [user]);
 
   return (
-    <>
+    <ScrollView horizontal={true}>
       {joinedRoom.length !== 0 ? (
         joinedRoom
           .sort((a, b) => b.createdAt.toDate() - a.createdAt.toDate())
@@ -73,11 +87,11 @@ function ParticipatedMeetingList({user}) {
             />
           ))
       ) : (
-        <View style={styles.emptyView}>
-          <Text style={styles.emptyText}>참여 중인 미팅이 없습니다.</Text>
-        </View>
+        // <View style={styles.emptyView}>
+        <Text style={styles.emptyText}>참여 중인 미팅이 없습니다.</Text>
+        // </View>
       )}
-    </>
+    </ScrollView>
   );
 }
 
@@ -266,7 +280,8 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     paddingHorizontal: 30,
     paddingVertical: 25,
-    height: 185,
+    height: 190,
+    width: width * 0.9,
     borderRadius: 30,
     marginVertical: 8,
     marginHorizontal: 15,
@@ -345,7 +360,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: 30,
   },
-  emptyText: {color: 'lightgray'},
+  emptyText: {color: 'lightgray', marginLeft: 30, marginTop: 30},
   imageNickname: {
     flexDirection: 'row',
     alignItems: 'center',

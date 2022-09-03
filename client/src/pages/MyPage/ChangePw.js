@@ -200,15 +200,15 @@ const styles = StyleSheet.create({
   },
   title: {
     fontWeight: '400',
-    fontSize: 24,
     marginVertical: 20,
-    color: 'black',
+    fontSize: 24,
+    color: '#1D1E1E',
     fontFamily: 'NeoDunggeunmoPro-Regular',
     letterSpacing: -0.5,
   },
   infoText: {
     fontSize: 14,
-    color: 'black',
+    color: '#1D1E1E',
     marginBottom: 8,
     letterSpacing: -0.5,
   },
@@ -266,7 +266,8 @@ const styles = StyleSheet.create({
     // marginRight: 100,
   },
   backButton: {
-    marginLeft: 15,
+    paddingLeft: 15,
+    paddingTop: 5,
   },
 });
 
