@@ -123,7 +123,6 @@ function MetaData({item, navigation, refresh, setRefresh}) {
   const [lastTime, setLastTime] = useState('');
   const [allMsgs, setAllMsgs] = useState('');
   const [unChecked, setUnChecked] = useState(0);
-  const [lock, setLock] = useState(false);
   const [last, setLast] = useState('');
 
   useEffect(() => {
@@ -273,11 +272,11 @@ function MetaData({item, navigation, refresh, setRefresh}) {
     } else if (
       allMsgs[allMsgs.length - 1].createdAt.seconds !== last.createdAt.seconds
     ) {
-      if (!lock) {
-        setUnChecked(unChecked + 1);
-      }
+      setUnChecked(unChecked + 1);
       setAllMsgs([...allMsgs, last]);
-      setItem(item.id, [...allMsgs, last]);
+      const temp = [...allMsgs];
+      temp[0].checked = allMsgs.length;
+      setItem(item.id, [...temp, last]);
     }
     // console.log(allMsgs);
   }, [lastTime.seconds]);
@@ -319,7 +318,6 @@ function MetaData({item, navigation, refresh, setRefresh}) {
     <TouchableOpacity
       onPress={() => {
         navigation.navigate('ChattingRoom', {data: item});
-        setLock(true);
         setUnChecked(0);
         const temp = [...allMsgs];
         temp[0].checked = allMsgs.length;
