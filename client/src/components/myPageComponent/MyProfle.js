@@ -90,7 +90,7 @@ function MyProfile({User, navigation}) {
       </View>
 
       <View style={styles.userInfos}>
-        <Text style={styles.userNickName}>Lv.3 {User.nickName}</Text>
+        <Text style={styles.userNickName}>Lv.1 {User.nickName}</Text>
         <Text style={styles.userBirth}>{User.birth}</Text>
         <Text style={styles.userBirth}>
           {User.selfIntroduction === undefined ? '' : User.selfIntroduction}

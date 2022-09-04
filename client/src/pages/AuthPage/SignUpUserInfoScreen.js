@@ -146,6 +146,11 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
         <BackButton />
         <View style={styles.fullscreen}>
           <ScrollView style={styles.fullscreenSub}>
+            <Text style={styles.title}>프로필 설정</Text>
+            <Text style={styles.alertText}>
+              프로필 사진, 닉네임, 생년월일, 성별을 추가해야{'\n'}
+              다음 페이지로 넘어갈 수 있어요.
+            </Text>
             <View style={styles.cameraArea}>
               <CameraButton response={response} setResponse={setResponse} />
             </View>
