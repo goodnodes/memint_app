@@ -176,6 +176,7 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
                 dropdownStyle={styles.dropdownStyle}
                 rowTextStyle={styles.dropdownTextStyle}
                 buttonTextStyle={styles.buttonTextStyle}
+                position={'bottom'}
               />
               <Text style={styles.infoText}> 년 </Text>
               <SelectDropdown
@@ -258,7 +259,7 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
               }}
               defaultButtonText=" "
               buttonStyle={styles.dropdown}
-              dropdownStyle={styles.dropdownStyle}
+              dropdownStyle={styles.dropdownStyleGender}
               rowTextStyle={styles.dropdownTextStyle}
               buttonTextStyle={styles.buttonTextStyle}
             />
@@ -399,6 +400,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   dropdownStyle: {
+    backgroundColor: '#3C3D43',
+    borderRadius: 10,
+    height: 185,
+  },
+  dropdownStyleGender: {
+    height: 100,
     backgroundColor: '#3C3D43',
     borderRadius: 10,
   },
