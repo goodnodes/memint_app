@@ -6,20 +6,37 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
+  Pressable,
 } from 'react-native';
 import AddChat from './addChat';
 import firestore from '@react-native-firebase/firestore';
 import useUser from '../../utils/hooks/UseUser';
 import UserInfoModal from '../common/UserInfoModal';
 import person from '../../assets/icons/person.png';
+import {getItem, setItem} from '../../lib/Chatting';
 
-function ChatText({data, roomInfo, userDetail}) {
+function ChatText({data, roomInfo, userDetail, setRoomInfo}) {
   const [chattings, setChattings] = useState('');
+  const [lastChat, setLastChat] = useState('');
   const [userInfoModalVisible, setUserInfoModalVisible] = useState(false);
   const [userId, setUserId] = useState('');
   const userDesc = useUser();
   const user = userDesc.id;
   const visibleList = userDesc.visibleUser;
+  const renderItem = ({item, idx}) =>
+    item.status ? (
+      <StatusMessage item={item} />
+    ) : item.sender === user ? (
+      <MyChat item={item} user={userDesc} userDetail={userDetail} />
+    ) : (
+      <NotMyChat
+        item={item}
+        userDetail={userDetail}
+        setUserId={setUserId}
+        setUserInfoModalVisible={setUserInfoModalVisible}
+      />
+    );
+  const keyExtractor = item => item.createdAt.seconds;
   const chatRef = useMemo(
     () => firestore().collection('Meeting').doc(data.id).collection('Messages'),
     [data.id],
@@ -33,27 +50,62 @@ function ChatText({data, roomInfo, userDetail}) {
     return false;
   };
 
+  // 채팅방에 들어올 때, AsyncStorage로부터 데이터를 받아와 chattings에 넣어주는 함수
   useEffect(() => {
-    const getContent = async () => {
-      chatRef.orderBy('createdAt').onSnapshot(result => {
+    getItem(data.id).then(result => {
+      setChattings(result.slice(1));
+    });
+  }, []);
+
+  // lastChat이 변경되면 이를 토대로 전체 채팅 list를 변경해주는 함수
+  useEffect(() => {
+    if (lastChat === '') {
+      return;
+    } else {
+      if (chattings.length === 0) {
+        setChattings(lastChat);
+      } else if (
+        chattings[chattings.length - 1].createdAt.seconds ===
+        lastChat.createdAt.seconds
+      ) {
+        return;
+      }
+      const temp = [...chattings];
+      temp.push(lastChat);
+      setChattings(temp);
+    }
+  }, [lastChat]);
+
+  // firebase에서 live로 마지막 채팅을 받아오는 함수, lastChat에다가 저장해줌
+  useEffect(() => {
+    // legacy;
+    const getContent = chatRef
+      .orderBy('createdAt', 'desc')
+      .limit(1)
+      .onSnapshot(result => {
         if (result.docs.length === 0) {
           return;
         } else if (
           result.docChanges()[result.docChanges().length - 1].doc._data
             .createdAt
         ) {
-          setChattings(result.docs);
+          const data = result.docs[0].data();
+          setLastChat(data);
+          // setChattings(data);
         }
       });
-    };
-    getContent();
-  }, [chatRef]);
+
+    return () => getContent;
+  }, []);
 
   return (
-    <View style={roomInfo ? {flex: 1, opacity: 0.8} : {flex: 1}}>
+    <View style={{flex: 1, position: 'relative'}}>
       <FlatList
         // horizontal={true}
         // 플랫리스트에서 하단부터 렌더링을 해주는 설정
+        // windowSize => https://codingbroker.tistory.com/110
+        windowSize={999}
+        removeClippedSubviews={true}
         inverted={true}
         contentContainerStyle={{
           flexGrow: 1,
@@ -62,20 +114,8 @@ function ChatText({data, roomInfo, userDetail}) {
         }}
         style={styles.container}
         data={chattings}
-        renderItem={({item}) =>
-          item.data().status ? (
-            <StatusMessage item={item} />
-          ) : item.data().sender === user ? (
-            <MyChat item={item} user={userDesc} userDetail={userDetail} />
-          ) : (
-            <NotMyChat
-              item={item}
-              userDetail={userDetail}
-              setUserId={setUserId}
-              setUserInfoModalVisible={setUserInfoModalVisible}
-            />
-          )
-        }
+        renderItem={renderItem}
+        keyExtractor={keyExtractor}
       />
       <UserInfoModal
         userInfoModalVisible={userInfoModalVisible}
@@ -84,25 +124,42 @@ function ChatText({data, roomInfo, userDetail}) {
         visible={checkIsVisible(userId)}
       />
       <AddChat chatId={data.id} />
+      {roomInfo && (
+        <Pressable
+          style={{
+            position: 'absolute',
+            height: '100%',
+            width: '100%',
+          }}
+          onPress={() => {
+            setRoomInfo(false);
+          }}
+        />
+      )}
     </View>
   );
 }
 
 function NotMyChat({item, userDetail, setUserInfoModalVisible, setUserId}) {
+  const [date, setDate] = useState();
+  useEffect(() => {
+    const date = new Date(item.createdAt.seconds * 1000).toLocaleString();
+    setDate(date);
+  }, []);
   return (
     <View style={styles.messageWrapper}>
       {/* 클릭할 시 유저 정보를 열겠냐고 물어보는 모달 창 띄우는 값 true로 설정 */}
-      {userDetail && userDetail[item.data().sender] ? (
+      {userDetail && userDetail[item.sender] ? (
         <TouchableOpacity
           activeOpacity={1}
           onPress={() => {
-            setUserId(item.data().sender);
+            setUserId(item.sender);
             setUserInfoModalVisible(true);
           }}>
           <Image
             source={
               userDetail && {
-                uri: userDetail[item.data().sender].nftProfile,
+                uri: userDetail[item.sender].nftProfile,
               }
             }
             style={styles.image}
@@ -120,13 +177,13 @@ function NotMyChat({item, userDetail, setUserInfoModalVisible, setUserId}) {
 
       <View style={styles.textWrapper}>
         <Text style={styles.senderName}>
-          {userDetail && userDetail[item.data().sender]
-            ? userDetail[item.data().sender].nickName
+          {userDetail && userDetail[item.sender]
+            ? userDetail[item.sender].nickName
             : '(알수없음)'}
         </Text>
         <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
           <View style={styles.messageBody}>
-            <Text style={{color: '#3C3D43'}}>{item.data().text}</Text>
+            <Text style={{color: '#3C3D43'}}>{item.text}</Text>
           </View>
           <View style={styles.date}>
             <Text
@@ -136,14 +193,7 @@ function NotMyChat({item, userDetail, setUserInfoModalVisible, setUserId}) {
                 color: '#ffffff',
                 letterSpacing: -0.5,
               }}>
-              {item
-                .data()
-                .createdAt.toDate()
-                .toLocaleString()
-                .slice(
-                  6,
-                  item.data().createdAt.toDate().toLocaleString().length - 3,
-                )}
+              {date && date.slice(6, date.length - 3)}
             </Text>
           </View>
         </View>
@@ -153,6 +203,11 @@ function NotMyChat({item, userDetail, setUserInfoModalVisible, setUserId}) {
 }
 
 function MyChat({item}) {
+  const [date, setDate] = useState();
+  useEffect(() => {
+    const date = new Date(item.createdAt.seconds * 1000).toLocaleString();
+    setDate(date);
+  }, []);
   return (
     <View style={{...styles.MymessageWrapper, paddingTop: 10}}>
       <View style={[styles.textWrapper, {alignItems: 'flex-end'}]}>
@@ -165,14 +220,11 @@ function MyChat({item}) {
                 color: '#ffffff',
                 letterSpacing: -0.5,
               }}>
-              {item
-                .data()
-                .createdAt.toDate()
+              {/* {item.createdAt
+                .toDate()
                 .toLocaleString()
-                .slice(
-                  6,
-                  item.data().createdAt.toDate().toLocaleString().length - 3,
-                )}
+                .slice(6, item.createdAt.toDate().toLocaleString().length - 3)} */}
+              {date && date.slice(6, date.length - 3)}
             </Text>
           </View>
           <View
@@ -181,7 +233,7 @@ function MyChat({item}) {
               {backgroundColor: 'rgba(234, 255, 239, 0.8)', maxWidth: 300},
             ]}>
             <Text style={{color: '#3C3D43', fontSize: 15, letterSpacing: -0.5}}>
-              {item.data().text}
+              {item.text}
             </Text>
           </View>
         </View>
@@ -214,10 +266,10 @@ function StatusMessage({item}) {
             fontSize: 13,
             letterSpacing: -0.5,
           }}>
-          {item.data().nickName} 님이{' '}
-          {item.data().status === 'out'
+          {item.nickName} 님이{' '}
+          {item.status === 'out'
             ? '나가셨습니다.'
-            : item.data().status === 'in'
+            : item.status === 'in'
             ? '입장하셨습니다.'
             : '퇴장당하셨습니다.'}
         </Text>
