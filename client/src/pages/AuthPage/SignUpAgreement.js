@@ -15,7 +15,6 @@ import CheckElement from '../../components/AuthComponents/CheckElement';
 import CheckBox from '@react-native-community/checkbox';
 import {signUp, signIn} from '../../lib/Auth';
 import GradientButton from '../../components/common/GradientButton';
-import SafeStatusBar from '../../components/common/SafeStatusBar';
 import {createUser, getUser} from '../../lib/Users';
 import storage from '@react-native-firebase/storage';
 import {createWallet} from '../../lib/api/wallet';
@@ -24,6 +23,7 @@ import {createUserNFT} from '../../lib/Users';
 import {getNFTs, getProfile, getMemin} from '../../lib/NFT';
 import useNftActions from '../../utils/hooks/UseNftActions';
 import useAuthActions from '../../utils/hooks/UseAuthActions';
+import SafeStatusBar from '../../components/common/SafeStatusBar';
 import useUser from '../../utils/hooks/UseUser';
 import {useToast} from '../../utils/hooks/useToast';
 
