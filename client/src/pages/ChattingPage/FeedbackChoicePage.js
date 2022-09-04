@@ -37,6 +37,7 @@ function FeedbackChoicePage({route}) {
   const {data, userInfo} = route.params;
 
   useEffect(() => {
+    setConfirmable(true);
     firestore()
       .collection('User')
       .doc(owner.id)
