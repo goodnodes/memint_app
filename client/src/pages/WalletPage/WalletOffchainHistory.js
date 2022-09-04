@@ -111,7 +111,7 @@ function WalletOffchainHistory({navigation}) {
         amount={user.tokenAmount}
         onPress={goToOffchainTrade}
       />
-      <Text style={styles.historyText}>History</Text>
+      <Text style={styles.accountText}>History</Text>
       <ScrollView>
         {offTxLogs ? (
           offTxLogs.map((log, idx) => {

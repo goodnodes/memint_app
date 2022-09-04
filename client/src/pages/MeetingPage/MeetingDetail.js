@@ -17,7 +17,7 @@ import {createMeetingProposal} from '../../lib/Alarm';
 import {updateWaitingIn} from '../../lib/Meeting';
 import {getUser} from '../../lib/Users';
 import {useToast} from '../../utils/hooks/useToast';
-import useUser from '../../utils/hooks/UseAuth';
+import useUser from '../../utils/hooks/UseUser';
 import {
   handleDateInFormat,
   handleISOtoLocale,
@@ -27,6 +27,7 @@ import WalletButton from '../../components/common/WalletButton';
 import LinearGradient from 'react-native-linear-gradient';
 import MeetingLikes from '../../components/meetingComponents/MeetingLikes';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
+import ActivationModal from '../../components/common/ActivationModal';
 
 function MeetingDetail({route}) {
   const userInfo = useUser();
@@ -38,6 +39,14 @@ function MeetingDetail({route}) {
   const [membersInfo, setMembersInfo] = useState([]);
   const {showToast} = useToast();
   const navigation = useNavigation();
+  const [activationModalVisible, setActivationModalVisible] = useState(false);
+  const handleRequestMeeting = async () => {
+    if (userInfo.isActivated) {
+      setModalVisible_1(true);
+    } else {
+      setActivationModalVisible(true);
+    }
+  };
   const renderByUser = () => {
     if (
       data.members.reduce((acc, cur) => {
@@ -89,9 +98,10 @@ function MeetingDetail({route}) {
           height={50}
           textSize={17}
           text="미팅 신청 보내기"
-          onPress={() => {
-            setModalVisible_1(true);
-          }}
+          // onPress={() => {
+          //   setModalVisible_1(true);
+          // }}
+          onPress={handleRequestMeeting}
         />
       );
     }
@@ -242,6 +252,7 @@ function MeetingDetail({route}) {
                 onChangeText={setTextMessage}
                 autoComplete={false}
                 autoCorrect={false}
+                maxLength={200}
               />
             </View>
           }
@@ -251,6 +262,14 @@ function MeetingDetail({route}) {
           setModalVisible={setModalVisible_2}
           nFunction={() => setModalVisible_2(!modalVisible_2)}
           pFunction={handleCreateProposal}
+        />
+        <ActivationModal
+          text="Activation Code가 필요합니다."
+          //body={<Text>정말로?</Text>}
+          buttonText="인증하기"
+          modalVisible={activationModalVisible}
+          setModalVisible={setActivationModalVisible}
+          setNextModalVisible={setModalVisible_1}
         />
       </ScrollView>
       <WalletButton />

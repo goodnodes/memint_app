@@ -16,6 +16,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import useUser from '../../utils/hooks/UseUser';
+import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import {getMeeting, updateMeeting} from '../../lib/Meeting';
 import BasicButton from '../../components/common/BasicButton';
@@ -60,14 +61,14 @@ function MeetingConfirm({route}) {
       {
         title: '사진 업로드',
         //사진 선택하기는 이후 삭제될 수 있음
-        options: ['카메라로 촬영하기', '취소'],
-        cancelButtonIndex: 1,
+        options: ['카메라로 촬영하기', '사진 선택하기', '취소'],
+        cancelButtonIndex: 2,
       },
       buttonIndex => {
         if (buttonIndex === 0) {
           launchCamera(imagePickerOption, onPickImage);
-          // } else if (buttonIndex === 1) {
-          //   launchImageLibrary(imagePickerOption, onPickImage);
+        } else if (buttonIndex === 1) {
+          launchImageLibrary(imagePickerOption, onPickImage);
         }
       },
     );
@@ -92,6 +93,7 @@ function MeetingConfirm({route}) {
     await updateMeeting(meetingInfo.id, {
       confirmImage: photoURL,
       confirmStatus: 'pending',
+      confirmCreatedAt: firestore.FieldValue.serverTimestamp(),
     });
     await createConfirmAlarm({sender: userInfo.id, meetingId: meetingInfo.id});
     await getMeetingInfo();
@@ -120,6 +122,7 @@ function MeetingConfirm({route}) {
     await updateMeeting(meetingInfo.id, {
       confirmImage: photoURL,
       confirmStatus: 'pending',
+      confirmCreatedAt: firestore.FieldValue.serverTimestamp(),
     });
     await createConfirmAlarm({sender: userInfo.id, meetingId: meetingInfo.id});
 
@@ -131,31 +134,32 @@ function MeetingConfirm({route}) {
   const renderStatus = () => {
     if (meetingInfo.confirmStatus === 'pending') {
       return <Text style={styles.subText}>인증 대기중</Text>;
-    } else if (meetingInfo.confirmStatus === 'confirmed') {
-      return (
-        <>
-          <Text style={styles.plainText}>인증 완료</Text>
-          <Icon
-            name="check-circle"
-            size={15}
-            color="#00BA00"
-            style={styles.statusIcon}
-          />
-        </>
-      );
-    } else if (meetingInfo.confirmStatus === 'denied') {
-      return (
-        <>
-          <Text style={styles.plainText}>인증 반려</Text>
-          <Icon
-            name="warning"
-            size={15}
-            color="#EE404C"
-            style={styles.statusIcon}
-          />
-        </>
-      );
     }
+    // } else if (meetingInfo.confirmStatus === 'confirmed') {
+    //   return (
+    //     <>
+    //       <Text style={styles.plainText}>인증 완료</Text>
+    //       <Icon
+    //         name="check-circle"
+    //         size={15}
+    //         color="#00BA00"
+    //         style={styles.statusIcon}
+    //       />
+    //     </>
+    //   );
+    // } else if (meetingInfo.confirmStatus === 'denied') {
+    //   return (
+    //     <>
+    //       <Text style={styles.plainText}>인증 반려</Text>
+    //       <Icon
+    //         name="warning"
+    //         size={15}
+    //         color="#EE404C"
+    //         style={styles.statusIcon}
+    //       />
+    //     </>
+    //   );
+    // }
   };
 
   const renderMessage = () => {
@@ -202,8 +206,13 @@ function MeetingConfirm({route}) {
               <TouchableOpacity
                 style={styles.photoButton}
                 onPress={handleCamera}>
-                <Icon name="photo-camera" size={19} style={styles.photoIcon} />
-                <Text style={styles.boldText}>다시 인증하기</Text>
+                <Icon
+                  name="photo-camera"
+                  size={25}
+                  style={styles.photoIcon}
+                  color="#33ED96"
+                />
+                <Text style={styles.buttonText}>다시 인증하기</Text>
               </TouchableOpacity>
             </View>
           )}
@@ -220,8 +229,24 @@ function MeetingConfirm({route}) {
             <View style={styles.imageView}>
               <Image
                 source={{uri: meetingInfo.confirmImage}}
-                style={styles.image}
+                style={[
+                  styles.image,
+                  meetingInfo.confirmStatus &&
+                  meetingInfo.confirmStatus === 'confirmed'
+                    ? {borderWidth: 3, borderColor: '#58FF7D'}
+                    : null,
+                  meetingInfo.confirmStatus &&
+                  meetingInfo.confirmStatus === 'denied'
+                    ? {borderWidth: 3, borderColor: '#F52C00'}
+                    : null,
+                ]}
               />
+              <View style={styles.dateText}>
+                <Text style={styles.plainText}>
+                  {meetingInfo?.confirmCreatedAt.toDate().toLocaleString()}
+                </Text>
+              </View>
+
               {renderMessage()}
               {renderDenied()}
             </View>
@@ -230,6 +255,7 @@ function MeetingConfirm({route}) {
               {image ? (
                 <View style={styles.imageView}>
                   <Image
+                    resizeMode="contain"
                     source={{uri: image?.assets[0]?.uri}}
                     style={styles.image}
                   />
@@ -258,9 +284,25 @@ function MeetingConfirm({route}) {
           {meetingInfo.confirmImage ? (
             <View style={styles.imageView}>
               <Image
+                resizeMode="contain"
                 source={{uri: meetingInfo.confirmImage}}
-                style={styles.image}
+                style={[
+                  styles.image,
+                  meetingInfo.confirmStatus &&
+                  meetingInfo.confirmStatus === 'confirmed'
+                    ? {borderWidth: 3, borderColor: '#58FF7D'}
+                    : null,
+                  meetingInfo.confirmStatus &&
+                  meetingInfo.confirmStatus === 'denied'
+                    ? {borderWidth: 3, borderColor: '#F52C00'}
+                    : null,
+                ]}
               />
+              <View style={styles.dateText}>
+                <Text style={styles.plainText}>
+                  {meetingInfo?.confirmCreatedAt.toDate().toLocaleString()}
+                </Text>
+              </View>
               {renderMessage()}
             </View>
           ) : (
@@ -438,8 +480,7 @@ const styles = StyleSheet.create({
   },
   image: {
     height: 280,
-    width: 350,
-    borderRadius: 20,
+    width: '100%',
   },
   deniedArea: {
     width: '100%',
@@ -483,6 +524,11 @@ const styles = StyleSheet.create({
   joinerText: {
     color: '#ffffff',
     marginBottom: 10,
+  },
+  dateText: {
+    justifyContent: 'flex-end',
+    flexDirection: 'row',
+    width: '100%',
   },
 });
 

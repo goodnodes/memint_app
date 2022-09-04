@@ -105,6 +105,7 @@ const SignUpAlarmScreen = ({navigation, route}) => {
           drinkStyle: userDetail.property.drinkStyle,
         },
         visibleUser: userDetail.visibleUser,
+        isActivated: userDetail.isActivated,
       }),
         ////////////////////
 

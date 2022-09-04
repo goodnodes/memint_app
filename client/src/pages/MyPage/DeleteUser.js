@@ -8,32 +8,34 @@ import {
 } from 'react-native';
 import BackButton from '../../components/common/BackButton';
 import BasicButton from '../../components/common/BasicButton';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
-import {deleteUserAuth} from '../../lib/Auth';
-import {deleteUserDB} from '../../lib/Users';
+
 function DeleteUser({route}) {
-  //   useEffect(() => {
-  //     console.log(route.params);
-  //   }, []);
+  // useEffect(() => {
+  //   console.log(route.params);
+  // }, []);
   const user = route.params;
   const navigation = useNavigation();
-  const handleDeleteUser = () => {
-    try {
-      deleteUserDB(user.id);
-      deleteUserAuth();
-    } catch (e) {
-      console.log(e);
-    } finally {
-      navigation.navigate('SignIn');
-    }
+
+  const handleNextPage = () => {
+    navigation.navigate('ReverifyForDelete', {user});
   };
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <BackButton />
-        <Text style={styles.title}>회원탈퇴</Text>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.pop()}>
+          <Icon name="arrow-back-ios" size={20} color={'#1D1E1E'} />
+          {/* <Text style={styles.buttonText}>Back</Text> */}
+        </TouchableOpacity>
       </View>
       <View style={styles.wrapper}>
+        <View style={styles.titleRow}>
+          <Text style={styles.title}>회원탈퇴</Text>
+        </View>
+
         <View style={styles.section}>
           <Text style={styles.bigText}>{user.nickName}님,</Text>
           <Text style={styles.bigText}>MEMINT를 탈퇴하시겠습니까?</Text>
@@ -43,12 +45,13 @@ function DeleteUser({route}) {
             탈퇴하기 전 아래 내용을 확인해 주세요.
           </Text>
           <Text>
-            내 미민이 정보, 프로필 사진, 미팅 정보, 채팅 기록 등 회원님의 모든
+            - 미민이 정보, 프로필 사진, 미팅 정보, 채팅 기록 등 회원님의 모든
             활동 정보가 삭제되며, 삭제된 데이터는 복구할 수 없어요.
           </Text>
+          <Text>- 보유하신 토큰 또한 복구가 불가합니다.</Text>
         </View>
-        <TouchableOpacity style={styles.button} onPress={handleDeleteUser}>
-          <Text style={styles.buttonText}>탈퇴하기</Text>
+        <TouchableOpacity style={styles.button} onPress={handleNextPage}>
+          <Text style={styles.buttonText}>다음으로</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -64,19 +67,21 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingBottom: 10,
-    borderBottomColor: 'black',
-    borderBottomWidth: 1,
+    // borderBottomColor: 'black',
+    // borderBottomWidth: 1,
   },
   title: {
-    fontSize: 18,
-    fontWeight: '700',
-    marginLeft: 10,
+    fontWeight: '400',
+    fontSize: 24,
+    color: '#1D1E1E',
+    fontFamily: 'NeoDunggeunmoPro-Regular',
+    letterSpacing: -0.5,
   },
   wrapper: {
     flexDirection: 'column',
     alignItems: 'center',
     flex: 1,
-    paddingHorizontal: 30,
+    paddingHorizontal: 15,
     paddingTop: 40,
   },
   section: {
@@ -121,6 +126,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     letterSpacing: -0.01,
+  },
+  backButton: {
+    marginLeft: 15,
+  },
+  titleRow: {
+    width: '100%',
   },
 });
 export default DeleteUser;

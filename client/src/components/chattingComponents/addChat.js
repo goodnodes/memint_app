@@ -33,7 +33,6 @@ function AddChat({chatId}) {
         placeholderTextColor="#ffffff"
         value={text}
         onChangeText={setText}
-        autoComplete={false}
         autoCorrect={false}
       />
       <TouchableOpacity

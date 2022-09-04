@@ -1,7 +1,6 @@
 import React from 'react';
 import {View, StyleSheet, Text, Image} from 'react-native';
 import klayIcon from '../../assets/icons/klaytn-klay-logo.png';
-import ethIcon from '../../assets/icons/ethereum.png';
 import tingsymbol from '../../assets/icons/tingsymbol.png';
 function SmallLcnButton({
   width,

@@ -11,11 +11,11 @@ const app = express();
 const fs = require("fs");
 const port = process.env.PORT || 5000;
 const web = require("./routes/web");
-const cors = require("cors");
-let corsOptions = {
-  origin: "https://www.memint.xyz",
-  credentials: true,
-};
+// const cors = require("cors");
+// let corsOptions = {
+//   origin: "https://www.memint.xyz",
+//   credentials: true,
+// };
 
 //Firebase setting
 const admin = require("firebase-admin");
@@ -26,13 +26,13 @@ const firebaseApp = admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
 
-module.exports.db = firestore.getFirestore(firebaseApp);
+const db = (module.exports.db = firestore.getFirestore(firebaseApp));
 //Firebase setting
 
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 
 app.get("/", (req, res) => {
   res.send("hello Web3");
@@ -60,6 +60,37 @@ app.use((err, req, res, next) => {
       message: err.message,
     },
   });
+});
+
+const schedule = require("node-schedule");
+const j = schedule.scheduleJob("00 00 * * *", async function () {
+  try {
+    console.log("Reset validity for supplying free TING token");
+    let querySnapshot = await db.collection("User").get();
+
+    if (querySnapshot.size === 0) {
+      console.log("No documents to update");
+      return "No documents to update";
+    }
+
+    const batches = []; // hold batches to update at once
+
+    querySnapshot.docs.forEach((doc, i) => {
+      if (i % 500 === 0) {
+        batches.push(db.batch());
+      }
+
+      const batch = batches[batches.length - 1];
+      batch.update(doc.ref, { isReadyToGetFreeToken: true });
+    });
+
+    await Promise.all(batches.map((batch) => batch.commit()));
+    console.log(`${querySnapshot.size} documents updated`);
+    return `${querySnapshot.size} documents updated`;
+  } catch (error) {
+    console.log(`***ERROR: ${error}`);
+    return error;
+  }
 });
 
 app.listen(port, () => {

@@ -47,6 +47,9 @@ export function createUser({
       alcoholType: alcoholType,
     },
     marketingAgreement: marketingAgreement,
+    isActivated: false,
+    selfIntroduction: '',
+    isReadyToGetFreeToken: true,
   });
 }
 
@@ -89,6 +92,14 @@ export function createProperty({userId, drinkCapa, drinkStyle, alcoholType}) {
   });
 }
 
+export function getFreeToken({userId, updatedTokenAmount}) {
+  console.log({userId, updatedTokenAmount});
+  return usersCollection.doc(userId).update({
+    tokenAmount: updatedTokenAmount,
+    isReadyToGetFreeToken: false,
+  });
+}
+
 export function createPhoneNumber({userId, phoneNumber}) {
   return usersCollection.doc(userId).update({
     phoneNumber: phoneNumber,
@@ -104,6 +115,11 @@ export function createUserNFT({userId, nftProfile, nftId}) {
 export function updateTokenAmount(userId, balance) {
   return usersCollection.doc(userId).update({
     tokenAmount: balance,
+  });
+}
+export function updateActivation(userId, valid) {
+  return usersCollection.doc(userId).update({
+    isActivated: valid,
   });
 }
 
@@ -209,3 +225,20 @@ export const deleteTokenFromDatabase = async (token, userId) => {
 export function deleteUserDB(userId) {
   usersCollection.doc(userId).delete();
 }
+
+export async function deletePhoneNumber(userId) {
+  await usersCollection.doc(userId).update({phoneNumber: null});
+}
+
+export const EditUserInfo = async (
+  userId,
+  profileImg,
+  drinkInfo,
+  selfIntroduction,
+) => {
+  await usersCollection.doc(userId).update({
+    picture: profileImg,
+    property: drinkInfo,
+    selfIntroduction,
+  });
+};

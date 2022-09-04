@@ -7,6 +7,7 @@ import {
   FlatList,
   Image,
   SafeAreaView,
+  DeviceEventEmitter,
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import useUser from '../../utils/hooks/UseUser';
@@ -16,6 +17,7 @@ import {useIsFocused} from '@react-navigation/native';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 import LinearGradient from 'react-native-linear-gradient';
 import {handleDate, handleDateInFormat} from '../../utils/common/Functions';
+import {getItem, setItem} from '../../lib/Chatting';
 
 function ChattingListPage({navigation}) {
   const [chatLog, setChatLog] = useState('');
@@ -26,14 +28,14 @@ function ChattingListPage({navigation}) {
   useEffect(() => {
     const getChatLogs = async () => {
       const meetingList = [];
-      console.log({user});
+      // console.log({user});
       const rawUserInfo = await firestore()
         .collection('User')
         .doc(user.id)
         .get();
-      console.log({rawUserInfo});
+      // console.log({rawUserInfo});
       const userInfo = rawUserInfo.data();
-      console.log({userInfo});
+      // console.log({userInfo});
       userInfo.createdroomId && meetingList.push(...userInfo.createdroomId);
       userInfo.joinedroomId && meetingList.push(...userInfo.joinedroomId);
 
@@ -115,57 +117,254 @@ function ChattingListPage({navigation}) {
 }
 
 function MetaData({item, navigation, refresh, setRefresh}) {
+  const isFocused = useIsFocused();
+  const user = useUser();
   const [lastMsg, setLastMsg] = useState('');
   const [lastTime, setLastTime] = useState('');
-  // const MessageRef = useMemo(
-  //   () => ,
-  //   [item.id],
-  // );
+  const [allMsgs, setAllMsgs] = useState('');
+  const [unChecked, setUnChecked] = useState(0);
+  const [lock, setLock] = useState(false);
+  const [last, setLast] = useState('');
+
   useEffect(() => {
-    const getContent = async () => {
-      firestore()
-        .collection('Meeting')
-        .doc(item.id)
-        .collection('Messages')
-        .orderBy('createdAt', 'desc')
-        .limit(1)
-        .onSnapshot(result => {
-          if (result.docs.length === 0) {
-            return;
-          } else if (
-            result.docChanges()[result.docChanges().length - 1].doc._data
-              .createdAt
-          ) {
-            if (result.docs[0].data().status) {
-              return;
+    DeviceEventEmitter.addListener(item.id, () => {
+      setUnChecked(0);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (lock) {
+      setLock(false);
+    }
+  }, [isFocused]);
+
+  // 페이지 열 때 한번만 실행되는 useEffect
+  // AsyncStorage에 정보가 없으면 만들어주고, 있다면 받아와서 allMsgs에 넣어주는 역할을 한다.
+  useEffect(() => {
+    getItem(item.id).then(result => {
+      // AsyncStorage에 없으면(방금 만들거나 입장한 미팅룸이면) id를 가지고 data를 만들어준다.
+      if (result === null) {
+        const earlySetting = async () => {
+          const firstMsg = await firestore()
+            .collection('Meeting')
+            .doc(item.id)
+            .collection('Messages')
+            .where('nickName', '==', user.nickName)
+            .get();
+          // Host일 때
+          if (firstMsg.docs.length === 0) {
+            console.log('Host');
+            const messages = await firestore()
+              .collection('Meeting')
+              .doc(item.id)
+              .collection('Messages')
+              .orderBy('createdAt')
+              .get();
+            setItem(item.id, [
+              {checked: 0},
+              ...messages.docs.map(el => {
+                return el.data();
+              }),
+            ]);
+            setAllMsgs([
+              {checked: 0},
+              ...messages.docs.map(el => {
+                return el.data();
+              }),
+            ]);
+            setUnChecked(messages.docs.length);
+            // Joiner일 때
+          } else {
+            console.log('Joiner');
+            const messages = await firestore()
+              .collection('Meeting')
+              .doc(item.id)
+              .collection('Messages')
+              .where('createdAt', '>', firstMsg.docs[0].data().createdAt)
+              .orderBy('createdAt')
+              .get();
+
+            setItem(item.id, [
+              {checked: 0},
+              ...messages.docs.map(el => {
+                return el.data();
+              }),
+            ]);
+            setAllMsgs([
+              {checked: 0},
+              ...messages.docs.map(el => {
+                return el.data();
+              }),
+            ]);
+            setUnChecked(messages.docs.length);
+          }
+        };
+        earlySetting();
+      } else {
+        if (result.length === 1) {
+          const getDatas = async () => {
+            const msgs = await firestore()
+              .collection('Meeting')
+              .doc(item.id)
+              .collection('Messages')
+              .orderBy('createdAt')
+              .get();
+            if (msgs.docs.length === 0) {
+              setAllMsgs(result);
+            } else {
+              const datas = msgs.docs.map(el => {
+                return el.data();
+              });
+              const all = result.concat(datas);
+              setAllMsgs(all);
+              setItem(item.id, all);
+              setUnChecked(all.length - 1);
             }
+          };
+          return getDatas();
+        } else {
+          const getAfterMsgs = async () => {
+            // console.log(result[result.length - 1].createdAt);
+            const Time = firestore.Timestamp.fromDate(
+              new Date(result[result.length - 1].createdAt.seconds * 1000),
+            );
+            // console.log(lastTime);
+            const msgs = await firestore()
+              .collection('Meeting')
+              .doc(item.id)
+              .collection('Messages')
+              .where('createdAt', '>', Time)
+              .orderBy('createdAt')
+              .get();
+            // console.log({updates: msgs.docs});
+            if (msgs.docs.length === 0) {
+              // console.log('docs.length === 0');
+              // console.log({length: result.length, checked: result[0].checked});
+
+              setUnChecked(result.length - result[0].checked);
+              return setAllMsgs(result);
+            } else {
+              const datas = msgs.docs.slice(1).map(el => {
+                return el.data();
+              });
+              const all = result.concat(datas);
+              // console.log('hi');
+              setAllMsgs(all);
+              setItem(item.id, all);
+              // console.log('docs.length > 0');
+              // console.log({length: all.length, checked: result[0].checked});
+              setUnChecked(all.length - result[0].checked);
+            }
+          };
+          return getAfterMsgs();
+        }
+      }
+    });
+  }, []);
+
+  // firestore를 통해 lastMsg가 업데이트되면 AsyncStorage에 lastMsg를 업데이트해주는 함수
+  useEffect(() => {
+    if (allMsgs === '') {
+      return;
+    } else if (allMsgs.length === 1) {
+      // setUnChecked(unChecked + 1);
+      setAllMsgs([...allMsgs, last]);
+      setItem(item.id, [...allMsgs, last]);
+    } else if (
+      allMsgs[allMsgs.length - 1].createdAt.seconds !== last.createdAt.seconds
+    ) {
+      if (!lock) {
+        setUnChecked(unChecked + 1);
+      }
+      setAllMsgs([...allMsgs, last]);
+      setItem(item.id, [...allMsgs, last]);
+    }
+    // console.log(allMsgs);
+  }, [lastTime.seconds]);
+
+  // firestore에서 새로운 msg를 받아서 lastMsg를 업데이트해주는 함수
+  useEffect(() => {
+    const getContent = firestore()
+      .collection('Meeting')
+      .doc(item.id)
+      .collection('Messages')
+      .orderBy('createdAt', 'desc')
+      .limit(1)
+      .onSnapshot(result => {
+        if (result.docs.length === 0) {
+          return;
+        } else if (
+          result.docChanges()[result.docChanges().length - 1].doc._data
+            .createdAt
+        ) {
+          if (result.docs[0].data().status) {
+            // console.log(result.docs[0].data());
+            setLastMsg('info');
+            setLast(result.docs[0].data());
+            setLastTime(result.docs[0].data().createdAt);
+          } else {
+            setLast(result.docs[0].data());
             setLastMsg(result.docs[0].data().text);
             setLastTime(result.docs[0].data().createdAt);
           }
-        });
-    };
+        }
+      });
+
     setRefresh(!refresh);
-    getContent();
-    return () => getContent();
-  }, [lastMsg]);
+
+    return () => getContent;
+  }, [lastTime.seconds]);
+
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate('ChattingRoom', {data: item})}>
+      onPress={() => {
+        navigation.navigate('ChattingRoom', {data: item});
+        setLock(true);
+        setUnChecked(0);
+        const temp = [...allMsgs];
+        temp[0].checked = allMsgs.length;
+        setItem(item.id, temp);
+      }}>
       <View style={styles.container}>
         <Image style={styles.image} source={{uri: item.hostInfo}} />
         <View style={styles.chatInfo}>
           <View>
             <Text style={styles.titleText} numberOfLines={1}>
-              {item.title}
+              {item.title.length > 14
+                ? item.title.slice(0, 14) + '...'
+                : item.title}
             </Text>
             <Text numberOfLines={1} style={styles.plainText}>
-              {lastMsg ? lastMsg : '채팅을 시작해보세요!'}
+              {lastMsg && lastMsg !== 'info' ? lastMsg : '채팅을 시작해보세요!'}
             </Text>
           </View>
           <View style={styles.date}>
             <Text style={styles.dateText}>
-              {lastTime ? handleDate(lastTime) : ''}
+              {lastTime && lastMsg !== 'info' ? handleDate(lastTime) : ''}
             </Text>
+            <View
+              style={{
+                width: '100%',
+                height: '100%',
+                justifyContent: 'center',
+                alignItems: 'flex-end',
+              }}>
+              {unChecked !== 0 && (
+                <View
+                  style={{
+                    minWidth: 22,
+                    backgroundColor: '#58FF7D',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: 13,
+                    bottom: 3,
+                  }}>
+                  <Text style={{fontSize: 13, margin: 3, fontWeight: 'bold'}}>
+                    {unChecked}
+                  </Text>
+                </View>
+              )}
+            </View>
           </View>
         </View>
       </View>

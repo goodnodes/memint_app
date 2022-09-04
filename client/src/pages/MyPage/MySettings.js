@@ -1,11 +1,18 @@
 import React, {useEffect, useState, useCallback} from 'react';
-import {SafeAreaView, StyleSheet, Text, View, Switch} from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  Switch,
+  Linking,
+} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import BackButton from '../../components/common/BackButton';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useNavigation} from '@react-navigation/native';
 import {signOut} from '../../lib/Auth';
 import useAuthActions from '../../utils/hooks/UseAuthActions';
+
 function MySettings({route}) {
   const navigation = useNavigation();
   const {logout} = useAuthActions();
@@ -21,11 +28,14 @@ function MySettings({route}) {
   }, [navigation, logout]);
 
   const handleCsCenter = () => {
-    navigation.navigate('CsCenter');
+    navigation.navigate('Report');
   };
 
   const handleDeletePage = () => {
     navigation.navigate('DeleteUser', route.params);
+  };
+  const handleChangePw = () => {
+    navigation.navigate('ChangePw', route.params);
   };
   const [pushAgree, setPushAgree] = useState(false);
   const [mailAgree, setMailAgree] = useState(false);
@@ -42,10 +52,14 @@ function MySettings({route}) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <BackButton />
-        <Text style={styles.title}>설정</Text>
-      </View>
+      <TouchableOpacity
+        style={styles.backButton}
+        onPress={() => navigation.pop()}>
+        <Icon name="arrow-back-ios" size={20} color={'#1D1E1E'} />
+        {/* <Text style={styles.buttonText}>Back</Text> */}
+      </TouchableOpacity>
+      <Text style={styles.title}>설정</Text>
+
       <View style={{...styles.li, paddingVertical: 20}}>
         <Text style={{...styles.liText, fontWeight: 'bold'}}>현재 버전</Text>
         <Text style={styles.liGrayText}>1.0.0</Text>
@@ -54,7 +68,7 @@ function MySettings({route}) {
         <Text style={styles.liText}>이메일</Text>
         <Text style={styles.liGrayText}>{route.params.email}</Text>
       </View>
-      <TouchableOpacity style={styles.li}>
+      <TouchableOpacity style={styles.li} onPress={handleChangePw}>
         <Text style={styles.liText}>비밀번호 변경</Text>
         <Icon name="arrow-forward-ios" size={20} />
       </TouchableOpacity>
@@ -62,16 +76,20 @@ function MySettings({route}) {
         <Text style={styles.liText}>고객센터</Text>
         <Icon name="arrow-forward-ios" size={20} />
       </TouchableOpacity>
-      <View style={styles.li}>
+      <TouchableOpacity
+        style={styles.li}
+        onPress={async () => {
+          await Linking.openSettings();
+        }}>
         <Text style={styles.liText}>Push 알림 동의</Text>
-        <Switch
+        {/* <Switch
           trackColor={{false: '#767577', true: '#81b0ff'}}
           thumbColor={pushAgree ? '#f5dd4b' : '#f4f3f4'}
           ios_backgroundColor="#3e3e3e"
           onValueChange={handlePushToggle}
           value={pushAgree}
-        />
-      </View>
+        /> */}
+      </TouchableOpacity>
       <View style={styles.li}>
         <Text style={styles.liText}>메일 수신 동의</Text>
         <Switch
@@ -111,13 +129,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingBottom: 10,
-    borderBottomColor: 'black',
-    borderBottomWidth: 1,
   },
   title: {
-    fontSize: 18,
-    fontWeight: '700',
-    marginLeft: 10,
+    marginLeft: 15,
+    fontWeight: '400',
+    marginTop: 20,
+    fontSize: 24,
+    color: '#1D1E1E',
+    fontFamily: 'NeoDunggeunmoPro-Regular',
+    letterSpacing: -0.5,
   },
   ul: {
     marginTop: 10,
@@ -126,7 +146,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 30,
+    paddingHorizontal: 15,
     marginVertical: 15,
   },
   liText: {
@@ -139,6 +159,10 @@ const styles = StyleSheet.create({
   deleteText: {
     fontSize: 16,
     color: '#EE3232',
+  },
+  backButton: {
+    paddingLeft: 15,
+    paddingTop: 5,
   },
 });
 

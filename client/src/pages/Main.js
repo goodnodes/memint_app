@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, SafeAreaView, StyleSheet, View} from 'react-native';
+import {Button, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -47,6 +47,8 @@ function Main() {
           position: 'absolute',
           zIndex: 10,
         }}
+        activeColor="#33ED96"
+        inactiveColor="#EDEEF6"
         // style={{backgroundColor: 'rgba(0,0,0,0.0)'}}
       >
         <Tab.Screen
@@ -55,7 +57,7 @@ function Main() {
           options={{
             tabBarLabel: 'MY',
             tabBarIcon: ({color}) => (
-              <Icon name="person" color={color} size={24} />
+              <Icon name="face" color={color} size={24} />
             ),
             tabBarColor: 'transparent',
           }}
@@ -77,7 +79,7 @@ function Main() {
           options={{
             tabBarLabel: '채팅',
             tabBarIcon: ({color}) => (
-              <Icon name="message" color={color} size={24} />
+              <Icon name="chat-bubble-outline" color={color} size={24} />
             ),
             tabBarColor: 'transparent',
           }}
@@ -88,7 +90,7 @@ function Main() {
           options={{
             tabBarLabel: '알림',
             tabBarIcon: ({color}) => (
-              <Icon name="notifications" color={color} size={24} />
+              <Icon name="notifications-none" color={color} size={24} />
             ),
             tabBarColor: 'transparent',
           }}

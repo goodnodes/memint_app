@@ -23,7 +23,7 @@ import {signUp} from '../../lib/Auth';
 import {createUser, getUser} from '../../lib/Users';
 import storage from '@react-native-firebase/storage';
 import {getImgUrl} from '../../lib/NFT';
-
+import {useToast} from '../../utils/hooks/useToast';
 import {createWallet} from '../../lib/api/wallet';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 // const reference = storage().ref('/directory/filename.png');
@@ -32,8 +32,10 @@ import SafeStatusBar from '../../components/common/SafeStatusBar';
 
 const SignUpUserInfoScreen = ({navigation, route}) => {
   let {userInfo} = route.params || {};
+  const {showToast} = useToast();
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState(null);
+  const [validNickname, setValidNickname] = useState(true);
   const [form, setForm] = useState({
     nickName: '',
     birthYear: '',
@@ -44,18 +46,36 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
 
   const createChangeTextHandler = name => value => {
     setForm({...form, [name]: value});
+    if (name === 'nickName') {
+      //calculate byte size
+      let str_character;
+      let size = 0;
+      for (let k = 0; k < value.length; k++) {
+        str_character = value.charAt(k);
+        if (escape(str_character).length > 4) size += 2;
+        else size++;
+      }
+
+      if (size > 14) {
+        setValidNickname(false);
+      } else {
+        setValidNickname(true);
+      }
+    }
   };
   const onSubmit = async () => {
     try {
       if (
+        !validNickname ||
         response === null ||
         form.nickName === '' ||
         form.birthYear === '' ||
         form.birthMonth === '' ||
-        form.birthMonth === '' ||
+        form.birthDay === '' ||
         form.gender === ''
       ) {
-        Alert.alert('실패', '회원 정보를 올바르게 입력해주세요');
+        // Alert.alert('실패', '회원 정보를 올바르게 입력해주세요');
+        showToast('error', '회원 정보를 올바르게 입력해주세요.');
       } else {
         Keyboard.dismiss();
         setLoading(true);
@@ -65,7 +85,7 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
           nickName: form.nickName,
           birthYear: form.birthYear,
           birthMonth: form.birthMonth,
-          birthDay: form.birthMonth,
+          birthDay: form.birthDay,
           gender: form.gender,
         };
         // let photoURL = null;
@@ -112,7 +132,7 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
     return (
       <SafeAreaView style={styles.fullscreenSub}>
         <View style={styles.spinnerWrapper}>
-          <ActivityIndicator size={32} color="#FAC3E9" />
+          <ActivityIndicator size={32} color="#58FF7D" />
         </View>
       </SafeAreaView>
     );
@@ -133,13 +153,21 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
               <Text style={styles.infoText}>닉네임</Text>
               <BorderedInput
                 size="wide"
-                placeholder="닉네임"
+                // placeholder="닉네임"
                 value={form.nickName}
                 onChangeText={createChangeTextHandler('nickName')}
                 autoCapitalize="none"
                 autoCorrect={false}
                 returnKeyType={'next'}
               />
+
+              <Text
+                style={[
+                  styles.validNickname,
+                  {color: validNickname ? '#3C3D43' : 'red'},
+                ]}>
+                너무 긴 닉네임입니다.
+              </Text>
             </View>
             <View style={styles.form}>
               <Text style={styles.infoText}>생년월일</Text>
@@ -167,6 +195,7 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
                   dropdownStyle={styles.dropdownStyle}
                   rowTextStyle={styles.dropdownTextStyle}
                   buttonTextStyle={styles.buttonTextStyle}
+                  position={'bottom'}
                 />
                 <Text style={styles.infoText}> 년 </Text>
                 <SelectDropdown
@@ -249,7 +278,7 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
                 }}
                 defaultButtonText=" "
                 buttonStyle={styles.dropdown}
-                dropdownStyle={styles.dropdownStyle}
+                dropdownStyle={styles.dropdownStyleGender}
                 rowTextStyle={styles.dropdownTextStyle}
                 buttonTextStyle={styles.buttonTextStyle}
               />
@@ -286,6 +315,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#3C3D43',
   },
+  validNickname: {
+    marginTop: 5,
+  },
   fullscreen: {
     flex: 1,
     paddingHorizontal: 15,
@@ -294,6 +326,14 @@ const styles = StyleSheet.create({
     flex: 1,
     // alignItems: 'center',
     // justifyContent: 'center',
+  },
+  title: {
+    fontWeight: '400',
+    marginTop: 20,
+    fontSize: 24,
+    color: '#ffffff',
+    fontFamily: 'NeoDunggeunmoPro-Regular',
+    letterSpacing: -0.5,
   },
   text: {
     fontSize: 32,
@@ -312,7 +352,7 @@ const styles = StyleSheet.create({
     marginBottom: 60,
   },
   alertText: {
-    marginVertical: 30,
+    marginTop: 30,
     fontSize: 14,
     letterSpacing: -0.5,
     color: '#ffffff',
@@ -337,6 +377,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   form: {
+    // position: 'static',
     marginBottom: 26,
     width: '100%',
     flexDirection: 'column',
@@ -384,6 +425,12 @@ const styles = StyleSheet.create({
   dropdownStyle: {
     backgroundColor: '#3C3D43',
     borderRadius: 10,
+    height: 185,
+  },
+  dropdownStyleGender: {
+    height: 100,
+    backgroundColor: '#3C3D43',
+    borderRadius: 10,
   },
   dropdownTextStyle: {
     color: '#ffffff',
@@ -421,6 +468,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     letterSpacing: -0.01,
+  },
+  paddingBottom: {
+    paddingBottom: 80,
   },
 });
 

@@ -1,14 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
-import {
-  Text,
-  View,
-  SafeAreaView,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
-import BackButton from '../../components/common/BackButton';
+import {Text, View, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import BasicButton from '../../components/common/BasicButton';
 import {createMeetingAccept, updateMeetingProposal} from '../../lib/Alarm';
 import {
@@ -396,7 +388,7 @@ const styles = StyleSheet.create({
   emotionIcon: {
     height: 30,
     width: 30,
-    color: 'black',
+    tintColor: 'black',
     marginRight: 10,
   },
   emotionArea: {

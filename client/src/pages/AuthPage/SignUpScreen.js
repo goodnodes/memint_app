@@ -23,9 +23,11 @@ import {signUp, checkUniqueEmail} from '../../lib/Auth';
 import GradientButton from '../../components/common/GradientButton';
 // import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
+import {useToast} from '../../utils/hooks/useToast';
 
 const SignUpScreen = ({navigation}) => {
   const [loading, setLoading] = useState(false);
+  const {showToast} = useToast();
   const [form, setForm] = useState({
     email: '',
     password: '',
@@ -47,25 +49,30 @@ const SignUpScreen = ({navigation}) => {
       let regex = new RegExp('[a-z0-9]+@[a-z]+.[a-z]{2,3}');
       const checkEmail = await checkUniqueEmail(email);
       if (password !== confirmPassword) {
-        Alert.alert('실패', '비밀번호가 일치하지 않습니다.');
+        // Alert.alert('실패', '비밀번호가 일치하지 않습니다.');
+        showToast('error', '비밀번호가 일치하지 않습니다.');
       } else if (password.length < 6) {
-        let msg = '유효하지 않은 비밀번호입니다.';
-        Alert.alert('실패', msg);
+        // let msg = '유효하지 않은 비밀번호입니다.';
+        // Alert.alert('실패', msg);
+        showToast('error', '유효하지 않은 비밀번호입니다.');
       } else if (!regex.test(email)) {
-        let msg = '유효하지 않은 이메일입니다.';
-        Alert.alert('실패', msg);
+        // let msg = '유효하지 않은 이메일입니다.';
+        // Alert.alert('실패', msg);
+        showToast('error', '유효하지 않은 이메일입니다.');
       } else if (!checkEmail) {
-        let msg = '이미 가입된 이메일입니다.';
-        Alert.alert('실패', msg);
+        // let msg = '이미 가입된 이메일입니다.';
+        // Alert.alert('실패', msg);
+        showToast('error', '이미 가입된 이메일입니다.');
       } else {
         navigation.push('SignUpUserInfo', {userInfo});
       }
     } catch (e) {
       const messages = {
-        'auth/invalid-email': '회원 정보를 올바르게 입력해주세요',
+        'auth/invalid-email': '이메일 형식을 올바르게 입력해주세요.',
       };
       const msg = messages[e.code];
-      Alert.alert('실패', msg);
+      // Alert.alert('실패', msg);
+      showToast('error', msg);
       console.log(e);
     } finally {
       setLoading(false);
@@ -92,9 +99,9 @@ const SignUpScreen = ({navigation}) => {
 
   if (loading) {
     return (
-      <View style={styles.fullscreenSub}>
+      <View style={styles.loading}>
         <View style={styles.spinnerWrapper}>
-          <ActivityIndicator size={32} color="#FAC3E9" />
+          <ActivityIndicator size={32} color="#58FF7D" />
         </View>
       </View>
     );
@@ -186,6 +193,11 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 15,
   },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: '#3C3D43',
+  },
   fullscreenSub: {
     flex: 1,
     flexDirection: 'column',
@@ -245,10 +257,9 @@ const styles = StyleSheet.create({
     letterSpacing: -0.01,
   },
   spinnerWrapper: {
-    marginTop: 254,
-    height: 104,
-    justifyContent: 'center',
-    alignItems: 'center',
+    // backgroundColor: 'red',
+    // marginTop: 254,
+    // height: 104,
   },
   padding: {
     marginBottom: 90,

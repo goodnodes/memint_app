@@ -22,6 +22,7 @@ import useNftActions from '../../utils/hooks/UseNftActions';
 import {ActivityIndicator} from 'react-native-paper';
 import {createUserNFT} from '../../lib/Users';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
+import {useToast} from '../../utils/hooks/useToast';
 let interval = undefined;
 
 const SignUpServeNFTScreen = ({navigation, route}) => {
@@ -30,14 +31,14 @@ const SignUpServeNFTScreen = ({navigation, route}) => {
   const [progress, setProgress] = useState(0);
   const {setNftProfile} = useNftActions();
   const [profileImg, setProfileImg] = useState('');
-
+  const {showToast} = useToast();
   const getNFT = async () => {
     try {
       const nftProfileImg = await getImgUrl();
 
       setProfileImg(nftProfileImg);
     } catch (e) {
-      Alert.alert('실패');
+      showToast('error', 'NFT 이미지 불러오기가 실패했습니다.');
       console.log(e);
     }
   };

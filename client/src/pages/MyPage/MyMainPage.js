@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -6,14 +6,9 @@ import {
   StatusBar,
   Image,
   TouchableOpacity,
-  Animated,
   ScrollView,
-  Modal,
-  TouchableWithoutFeedback,
-  Pressable,
 } from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import MyMeetingList from '../../components/myPageComponent/MyMeetingList';
 import ParticipatedMeetingList from '../../components/myPageComponent/ParticipatedMeetingList';
 import WalletButton from '../../components/common/WalletButton';
@@ -25,14 +20,16 @@ import likesActive from '../../assets/icons/likesActive.png';
 import eggS from '../../assets/icons/eggS.png';
 import eggD from '../../assets/icons/eggD.png';
 import eggB from '../../assets/icons/eggB.png';
-import MyEggModal from './MyEggModal';
+import MyEggModal from '../../components/myPageComponent/MyEggModal';
 import useUser from '../../utils/hooks/UseUser';
+import LinearGradient from 'react-native-linear-gradient';
+import BottomDrawer from '../../components/myPageComponent/BottomDrawer';
 
 function MyMainPage({navigation}) {
   // const user = useUser();
   const userInfo = useUser();
   const {top} = useSafeAreaInsets();
-  const animation = useRef(new Animated.Value(1)).current;
+  // const animation = useRef(new Animated.Value(1)).current;
   const [meetingRoom, setMeetingRoom] = useState(0);
   const [tabActive, setTabActive] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -52,116 +49,117 @@ function MyMainPage({navigation}) {
     setModalVisible(true);
   };
 
+  // useEffect(() => {
+  //   Animated.spring(animation, {
+  //     toValue: tabActive ? windowHeight / 4 : windowHeight / 1.25,
+  //     useNativeDriver: true,
+  //     speed: 10,
+  //     bounciness: 1,
+  //   }).start();
+  // }, [tabActive, animation]);
+
   return (
     <View style={styles.fullScreen}>
       <StatusBar barStyle="dark-content" />
 
       <View style={{backgroundColor: '#82EFC1', height: top}} />
-      <ScrollView
-        style={styles.myCharacterView}
-        contentContainerStyle={styles.paddingBottom}>
-        <View style={styles.header}>
-          <TouchableOpacity onPress={handleNavigate}>
-            <Image
-              source={{uri: userInfo?.picture}}
-              style={styles.pictureImage}
+
+      {/* <TouchableWithoutFeedback
+        onPress={() => {
+          if (tabActive) {
+            setTabActive(false);
+          }
+        }}> */}
+      <LinearGradient
+        colors={['#82EFC1', '#ffffff']}
+        start={{x: 0.5, y: 0.4}}
+        end={{x: 1, y: 1}}
+        style={styles.gradientBackground}>
+        <ScrollView
+          style={styles.myCharacterView}
+          contentContainerStyle={styles.paddingBottom}>
+          <View style={styles.header}>
+            <TouchableOpacity onPress={handleNavigate}>
+              <Image
+                source={{uri: userInfo?.picture}}
+                style={styles.pictureImage}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleMyEgg}>
+              <Image source={dinoegg} style={styles.bigEggImage} />
+            </TouchableOpacity>
+            <MyEggModal
+              buttonText="네"
+              modalVisible={modalVisible}
+              setModalVisible={setModalVisible}
             />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={handleMyEgg}>
-            <Image source={dinoegg} style={styles.bigEggImage} />
-          </TouchableOpacity>
-          <MyEggModal
-            buttonText="네"
-            modalVisible={modalVisible}
-            setModalVisible={setModalVisible}
-          />
-        </View>
-        <View style={styles.character}>
-          <View style={styles.characterWrap}>
-            <Progress.Circle
-              size={240}
-              progress={0.2}
-              color={'#2ACFC2'}
-              unfilledColor={'#ffffff'}
-              borderWidth={0}
-              thickness={6}
-              // radius={2}
-            />
-            <Image source={dummyDino} style={styles.characterImage} />
           </View>
-          <Text style={styles.nickName}>Lv.3 {userInfo?.nickName}</Text>
-          <View style={styles.characterDes}>
-            <Image source={likesActive} style={styles.footImage} />
-            <Text style={styles.characterText}>티라노 80 / 100 A</Text>
-          </View>
-          <View style={styles.characterStatus}>
-            <View style={styles.status}>
-              <Image source={eggS} style={styles.eggImage} />
-              <View style={styles.statusBackground}>
-                <View style={styles.statusBar}>
-                  <Text style={styles.statusText}>72.8 / 100</Text>
-                </View>
-              </View>
+          <View style={styles.character}>
+            <View style={styles.characterWrap}>
+              <Progress.Circle
+                size={240}
+                progress={1}
+                color={'#2ACFC2'}
+                unfilledColor={'#ffffff'}
+                borderWidth={0}
+                thickness={6}
+              />
+              <Image source={dummyDino} style={styles.characterImage} />
             </View>
-            <View style={styles.status}>
-              <Image source={eggD} style={styles.eggImage} />
-              <View style={styles.statusBackground}>
-                <View
-                  style={[
-                    styles.statusBar,
-                    {
-                      backgroundColor: '#4E00F5',
-                      width: '51.8%',
-                      borderColor: '#4E00F5',
-                    },
-                  ]}>
-                  <Text style={[styles.statusText, {color: '#ffffff'}]}>
-                    51.8 / 100
-                  </Text>
-                </View>
-              </View>
+            <Text style={styles.nickName}>Lv.1 {userInfo?.nickName}</Text>
+            <View style={styles.characterDes}>
+              <Image source={likesActive} style={styles.footImage} />
+              <Text style={styles.characterText}>티라노 80 / 100 A</Text>
             </View>
-            <View style={styles.status}>
-              <Image source={eggB} style={styles.eggImage} />
-              <View style={styles.statusBackground}>
-                <View
-                  style={[
-                    styles.statusBar,
-                    {
-                      backgroundColor: '#CFAB2A',
-                      width: '68.3%',
-                      borderColor: '#CFAB2A',
-                    },
-                  ]}>
-                  <Text style={styles.statusText}>68.3 / 100</Text>
-                </View>
+            <View style={styles.characterStatus}>
+              <View style={styles.status}>
+                <Image source={eggS} style={styles.eggImage} />
+                <Progress.Bar
+                  width={310}
+                  height={18}
+                  progress={0.5}
+                  color={'#2ACFC2'}
+                  unfilledColor={'#EDEEF6'}
+                  borderRadius={999}
+                  style={styles.progressBar}>
+                  <Text style={styles.statusText}>50 / 100</Text>
+                </Progress.Bar>
+              </View>
+              <View style={styles.status}>
+                <Image source={eggD} style={styles.eggImage} />
+                <Progress.Bar
+                  width={310}
+                  height={18}
+                  progress={0.5}
+                  color={'#4E00F5'}
+                  unfilledColor={'#EDEEF6'}
+                  borderRadius={999}
+                  style={styles.progressBar}>
+                  <Text style={styles.statusText}>{50} / 100</Text>
+                </Progress.Bar>
+              </View>
+              <View style={styles.status}>
+                <Image source={eggB} style={styles.eggImage} />
+                <Progress.Bar
+                  width={310}
+                  height={18}
+                  progress={0.5}
+                  color={'#CFAB2A'}
+                  unfilledColor={'#EDEEF6'}
+                  borderRadius={999}
+                  style={styles.progressBar}>
+                  <Text style={styles.statusText}>50 / 100</Text>
+                </Progress.Bar>
               </View>
             </View>
           </View>
-        </View>
-      </ScrollView>
-      <Animated.View
-        style={[
-          {
-            backgroundColor: '#3C3D43',
-            position: 'absolute',
-            bottom: 0,
-            width: '100%',
-            height: '18%',
-            borderTopRightRadius: 30,
-            borderTopLeftRadius: 30,
-          },
-          tabActive ? {height: '80%'} : null,
-          {transform: [{translateY: animation}]},
-        ]}>
-        <View style={{justifyContent: 'center', flexDirection: 'row'}}>
-          <Pressable
-            onPress={() => {
-              setTabActive(!tabActive);
-            }}>
-            <View style={styles.bar}></View>
-          </Pressable>
-        </View>
+        </ScrollView>
+      </LinearGradient>
+      {/* </TouchableWithoutFeedback> */}
+      <BottomDrawer
+        onDrawerStateChange={() => {
+          setTabActive(!tabActive);
+        }}>
         {/* 찜한 미팅방 */}
         <View style={styles.mylikes}>
           <TouchableOpacity
@@ -206,7 +204,7 @@ function MyMainPage({navigation}) {
             )}
           </>
         )}
-      </Animated.View>
+      </BottomDrawer>
       <WalletButton />
     </View>
   );
@@ -227,6 +225,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '100%',
     paddingVertical: 5,
+  },
+  gradientBackground: {
+    flex: 1,
   },
   character: {
     width: '100%',
@@ -291,10 +292,11 @@ const styles = StyleSheet.create({
   eggImage: {
     width: 21.09,
     height: 27,
-    marginRight: 13,
+    marginLeft: 20,
   },
   status: {
     flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
     marginVertical: 6,
@@ -307,6 +309,9 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: '#B9C5D1',
     zIndex: -1,
+  },
+  progressBar: {
+    marginLeft: 8,
   },
   statusBar: {
     width: '72.8%',
@@ -324,9 +329,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   statusText: {
-    color: '#1D1E1E',
-    fontSize: 12,
-    letterSpacing: -0.5,
+    color: '#ffffff',
+    fontSize: 14,
+    letterSpacing: -1.9,
+    position: 'absolute',
+    left: 10,
+    top: 2,
+    fontFamily: 'Silkscreen',
   },
   paddingBottom: {
     paddingBottom: 150,
@@ -358,15 +367,6 @@ const styles = StyleSheet.create({
     // shadowRadius: 4,
     // elevation: 5,
   },
-  bar: {
-    backgroundColor: '#33ED96',
-    width: 100,
-    height: 5,
-    borderRadius: 999,
-    marginTop: 3,
-    marginBottom: 5,
-    marginHorizontal: 3,
-  },
   mylikesButton: {
     flexDirection: 'row',
     width: 118,
@@ -397,6 +397,9 @@ const styles = StyleSheet.create({
     height: 30,
     tintColor: '#33ED96',
     marginLeft: 5,
+  },
+  flex: {
+    flex: 1,
   },
 });
 

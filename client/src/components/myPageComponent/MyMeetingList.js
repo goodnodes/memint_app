@@ -1,11 +1,19 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {Text, StyleSheet, View, TouchableOpacity, Image} from 'react-native';
+import {
+  Text,
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Image,
+  Dimensions,
+} from 'react-native';
 import {useMeeting} from '../../utils/hooks/UseMeeting';
 import {handleDateInFormat} from '../../utils/common/Functions';
 import {getUser} from '../../lib/Users';
 import {getMeeting} from '../../lib/Meeting';
 import {useIsFocused} from '@react-navigation/native';
 import MeetingLikes from '../meetingComponents/MeetingLikes';
+import {ScrollView} from 'react-native-gesture-handler';
 
 // function MyMeetingList({List, navigation}) {
 //   return (
@@ -19,6 +27,7 @@ import MeetingLikes from '../meetingComponents/MeetingLikes';
 //     </>
 //   );
 // }
+const {width} = Dimensions.get('window');
 
 function MyMeetingList({navigation, user}) {
   const [createdrooms, setCreatedRoom] = useState([]);
@@ -47,7 +56,7 @@ function MyMeetingList({navigation, user}) {
   }, [isFocused, getCreatedRoom]);
 
   return (
-    <>
+    <ScrollView horizontal={true}>
       {createdrooms.length !== 0 ? (
         createdrooms.map((el, index) => (
           <MyMeetings
@@ -58,11 +67,11 @@ function MyMeetingList({navigation, user}) {
           />
         ))
       ) : (
-        <View style={styles.emptyView}>
-          <Text style={styles.emptyText}>생성한 미팅이 없습니다.</Text>
-        </View>
+        // <View style={styles.emptyView}>
+        <Text style={styles.emptyText}>생성한 미팅이 없습니다.</Text>
+        // {/* </View> */}
       )}
-    </>
+    </ScrollView>
   );
 }
 
@@ -170,7 +179,8 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     paddingHorizontal: 30,
     paddingVertical: 25,
-    height: 185,
+    height: 190,
+    width: width * 0.9,
     borderRadius: 30,
     marginVertical: 8,
     marginHorizontal: 15,
@@ -249,7 +259,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: 30,
   },
-  emptyText: {color: 'lightgray'},
+  emptyText: {color: 'lightgray', marginTop: 30, marginLeft: 30},
   imageNickname: {
     flexDirection: 'row',
     alignItems: 'center',

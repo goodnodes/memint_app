@@ -7,6 +7,8 @@ import {
   ScrollView,
   StatusBar,
   TouchableOpacity,
+  Modal,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import BackButton from '../../components/common/BackButton';
 import BasicButton from '../../components/common/BasicButton';
@@ -20,7 +22,11 @@ import useAuthActions from '../../utils/hooks/UseAuthActions';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import useUser from '../../utils/hooks/UseUser';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import SingleModal from '../../components/common/SingleModal';
+
 function WalletOffchainMain({navigation}) {
+  const [modalVisible, setModalVisible] = useState(false);
+
   const [walletSelected, setWalletSelected] = useState(false);
   const [spendingSelected, setSpendingSelected] = useState(true);
   const user = useUser();

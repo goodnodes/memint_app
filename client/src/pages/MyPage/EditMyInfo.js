@@ -1,19 +1,32 @@
 import React, {useEffect, useState, useCallback} from 'react';
-import {SafeAreaView, StyleSheet, Text, View, Image} from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Platform,
+  ActionSheetIOS,
+  KeyboardAvoidingView,
+} from 'react-native';
 import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import BackButton from '../../components/common/BackButton';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import {useNavigation} from '@react-navigation/native';
+
 import SelectDropdown from 'react-native-select-dropdown';
 import TagElement from '../../components/myPageComponent/TagElement';
 import BorderedInput from '../../components/AuthComponents/BorderedInput';
-import {white} from 'react-native-paper/lib/typescript/styles/colors';
-function EditMyInfo({route}) {
-  // useEffect(() => {
-  //   console.log(drinkInfo);
-  // });
+import {launchImageLibrary, launchCamera} from 'react-native-image-picker';
+import ChangeProfile from '../../components/myPageComponent/ChangeProfile';
+import {useToast} from '../../utils/hooks/useToast';
+import {EditUserInfo} from '../../lib/Users';
+import useAuthActions from '../../utils/hooks/UseAuthActions';
+import SafeStatusBar from '../../components/common/SafeStatusBar';
+function EditMyInfo({route, navigation}) {
   const [drinkInfo, setDrinkInfo] = useState(route.params.property);
-
+  const [selfIntro, setSelfIntro] = useState(route.params.selfIntroduction);
+  const [profileImg, setProfileImg] = useState(route.params.picture);
+  const {showToast} = useToast();
+  const {editUserInfo} = useAuthActions();
   const tagData = {
     alcoholType: [
       '소주',
@@ -32,38 +45,64 @@ function EditMyInfo({route}) {
       '술보다 안주가 좋아요.',
     ],
   };
+  // useEffect(() => {
+  //   console.log(drinkInfo);
+  // }, []);
+
+  const handleSubmit = () => {
+    if (
+      drinkInfo.drinkCapa === '' ||
+      drinkInfo.alcoholType.length === 0 ||
+      drinkInfo.drinkStyle.length === 0
+    ) {
+      showToast('error', '필수 항목들을 작성해주세요');
+    } else {
+      EditUserInfo(route.params.id, profileImg, drinkInfo, selfIntro);
+      editUserInfo({
+        ...route.params,
+        property: {...drinkInfo},
+        selfIntroduction: selfIntro,
+        picture: profileImg,
+      });
+      showToast('success', '내 정보가 수정되었습니다.');
+      navigation.pop();
+    }
+  };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <KeyboardAvoidingView style={styles.container}>
+      <SafeStatusBar />
       <View style={styles.header}>
-        <View style={styles.flexRow}>
-          <BackButton />
-          <Text style={styles.title}>내 정보 수정</Text>
-        </View>
-        <View>
-          <TouchableOpacity>
-            <Text style={styles.title}>완료</Text>
-          </TouchableOpacity>
-        </View>
+        <BackButton />
+        <TouchableOpacity onPress={handleSubmit}>
+          <Text style={styles.completeText}>완료</Text>
+        </TouchableOpacity>
       </View>
 
       <ScrollView style={styles.scrollview}>
-        <View style={styles.li}>
-          <Image
-            style={styles.profileImage}
-            source={{
-              uri: route.params.picture,
-            }}
-          />
-        </View>
+        <Text style={styles.title}>내 정보 수정</Text>
+        <ChangeProfile
+          profile={profileImg}
+          setProfile={setProfileImg}
+          uid={route.params.id}
+        />
 
-        <View style={styles.li}>
-          <Text style={styles.liText}>닉네임</Text>
-          <Text style={styles.liGrayText}>{route.params.nickName}</Text>
+        <View style={styles.liColumn}>
+          <Text style={{...styles.liText, marginBottom: 10}}>닉네임</Text>
+          <BorderedInput
+            size="wide"
+            placeholder={route.params.nickName}
+            editable={false}
+          />
         </View>
         <View style={styles.liColumn}>
           <Text style={{...styles.liText, marginBottom: 10}}>자기소개</Text>
-          <BorderedInput size="wide" placeholder="자기소개를 입력해 주세요" />
+          <BorderedInput
+            size="wide"
+            placeholder="자기소개를 입력해 주세요"
+            value={selfIntro}
+            onChangeText={setSelfIntro}
+          />
         </View>
 
         <View style={styles.li}>
@@ -77,8 +116,14 @@ function EditMyInfo({route}) {
               '세 병 이하',
               '세 병 이상',
             ]}
+            onSelect={(selectedItem, index) => {
+              setDrinkInfo({...drinkInfo, drinkCapa: selectedItem});
+            }}
             defaultButtonText={drinkInfo.drinkCapa}
             buttonStyle={styles.dropdown}
+            dropdownStyle={styles.dropdownStyle}
+            rowTextStyle={styles.dropdownTextStyle}
+            buttonTextStyle={styles.buttonTextStyle}
           />
         </View>
 
@@ -92,6 +137,7 @@ function EditMyInfo({route}) {
                 drinkInfo={drinkInfo.alcoholType}
                 setDrinkInfo={setDrinkInfo}
                 type="alcoholType"
+                wholeInfo={drinkInfo}
               />
             ))}
           </View>
@@ -106,12 +152,13 @@ function EditMyInfo({route}) {
                 drinkInfo={drinkInfo.drinkStyle}
                 setDrinkInfo={setDrinkInfo}
                 type="drinkStyle"
+                wholeInfo={drinkInfo}
               />
             ))}
           </View>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -125,22 +172,25 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    paddingRight: 20,
+    paddingRight: 15,
     alignItems: 'center',
-    height: 60,
-    borderBottomColor: 'gray',
-    borderBottomWidth: 1,
+    // borderBottomColor: 'gray',
+    // borderBottomWidth: 1,
     justifyContent: 'space-between',
+    paddingTop: 5,
   },
   flexRow: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   title: {
-    fontSize: 18,
-    fontWeight: '700',
-    marginLeft: 10,
-    color: 'white',
+    fontWeight: '400',
+    fontSize: 24,
+    marginTop: 10,
+    marginLeft: 15,
+    color: '#ffffff',
+    fontFamily: 'NeoDunggeunmoPro-Regular',
+    letterSpacing: -0.5,
   },
 
   ul: {
@@ -150,42 +200,64 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 30,
+    paddingHorizontal: 15,
     marginVertical: 15,
   },
   liColumn: {
     flexDirection: 'column',
     // alignItems: 'center',
     // justifyContent: 'space-between',
-    paddingHorizontal: 30,
+    paddingHorizontal: 15,
     marginVertical: 15,
   },
   liText: {
     color: 'white',
     fontSize: 16,
+    marginBottom: 5,
   },
   liGrayText: {
     fontSize: 16,
     color: '#868686',
   },
   dropdown: {
-    fontSize: 10,
-    width: 130,
-    borderColor: '#bdbdbd',
+    width: '50%',
+    borderColor: '#EAFFEF',
     borderWidth: 1,
     paddingHorizontal: 16,
-    borderRadius: 4,
-    height: 30,
+    borderRadius: 99,
+    height: 36,
+    backgroundColor: '#EAFFEF',
+  },
+  dropdownStyle: {
+    backgroundColor: '#3C3D43',
+    borderRadius: 10,
+  },
+  dropdownTextStyle: {
+    color: '#ffffff',
+    fontSize: 14,
+  },
+  buttonTextStyle: {
+    color: '#1D1E1E',
+    fontSize: 16,
   },
   profileImage: {
     width: 100,
     height: 100,
     borderRadius: 100,
+    backgroundColor: 'black',
+    opacity: 0.4,
+    borderColor: '#AEFFC1',
   },
   tagsContainer: {
     flexWrap: 'wrap',
     flexDirection: 'row',
     justifyContent: 'flex-start',
+  },
+  completeText: {
+    fontWeight: 'bold',
+    fontSize: 18,
+    color: '#ffffff',
+    letterSpacing: -0.5,
   },
 });
 

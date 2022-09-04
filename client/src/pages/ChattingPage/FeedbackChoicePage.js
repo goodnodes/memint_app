@@ -37,6 +37,7 @@ function FeedbackChoicePage({route}) {
   const {data, userInfo} = route.params;
 
   useEffect(() => {
+    setConfirmable(true);
     firestore()
       .collection('User')
       .doc(owner.id)
@@ -183,6 +184,7 @@ function Human({person, meetingId, data, userInfo}) {
         justifyContent: 'space-between',
         alignItems: 'center',
         width: '100%',
+        marginBottom: 18,
       }}>
       <View style={{alignItems: 'center', flexDirection: 'row'}}>
         <Image

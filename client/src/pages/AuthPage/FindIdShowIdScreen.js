@@ -11,7 +11,7 @@ import {
 import {SafeAreaView} from 'react-native-safe-area-context';
 import BasicButton from '../../components/common/BasicButton';
 import BackButton from '../../components/common/BackButton';
-import logo from '../../assets/icons/logo.png';
+import memintDino from '../../assets/icons/memintDino.png';
 import GradientButton from '../../components/common/GradientButton';
 
 const FindIdShowIdScreen = ({navigation}) => {
@@ -29,7 +29,7 @@ const FindIdShowIdScreen = ({navigation}) => {
       <SafeAreaView style={styles.fullscreen}>
         <BackButton />
         <View style={styles.fullscreenSub}>
-          <Image source={logo} style={styles.logo} />
+          <Image source={memintDino} style={styles.logo} />
           <Text style={styles.contentText}>
             가입하신 이메일은 {'\n'} "abcdefu@gmail.com" 입니다.
           </Text>

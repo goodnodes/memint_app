@@ -95,7 +95,7 @@ const WalletOffchainTransfer = ({navigation}) => {
           />
         </View>
         <DoubleModal
-          text="LCN을 외부 지갑으로 내보내시겠습니까?"
+          text="TING을 외부 지갑으로 내보내시겠습니까?"
           //body={<Text>정말로?</Text>}
           nButtonText="아니요"
           pButtonText="네"
@@ -107,7 +107,7 @@ const WalletOffchainTransfer = ({navigation}) => {
           pFunction={() => {
             sendToOnChain().then(result => {
               if (result.data.message === 'success') {
-                showToast('success', 'LCN을 보냈습니다!');
+                showToast('success', 'TING을 보냈습니다!');
                 getUser(userInfo.id).then(userDetail => {
                   updateTokenInfo({
                     tokenAmount: Number(userDetail.tokenAmount),

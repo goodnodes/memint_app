@@ -13,7 +13,6 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import BasicButton from '../../components/common/BasicButton';
 import BorderedInput from '../../components/AuthComponents/BorderedInput';
 import BackButton from '../../components/common/BackButton';
-import logo from '../../assets/icons/logo.png';
 import GradientButton from '../../components/common/GradientButton';
 import {passwordReset} from '../../lib/Auth';
 
@@ -43,7 +42,7 @@ const SetNewPWScreen = ({navigation}) => {
       <SafeAreaView style={styles.fullscreen}>
         <BackButton />
         <View style={styles.fullscreenSub}>
-          <Image source={logo} style={styles.logo} />
+          {/* <Image source={logo} style={styles.logo} /> */}
           <Text style={styles.contentText}>
             새로운 비밀번호를 입력해주세요.
           </Text>

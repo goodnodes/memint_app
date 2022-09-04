@@ -6,6 +6,7 @@ import {
   updateTokenInfo,
   increaseBy,
   decreaseBy,
+  editUserInfo,
 } from '../../slices/Auth';
 import {useMemo} from 'react';
 import {bindActionCreators} from 'redux';
@@ -15,7 +16,15 @@ export default function useAuthActions() {
   return useMemo(
     () =>
       bindActionCreators(
-        {authorize, saveInfo, logout, updateTokenInfo, increaseBy, decreaseBy},
+        {
+          authorize,
+          saveInfo,
+          logout,
+          updateTokenInfo,
+          increaseBy,
+          decreaseBy,
+          editUserInfo,
+        },
         dispatch,
       ), //authorize, logout자리에 action이름 선언
     [dispatch],

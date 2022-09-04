@@ -17,8 +17,6 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import OauthButton from '../../components/AuthComponents/OauthButton';
 import SignForm from '../../components/AuthComponents/SignForm';
 import SignButtons from '../../components/AuthComponents/SignButtons';
-import memintLogo from '../../assets/icons/memint.png';
-import logo from '../../assets/icons/logo.png';
 import useAuth from '../../utils/hooks/UseAuth';
 import useAuthActions from '../../utils/hooks/UseAuthActions';
 import {signIn} from '../../lib/Auth';
@@ -30,9 +28,11 @@ import GradientButton from '../../components/common/GradientButton';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 import LinearGradient from 'react-native-linear-gradient';
 import memintDino from '../../assets/icons/memintDino.png';
+import {useToast} from '../../utils/hooks/useToast';
 
 const SignInScreen = ({navigation, route}) => {
   const userInfo = useUser();
+  const {showToast} = useToast();
 
   const {saveInfo} = useAuthActions();
   const {saveNFT, setNftProfile, setMemin} = useNftActions();
@@ -92,10 +92,13 @@ const SignInScreen = ({navigation, route}) => {
         },
         visibleUser: userDetail.visibleUser,
         marketingAgreement: userDetail.marketingAgreement,
+        isActivated: userDetail.isActivated,
+        selfIntroduction: userDetail.selfIntroduction,
+        isReadyToGetFreeToken: userDetail.isReadyToGetFreeToken,
       }),
         navigation.navigate('Main');
     } catch (e) {
-      Alert.alert('실패');
+      showToast('error', '로그인 실패');
       console.log(e);
     } finally {
       setLoading(false);
@@ -112,7 +115,7 @@ const SignInScreen = ({navigation, route}) => {
     return (
       <SafeAreaView style={styles.fullscreen}>
         <View style={styles.spinnerWrapper}>
-          <ActivityIndicator size={32} color="#FAC3E9" />
+          <ActivityIndicator size={32} color="#58FF7D" />
         </View>
       </SafeAreaView>
     );
@@ -189,8 +192,7 @@ const styles = StyleSheet.create({
   logo: {
     width: 101,
     height: 108.77,
-    marginTop: 70,
-    marginBottom: 20,
+    marginTop: 30,
   },
   text: {
     fontSize: 32,
@@ -200,7 +202,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 52,
+    marginTop: 35,
     marginBottom: 60,
   },
   textAsk: {
@@ -216,7 +218,7 @@ const styles = StyleSheet.create({
     letterSpacing: -0.5,
   },
   form: {
-    marginTop: 50,
+    marginTop: 40,
     width: '100%',
     paddingHorizontal: 16,
   },

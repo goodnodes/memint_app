@@ -4,6 +4,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  ActivityIndicator,
   View,
   Platform,
 } from 'react-native';
@@ -24,6 +25,7 @@ import {getNFTs, getProfile, getMemin} from '../../lib/NFT';
 import useNftActions from '../../utils/hooks/UseNftActions';
 import useAuthActions from '../../utils/hooks/UseAuthActions';
 import useUser from '../../utils/hooks/UseUser';
+import {useToast} from '../../utils/hooks/useToast';
 
 const SignUpAgreementScreen = ({navigation, route}) => {
   let {userInfo} = route.params || {};
@@ -37,11 +39,12 @@ const SignUpAgreementScreen = ({navigation, route}) => {
     event: '',
     all: '',
   });
-  const [loading, setLoading] = useState();
-
+  const [loading, setLoading] = useState(false);
+  const {showToast} = useToast();
   const onSubmitSignUp = async () => {
     if (!(serviceCheck && ageCheck && useCheck)) {
-      Alert.alert('실패', '약관에 동의해주세요');
+      // Alert.alert('실패', '약관에 동의해주세요');
+      showToast('error', '약관에 동의해주세요');
     } else {
       try {
         setLoading(true);
@@ -132,6 +135,9 @@ const SignUpAgreementScreen = ({navigation, route}) => {
           visibleUser: userDetail.visibleUser,
           likesroomId: userDetail.likesroomId,
           marketingAgreement: marketingCheck,
+          isActivated: userDetail.isActivated,
+          selfIntroduction: userDetail.selfIntroduction,
+          isReadyToGetFreeToken: userDetail.isReadyToGetFreeToken,
         }),
           navigation.navigate('Main');
       } catch (e) {
@@ -226,7 +232,15 @@ const SignUpAgreementScreen = ({navigation, route}) => {
   const goToNextPage = () => {
     navigation.push('SignUpAlarm', {userInfo});
   };
-
+  if (loading) {
+    return (
+      <SafeAreaView style={styles.fullscreenLoading}>
+        <View style={styles.spinnerWrapper}>
+          <ActivityIndicator size={32} color="#58FF7D" />
+        </View>
+      </SafeAreaView>
+    );
+  }
   return (
     <View style={styles.fullscreen}>
       <SafeStatusBar />
@@ -318,12 +332,24 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#3C3D43',
   },
+  fullscreenLoading: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#3C3D43',
+  },
   fullscreenSub: {
     paddingHorizontal: 15,
 
     flex: 1,
     flexDirection: 'column',
     alignItems: 'flex-start',
+  },
+  spinnerWrapper: {
+    marginTop: 64,
+    height: 104,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   form: {
     width: '100%',
