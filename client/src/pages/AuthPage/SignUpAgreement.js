@@ -19,9 +19,8 @@ import SafeStatusBar from '../../components/common/SafeStatusBar';
 import {createUser, getUser} from '../../lib/Users';
 import storage from '@react-native-firebase/storage';
 import {createWallet} from '../../lib/api/wallet';
-import {createNFT, getImgUrl} from '../../lib/NFT';
+import {createNFT, getImgUrl, getNFTbyNum} from '../../lib/NFT';
 import {createUserNFT} from '../../lib/Users';
-import {getNFTs, getProfile, getMemin} from '../../lib/NFT';
 import useNftActions from '../../utils/hooks/UseNftActions';
 import useAuthActions from '../../utils/hooks/UseAuthActions';
 import useUser from '../../utils/hooks/UseUser';
@@ -29,7 +28,7 @@ import {useToast} from '../../utils/hooks/useToast';
 
 const SignUpAgreementScreen = ({navigation, route}) => {
   let {userInfo} = route.params || {};
-  const {saveNFT, setNftProfile, setMemin} = useNftActions();
+
   const userState = useUser();
   const {saveInfo} = useAuthActions();
   const [checkInfo, setCheckInfo] = useState({
@@ -70,12 +69,7 @@ const SignUpAgreementScreen = ({navigation, route}) => {
             ? await reference.getDownloadURL()
             : null;
         }
-        const res = await createNFT({
-          userId: user.uid,
-          nftImg: userInfo.nftImg,
-        });
-        const newNFTId = res._documentPath._parts[1];
-        setNftProfile(userInfo.nftImg);
+
         await createUser({
           userId: user.uid,
           email: userInfo.email,
@@ -90,11 +84,11 @@ const SignUpAgreementScreen = ({navigation, route}) => {
           alcoholType: userInfo.alcoholType,
           marketingAgreement: marketingCheck,
         });
-        await createUserNFT({
-          userId: user.uid,
-          nftProfile: userInfo.nftImg,
-          nftId: newNFTId,
-        });
+        // await createUserNFT({
+        //   userId: user.uid,
+        //   nftProfile: userInfo.nftImg,
+        // });
+        await getNFTbyNum(user.uid);
         //create Wallet
         const body = {
           id: user.uid,
@@ -102,13 +96,6 @@ const SignUpAgreementScreen = ({navigation, route}) => {
         const account = await createWallet(body);
         ///////Sigin In process
         const userDetail = await getUser(user.uid);
-        const response = await getNFTs(user.uid);
-        const nfts = response.docs.map(el => {
-          return {...el.data()};
-        });
-        saveNFT(nfts);
-        setNftProfile(...getProfile(nfts));
-        setMemin(...getMemin(nfts));
 
         ////////////////////
         await signIn({email: userInfo.email, password: userInfo.password});
@@ -126,7 +113,7 @@ const SignUpAgreementScreen = ({navigation, route}) => {
           tokenAmount: userDetail.tokenAmount,
           klayAmount: userDetail.klayAmount,
           onChainTokenAmount: userDetail.onChainTokenAmount,
-          nftProfile: userDetail.nftProfile.toString(),
+          nftProfile: userDetail.nftProfile,
           property: {
             alcoholType: userDetail.property.alcoholType,
             drinkCapa: userDetail.property.drinkCapa,
@@ -139,7 +126,7 @@ const SignUpAgreementScreen = ({navigation, route}) => {
           selfIntroduction: userDetail.selfIntroduction,
           isReadyToGetFreeToken: userDetail.isReadyToGetFreeToken,
         }),
-          navigation.navigate('Main');
+          navigation.navigate('SignUpServeNFT');
       } catch (e) {
         console.log(e);
       } finally {

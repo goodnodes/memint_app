@@ -1,5 +1,7 @@
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
+import {usersCollection} from './Users';
+import {getNFTNum, addUserlog} from './Admin';
 
 export const NFTCollection = firestore().collection('NFT');
 
@@ -68,4 +70,44 @@ export function getMemin(nfts) {
   });
 
   return memin;
+}
+
+export async function getMeminbyNum(num, id) {
+  const doc = await firestore()
+    .collection('NFTStorage')
+    .doc(`MEMIN#${num}`)
+    .get();
+  const memin = doc.data();
+  console.log(memin);
+  if (memin.valid) {
+    // user 콜렉션에 nftProfile 추가
+    usersCollection.doc(id).update({
+      nftProfile: memin.url,
+      meminStats: {
+        dino: memin.dino,
+        hp: memin.hp,
+        resilience: memin.resilience,
+        charm: 0,
+        exp: 0,
+      },
+    });
+
+    // NFT storage에 사용한 MEMIN 앞으로 못 쓰게 false로 변경
+    firestore()
+      .collection('NFTStorage')
+      .doc(`MEMIN#${num}`)
+      .update({valid: false});
+
+    //Admin User log에 추가
+    return addUserlog(id);
+  } else {
+    getMeminbyNum(num + 1);
+    addUserlog(id);
+  }
+}
+
+export async function getNFTbyNum(id) {
+  //현재 사용할 수 있는 Memin 넘버 받아옴
+  const num = await getNFTNum();
+  await getMeminbyNum(num, id);
 }

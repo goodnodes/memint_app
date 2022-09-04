@@ -13,38 +13,36 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import BackButton from '../../components/common/BackButton';
 import LinearGradient from 'react-native-linear-gradient';
 import memintDino from '../../assets/icons/memintDino.png';
-
+import useUser from '../../utils/hooks/UseUser';
 import * as Progress from 'react-native-progress';
 
 import {createNFT, getImgUrl} from '../../lib/NFT';
 import useNftActions from '../../utils/hooks/UseNftActions';
-
-import {ActivityIndicator} from 'react-native-paper';
-import {createUserNFT} from '../../lib/Users';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 import {useToast} from '../../utils/hooks/useToast';
 let interval = undefined;
 
-const SignUpServeNFTScreen = ({navigation, route}) => {
-  let {userInfo} = route.params || {};
+const SignUpServeNFTScreen = ({navigation}) => {
+  // let {userInfo} = route.params || {};
+  const user = useUser();
   const [running, setRunning] = useState(true);
   const [progress, setProgress] = useState(0);
-  const {setNftProfile} = useNftActions();
-  const [profileImg, setProfileImg] = useState('');
+  // const {setNftProfile} = useNftActions();
+  // const [profileImg, setProfileImg] = useState('');
   const {showToast} = useToast();
-  const getNFT = async () => {
-    try {
-      const nftProfileImg = await getImgUrl();
+  // const getNFT = async () => {
+  //   try {
+  //     const nftProfileImg = await getImgUrl();
 
-      setProfileImg(nftProfileImg);
-    } catch (e) {
-      showToast('error', 'NFT 이미지 불러오기가 실패했습니다.');
-      console.log(e);
-    }
-  };
-  useEffect(() => {
-    getNFT();
-  }, []);
+  //     setProfileImg(nftProfileImg);
+  //   } catch (e) {
+  //     showToast('error', 'NFT 이미지 불러오기가 실패했습니다.');
+  //     console.log(e);
+  //   }
+  // };
+  // useEffect(() => {
+  //   getNFT();
+  // }, []);
 
   useEffect(() => {
     if (running) {
@@ -63,25 +61,13 @@ const SignUpServeNFTScreen = ({navigation, route}) => {
     }
   }, [progress]);
 
-  const {nickName, uid} = route.params;
+  // const {nickName, uid} = route.params;
   //   console.log(nickName);
   //   console.log(uid);
   //   console.log(profileImg);
 
   const onSubmit = async () => {
-    // try {
-    userInfo = {...userInfo, nftImg: profileImg};
-    navigation.push('SignUpAgreement', {userInfo});
-    // const res = await createNFT({userId: uid, nftImg: profileImg});
-    // const newNFTId = res._documentPath._parts[1];
-    // setNftProfile(profileImg);
-    // createUserNFT({userId: uid, nftProfile: profileImg, nftId: newNFTId});
-    // } catch (e) {
-    //   Alert.alert('실패');
-    //   console.log(e);
-    // } finally {
-    //   navigate('SignUpAgreement');
-    // }
+    navigation.push('Main');
   };
 
   const spinValue = new Animated.Value(0);
@@ -113,9 +99,9 @@ const SignUpServeNFTScreen = ({navigation, route}) => {
           {progress === 100 ? (
             <View style={styles.progressdoneArea}>
               <Text style={styles.textMain}>
-                {userInfo.nickName}님을 위한 프로필
+                {user.nickName}님을 위한 프로필
               </Text>
-              <Image style={styles.nftImg} source={{uri: profileImg}} />
+              <Image style={styles.nftImg} source={{uri: user.nftProfile}} />
               <Text style={styles.textSub}>잘 부탁드려요!</Text>
               <TouchableOpacity style={styles.button} onPress={onSubmit}>
                 <Text style={styles.buttonText}>다음</Text>
@@ -124,17 +110,9 @@ const SignUpServeNFTScreen = ({navigation, route}) => {
           ) : (
             <>
               <Text style={styles.textMain}>
-                {userInfo.nickName}님만을 위한{'\n'} 프로필 이미지를 준비
-                중입니다!
+                {user.nickName}님만을 위한{'\n'} 프로필 이미지를 준비 중입니다!
               </Text>
-              {/* <Progress.Pie
-                size={100}
-                hidesWhenStopped={true}
-                progress={progress / 100}
-                color={'#A7BFEB'}
-                borderWidth={2}
-              /> */}
-              {/* <Image source={memintDino} style={styles.logo} /> */}
+
               <Animated.Image
                 source={memintDino}
                 style={[styles.logo, {transform: [{rotate: spin}]}]}
@@ -142,29 +120,6 @@ const SignUpServeNFTScreen = ({navigation, route}) => {
               <Text style={styles.textSub}>두근두근...</Text>
             </>
           )}
-
-          {/* <Progress.Pie
-          size={30}
-          hidesWhenStopped={true}
-          progress={progress / 100}
-        />
-
-        {profileImg ? (
-          <Image style={styles.nftImg} source={{uri: profileImg}} />
-        ) : (
-          <ActivityIndicator sixe="large" color="black" />
-        )} */}
-
-          {/* <BasicButton
-          style={styles.button}
-          width={300}
-          height={40}
-          textSize={17}
-          margin={[5, 5, 5, 5]}
-          text="다음 단계"
-          hasMarginBottom
-          onPress={onSubmit}
-        /> */}
         </View>
       </LinearGradient>
     </View>

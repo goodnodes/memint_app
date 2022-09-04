@@ -114,6 +114,7 @@ const VerifyMobileScreen = ({navigation, route}) => {
     userInfo = {...userInfo, phoneNumber: fixedPhoneNumber};
     navigation.push('SignUpUserDetail', {userInfo});
   };
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       {/* <KeyboardAvoidingView

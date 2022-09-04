@@ -106,10 +106,10 @@ export function createPhoneNumber({userId, phoneNumber}) {
   });
 }
 
-export function createUserNFT({userId, nftProfile, nftId}) {
+export function createUserNFT({userId, nftProfile}) {
   return usersCollection.doc(userId).update({
     nftProfile: nftProfile,
-    nftIds: firestore.FieldValue.arrayUnion(nftId),
+    // nftIds: firestore.FieldValue.arrayUnion(nftId),
   });
 }
 export function updateTokenAmount(userId, balance) {

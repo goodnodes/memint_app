@@ -52,7 +52,7 @@ const SignUpUserDetailScreen = ({navigation, route}) => {
       //   drinkStyle: drinkInfo.drinkStyle,
       //   alcoholType: drinkInfo.alcoholType,
       // });
-      navigation.push('SignUpServeNFT', {userInfo});
+      navigation.push('SignUpAgreement', {userInfo});
       // navigate('SignUpServeNFT', route.params);
     }
   };
