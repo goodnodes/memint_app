@@ -129,11 +129,15 @@ function MetaData({item, navigation, refresh, setRefresh}) {
     DeviceEventEmitter.addListener(item.id, () => {
       console.log('work');
       getItem(item.id).then(result => {
+        console.log({'전체 길이': result.length});
+        console.log({checked: result[0].checked});
+        console.log({'마지막 text': result[result.length - 1]});
         const temp = [...result];
         temp[0].checked = result.length;
         setItem(item.id, temp);
         setUnChecked(0);
       });
+      // console.log({allMsgs: allMsgs});
     });
   }, []);
 
@@ -241,8 +245,7 @@ function MetaData({item, navigation, refresh, setRefresh}) {
               .where('createdAt', '>', Time)
               .orderBy('createdAt')
               .get();
-            // console.log({updates: msgs.docs});
-            if (msgs.docs.length === 0 || msgs.docs.length === 1) {
+            if (msgs.docs.length === 1) {
               // console.log('docs.length === 0');
               // console.log({length: result.length, checked: result[0].checked});
 
@@ -325,6 +328,7 @@ function MetaData({item, navigation, refresh, setRefresh}) {
         setUnChecked(0);
         const temp = [...allMsgs];
         temp[0].checked = allMsgs.length;
+        // console.log(allMsgs);
         setItem(item.id, temp);
       }}>
       <View style={styles.container}>

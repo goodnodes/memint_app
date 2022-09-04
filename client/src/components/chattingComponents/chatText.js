@@ -55,6 +55,7 @@ function ChatText({data, roomInfo, userDetail, setRoomInfo}) {
   useEffect(() => {
     getItem(data.id).then(result => {
       setChattings(result.slice(1));
+      console.log(result);
     });
   }, []);
 
