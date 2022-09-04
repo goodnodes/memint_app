@@ -27,16 +27,17 @@ function ChatText({data, roomInfo, userDetail, setRoomInfo}) {
     item.status ? (
       <StatusMessage item={item} />
     ) : item.sender === user ? (
-      <MyChat item={item} user={userDesc} userDetail={userDetail} />
+      <MyChat item={item} user={userDesc} userDetail={userDetail} key={idx} />
     ) : (
       <NotMyChat
         item={item}
         userDetail={userDetail}
         setUserId={setUserId}
         setUserInfoModalVisible={setUserInfoModalVisible}
+        key={idx}
       />
     );
-  const keyExtractor = item => item.createdAt.seconds;
+
   const chatRef = useMemo(
     () => firestore().collection('Meeting').doc(data.id).collection('Messages'),
     [data.id],
@@ -115,7 +116,6 @@ function ChatText({data, roomInfo, userDetail, setRoomInfo}) {
         style={styles.container}
         data={chattings}
         renderItem={renderItem}
-        keyExtractor={keyExtractor}
       />
       <UserInfoModal
         userInfoModalVisible={userInfoModalVisible}

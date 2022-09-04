@@ -127,7 +127,13 @@ function MetaData({item, navigation, refresh, setRefresh}) {
 
   useEffect(() => {
     DeviceEventEmitter.addListener(item.id, () => {
-      setUnChecked(0);
+      console.log('work');
+      getItem(item.id).then(result => {
+        const temp = [...result];
+        temp[0].checked = result.length;
+        setItem(item.id, temp);
+        setUnChecked(0);
+      });
     });
   }, []);
 
@@ -179,16 +185,22 @@ function MetaData({item, navigation, refresh, setRefresh}) {
 
             setItem(item.id, [
               {checked: 0},
-              ...messages.docs.map(el => {
-                return el.data();
-              }),
+              ...messages.docs
+                .map(el => {
+                  return el.data();
+                })
+                .slice(1),
             ]);
+
             setAllMsgs([
               {checked: 0},
-              ...messages.docs.map(el => {
-                return el.data();
-              }),
+              ...messages.docs
+                .map(el => {
+                  return el.data();
+                })
+                .slice(1),
             ]);
+
             setUnChecked(messages.docs.length);
           }
         };
@@ -230,7 +242,7 @@ function MetaData({item, navigation, refresh, setRefresh}) {
               .orderBy('createdAt')
               .get();
             // console.log({updates: msgs.docs});
-            if (msgs.docs.length === 0) {
+            if (msgs.docs.length === 0 || msgs.docs.length === 1) {
               // console.log('docs.length === 0');
               // console.log({length: result.length, checked: result[0].checked});
 
@@ -268,9 +280,7 @@ function MetaData({item, navigation, refresh, setRefresh}) {
     ) {
       setUnChecked(unChecked + 1);
       setAllMsgs([...allMsgs, last]);
-      const temp = [...allMsgs];
-      temp[0].checked = allMsgs.length;
-      setItem(item.id, [...temp, last]);
+      setItem(item.id, [...allMsgs, last]);
     }
     // console.log(allMsgs);
   }, [lastTime.seconds]);
