@@ -131,12 +131,6 @@ function MetaData({item, navigation, refresh, setRefresh}) {
     });
   }, []);
 
-  useEffect(() => {
-    if (lock) {
-      setLock(false);
-    }
-  }, [isFocused]);
-
   // 페이지 열 때 한번만 실행되는 useEffect
   // AsyncStorage에 정보가 없으면 만들어주고, 있다면 받아와서 allMsgs에 넣어주는 역할을 한다.
   useEffect(() => {
