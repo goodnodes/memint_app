@@ -1,6 +1,6 @@
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {SafeAreaView, StyleSheet, Text, View, AsyncStorage} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import BackButton from '../../components/common/BackButton';
@@ -17,7 +17,7 @@ import useUser from '../../utils/hooks/UseUser';
 import {useMeeting} from '../../utils/hooks/UseMeeting';
 import useMeetingActions from '../../utils/hooks/UseMeetingActions';
 import useAuthActions from '../../utils/hooks/UseAuthActions';
-import SafeStatusBar from '../../components/common/SafeStatusBar';
+import {removeItem} from '../../lib/Chatting';
 
 function MeetingSet({route}) {
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
@@ -111,6 +111,16 @@ function MeetingSet({route}) {
 
   const handleMeetingOut = async () => {
     //미팅이 확정상태라면 나가지 못함
+    if (
+      Object.values(
+        meetingInfo.members.filter(el => {
+          return Object.keys(el)[0] === userInfo.id;
+        })[0],
+      )[0] !== 'accepted'
+    ) {
+      showToast('error', '미팅 확정 이후에는 나갈 수 없습니다');
+      return;
+    }
 
     updateMembersOut(meetingInfo.id, userInfo.id)
       .then(() => {
@@ -128,6 +138,7 @@ function MeetingSet({route}) {
         }
       })
       .then(() => {
+        removeItem(meetingInfo.id);
         showToast('success', '미팅에서 나왔습니다');
         navigation.navigate('ChattingListPage');
       })
