@@ -129,7 +129,7 @@ const WalletOffchainTrade = ({navigation}) => {
                         tokenAmount: userDetail.tokenAmount + 1,
                       });
                     });
-                    showToast('success', '토큰 교환이 완료되었습니다.');
+                    showToast('success', 'TING 지급이 완료되었습니다.');
                   } else {
                     showToast(
                       'error',
