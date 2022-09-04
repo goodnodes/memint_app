@@ -11,11 +11,11 @@ const app = express();
 const fs = require("fs");
 const port = process.env.PORT || 5000;
 const web = require("./routes/web");
-const cors = require("cors");
-let corsOptions = {
-  origin: "https://www.memint.xyz",
-  credentials: true,
-};
+// const cors = require("cors");
+// let corsOptions = {
+//   origin: "https://www.memint.xyz",
+//   credentials: true,
+// };
 
 //Firebase setting
 const admin = require("firebase-admin");
@@ -32,7 +32,7 @@ const db = (module.exports.db = firestore.getFirestore(firebaseApp));
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 
 app.get("/", (req, res) => {
 	res.send("hello Web3");
