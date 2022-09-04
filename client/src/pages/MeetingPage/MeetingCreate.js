@@ -420,7 +420,7 @@ function MeetingCreate({route}) {
             ]}
           />
           {/* <DoubleModal
-            text="친구 초대 시 LCN이 차감됩니다.    초대하시겠습니까?"
+            text="친구 초대 시 TING이 차감됩니다.    초대하시겠습니까?"
             nButtonText="아니요"
             pButtonText="네"
             modalVisible={inviteModalVisible}

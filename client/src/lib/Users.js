@@ -49,6 +49,7 @@ export function createUser({
     marketingAgreement: marketingAgreement,
     isActivated: false,
     selfIntroduction: '',
+    isReadyToGetFreeToken: true,
   });
 }
 
@@ -88,6 +89,14 @@ export function createProperty({userId, drinkCapa, drinkStyle, alcoholType}) {
     drinkCapa,
     drinkStyle,
     alcoholType,
+  });
+}
+
+export function getFreeToken({userId, updatedTokenAmount}) {
+  console.log({userId, updatedTokenAmount});
+  return usersCollection.doc(userId).update({
+    tokenAmount: updatedTokenAmount,
+    isReadyToGetFreeToken: false,
   });
 }
 

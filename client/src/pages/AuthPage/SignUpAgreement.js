@@ -136,6 +136,8 @@ const SignUpAgreementScreen = ({navigation, route}) => {
           likesroomId: userDetail.likesroomId,
           marketingAgreement: marketingCheck,
           isActivated: userDetail.isActivated,
+          selfIntroduction: userDetail.selfIntroduction,
+          isReadyToGetFreeToken: userDetail.isReadyToGetFreeToken,
         }),
           navigation.navigate('Main');
       } catch (e) {

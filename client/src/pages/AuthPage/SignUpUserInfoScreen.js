@@ -35,6 +35,7 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
   const {showToast} = useToast();
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState(null);
+  const [validNickname, setValidNickname] = useState(true);
   const [form, setForm] = useState({
     nickName: '',
     birthYear: '',
@@ -45,6 +46,25 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
 
   const createChangeTextHandler = name => value => {
     setForm({...form, [name]: value});
+    if (name === 'nickName') {
+      //calculate byte size
+      let str_character;
+      let size = 0;
+      for (let k = 0; k < value.length; k++) {
+        str_character = value.charAt(k);
+        if (escape(str_character).length > 4) size += 2;
+        else size++;
+      }
+
+      console.log(size + ' Bytes');
+      // const size = value.getBytes();
+      console.log({size});
+      if (size > 14) {
+        setValidNickname(false);
+      } else {
+        setValidNickname(true);
+      }
+    }
   };
   const onSubmit = async () => {
     try {
@@ -120,158 +140,159 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
     );
   }
   return (
-    // <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-    <KeyboardAvoidingView
-      style={styles.KeyboardAvoidingView}
-      behavior={Platform.select({ios: 'padding'})}>
-      <SafeStatusBar />
-      <BackButton />
-      <View style={styles.fullscreen}>
-        <ScrollView
-          style={styles.fullscreenSub}
-          contentContainerStyle={styles.paddingBottom}>
-          <Text style={styles.title}>프로필 설정</Text>
-          <Text style={styles.alertText}>
-            프로필 사진, 닉네임, 생년월일, 성별을 추가해야{'\n'}
-            다음 페이지로 넘어갈 수 있어요.
-          </Text>
-          <View style={styles.cameraArea}>
-            <CameraButton response={response} setResponse={setResponse} />
-          </View>
-          <View style={styles.form}>
-            <Text style={styles.infoText}>닉네임</Text>
-            <BorderedInput
-              size="wide"
-              placeholder="닉네임"
-              value={form.nickName}
-              onChangeText={createChangeTextHandler('nickName')}
-              autoCapitalize="none"
-              autoCorrect={false}
-              returnKeyType={'next'}
-            />
-          </View>
-          <View style={styles.form}>
-            <Text style={styles.infoText}>생년월일</Text>
-            <View style={styles.birthform}>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <KeyboardAvoidingView
+        style={styles.KeyboardAvoidingView}
+        behavior={Platform.select({ios: 'padding'})}>
+        <SafeStatusBar />
+        <BackButton />
+        <View style={styles.fullscreen}>
+          <ScrollView style={styles.fullscreenSub}>
+            <View style={styles.cameraArea}>
+              <CameraButton response={response} setResponse={setResponse} />
+            </View>
+            <View style={styles.form}>
+              <Text style={styles.infoText}>닉네임</Text>
+              <BorderedInput
+                size="wide"
+                // placeholder="닉네임"
+                value={form.nickName}
+                onChangeText={createChangeTextHandler('nickName')}
+                autoCapitalize="none"
+                autoCorrect={false}
+                returnKeyType={'next'}
+              />
+
+              <Text
+                style={[
+                  styles.validNickname,
+                  {color: validNickname ? '#3C3D43' : 'red'},
+                ]}>
+                너무 긴 닉네임입니다.
+              </Text>
+            </View>
+            <View style={styles.form}>
+              <Text style={styles.infoText}>생년월일</Text>
+              <View style={styles.birthform}>
+                <SelectDropdown
+                  data={[
+                    '1992',
+                    '1993',
+                    '1994',
+                    '1995',
+                    '1996',
+                    '1997',
+                    '1998',
+                    '1999',
+                    '2000',
+                    '2001',
+                    '2002',
+                    '2003',
+                  ]}
+                  onSelect={(selectedItem, index) => {
+                    setForm({...form, birthYear: selectedItem});
+                  }}
+                  defaultButtonText=" "
+                  buttonStyle={styles.dropdown}
+                  dropdownStyle={styles.dropdownStyle}
+                  rowTextStyle={styles.dropdownTextStyle}
+                  buttonTextStyle={styles.buttonTextStyle}
+                  position={'bottom'}
+                />
+                <Text style={styles.infoText}> 년 </Text>
+                <SelectDropdown
+                  data={[
+                    '1',
+                    '2',
+                    '3',
+                    '4',
+                    '5',
+                    '6',
+                    '7',
+                    '8',
+                    '9',
+                    '10',
+                    '11',
+                    '12',
+                  ]}
+                  onSelect={(selectedItem, index) => {
+                    setForm({...form, birthMonth: selectedItem});
+                  }}
+                  defaultButtonText=" "
+                  buttonStyle={styles.dropdownSmall}
+                  dropdownStyle={styles.dropdownStyle}
+                  rowTextStyle={styles.dropdownTextStyle}
+                  buttonTextStyle={styles.buttonTextStyle}
+                />
+                <Text style={styles.infoText}> 월 </Text>
+                <SelectDropdown
+                  data={[
+                    '1',
+                    '2',
+                    '3',
+                    '4',
+                    '5',
+                    '6',
+                    '7',
+                    '8',
+                    '9',
+                    '10',
+                    '11',
+                    '12',
+                    '13',
+                    '14',
+                    '15',
+                    '16',
+                    '17',
+                    '18',
+                    '19',
+                    '20',
+                    '21',
+                    '22',
+                    '23',
+                    '24',
+                    '25',
+                    '26',
+                    '27',
+                    '28',
+                    '29',
+                    '30',
+                    '31',
+                  ]}
+                  onSelect={(selectedItem, index) => {
+                    setForm({...form, birthDay: selectedItem});
+                  }}
+                  defaultButtonText=" "
+                  buttonStyle={styles.dropdownSmall}
+                  dropdownStyle={styles.dropdownStyle}
+                  rowTextStyle={styles.dropdownTextStyle}
+                  buttonTextStyle={styles.buttonTextStyle}
+                />
+                <Text style={styles.infoText}> 일 </Text>
+              </View>
+            </View>
+            <View style={styles.form}>
+              <Text style={styles.infoText}>성별</Text>
               <SelectDropdown
-                data={[
-                  '1992',
-                  '1993',
-                  '1994',
-                  '1995',
-                  '1996',
-                  '1997',
-                  '1998',
-                  '1999',
-                  '2000',
-                  '2001',
-                  '2002',
-                  '2003',
-                ]}
+                data={['남자', '여자']}
                 onSelect={(selectedItem, index) => {
-                  setForm({...form, birthYear: selectedItem});
+                  setForm({...form, gender: selectedItem});
                 }}
                 defaultButtonText=" "
                 buttonStyle={styles.dropdown}
-                dropdownStyle={styles.dropdownStyle}
-                rowTextStyle={styles.dropdownTextStyle}
-                buttonTextStyle={styles.buttonTextStyle}
-                position={'bottom'}
-              />
-              <Text style={styles.infoText}> 년 </Text>
-              <SelectDropdown
-                data={[
-                  '1',
-                  '2',
-                  '3',
-                  '4',
-                  '5',
-                  '6',
-                  '7',
-                  '8',
-                  '9',
-                  '10',
-                  '11',
-                  '12',
-                ]}
-                onSelect={(selectedItem, index) => {
-                  setForm({...form, birthMonth: selectedItem});
-                }}
-                defaultButtonText=" "
-                buttonStyle={styles.dropdownSmall}
-                dropdownStyle={styles.dropdownStyle}
+                dropdownStyle={styles.dropdownStyleGender}
                 rowTextStyle={styles.dropdownTextStyle}
                 buttonTextStyle={styles.buttonTextStyle}
               />
-              <Text style={styles.infoText}> 월 </Text>
-              <SelectDropdown
-                data={[
-                  '1',
-                  '2',
-                  '3',
-                  '4',
-                  '5',
-                  '6',
-                  '7',
-                  '8',
-                  '9',
-                  '10',
-                  '11',
-                  '12',
-                  '13',
-                  '14',
-                  '15',
-                  '16',
-                  '17',
-                  '18',
-                  '19',
-                  '20',
-                  '21',
-                  '22',
-                  '23',
-                  '24',
-                  '25',
-                  '26',
-                  '27',
-                  '28',
-                  '29',
-                  '30',
-                  '31',
-                ]}
-                onSelect={(selectedItem, index) => {
-                  setForm({...form, birthDay: selectedItem});
-                }}
-                defaultButtonText=" "
-                buttonStyle={styles.dropdownSmall}
-                dropdownStyle={styles.dropdownStyle}
-                rowTextStyle={styles.dropdownTextStyle}
-                buttonTextStyle={styles.buttonTextStyle}
-              />
-              <Text style={styles.infoText}> 일 </Text>
             </View>
-          </View>
-          <View style={styles.form}>
-            <Text style={styles.infoText}>성별</Text>
-            <SelectDropdown
-              data={['남자', '여자']}
-              onSelect={(selectedItem, index) => {
-                setForm({...form, gender: selectedItem});
-              }}
-              defaultButtonText=" "
-              buttonStyle={styles.dropdown}
-              dropdownStyle={styles.dropdownStyleGender}
-              rowTextStyle={styles.dropdownTextStyle}
-              buttonTextStyle={styles.buttonTextStyle}
-            />
-          </View>
-          <View style={styles.alertTextArea}>
-            <Text style={styles.alertText}>
-              닉네임, 생년월일, 성별 등 개인을 식별할 수 있는 정보는{'\n'}
-              추후 수정이 불가능합니다.
-            </Text>
-          </View>
+            <View style={styles.alertTextArea}>
+              <Text style={styles.alertText}>
+                닉네임, 생년월일, 성별 등 개인을 식별할 수 있는 정보는{'\n'}
+                추후 수정이 불가능합니다.
+              </Text>
+            </View>
 
-          {/* <BasicButton
+            {/* <BasicButton
             style={styles.button}
             width={300}
             height={40}
@@ -281,13 +302,13 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
             hasMarginBottom
             onPress={onSubmit}
           /> */}
-        </ScrollView>
-        <TouchableOpacity style={styles.button} onPress={onSubmit}>
-          <Text style={styles.buttonText}>다음</Text>
-        </TouchableOpacity>
-      </View>
-    </KeyboardAvoidingView>
-    // </TouchableWithoutFeedback>
+          </ScrollView>
+          <TouchableOpacity style={styles.button} onPress={onSubmit}>
+            <Text style={styles.buttonText}>다음</Text>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -295,6 +316,9 @@ const styles = StyleSheet.create({
   KeyboardAvoidingView: {
     flex: 1,
     backgroundColor: '#3C3D43',
+  },
+  validNickname: {
+    marginTop: 5,
   },
   fullscreen: {
     flex: 1,
@@ -355,6 +379,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   form: {
+    // position: 'static',
     marginBottom: 26,
     width: '100%',
     flexDirection: 'column',
