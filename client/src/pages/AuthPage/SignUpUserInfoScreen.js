@@ -56,9 +56,6 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
         else size++;
       }
 
-      console.log(size + ' Bytes');
-      // const size = value.getBytes();
-      console.log({size});
       if (size > 14) {
         setValidNickname(false);
       } else {
@@ -69,6 +66,7 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
   const onSubmit = async () => {
     try {
       if (
+        !validNickname ||
         response === null ||
         form.nickName === '' ||
         form.birthYear === '' ||
