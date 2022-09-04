@@ -87,6 +87,7 @@ function MeetingSet({route}) {
         deleteMeeting(meetingInfo.id);
       })
       .then(() => {
+        removeItem(meetingInfo.id);
         // saveMeeting({
         //   ...rooms,
         //   createdrooms: rooms.createdrooms.filter(
