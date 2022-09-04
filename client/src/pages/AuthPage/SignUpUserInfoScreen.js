@@ -35,6 +35,7 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
   const {showToast} = useToast();
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState(null);
+  const [validNickname, setValidNickname] = useState(true);
   const [form, setForm] = useState({
     nickName: '',
     birthYear: '',
@@ -45,6 +46,25 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
 
   const createChangeTextHandler = name => value => {
     setForm({...form, [name]: value});
+    if (name === 'nickName') {
+      //calculate byte size
+      let str_character;
+      let size = 0;
+      for (let k = 0; k < value.length; k++) {
+        str_character = value.charAt(k);
+        if (escape(str_character).length > 4) size += 2;
+        else size++;
+      }
+
+      console.log(size + ' Bytes');
+      // const size = value.getBytes();
+      console.log({size});
+      if (size > 14) {
+        setValidNickname(false);
+      } else {
+        setValidNickname(true);
+      }
+    }
   };
   const onSubmit = async () => {
     try {
@@ -135,13 +155,21 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
               <Text style={styles.infoText}>닉네임</Text>
               <BorderedInput
                 size="wide"
-                placeholder="닉네임"
+                // placeholder="닉네임"
                 value={form.nickName}
                 onChangeText={createChangeTextHandler('nickName')}
                 autoCapitalize="none"
                 autoCorrect={false}
                 returnKeyType={'next'}
               />
+
+              <Text
+                style={[
+                  styles.validNickname,
+                  {color: validNickname ? '#3C3D43' : 'red'},
+                ]}>
+                너무 긴 닉네임입니다.
+              </Text>
             </View>
             <View style={styles.form}>
               <Text style={styles.infoText}>생년월일</Text>
@@ -288,6 +316,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#3C3D43',
   },
+  validNickname: {
+    marginTop: 5,
+  },
   fullscreen: {
     flex: 1,
     paddingHorizontal: 15,
@@ -339,6 +370,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   form: {
+    // position: 'static',
     marginBottom: 26,
     width: '100%',
     flexDirection: 'column',

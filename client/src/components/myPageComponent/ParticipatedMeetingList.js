@@ -113,7 +113,7 @@ function ParticipatedMeetings({item, getJoinedRoom}) {
   const handleStart = () => {
     try {
       changeJoinerToConfirmed(item.id, user.id);
-      showToast('success', '1LCN이 지급되었습니다!');
+      showToast('success', '1TING이 지급되었습니다!');
       getJoinedRoom();
     } catch (e) {
       console.log(e);

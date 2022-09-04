@@ -92,7 +92,7 @@ const WalletLcnTransfer = () => {
               style={styles.input}
               value={form.amount}
               onChangeText={createChangeTextHandler('amount')}
-              placeholder="LCN"
+              placeholder="TING"
               keyboardType="numeric"
               // returnKeyType={'done'}
               onPress={onSubmit}
@@ -123,7 +123,7 @@ const WalletLcnTransfer = () => {
               pFunction={() => {
                 sendLCN().then(result => {
                   if (result.data.message === 'success') {
-                    showToast('success', 'LCN 전송이 완료되었습니다!');
+                    showToast('success', 'TING 전송이 완료되었습니다!');
                     getUser(userInfo.id).then(userDetail => {
                       updateTokenInfo({
                         tokenAmount: Number(userDetail.tokenAmount),

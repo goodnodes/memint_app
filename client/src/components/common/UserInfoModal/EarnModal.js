@@ -48,11 +48,11 @@ function EarnModal({
                 width: '100%',
               }}>
               <View style={styles.calcText}>
-                <Text style={{fontWeight: 'bold'}}>보상 LCN</Text>
+                <Text style={{fontWeight: 'bold'}}>보상 TING</Text>
                 <Text style={{fontWeight: 'bold'}}>{amount}개</Text>
               </View>
               <View style={styles.calcText}>
-                <Text style={{fontWeight: 'bold'}}>현재 보유 LCN</Text>
+                <Text style={{fontWeight: 'bold'}}>현재 보유 TING</Text>
                 <Text style={{fontWeight: 'bold'}}>{user.tokenAmount}</Text>
               </View>
             </View>

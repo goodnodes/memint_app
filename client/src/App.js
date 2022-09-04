@@ -165,6 +165,7 @@ function App() {
         marketingAgreement: userDetail.marketingAgreement,
         isActivated: userDetail.isActivated,
         selfIntroduction: userDetail.selfIntroduction,
+        isReadyToGetFreeToken: userDetail.isReadyToGetFreeToken,
       });
     } catch (e) {
       console.log(e);
