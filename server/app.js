@@ -9,6 +9,7 @@ const notification = require("./routes/notification");
 const notification = require("./routes/notification");
 const app = express();
 const fs = require("fs");
+const cors = require("cors");
 const port = process.env.PORT || 5000;
 const web = require("./routes/web");
 // const cors = require("cors");
@@ -30,6 +31,9 @@ const db = (module.exports.db = firestore.getFirestore(firebaseApp));
 //Firebase setting
 
 app.use(logger("dev"));
+app.use(cors({
+  origin: 'https://main--tangerine-tartufo-e315f3.netlify.app',
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 // app.use(cors(corsOptions));
