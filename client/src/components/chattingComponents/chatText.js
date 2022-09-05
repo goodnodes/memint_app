@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useMemo} from 'react';
+import React, {useEffect, useState, useMemo, useRef} from 'react';
 import {
   Text,
   StyleSheet,
@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   Pressable,
+  AppState,
 } from 'react-native';
 import AddChat from './addChat';
 import firestore from '@react-native-firebase/firestore';
@@ -20,9 +21,12 @@ function ChatText({data, roomInfo, userDetail, setRoomInfo}) {
   const [lastChat, setLastChat] = useState('');
   const [userInfoModalVisible, setUserInfoModalVisible] = useState(false);
   const [userId, setUserId] = useState('');
+  const [currentAppState, setCurrentAppState] = useState('');
   const userDesc = useUser();
   const user = userDesc.id;
   const visibleList = userDesc.visibleUser;
+  const appState = useRef(AppState.currentState);
+
   const renderItem = ({item, idx}) =>
     item.status ? (
       <StatusMessage item={item} />
@@ -53,15 +57,67 @@ function ChatText({data, roomInfo, userDetail, setRoomInfo}) {
 
   // 채팅방에 들어올 때, AsyncStorage로부터 데이터를 받아와 chattings에 넣어주는 함수
   useEffect(() => {
+    // AppState Subscribe 설정
+    const subscription = AppState.addEventListener('change', changedState => {
+      if (
+        (currentAppState === 'inactive' || 'background') &&
+        changedState === 'active'
+      ) {
+        console.log('App state changed from inactive to active!!');
+      }
+      // console.log(currentAppState);
+      // console.log(changedState);
+      appState.current = changedState;
+      setCurrentAppState(appState.current);
+    });
     getItem(data.id).then(result => {
       setChattings(result.slice(1));
-      console.log(result);
     });
+
+    return () => {
+      subscription.remove();
+    };
   }, []);
+
+  // 앱의 상태 변경(foreground, background)에 따라 채팅창을 업데이트해주는 함수
+  useEffect(() => {
+    if (!currentAppState) return;
+    if (currentAppState === 'inactive' || currentAppState === 'background') {
+      console.log('out');
+      return;
+    } else if (currentAppState === 'active') {
+      // 시간 범위를 체크하여 그 사이에 온 채팅이 있는지 판단하고, 있다면 업데이트해주는 함수
+      console.log('in');
+      const Time = firestore.Timestamp.fromDate(
+        new Date(chattings[chattings.length - 1].createdAt.seconds * 1000),
+      );
+      firestore()
+        .collection('Meeting')
+        .doc(data.id)
+        .collection('Messages')
+        .where('createdAt', '>', Time)
+        .orderBy('createdAt')
+        .get()
+        .then(result => {
+          if (result.docs.length > 1) {
+            const data = result.docs.map(el => {
+              return el.data();
+            });
+            setChattings(chattings.concat(data.slice(1, data.length - 1)));
+          }
+        });
+
+      // console.log(chattings);
+    }
+  }, [currentAppState]);
 
   // lastChat이 변경되면 이를 토대로 전체 채팅 list를 변경해주는 함수
   useEffect(() => {
-    if (lastChat === '') {
+    if (
+      lastChat === '' ||
+      currentAppState === 'inactive' ||
+      currentAppState === 'background'
+    ) {
       return;
     } else {
       if (chattings.length === 0) {

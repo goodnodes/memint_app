@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useMemo} from 'react';
+import React, {useEffect, useState, useMemo, useRef} from 'react';
 import {
   Text,
   StyleSheet,
@@ -8,6 +8,7 @@ import {
   Image,
   SafeAreaView,
   DeviceEventEmitter,
+  AppState,
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import useUser from '../../utils/hooks/UseUser';
@@ -124,6 +125,64 @@ function MetaData({item, navigation, refresh, setRefresh}) {
   const [allMsgs, setAllMsgs] = useState('');
   const [unChecked, setUnChecked] = useState(0);
   const [last, setLast] = useState('');
+  const [currentAppState, setCurrentAppState] = useState('');
+  const appState = useRef(AppState.currentState);
+
+  // AppState Subscribe 설정 및 foreground / background에 따라 state를 변경해주는 함수
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', changedState => {
+      if (
+        (currentAppState === 'inactive' || 'background') &&
+        changedState === 'active'
+      ) {
+        console.log('App state changed from inactive to active!!');
+      }
+      // console.log(currentAppState);
+      // console.log(changedState);
+      appState.current = changedState;
+      setCurrentAppState(appState.current);
+    });
+    // getItem(item.id).then(result => {
+    //   setChattings(result.slice(1));
+    // });
+
+    return () => {
+      subscription.remove();
+    };
+  }, []);
+
+  // 앱의 상태 변경(foreground, background)에 따라 AsyncStorage를 업데이트해주는 함수
+  useEffect(() => {
+    if (!currentAppState) return;
+    if (currentAppState === 'inactive' || currentAppState === 'background') {
+      console.log('out');
+      return;
+    } else if (currentAppState === 'active') {
+      // 시간 범위를 체크하여 그 사이에 온 채팅이 있는지 판단하고, 있다면 업데이트해주는 함수
+      console.log('in');
+      const Time = firestore.Timestamp.fromDate(
+        new Date(allMsgs[allMsgs.length - 1].createdAt.seconds * 1000),
+      );
+      firestore()
+        .collection('Meeting')
+        .doc(item.id)
+        .collection('Messages')
+        .where('createdAt', '>', Time)
+        .orderBy('createdAt')
+        .get()
+        .then(result => {
+          if (result.docs.length > 1) {
+            const data = result.docs.map(el => {
+              return el.data();
+            });
+            setAllMsgs(allMsgs.concat(data.slice(1, data.length - 1)));
+            setUnChecked(result.docs.length - 2);
+          }
+        });
+
+      // console.log(chattings);
+    }
+  }, [currentAppState]);
 
   useEffect(() => {
     DeviceEventEmitter.addListener(item.id, () => {
@@ -272,7 +331,11 @@ function MetaData({item, navigation, refresh, setRefresh}) {
 
   // firestore를 통해 lastMsg가 업데이트되면 AsyncStorage에 lastMsg를 업데이트해주는 함수
   useEffect(() => {
-    if (allMsgs === '') {
+    if (
+      allMsgs === '' ||
+      currentAppState === 'inactive' ||
+      currentAppState === 'background'
+    ) {
       return;
     } else if (allMsgs.length === 1) {
       // setUnChecked(unChecked + 1);
