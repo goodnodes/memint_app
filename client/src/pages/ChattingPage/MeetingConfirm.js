@@ -23,6 +23,7 @@ import BasicButton from '../../components/common/BasicButton';
 import {createConfirmAlarm} from '../../lib/Alarm';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 import LinearGradient from 'react-native-linear-gradient';
+import {makeCreateDiscord} from '../../lib/api/notification';
 const window = Dimensions.get('window');
 
 function MeetingConfirm({route}) {
@@ -96,6 +97,7 @@ function MeetingConfirm({route}) {
       confirmCreatedAt: firestore.FieldValue.serverTimestamp(),
     });
     await createConfirmAlarm({sender: userInfo.id, meetingId: meetingInfo.id});
+    await makeCreateDiscord({sender: userInfo.nickName});
     await getMeetingInfo();
     setImage(null);
     setLoading(false);
@@ -125,7 +127,7 @@ function MeetingConfirm({route}) {
       confirmCreatedAt: firestore.FieldValue.serverTimestamp(),
     });
     await createConfirmAlarm({sender: userInfo.id, meetingId: meetingInfo.id});
-
+    await makeCreateDiscord({sender: userInfo.nickName});
     await getMeetingInfo();
     setImage(null);
     setLoading(false);

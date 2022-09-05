@@ -211,6 +211,7 @@ function FeedbackSendPage({route}) {
                     notification({
                       receiver: person[2],
                       message: '미팅 후기 메시지가 도착했습니다!',
+                      title: 'MEMINT',
                     });
                   }
                   showToast('success', '후기를 전송하였습니다.');

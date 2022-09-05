@@ -46,6 +46,7 @@ export const createMeetingProposal = data => {
       notification({
         receiver: data.receiver,
         message: '미팅 신청 메시지가 도착했습니다!',
+        title: 'MEMINT',
       });
     })
     .catch(err => {
@@ -77,6 +78,7 @@ export const createMeetingAccept = ({...data}) => {
       notification({
         receiver: data.receiver,
         message: '수락 메시지가 도착했습니다!',
+        title: 'MEMINT',
       });
     })
     .catch(err => {
@@ -104,7 +106,7 @@ export const createMeetingBanned = data => {
 };
 
 export const createConfirmAlarm = async data => {
-  const res = await adminCollection.get();
+  const res = await adminCollection.where('nickName', '==', '관리자').get();
   const adminId = res.docs.map(el => {
     return el.id;
   })[0];

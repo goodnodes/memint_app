@@ -5,3 +5,9 @@ export const notification = async body => {
     return result;
   });
 };
+
+export const makeCreateDiscord = async body => {
+  return axios.post('/notification/confirm', body).then(result => {
+    return result;
+  });
+};
