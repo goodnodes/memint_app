@@ -60,7 +60,7 @@ function MeetingElement({item}) {
       </View>
       <TouchableOpacity style={styles.button} onPress={handleNavigate}>
         <Text style={styles.buttonText}> 함께하기 </Text>
-        <Icon name="play-arrow" size={20} color={'#58FF7D'} />
+        <Icon name="play-arrow" size={24} color={'#58FF7D'} />
       </TouchableOpacity>
     </View>
   );
@@ -68,35 +68,35 @@ function MeetingElement({item}) {
 
 const styles = StyleSheet.create({
   wrapper: {
-    marginTop: 10,
-    height: 220,
+    marginVertical: 4,
+    height: 209,
   },
   container: {
     backgroundColor: 'rgba(234, 255, 239, 0.8)',
     flexDirection: 'column',
-    paddingHorizontal: 30,
-    paddingVertical: 25,
-    height: 185,
+    paddingHorizontal: 25,
+    paddingVertical: 30,
+    height: 196,
     borderRadius: 30,
-    marginVertical: 8,
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
   },
   usernamelikes: {
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginBottom: 8,
   },
   titleArea: {
-    marginTop: 16,
-    marginBottom: 4,
+    marginBottom: 14,
   },
   title: {
     fontSize: 16,
     fontWeight: '400',
-    height: 43,
+    height: 44,
     width: '100%',
     fontFamily: 'NeoDunggeunmoPro-Regular',
     letterSpacing: -0.5,
+    lineHeight: 22.4,
   },
   meetingTags: {
     flexDirection: 'row',
@@ -109,20 +109,22 @@ const styles = StyleSheet.create({
   },
   tagText: {
     fontSize: 13,
-    fontWeight: '500',
+    fontWeight: '400',
     color: '#3C3D43',
     letterSpacing: -0.5,
+    lineHeight: 18.2,
   },
   infoList: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 5,
+    marginBottom: 2,
   },
   infoEl: {
     fontSize: 13,
     color: '#3C3D43',
     letterSpacing: -0.5,
     fontWeight: '500',
+    lineHeight: 18.2,
   },
   bar: {
     width: 1,
@@ -138,13 +140,14 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     width: 30,
     height: 30,
-    marginRight: 5,
+    marginRight: 8,
   },
   username: {
     fontSize: 15,
     fontWeight: '500',
     letterSpacing: -0.5,
     textAlign: 'right',
+    lineHeight: 21,
   },
   button: {
     backgroundColor: '#ffffff',
@@ -152,17 +155,20 @@ const styles = StyleSheet.create({
     height: 49,
     borderRadius: 99,
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 3,
+    paddingLeft: 13,
+    paddingRight: 10,
     alignItems: 'center',
     position: 'absolute',
-    right: 30,
+    right: 25,
     bottom: 0,
     shadowColor: 'rgba(174, 255, 192, 0.5)',
     shadowOffset: {
       width: 0,
       height: 9,
     },
-    shadowOpacity: 0.48,
+    shadowOpacity: 0.65,
     shadowRadius: 11.95,
 
     elevation: 18,

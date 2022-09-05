@@ -27,11 +27,11 @@ function WalletButton() {
 
 const styles = StyleSheet.create({
   walletButton: {
-    position: 'absolute',
-    width: 103,
-    height: 55,
-    right: 20,
-    bottom: 90,
+    // position: 'absolute',
+    width: 60,
+    height: 28,
+    // left: 0,
+    // top: 0,
     backgroundColor: '#3C3D43',
     borderRadius: 30,
     justifyContent: 'center',
@@ -42,12 +42,13 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#58FF7D',
-    fontSize: 20,
-    marginLeft: 8,
+    fontSize: 16,
+    marginLeft: 4,
+    letterSpacing: -0.5,
   },
   image: {
-    width: 24,
-    height: 24,
+    width: 18,
+    height: 18,
   },
 });
 

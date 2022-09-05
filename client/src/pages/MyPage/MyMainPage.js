@@ -89,14 +89,8 @@ function MyMainPage({navigation}) {
                 style={styles.pictureImage}
               />
             </TouchableOpacity>
-            <TouchableOpacity onPress={handleMyEgg}>
-              <Image source={dinoegg} style={styles.bigEggImage} />
-            </TouchableOpacity>
-            <MyEggModal
-              buttonText="네"
-              modalVisible={modalVisible}
-              setModalVisible={setModalVisible}
-            />
+
+            <WalletButton />
           </View>
           <View style={styles.character}>
             <View style={styles.characterWrap}>
@@ -106,16 +100,44 @@ function MyMainPage({navigation}) {
                 color={'#2ACFC2'}
                 unfilledColor={'#edeef6'}
                 borderWidth={0}
-                thickness={6}
+                thickness={5}
               />
               <Image source={dummyDino} style={styles.characterImage} />
+              <TouchableOpacity onPress={handleMyEgg} style={styles.eggView}>
+                <Image source={dinoegg} style={styles.bigEggImage} />
+              </TouchableOpacity>
+              <MyEggModal
+                buttonText="네"
+                modalVisible={modalVisible}
+                setModalVisible={setModalVisible}
+              />
             </View>
-            <Text style={styles.nickName}>Lv.1 {userInfo?.nickName}</Text>
+            <Text style={styles.nickName}>{userInfo?.nickName}</Text>
             <View style={styles.characterDes}>
-              <Image source={likesActive} style={styles.footImage} />
-              <Text style={styles.characterText}>티라노 80 / 100 A</Text>
+              <View
+                style={[styles.colorCircle, {backgroundColor: '#FFAEF1'}]}
+              />
+              <Text style={styles.characterText}>티라노사우르스</Text>
             </View>
             <View style={styles.characterStatus}>
+              <View>
+                <Progress.Circle
+                  size={49}
+                  progress={0.5}
+                  color={'#2ACFC2'}
+                  unfilledColor={'#ffffff'}
+                  borderWidth={0}
+                  thickness={5}
+                />
+                <Progress.Circle
+                  size={49}
+                  progress={0.5}
+                  color={'#2ACFC2'}
+                  unfilledColor={'#ffffff'}
+                  borderWidth={0}
+                  thickness={5}
+                />
+              </View>
               <View style={styles.status}>
                 <Image source={eggS} style={styles.eggImage} />
                 <Progress.Bar
@@ -209,7 +231,6 @@ function MyMainPage({navigation}) {
           </>
         )}
       </BottomDrawer>
-      <WalletButton />
     </View>
   );
 }
@@ -227,6 +248,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     width: '100%',
     paddingVertical: 5,
   },
@@ -240,24 +262,27 @@ const styles = StyleSheet.create({
   },
   characterWrap: {
     marginTop: 32,
-    marginBottom: 16,
+    marginBottom: 12,
   },
   characterImage: {
     position: 'absolute',
-    width: 237,
-    height: 237,
+    width: 230,
+    height: 230,
     zIndex: -4,
-    left: 2,
-    top: 1,
+    left: 5,
+    top: 5,
   },
   characterDes: {
-    marginTop: 5,
     flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 12,
   },
   characterText: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: '500',
     letterSpacing: -0.5,
+    lineHeight: 16.8,
+    color: '#3C3D43',
   },
   characterStatus: {
     paddingHorizontal: 15,
@@ -265,10 +290,11 @@ const styles = StyleSheet.create({
   },
   nickName: {
     fontFamily: 'NeoDunggeunmoPro-Regular',
-    fontSize: 24,
+    fontSize: 20,
     color: '#1D1E1E',
     letterSpacing: -0.5,
-    marginBottom: 5,
+    marginBottom: 4,
+    lineHeight: 20 * 1.4,
   },
   mymeetingTab: {
     backgroundColor: '#3C3D43',
@@ -288,14 +314,25 @@ const styles = StyleSheet.create({
     marginRight: 8,
     tintColor: '#2ACFC2',
   },
-  bigEggImage: {
-    width: 30.25,
+  eggView: {
+    width: 40,
     height: 40,
+    backgroundColor: '#ffffff',
+    borderRadius: 999,
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    bottom: 8,
+    right: 12,
+  },
+  bigEggImage: {
+    width: 21.56,
+    height: 29,
     borderRadius: 999,
   },
   eggImage: {
-    width: 21.09,
-    height: 27,
+    width: 21.56,
+    height: 29,
     marginLeft: 20,
   },
   status: {
@@ -404,6 +441,12 @@ const styles = StyleSheet.create({
   },
   flex: {
     flex: 1,
+  },
+  colorCircle: {
+    width: 15,
+    height: 15,
+    borderRadius: 999,
+    marginRight: 8,
   },
 });
 

@@ -43,7 +43,7 @@ function Main() {
           borderColor: '#33ED96',
           height: 64,
           marginHorizontal: 15,
-          marginBottom: 15,
+          marginBottom: 30,
           position: 'absolute',
           zIndex: 10,
         }}

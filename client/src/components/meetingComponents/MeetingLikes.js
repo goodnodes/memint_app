@@ -70,8 +70,8 @@ function MeetingLikes({meetingId}) {
 
 const styles = StyleSheet.create({
   image: {
-    width: 27,
-    height: 27,
+    width: 30,
+    height: 30,
   },
 });
 

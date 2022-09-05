@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useCallback} from 'react';
+import React, {useEffect, useState, useCallback, useRef} from 'react';
 import {
   Text,
   View,
@@ -8,6 +8,7 @@ import {
   Pressable,
   Image,
   Button,
+  Animated,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MeetingElement from '../../components/meetingComponents/MeetingElement';
@@ -36,6 +37,7 @@ function MeetingMarket({navigation}) {
   const [activationModalVisible, setActivationModalVisible] = useState(false);
   const [sortSelect, setSortSelect] = useState(undefined);
   const [filterModalVisible, setFilterModalVisible] = useState(false);
+  const [creationMessage, setCreationMessage] = useState(false);
   const [filter, setFilter] = useState({
     region: '서울 전체',
     peopleNum: undefined,
@@ -177,6 +179,42 @@ function MeetingMarket({navigation}) {
     },
     [filter.meetingTags],
   );
+
+  const handleMessage = async () => {
+    const delay = ms => {
+      return new Promise(resolve =>
+        setTimeout(() => {
+          resolve(ms);
+        }, ms),
+      );
+    };
+    fadeIn();
+    setCreationMessage(true);
+    const result = delay(2000);
+    result.then(() => {
+      fadeOut();
+    });
+  };
+  const opacity = useRef(new Animated.Value(0)).current;
+  const fadeDuration = 1000;
+
+  const fadeIn = useCallback(() => {
+    Animated.timing(opacity, {
+      toValue: 1,
+      duration: fadeDuration,
+      useNativeDriver: true,
+    }).start();
+  }, [opacity]);
+  const fadeOut = useCallback(() => {
+    Animated.timing(opacity, {
+      toValue: 0,
+      duration: fadeDuration,
+      useNativeDriver: true,
+    }).start(() => {
+      setCreationMessage(false);
+    });
+  }, [opacity]);
+
   const RegionDropDownData = [
     {label: 'SEOUL', value: '서울 전체'},
     {label: '강남', value: '강남'},
@@ -231,12 +269,7 @@ function MeetingMarket({navigation}) {
           style={styles.scrollView}
           contentContainerStyle={styles.paddingBottom}>
           <View style={styles.areaEnd}>
-            <TouchableOpacity
-              style={styles.createButton}
-              onPress={handleCreateMeeting}>
-              <Text style={styles.createButtonText}>미팅 생성</Text>
-              <Icon name="add" size={16} color={'#58FF7D'} />
-            </TouchableOpacity>
+            <WalletButton />
           </View>
           <View style={styles.titleArea}>
             <Text style={styles.title}>새로운 친구들과 술 한잔 어때?</Text>
@@ -252,7 +285,7 @@ function MeetingMarket({navigation}) {
                   inputIOS: {
                     color: 'white',
                     fontFamily: 'NeoDunggeunmoPro-Regular',
-                    letterSpacing: -0.5,
+                    letterSpacing: 2.5,
                   },
                 }}
               />
@@ -337,7 +370,19 @@ function MeetingMarket({navigation}) {
             setNextModalVisible={setConfirmModalVisible}
           />
         </ScrollView>
-        <WalletButton />
+        <TouchableOpacity
+          style={styles.createButton}
+          onPress={handleCreateMeeting}
+          onLongPress={handleMessage}>
+          <Icon name="add" size={30} color={'#58FF7D'} />
+        </TouchableOpacity>
+        {creationMessage ? (
+          <Animated.View style={styles.creationMessage}>
+            <Text style={styles.creationMessageText}>
+              버튼을 클릭하고 새로운 미팅을 생성하세요!
+            </Text>
+          </Animated.View>
+        ) : null}
       </LinearGradient>
     </View>
   );
@@ -363,8 +408,18 @@ const styles = StyleSheet.create({
     // paddingRight: 10,
   },
   createButton: {
+    position: 'absolute',
+    bottom: 110,
+    right: 15,
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
+    width: 60,
+    height: 60,
+    backgroundColor: '#1D1E1E',
+    borderRadius: 999,
+    borderWidth: 1.3,
+    borderColor: '#AEFFC1',
   },
   createButtonText: {
     fontSize: 14,
@@ -400,6 +455,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   meetingLists: {
+    marginTop: 15,
     marginBottom: 40,
     paddingBottom: 65,
   },
@@ -428,6 +484,24 @@ const styles = StyleSheet.create({
   },
   paddingBottom: {
     paddingBottom: 50,
+  },
+  creationMessage: {
+    position: 'absolute',
+    bottom: 120,
+    left: 15,
+    backgroundColor: '#1D1E1E',
+    width: '73%',
+    height: 40,
+    paddingLeft: 10,
+    paddingVertical: 11,
+    borderRadius: 12,
+    borderColor: '#AEFFC1',
+    borderWidth: 1,
+  },
+  creationMessageText: {
+    color: '#ffffff',
+    fontSize: 14,
+    lineHeight: 16,
   },
 });
 

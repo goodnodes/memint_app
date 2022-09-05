@@ -18,7 +18,7 @@ import {useMeeting} from '../../utils/hooks/UseMeeting';
 import useMeetingActions from '../../utils/hooks/UseMeetingActions';
 import useAuthActions from '../../utils/hooks/UseAuthActions';
 import {removeItem} from '../../lib/Chatting';
-import SafeStatusBar from '../../components/common/SafeStatusBar'
+import SafeStatusBar from '../../components/common/SafeStatusBar';
 
 function MeetingSet({route}) {
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
@@ -190,7 +190,7 @@ function MeetingSet({route}) {
               style={styles.li}
               onPress={handleNavigateToMemberOut}>
               <Text style={styles.liText}>미팅 멤버 내보내기</Text>
-              <Icon name="arrow-forward-ios" size={20} />
+              <Icon name="arrow-forward-ios" size={15} color={'#ffffff'} />
             </TouchableOpacity>
           ) : null}
           <TouchableOpacity style={styles.li} onPress={setMeetingEnd}>
