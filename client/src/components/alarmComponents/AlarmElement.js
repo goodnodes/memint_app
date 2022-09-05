@@ -50,7 +50,11 @@ function AlarmElement({alarm}) {
         setModalVisible={setChattingConfirmModal}
         pFunction={() => {
           setChattingConfirmModal(!chattingConfirmModal);
-          navigation.navigate('ChattingRoom', {data: alarm.meetingInfo});
+          navigation.navigate('ChattingListPage');
+          setTimeout(() => {
+            navigation.navigate('ChattingRoom', {data: alarm.meetingInfo});
+          }, 800);
+          // navigation.navigate('ChattingRoom', {data: alarm.meetingInfo});
         }}
         nFunction={() => {
           setChattingConfirmModal(!chattingConfirmModal);

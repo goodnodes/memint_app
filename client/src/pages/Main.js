@@ -74,14 +74,15 @@ function Main() {
           }}
         />
         <Tab.Screen
-          name="chatting"
-          component={ChattingScreen}
+          name="ChattingListPage"
+          component={ChattingListPage}
           options={{
             tabBarLabel: '채팅',
             tabBarIcon: ({color}) => (
               <Icon name="chat-bubble-outline" color={color} size={24} />
             ),
             tabBarColor: 'transparent',
+            headerShown: false,
           }}
         />
         <Tab.Screen
@@ -143,18 +144,6 @@ const MeetingScreen = () => {
       <Stack.Screen
         name="InviteFriend"
         component={InviteFriend}
-        options={{headerShown: false}}
-      />
-    </Stack.Navigator>
-  );
-};
-
-const ChattingScreen = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="ChattingListPage"
-        component={ChattingListPage}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

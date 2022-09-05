@@ -18,6 +18,7 @@ import {useMeeting} from '../../utils/hooks/UseMeeting';
 import useMeetingActions from '../../utils/hooks/UseMeetingActions';
 import useAuthActions from '../../utils/hooks/UseAuthActions';
 import {removeItem} from '../../lib/Chatting';
+import SafeStatusBar from '../../components/common/SafeStatusBar'
 
 function MeetingSet({route}) {
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
