@@ -153,7 +153,7 @@ function MetaData({item, navigation, refresh, setRefresh}) {
 
   // 앱의 상태 변경(foreground, background)에 따라 AsyncStorage를 업데이트해주는 함수
   useEffect(() => {
-    if (!currentAppState) return;
+    if (!currentAppState || allMsgs.length === 1) return;
     if (currentAppState === 'inactive' || currentAppState === 'background') {
       console.log('out');
       return;
@@ -176,7 +176,11 @@ function MetaData({item, navigation, refresh, setRefresh}) {
               return el.data();
             });
             setAllMsgs(allMsgs.concat(data.slice(1, data.length - 1)));
-            setUnChecked(result.docs.length - 2);
+            if (unChecked === 0) {
+              setUnChecked(result.docs.length - 2);
+            } else {
+              setUnChecked(unChecked + result.docs.length - 2);
+            }
           }
         });
 
