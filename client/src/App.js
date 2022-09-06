@@ -154,7 +154,7 @@ function App() {
         onChainTokenAmount: userDetail.onChainTokenAmount,
         // createdroomId: userDetail.createdroomId,
         // joinedroomId: userDetail.joinedroomId,
-        nftProfile: userDetail.nftProfile.toString(),
+        nftProfile: userDetail.nftProfile,
         property: {
           alcoholType: userDetail.property.alcoholType,
           drinkCapa: userDetail.property.drinkCapa,
@@ -166,6 +166,15 @@ function App() {
         isActivated: userDetail.isActivated,
         selfIntroduction: userDetail.selfIntroduction,
         isReadyToGetFreeToken: userDetail.isReadyToGetFreeToken,
+        meminStats: {
+          dino: userDetail.meminStats.dino,
+          hp: userDetail.meminStats.hp,
+          resilience: userDetail.meminStats.resilience,
+          charm: userDetail.meminStats.charm,
+          exp: userDetail.meminStats.exp,
+          grade: userDetail.meminStats.grade,
+          level: userDetail.meminStats.level,
+        },
       });
     } catch (e) {
       console.log(e);

@@ -225,7 +225,7 @@ function MeetingMarket({navigation}) {
         start={{x: 0.3, y: 0.3}}
         end={{x: 1, y: 1}}
         style={styles.gradientBackground}>
-        <Button title="로그아웃 하기" color="red" onPress={handleSignOut} />
+        {/* <Button title="로그아웃 하기" color="red" onPress={handleSignOut} /> */}
         <Image source={Sauropod} style={styles.backgroundImage} />
         <ScrollView
           style={styles.scrollView}

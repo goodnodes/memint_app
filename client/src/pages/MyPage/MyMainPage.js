@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -28,6 +28,10 @@ import BottomDrawer from '../../components/myPageComponent/BottomDrawer';
 function MyMainPage({navigation}) {
   // const user = useUser();
   const userInfo = useUser();
+  const meminStats = userInfo.meminStats;
+  // useEffect(() => {
+  //   console.log(meminStats);
+  // });
   const {top} = useSafeAreaInsets();
   // const animation = useRef(new Animated.Value(1)).current;
   const [meetingRoom, setMeetingRoom] = useState(0);
@@ -98,9 +102,9 @@ function MyMainPage({navigation}) {
             <View style={styles.characterWrap}>
               <Progress.Circle
                 size={240}
-                progress={1}
+                progress={0.3}
                 color={'#2ACFC2'}
-                unfilledColor={'#ffffff'}
+                unfilledColor={'#edeef6'}
                 borderWidth={0}
                 thickness={6}
               />

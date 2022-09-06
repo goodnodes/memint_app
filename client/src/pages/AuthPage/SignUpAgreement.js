@@ -125,6 +125,15 @@ const SignUpAgreementScreen = ({navigation, route}) => {
           isActivated: userDetail.isActivated,
           selfIntroduction: userDetail.selfIntroduction,
           isReadyToGetFreeToken: userDetail.isReadyToGetFreeToken,
+          meminStats: {
+            dino: userDetail.meminStats.dino,
+            hp: userDetail.meminStats.hp,
+            resilience: userDetail.meminStats.resilience,
+            charm: userDetail.meminStats.charm,
+            grade: userDetail.meminStats.grade,
+            exp: userDetail.meminStats.exp,
+            level: userDetail.meminStats.level,
+          },
         }),
           navigation.navigate('SignUpServeNFT');
       } catch (e) {

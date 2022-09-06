@@ -84,7 +84,7 @@ const SignInScreen = ({navigation, route}) => {
         tokenAmount: userDetail.tokenAmount,
         klayAmount: userDetail.klayAmount,
         onChainTokenAmount: userDetail.onChainTokenAmount,
-        nftProfile: userDetail.nftProfile.toString(),
+        nftProfile: userDetail.nftProfile,
         property: {
           alcoholType: userDetail.property.alcoholType,
           drinkCapa: userDetail.property.drinkCapa,
@@ -95,6 +95,15 @@ const SignInScreen = ({navigation, route}) => {
         isActivated: userDetail.isActivated,
         selfIntroduction: userDetail.selfIntroduction,
         isReadyToGetFreeToken: userDetail.isReadyToGetFreeToken,
+        meminStats: {
+          dino: userDetail.meminStats.dino,
+          hp: userDetail.meminStats.hp,
+          resilience: userDetail.meminStats.resilience,
+          charm: userDetail.meminStats.charm,
+          grade: userDetail.meminStats.grade,
+          exp: userDetail.meminStats.exp,
+          level: userDetail.meminStats.level,
+        },
       }),
         navigation.navigate('Main');
     } catch (e) {

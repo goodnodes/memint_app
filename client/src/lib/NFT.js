@@ -88,7 +88,9 @@ export async function getMeminbyNum(num, id) {
         hp: memin.hp,
         resilience: memin.resilience,
         charm: 0,
+        grade: 'new',
         exp: 0,
+        level: 1,
       },
     });
 
