@@ -1,5 +1,4 @@
 import firestore from '@react-native-firebase/firestore';
-
 export const usersCollection = firestore().collection('User');
 
 export function createUser({
@@ -242,3 +241,59 @@ export const EditUserInfo = async (
     selfIntroduction,
   });
 };
+
+export async function calculateCharm(userId, emotion) {
+  let feedback = 0;
+  if (emotion === 'fallinlove') {
+    feedback = 100;
+  } else if (emotion === 'knowmore') {
+    feedback = 95;
+  } else if (emotion === 'befriend') {
+    feedback = 90;
+  } else if (emotion === 'soso') {
+    feedback = 85;
+  } else if (emotion === 'notgood') {
+    feedback = 70;
+  } else if (emotion === 'terrible') {
+    feedback = 60;
+  }
+  const doc = await usersCollection.doc(userId).get();
+  const meminStats = doc.data().meminStats;
+
+  // 매력 지수 환산
+  let newCharm = 0;
+  if (meminStats.charm === 0) {
+    newCharm = feedback;
+  } else {
+    newCharm = (meminStats.charm + feedback) / 2;
+  }
+
+  // 매력 지수에 따른 등급 조정
+  let grade = null;
+  if (newCharm <= 100 && newCharm > 96) {
+    grade = 'A';
+  } else if (newCharm <= 96 && newCharm > 91) {
+    grade = 'B';
+  } else if (newCharm <= 91 && newCharm > 80) {
+    grade = 'C';
+  } else if (newCharm <= 80 && newCharm > 70) {
+    grade = 'D';
+  } else {
+    grade = 'F';
+  }
+
+  usersCollection.doc(userId).update({
+    meminStats: {
+      charm: newCharm,
+      hp: meminStats.hp,
+      dino: meminStats.dino,
+      exp: meminStats.exp,
+      grade: grade,
+      level: meminStats.level,
+      resilience: meminStats.resilience,
+    },
+  });
+
+  const output = {newCharm, grade};
+  return output;
+}

@@ -32,6 +32,7 @@ import SafeStatusBar from '../../components/common/SafeStatusBar';
 import LinearGradient from 'react-native-linear-gradient';
 import BackButton from '../../components/common/BackButton';
 import {ScrollView} from 'react-native-gesture-handler';
+import {calculateCharm} from '../../lib/Users';
 
 function FeedbackSendPage({route}) {
   const owner = useUser();
@@ -215,6 +216,7 @@ function FeedbackSendPage({route}) {
                       message: '미팅 후기 메시지가 도착했습니다!',
                       title: 'MEMINT',
                     });
+                    calculateCharm(person[2], form.emotion);
                   }
                   showToast('success', '후기를 전송하였습니다.');
                   navigation.navigate('FeedbackChoicePage', {data, userInfo});
