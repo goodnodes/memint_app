@@ -6,7 +6,6 @@ const transactionRouter = require("./routes/transaction");
 const auth = require("./routes/auth");
 const mintNFT = require("./routes/mintNFT");
 const notification = require("./routes/notification");
-const notification = require("./routes/notification");
 const app = express();
 const fs = require("fs");
 const cors = require("cors");
@@ -32,7 +31,7 @@ const db = (module.exports.db = firestore.getFirestore(firebaseApp));
 
 app.use(logger("dev"));
 app.use(cors({
-  origin: 'https://main--tangerine-tartufo-e315f3.netlify.app',
+  origin: ['https://main--tangerine-tartufo-e315f3.netlify.app','https://www.memint.xyz'],
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

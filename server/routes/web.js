@@ -19,7 +19,10 @@ web.route("/").get(async (req, res) => {
           .get();
 
         return {
-          meetingInfo,
+          meetingInfo:{
+            ...meetingInfo,
+            meetDate: meetingInfo.meetDate.toDate().toISOString()
+          },
           hostInfo: {
             nickName: hostInfo.data().nickName,
             profile: hostInfo.data().nftProfile,
