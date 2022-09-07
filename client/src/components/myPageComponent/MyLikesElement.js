@@ -59,16 +59,16 @@ function MyLikesElement({item}) {
 const styles = StyleSheet.create({
   wrapper: {
     marginTop: 10,
-    height: 220,
+    height: 174,
   },
   container: {
     backgroundColor: 'rgba(234, 255, 239, 0.8)',
     flexDirection: 'column',
     paddingHorizontal: 30,
     paddingVertical: 25,
-    height: 185,
+    height: 174,
     borderRadius: 30,
-    marginVertical: 8,
+    marginVertical: 4,
     justifyContent: 'space-between',
   },
   usernamelikes: {

@@ -15,7 +15,7 @@ function RoomHeader({title, roomInfo, setRoomInfo, setRoomInfoExist}) {
           name="arrow-back-ios"
           size={20}
           color={'#ffffff'}
-          style={{marginLeft: 5}}
+          style={{paddingLeft: 15}}
         />
         <Text style={styles.buttonText}>{title}</Text>
       </TouchableOpacity>
@@ -24,6 +24,7 @@ function RoomHeader({title, roomInfo, setRoomInfo, setRoomInfoExist}) {
       {!title && (
         <TouchableOpacity
           onPress={() => {
+            1;
             Keyboard.dismiss();
             setRoomInfo(!roomInfo);
             setRoomInfoExist(true);
@@ -32,7 +33,7 @@ function RoomHeader({title, roomInfo, setRoomInfo, setRoomInfoExist}) {
             name="menu"
             size={25}
             color="#ffffff"
-            style={{marginRight: 10}}
+            style={{marginRight: 15}}
           />
         </TouchableOpacity>
       )}
@@ -46,8 +47,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 10,
-    paddingHorizontal: 5,
-    paddingTop: 10,
+    // paddingHorizontal: 5,
+    // paddingTop: 10,
+    height: 50,
   },
   buttonText: {
     fontSize: 18,

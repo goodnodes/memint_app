@@ -19,8 +19,8 @@ function Report({navigation}) {
           <Icon name="arrow-back-ios" size={20} color={'#1D1E1E'} />
           {/* <Text style={styles.buttonText}>Back</Text> */}
         </TouchableOpacity>
-        <Text style={styles.title}>고객센터</Text>
       </View>
+      <Text style={styles.title}>고객센터</Text>
       <View style={styles.wrapper}>
         <View style={styles.section}>
           <Text style={styles.bigText}>
@@ -57,10 +57,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    paddingBottom: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingHorizontal: 15,
+    height: 50,
   },
   title: {
     fontWeight: '400',
@@ -69,6 +69,7 @@ const styles = StyleSheet.create({
     color: '#1D1E1E',
     fontFamily: 'NeoDunggeunmoPro-Regular',
     letterSpacing: -0.5,
+    marginLeft: 15,
   },
   wrapper: {
     flexDirection: 'column',

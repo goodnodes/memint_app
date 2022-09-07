@@ -9,7 +9,7 @@ import {
 const {height} = Dimensions.get('window');
 
 export const DrawerState = {
-  Open: height - height / 2.5,
+  Open: height - height / 1.7,
   // Peek: 230,
   Closed: 0,
 };
@@ -92,7 +92,7 @@ function BottomDrawer({children, onDrawerStateChange}) {
           height: height,
           borderRadius: 25,
           position: 'absolute',
-          bottom: -height + 110,
+          bottom: -height + height * 0.23,
           transform: [{translateY: y}],
           backgroundColor: '#3C3D43',
         },
@@ -114,11 +114,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   bar: {
-    backgroundColor: '#33ED96',
-    width: 100,
-    height: 5,
+    backgroundColor: '#EAFFEFCC',
+    width: 72,
+    height: 6,
     borderRadius: 999,
-    marginTop: 3,
+    marginTop: 13,
     marginBottom: 5,
     marginHorizontal: 3,
   },

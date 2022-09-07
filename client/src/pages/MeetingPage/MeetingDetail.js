@@ -159,7 +159,12 @@ function MeetingDetail({route}) {
   return (
     <View style={styles.view}>
       <SafeStatusBar />
-      <BackButton />
+      <View style={styles.header}>
+        <BackButton />
+        <View style={styles.walletView}>
+          <WalletButton />
+        </View>
+      </View>
       <ScrollView
         style={styles.scrollview}
         contentContainerStyle={styles.paddingBottom}>
@@ -272,7 +277,6 @@ function MeetingDetail({route}) {
           setNextModalVisible={setModalVisible_1}
         />
       </ScrollView>
-      <WalletButton />
     </View>
   );
 }
@@ -403,6 +407,15 @@ const styles = StyleSheet.create({
   },
   paddingBottom: {
     paddingBottom: 105,
+  },
+  header: {
+    height: 50,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  walletView: {
+    marginRight: 15,
   },
 });
 

@@ -55,7 +55,9 @@ function FeedbackSendPage({route}) {
         start={{x: 0.3, y: 0.3}}
         end={{x: 1, y: 1}}
         style={styles.gradientBackground}>
-        <BackButton />
+        <View style={styles.header}>
+          <BackButton />
+        </View>
         <ScrollView
           style={styles.container}
           contentContainerStyle={{paddingBottom: 30}}>
@@ -271,7 +273,7 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: '400',
     fontSize: 24,
-    marginVertical: 30,
+    marginVertical: 20,
     letterSpacing: -0.5,
     color: '#ffffff',
     fontFamily: 'NeoDunggeunmoPro-Regular',
@@ -329,6 +331,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     // position: 'absolute',
     // bottom: 0,
+  },
+  header: {
+    height: 50,
+    justifyContent: 'center',
   },
 });
 

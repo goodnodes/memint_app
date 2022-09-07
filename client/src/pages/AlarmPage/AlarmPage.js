@@ -14,7 +14,6 @@ import {getMeeting} from '../../lib/Meeting';
 import {getUser} from '../../lib/Users';
 import LinearGradient from 'react-native-linear-gradient';
 import useUser from '../../utils/hooks/UseUser';
-import WalletButton from '../../components/common/WalletButton';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 
 function AlarmPage({navigation}) {
@@ -112,7 +111,6 @@ function AlarmPage({navigation}) {
           />
         )}
       </LinearGradient>
-      <WalletButton />
     </View>
   );
 }

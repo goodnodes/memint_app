@@ -520,7 +520,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingRight: 20,
     alignItems: 'center',
-    height: 35,
+    height: 50,
     // borderBottomColor: 'gray',
     // borderBottomWidth: 1,
   },

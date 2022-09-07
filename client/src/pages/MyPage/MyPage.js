@@ -54,7 +54,6 @@ function MyPage({navigation}) {
         </View>
         {/* 유저 프로필 */}
         <MyProfile User={user} navigation={navigation} />
-        <WalletButton />
       </LinearGradient>
     </View>
   );
@@ -68,7 +67,9 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     paddingVertical: 5,
+    height: 50,
   },
   gradientBackground: {
     flex: 1,

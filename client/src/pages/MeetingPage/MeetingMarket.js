@@ -273,7 +273,7 @@ function MeetingMarket({navigation}) {
           </View>
           <View style={styles.titleArea}>
             <Text style={styles.title}>새로운 친구들과 술 한잔 어때?</Text>
-            <Pressable style={styles.areaEnd}>
+            <View style={styles.regionView}>
               <RNPickerSelect
                 placeholder={{}}
                 onValueChange={value => {
@@ -289,7 +289,8 @@ function MeetingMarket({navigation}) {
                   },
                 }}
               />
-            </Pressable>
+            </View>
+
           </View>
 
           <View style={styles.listfilterArea}>
@@ -401,7 +402,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   areaEnd: {
-    marginTop: 20,
+    height: 50,
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'center',
@@ -429,7 +430,6 @@ const styles = StyleSheet.create({
   },
   titleArea: {
     width: '100%',
-    paddingTop: 25,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-end',

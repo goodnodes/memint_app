@@ -75,7 +75,10 @@ function ParticipatedMeetingList({user}) {
   }, [user]);
 
   return (
-    <ScrollView horizontal={true}>
+    <ScrollView
+      horizontal={true}
+      style={styles.listView}
+      contentContainerStyle={styles.paddingRight}>
       {joinedRoom.length !== 0 ? (
         joinedRoom
           .sort((a, b) => b.createdAt.toDate() - a.createdAt.toDate())
@@ -171,13 +174,14 @@ function ParticipatedMeetings({item, getJoinedRoom}) {
           {/* <View style={styles.spaceBetween}>{renderButton()}</View> */}
 
           <View style={styles.tagcontainer}>
-            {item.meetingTags.map((tag, index) => {
-              return (
-                <View style={styles.tag} key={index}>
-                  <Text style={styles.tagFont}># {tag}</Text>
-                </View>
-              );
-            })}
+            <Text style={styles.tagText}>
+              {item.meetingTags?.reduce((acc, cur) => {
+                if (acc.length > 24) {
+                  return acc;
+                }
+                return acc + '#' + cur + ' ';
+              }, '')}
+            </Text>
           </View>
           {/* <View style={styles.container}>
             <Image
@@ -262,42 +266,26 @@ const styles = StyleSheet.create({
   tagcontainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginTop: 2,
   },
   meetingInfo: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 5,
   },
-  // meetingCard: {
-  //   backgroundColor: 'white',
-  //   marginVertical: '2%',
-  //   paddingVertical: '3%',
-  //   paddingHorizontal: '10%',
-  // },
   meetingCard: {
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     backgroundColor: 'rgba(234, 255, 239, 0.8)',
     marginBottom: 5,
-    paddingHorizontal: 30,
-    paddingVertical: 25,
-    height: 190,
-    width: width * 0.9,
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+    height: 174,
+    width: width * 0.88,
     borderRadius: 30,
     marginVertical: 8,
-    marginHorizontal: 15,
-    // shadowColor: '#000',
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 2,
-    // },
-    // shadowOpacity: 0.23,
-    // shadowRadius: 2.62,
-
-    // elevation: 5,
+    marginRight: 8,
   },
   titleRow: {
-    marginBottom: 4,
-    marginTop: 16,
+    marginBottom: 14,
   },
   title: {
     fontSize: 16,
@@ -306,6 +294,7 @@ const styles = StyleSheet.create({
     width: '100%',
     fontFamily: 'NeoDunggeunmoPro-Regular',
     letterSpacing: -0.5,
+    lineHeight: 22.4,
   },
 
   details: {
@@ -313,6 +302,7 @@ const styles = StyleSheet.create({
     color: '#3C3D43',
     letterSpacing: -0.5,
     fontWeight: '500',
+    lineHeight: 18.2,
   },
 
   deleteButton: {
@@ -333,11 +323,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  tagFont: {
+  tagText: {
     fontSize: 13,
-    fontWeight: '500',
+    fontWeight: '400',
     color: '#3C3D43',
     letterSpacing: -0.5,
+    lineHeight: 18.2,
   },
   spaceBetween: {
     flexDirection: 'row',
@@ -360,7 +351,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: 30,
   },
-  emptyText: {color: 'lightgray', marginLeft: 30, marginTop: 30},
+  emptyText: {color: 'lightgray', marginTop: 30, marginLeft: 30},
   imageNickname: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -369,18 +360,26 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginBottom: 8,
   },
   userImage: {
     borderRadius: 100,
     width: 30,
     height: 30,
-    marginRight: 5,
+    marginRight: 8,
   },
   username: {
     fontSize: 15,
     fontWeight: '500',
     letterSpacing: -0.5,
     textAlign: 'right',
+    lineHeight: 21,
+  },
+  listView: {
+    paddingHorizontal: 15,
+  },
+  paddingRight: {
+    paddingRight: 25,
   },
 });
 

@@ -16,12 +16,13 @@ import * as Progress from 'react-native-progress';
 import dinoegg from '../../assets/icons/dinoegg.png';
 import dummyDino from '../../assets/icons/dummyCharacter.png';
 import BasicButton from '../../components/common/BasicButton';
-import likesActive from '../../assets/icons/likesActive.png';
+import likespink from '../../assets/icons/likespink.png';
 import eggS from '../../assets/icons/eggS.png';
 import eggD from '../../assets/icons/eggD.png';
 import eggB from '../../assets/icons/eggB.png';
 import MyEggModal from '../../components/myPageComponent/MyEggModal';
 import useUser from '../../utils/hooks/UseUser';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import LinearGradient from 'react-native-linear-gradient';
 import BottomDrawer from '../../components/myPageComponent/BottomDrawer';
 
@@ -120,29 +121,48 @@ function MyMainPage({navigation}) {
               <Text style={styles.characterText}>티라노사우르스</Text>
             </View>
             <View style={styles.characterStatus}>
-              <View>
+              <View style={styles.levelRow}>
                 <Progress.Circle
                   size={49}
                   progress={0.5}
-                  color={'#2ACFC2'}
+                  color={'#FFAEF1'}
                   unfilledColor={'#ffffff'}
                   borderWidth={0}
                   thickness={5}
+                  style={styles.smallProgressCircle}
+                  direction="counter-clockwise"
+                  formatText={progress => {
+                    return `LV.${'3'}`;
+                  }}
+                  showsText={true}
+                  textStyle={{
+                    color: '#000000',
+                    fontFamily: 'Silkscreen',
+                    fontSize: 12,
+                    lineHeight: 12,
+                    letterSpacing: -0.5,
+                  }}
                 />
-                <Progress.Circle
-                  size={49}
-                  progress={0.5}
-                  color={'#2ACFC2'}
-                  unfilledColor={'#ffffff'}
-                  borderWidth={0}
-                  thickness={5}
-                />
+                <View style={styles.gradeView}>
+                  <Progress.Circle
+                    size={49}
+                    progress={0.5}
+                    color={'#FF9D9D'}
+                    unfilledColor={'#ffffff'}
+                    borderWidth={0}
+                    thickness={5}
+                    style={styles.smallProgressCircle}
+                    direction="counter-clockwise"
+                  />
+                  <Image source={likespink} style={styles.gradeImage} />
+                  <Text style={styles.gradeText}>{'A'}</Text>
+                </View>
               </View>
               <View style={styles.status}>
                 <Image source={eggS} style={styles.eggImage} />
                 <Progress.Bar
-                  width={310}
-                  height={18}
+                  width={320}
+                  height={16}
                   progress={0.5}
                   color={'#2ACFC2'}
                   unfilledColor={'#EDEEF6'}
@@ -154,8 +174,8 @@ function MyMainPage({navigation}) {
               <View style={styles.status}>
                 <Image source={eggD} style={styles.eggImage} />
                 <Progress.Bar
-                  width={310}
-                  height={18}
+                  width={320}
+                  height={16}
                   progress={0.5}
                   color={'#4E00F5'}
                   unfilledColor={'#EDEEF6'}
@@ -167,8 +187,8 @@ function MyMainPage({navigation}) {
               <View style={styles.status}>
                 <Image source={eggB} style={styles.eggImage} />
                 <Progress.Bar
-                  width={310}
-                  height={18}
+                  width={320}
+                  height={16}
                   progress={0.5}
                   color={'#CFAB2A'}
                   unfilledColor={'#EDEEF6'}
@@ -192,7 +212,7 @@ function MyMainPage({navigation}) {
             style={styles.mylikesButton}
             onPress={handleLikesNavigate}>
             <Text style={styles.mylikesText}>내가 찜한 미팅</Text>
-            <Image source={likesActive} style={styles.likesfootImage} />
+            <Icon name="chevron-right" size={22} color={'#AEFFC1'} />
           </TouchableOpacity>
         </View>
         {!tabActive ? (
@@ -285,8 +305,8 @@ const styles = StyleSheet.create({
     color: '#3C3D43',
   },
   characterStatus: {
-    paddingHorizontal: 15,
-    marginTop: 42,
+    // paddingHorizontal: 15,
+    width: '100%',
   },
   nickName: {
     fontFamily: 'NeoDunggeunmoPro-Regular',
@@ -333,7 +353,6 @@ const styles = StyleSheet.create({
   eggImage: {
     width: 21.56,
     height: 29,
-    marginLeft: 20,
   },
   status: {
     flexDirection: 'row',
@@ -355,13 +374,13 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   statusBar: {
-    width: '72.8%',
+    width: '100%',
     height: 20,
     backgroundColor: '#2ACFC2',
     borderWidth: 1.5,
     borderColor: '#2ACFC2',
 
-    paddingLeft: 11,
+    paddingLeft: 5,
     borderRadius: 3,
     zIndex: 1,
     position: 'absolute',
@@ -371,12 +390,13 @@ const styles = StyleSheet.create({
   },
   statusText: {
     color: '#ffffff',
-    fontSize: 14,
+    fontSize: 12,
     letterSpacing: -1.9,
     position: 'absolute',
     left: 10,
     top: 2,
     fontFamily: 'Silkscreen',
+    lineHeight: 12,
   },
   paddingBottom: {
     paddingBottom: 150,
@@ -419,6 +439,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     letterSpacing: -0.5,
     color: '#ffffff',
+    lineHeight: 22.4,
   },
   mylikes: {
     marginTop: 23,
@@ -433,11 +454,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  likesfootImage: {
-    width: 30,
-    height: 30,
-    tintColor: '#33ED96',
-    marginLeft: 5,
+  gradeImage: {
+    width: 28,
+    height: 24,
+    position: 'absolute',
+    top: 12,
+    left: 19.5,
+  },
+  gradeText: {
+    color: '#C15D5D',
+    fontSize: 15,
+    lineHeight: 15,
+    letterSpacing: -0.5,
+    fontWeight: '700',
+    fontFamily: 'Silkscreen',
+    position: 'absolute',
+    top: 19.5,
+    left: 30,
   },
   flex: {
     flex: 1,
@@ -447,6 +480,15 @@ const styles = StyleSheet.create({
     height: 15,
     borderRadius: 999,
     marginRight: 8,
+  },
+  levelRow: {
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'center',
+    marginBottom: 12,
+  },
+  smallProgressCircle: {
+    marginHorizontal: 10,
   },
 });
 

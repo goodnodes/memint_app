@@ -8,8 +8,8 @@ import {
   StyleSheet,
   ScrollView,
   Button,
+  TextInput,
 } from 'react-native';
-import {TextInput} from 'react-native-paper';
 import BackButton from '../../components/common/BackButton';
 import RNPickerSelect from 'react-native-picker-select';
 import {useNavigation} from '@react-navigation/native';
@@ -24,7 +24,9 @@ import {deleteMeeting, getMeeting, updateMeeting} from '../../lib/Meeting';
 import useUser from '../../utils/hooks/UseUser';
 import useAuthActions from '../../utils/hooks/UseAuthActions';
 import {useMeeting} from '../../utils/hooks/UseMeeting';
+import LinearGradient from 'react-native-linear-gradient';
 import useMeetingActions from '../../utils/hooks/UseMeetingActions';
+import SafeStatusBar from '../../components/common/SafeStatusBar';
 
 function EditMeetingInfo({route}) {
   const userInfo = useUser();
@@ -175,40 +177,53 @@ function EditMeetingInfo({route}) {
   };
 
   return (
-    <SafeAreaView style={styles.view}>
-      <View style={styles.headerBar}>
-        <View style={styles.flexRow}>
-          <BackButton />
-          <Text style={styles.title}>미팅 정보 수정하기</Text>
+    <View style={styles.view}>
+      <SafeStatusBar />
+      <LinearGradient
+        colors={['#3D3E44', '#5A7064']}
+        start={{x: 0.3, y: 0.3}}
+        end={{x: 1, y: 1}}
+        style={styles.gradientBackground}>
+        <View style={styles.headerBar}>
+          <View style={styles.flexRow}>
+            <BackButton />
+          </View>
+          <TouchableOpacity onPress={handleSubmit}>
+            <Text
+              style={submittable ? styles.completeButton : styles.grayButton}>
+              완료
+            </Text>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity onPress={handleSubmit}>
-          <Text style={submittable ? styles.title : styles.grayButton}>
-            완료
-          </Text>
-        </TouchableOpacity>
-      </View>
-      <SingleModal
-        text="미팅 정보를 수정하시겠습니까?"
-        buttonText="네"
-        modalVisible={confirmModalVisible}
-        setModalVisible={setConfirmModalVisible}
-        pFunction={handleUpdate}
-      />
-      <View style={styles.createContainer}>
-        <View>
+        <Text style={styles.title}>미팅 정보 수정하기</Text>
+        <SingleModal
+          text="미팅 정보를 수정하시겠습니까?"
+          buttonText="네"
+          modalVisible={confirmModalVisible}
+          setModalVisible={setConfirmModalVisible}
+          pFunction={handleUpdate}
+        />
+        <ScrollView style={styles.container}>
           <TextInput
-            style={styles.textInput}
+            style={styles.textInputTitle}
             value={meetingInfo.title}
             onChangeText={text => {
               setMeetingInfo({...meetingInfo, title: text});
             }}
             autoComplete={false}
             autoCorrect={false}
+            placeholder="제목"
+            placeholderTextColor="#EAFFEF"
           />
-        </View>
-        <View>
+          <View
+            style={[
+              styles.line,
+              meetingInfo.title.length > 0 ? styles.activeLine : null,
+            ]}
+          />
           <TextInput
-            style={styles.textInput}
+            style={styles.textInputDes}
+            placeholderTextColor="#EAFFEF"
             placeholder="설명"
             value={meetingInfo.description}
             multiline={true}
@@ -218,166 +233,195 @@ function EditMeetingInfo({route}) {
             autoComplete={false}
             autoCorrect={false}
           />
-        </View>
-        <View style={[styles.createElement, styles.flexRow]}>
-          <Text style={styles.text}>날짜</Text>
-          <RNDateTimePicker
-            value={meetingInfo.meetDate}
-            mode="datetime"
-            locale="ko"
-            style={styles.datepicker}
-            onChange={(event, date) =>
-              setMeetingInfo({...meetingInfo, meetDate: date})
-            }
+          <View
+            style={[
+              styles.line,
+              meetingInfo.description.length > 0 ? styles.activeLine : null,
+            ]}
           />
-        </View>
-        <View style={[styles.createElement, styles.flexRow]}>
-          <TouchableOpacity style={styles.selectButton}>
-            <RNPickerSelect
-              placeholder={{label: '지역'}}
-              onValueChange={value => {
-                setMeetingInfo({...meetingInfo, region: value});
-              }}
-              items={RegionDropDownData}
-              value={meetingInfo.region}
-              style={{
-                inputIOS: {
-                  fontSize: 16,
-                  color: 'black',
-                },
-                placeholder: {
-                  fontSize: 16,
-                  color: 'gray',
-                },
-              }}
+          <View style={[styles.createElement, styles.flexRow]}>
+            <Text style={styles.text}>날짜</Text>
+            <RNDateTimePicker
+              value={meetingInfo.meetDate}
+              mode="datetime"
+              accentColor="#AEFFC1"
+              themeVariant="dark"
+              locale="ko"
+              style={styles.datepicker}
+              onChange={(event, date) =>
+                setMeetingInfo({...meetingInfo, meetDate: date})
+              }
             />
-            <Icon name="arrow-drop-down" size={19} color={'gray'} />
-          </TouchableOpacity>
-        </View>
-        <View style={[styles.createElement, styles.flexRow]}>
-          <TouchableOpacity style={[styles.selectButton, styles.rightMargin]}>
-            <RNPickerSelect
-              placeholder={{label: '인원'}}
-              onValueChange={value => {
-                setMeetingInfo({...meetingInfo, peopleNum: value});
-              }}
-              items={PeopleDropDownData}
-              value={meetingInfo.peopleNum}
-              style={{
-                inputIOS: {
-                  fontSize: 16,
-                  color: 'black',
-                },
-                placeholder: {
-                  fontSize: 16,
-                  color: 'gray',
-                },
-              }}
-            />
-            <Icon name="arrow-drop-down" size={19} color={'gray'} />
-          </TouchableOpacity>
-          <ScrollView style={styles.invitedFriends} horizontal={true}>
-            {meetingInfo.membersNickName?.map((el, idx) => (
-              <View key={idx} style={styles.invitedFriend}>
-                <Text>{el}</Text>
+          </View>
+          <View style={[styles.createElement, styles.flexRow]}>
+            <TouchableOpacity style={styles.selectButton}>
+              <RNPickerSelect
+                placeholder={{label: '지역'}}
+                onValueChange={value => {
+                  setMeetingInfo({...meetingInfo, region: value});
+                }}
+                items={RegionDropDownData}
+                value={meetingInfo.region}
+                style={{
+                  inputIOS: {
+                    fontSize: 16,
+                    color: '#ffffff',
+                    letterSpacing: -0.5,
+                  },
+                  placeholder: {
+                    fontSize: 16,
+                    color: '#EAFFEF',
+                    letterSpacing: -0.5,
+                  },
+                }}
+                Icon={() => {
+                  return (
+                    <Icon
+                      name="arrow-drop-down"
+                      size={19}
+                      color={'#EAFFEF'}
+                      style={styles.icon}
+                    />
+                  );
+                }}
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={[styles.createElement, styles.flexRow]}>
+            <TouchableOpacity style={[styles.selectButton, styles.rightMargin]}>
+              <RNPickerSelect
+                placeholder={{label: '인원'}}
+                onValueChange={value => {
+                  setMeetingInfo({...meetingInfo, peopleNum: value});
+                }}
+                items={PeopleDropDownData}
+                value={meetingInfo.peopleNum}
+                style={{
+                  inputIOS: {
+                    fontSize: 16,
+                    color: '#ffffff',
+                    letterSpacing: -0.5,
+                  },
+                  placeholder: {
+                    fontSize: 16,
+                    color: '#EAFFEF',
+                    letterSpacing: -0.5,
+                  },
+                }}
+              />
+              <Icon name="arrow-drop-down" size={19} color={'gray'} />
+            </TouchableOpacity>
+            <ScrollView style={styles.invitedFriends} horizontal={true}>
+              {meetingInfo.membersNickName?.map((el, idx) => (
+                <View key={idx} style={styles.invitedFriend}>
+                  <Text>{el}</Text>
+                </View>
+              ))}
+            </ScrollView>
+          </View>
+          <View style={styles.tagElement}>
+            <Text style={[styles.text, styles.tagTitle]}>태그</Text>
+            <View style={styles.tagsContainer}>
+              <View style={styles.tagCategory}>
+                {/* <Text style={styles.tagCategoryTitle}>분위기</Text> */}
+                <View style={styles.tags} horizontal={true}>
+                  {tagData.mood.map((tag, idx) => (
+                    <TagElement
+                      key={idx}
+                      tag={tag}
+                      meetingInfo={meetingInfo}
+                      setMeetingInfo={setMeetingInfo}
+                    />
+                  ))}
+                </View>
               </View>
-            ))}
-          </ScrollView>
-        </View>
-        <View style={styles.tagElement}>
-          <Text style={[styles.text, styles.tagTitle]}>태그</Text>
-          <View style={styles.tagsContainer}>
-            <View style={styles.tagCategory}>
-              <Text style={styles.tagCategoryTitle}>분위기</Text>
-              <ScrollView style={styles.tags} horizontal={true}>
-                {tagData.mood.map((tag, idx) => (
-                  <TagElement
-                    key={idx}
-                    tag={tag}
-                    meetingInfo={meetingInfo}
-                    setMeetingInfo={setMeetingInfo}
-                  />
-                ))}
-              </ScrollView>
-            </View>
-            <View style={styles.tagCategory}>
-              <Text style={styles.tagCategoryTitle}>주제</Text>
-              <ScrollView style={styles.tags} horizontal={true}>
-                {tagData.topic.map((tag, idx) => (
-                  <TagElement
-                    key={idx}
-                    tag={tag}
-                    meetingInfo={meetingInfo}
-                    setMeetingInfo={setMeetingInfo}
-                  />
-                ))}
-              </ScrollView>
-            </View>
-            <View style={styles.tagCategory}>
-              <Text style={styles.tagCategoryTitle}>술</Text>
-              <ScrollView style={styles.tags} horizontal={true}>
-                {tagData.alcohol.map((tag, idx) => (
-                  <TagElement
-                    key={idx}
-                    tag={tag}
-                    meetingInfo={meetingInfo}
-                    setMeetingInfo={setMeetingInfo}
-                  />
-                ))}
-              </ScrollView>
+              <View style={styles.tagCategory}>
+                {/* <Text style={styles.tagCategoryTitle}>주제</Text> */}
+                <View style={styles.tags} horizontal={true}>
+                  {tagData.topic.map((tag, idx) => (
+                    <TagElement
+                      key={idx}
+                      tag={tag}
+                      meetingInfo={meetingInfo}
+                      setMeetingInfo={setMeetingInfo}
+                    />
+                  ))}
+                </View>
+              </View>
+              <View style={styles.tagCategory}>
+                {/* <Text style={styles.tagCategoryTitle}>술</Text> */}
+                <View style={styles.tags} horizontal={true}>
+                  {tagData.alcohol.map((tag, idx) => (
+                    <TagElement
+                      key={idx}
+                      tag={tag}
+                      meetingInfo={meetingInfo}
+                      setMeetingInfo={setMeetingInfo}
+                    />
+                  ))}
+                </View>
+              </View>
             </View>
           </View>
-        </View>
-      </View>
-      <View style={styles.deleteButton}>
-        <Button
-          onPress={() => {
-            setDeleteModalVisible(true);
-          }}
-          title="미팅 삭제하기"
-          color="#DA6262"
-        />
-      </View>
-      <DoubleModal
-        text="미팅룸 삭제 후 복구가 불가합니다. 삭제하시겠습니까?"
-        nButtonText="네"
-        pButtonText="아니오"
-        modalVisible={deleteModalVisible}
-        setModalVisible={setDeleteModalVisible}
-        pFunction={() => {
-          setDeleteModalVisible(false);
-        }}
-        nFunction={handleDelete}
-      />
-    </SafeAreaView>
+          {/* <View style={styles.deleteButton}>
+            <Button
+              onPress={() => {
+                setDeleteModalVisible(true);
+              }}
+              title="미팅 삭제하기"
+              color="#DA6262"
+            />
+          </View> */}
+          {/* <DoubleModal
+            text="미팅룸 삭제 후 복구가 불가합니다. 삭제하시겠습니까?"
+            nButtonText="네"
+            pButtonText="아니오"
+            modalVisible={deleteModalVisible}
+            setModalVisible={setDeleteModalVisible}
+            pFunction={() => {
+              setDeleteModalVisible(false);
+            }}
+            nFunction={handleDelete}
+          /> */}
+        </ScrollView>
+      </LinearGradient>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   view: {
     flex: 1,
-    backgroundColor: 'white',
+  },
+  gradientBackground: {
+    flex: 1,
   },
   headerBar: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingRight: 20,
+    paddingRight: 15,
     alignItems: 'center',
-    height: 60,
-    borderBottomColor: 'gray',
-    borderBottomWidth: 1,
+    height: 50,
   },
   title: {
+    fontWeight: '400',
+    fontSize: 24,
+    color: '#ffffff',
+    fontFamily: 'NeoDunggeunmoPro-Regular',
+    letterSpacing: -0.5,
+    marginLeft: 15,
+    marginVertical: 20,
+  },
+  completeButton: {
     fontWeight: 'bold',
     fontSize: 18,
-    margin: 5,
-    marginLeft: 10,
+    color: '#ffffff',
+    letterSpacing: -0.5,
   },
   grayButton: {
     fontWeight: 'bold',
     fontSize: 18,
-    margin: 5,
-    marginLeft: 10,
+    letterSpacing: -0.5,
     color: 'gray',
   },
   flexRow: {
@@ -385,31 +429,43 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  createContainer: {
-    backgroundColor: 'white',
-  },
   createElement: {
-    borderBottomColor: 'lightgray',
-    borderBottomWidth: 1,
     paddingHorizontal: 12,
     paddingVertical: 10,
     height: 60,
   },
   tagElement: {
-    borderBottomColor: 'lightgray',
-    borderBottomWidth: 1,
     paddingHorizontal: 12,
     paddingVertical: 10,
   },
   text: {
     fontSize: 16,
-    color: 'gray',
+    color: '#EAFFEF',
+    letterSpacing: -0.5,
   },
   datepicker: {
-    width: 240,
+    width: 230,
   },
-  textInput: {
-    backgroundColor: 'white',
+  textInputTitle: {
+    backgroundColor: 'transparent',
+    color: '#ffffff',
+    // borderBottomColor: '#EAFFEF',
+    // borderBottomWidth: 1,
+    height: 60,
+    padding: 10,
+    fontSize: 16,
+    letterSpacing: -0.5,
+  },
+  textInputDes: {
+    backgroundColor: 'transparent',
+    color: '#ffffff',
+    minHeight: 60,
+    paddingTop: 20,
+    paddingLeft: 10,
+    paddingBottom: 20,
+    paddingRight: 10,
+    fontSize: 16,
+    letterSpacing: -0.5,
   },
   selectButton: {
     flexDirection: 'row',
@@ -417,12 +473,15 @@ const styles = StyleSheet.create({
   },
   tagTitle: {
     marginTop: 10,
+    marginBottom: 10,
   },
   tagsContainer: {
-    marginBottom: 10,
+    marginBottom: 70,
   },
   tags: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'flex-start',
   },
   tagCategoryTitle: {
     marginTop: 5,
@@ -430,18 +489,21 @@ const styles = StyleSheet.create({
     color: 'gray',
   },
   tagCategory: {
+    flexDirection: 'row',
     marginVertical: 5,
+    alignItems: 'flex-start',
   },
   invitedFriends: {
     flexDirection: 'row',
   },
   invitedFriend: {
-    backgroundColor: 'lightgray',
+    backgroundColor: '#EAFFEF',
     padding: 8,
     marginHorizontal: 8,
     paddingHorizontal: 10,
     paddingVertical: 8,
     borderRadius: 10,
+    borderWidth: 1,
   },
   leftMargin: {
     marginLeft: 5,
@@ -453,6 +515,20 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginLeft: 10,
     alignItems: 'flex-start',
+  },
+  line: {
+    height: 1,
+    backgroundColor: '#EAFFEF',
+  },
+  activeLine: {
+    backgroundColor: '#AEFFC1',
+  },
+  container: {
+    flex: 1,
+    paddingHorizontal: 15,
+  },
+  icon: {
+    position: 'absolute',
   },
 });
 

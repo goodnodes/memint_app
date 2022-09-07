@@ -44,7 +44,7 @@ function MyLikesRooms() {
       <SafeStatusBar />
       <BackButton />
       <View style={styles.wrap}>
-        <Text style={styles.title}>찜한 미팅방</Text>
+        <Text style={styles.title}>찜한 미팅</Text>
         <View style={styles.meetingList}>
           {likesRooms.length === 0 ? (
             <Text style={styles.emptyText}>찜한 미팅방이 없습니다</Text>
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontSize: 24,
     marginTop: 30,
-    marginBottom: 20,
+    marginBottom: 5,
     color: '#ffffff',
     fontFamily: 'NeoDunggeunmoPro-Regular',
     letterSpacing: -0.5,

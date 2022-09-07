@@ -271,10 +271,10 @@ function MeetingSet({route}) {
   return (
     <View style={styles.container}>
       <SafeStatusBar />
-      <BackButton />
       <View style={styles.header}>
-        <Text style={styles.title}>채팅방 설정</Text>
+        <BackButton />
       </View>
+      <Text style={styles.title}>채팅방 설정</Text>
       <View style={styles.ul}>{renderByUser()}</View>
     </View>
   );
@@ -288,16 +288,16 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingBottom: 10,
-    paddingHorizontal: 15,
+    height: 50,
   },
   title: {
     fontWeight: '400',
     fontSize: 24,
-    marginVertical: 40,
+    marginVertical: 20,
     color: '#ffffff',
     fontFamily: 'NeoDunggeunmoPro-Regular',
     letterSpacing: -0.5,
+    marginLeft: 15,
   },
   ul: {
     marginTop: 10,

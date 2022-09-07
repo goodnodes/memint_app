@@ -85,10 +85,12 @@ function FeedbackChoicePage({route}) {
         start={{x: 0.3, y: 0.3}}
         end={{x: 1, y: 1}}
         style={styles.gradientBackground}>
-        <BackButton />
+        <View style={styles.header}>
+          <BackButton />
+        </View>
 
         <View style={styles.container}>
-          <Text style={styles.title}>미팅참여 인증하기</Text>
+          <Text style={styles.title}>미팅 후기 보내기</Text>
 
           <View style={styles.wrapper}>
             <Text
@@ -254,7 +256,7 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: '400',
     fontSize: 24,
-    marginVertical: 30,
+    marginVertical: 20,
     letterSpacing: -0.5,
     color: '#ffffff',
     fontFamily: 'NeoDunggeunmoPro-Regular',
@@ -286,6 +288,10 @@ const styles = StyleSheet.create({
     shadowRadius: 11.95,
 
     elevation: 18,
+  },
+  header: {
+    height: 50,
+    justifyContent: 'center',
   },
 });
 

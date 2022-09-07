@@ -325,7 +325,9 @@ function MeetingConfirm({route}) {
         start={{x: 0.3, y: 0.3}}
         end={{x: 1, y: 1}}
         style={styles.gradientBackground}>
-        <BackButton />
+        <View style={styles.header}>
+          <BackButton />
+        </View>
         <ScrollView
           contentContainerStyle={{paddingBottom: 30}}
           style={styles.wrapper}
@@ -386,7 +388,6 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: '400',
     fontSize: 24,
-    marginVertical: 20,
     letterSpacing: -0.5,
     color: '#ffffff',
     fontFamily: 'NeoDunggeunmoPro-Regular',
@@ -531,6 +532,10 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     flexDirection: 'row',
     width: '100%',
+  },
+  header: {
+    height: 50,
+    justifyContent: 'center',
   },
 });
 

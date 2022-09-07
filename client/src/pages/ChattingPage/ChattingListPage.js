@@ -13,7 +13,6 @@ import {
 import firestore from '@react-native-firebase/firestore';
 import useUser from '../../utils/hooks/UseUser';
 import {useMeeting} from '../../utils/hooks/UseMeeting';
-import WalletButton from '../../components/common/WalletButton';
 import {useIsFocused} from '@react-navigation/native';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 import LinearGradient from 'react-native-linear-gradient';
@@ -112,7 +111,6 @@ function ChattingListPage({navigation}) {
           />
         )}
       </LinearGradient>
-      <WalletButton />
     </View>
   );
 }
