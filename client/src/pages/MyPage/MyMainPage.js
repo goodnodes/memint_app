@@ -29,7 +29,7 @@ import BottomDrawer from '../../components/myPageComponent/BottomDrawer';
 function MyMainPage({navigation}) {
   // const user = useUser();
   const userInfo = useUser();
-  const meminStats = userInfo.meminStats;
+  // const meminStats = userInfo.meminStats;
   // useEffect(() => {
   //   console.log(meminStats);
   // });
