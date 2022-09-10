@@ -127,7 +127,7 @@ const SignUpAgreementScreen = ({navigation, route}) => {
           isReadyToGetFreeToken: userDetail.isReadyToGetFreeToken,
           meminStats: {
             dino: userDetail.meminStats.dino,
-            hp: userDetail.meminStats.hp,
+            energy: userDetail.meminStats.energy,
             resilience: userDetail.meminStats.resilience,
             charm: userDetail.meminStats.charm,
             grade: userDetail.meminStats.grade,

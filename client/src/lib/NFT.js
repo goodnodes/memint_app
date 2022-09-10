@@ -85,7 +85,7 @@ export async function getMeminbyNum(num, id) {
       nftProfile: memin.url,
       meminStats: {
         dino: memin.dino,
-        hp: memin.hp,
+        energy: memin.energy,
         resilience: memin.resilience,
         charm: 0,
         grade: 'new',

@@ -285,7 +285,7 @@ export async function calculateCharm(userId, emotion) {
   usersCollection.doc(userId).update({
     meminStats: {
       charm: newCharm,
-      hp: meminStats.hp,
+      energy: meminStats.energy,
       dino: meminStats.dino,
       exp: meminStats.exp,
       grade: grade,
