@@ -25,14 +25,16 @@ import useUser from '../../utils/hooks/UseUser';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import LinearGradient from 'react-native-linear-gradient';
 import BottomDrawer from '../../components/myPageComponent/BottomDrawer';
+import {getDino} from '../../components/myPageComponent/MeminStats';
 
 function MyMainPage({navigation}) {
   // const user = useUser();
   const userInfo = useUser();
-  // const meminStats = userInfo.meminStats;
-  // useEffect(() => {
-  //   console.log(meminStats);
-  // });
+  const [meminStats, setMeminStats] = useState(userInfo.meminStats);
+
+  useEffect(() => {
+    getDino(meminStats, setMeminStats);
+  }, []);
   const {top} = useSafeAreaInsets();
   // const animation = useRef(new Animated.Value(1)).current;
   const [meetingRoom, setMeetingRoom] = useState(0);
@@ -97,13 +99,16 @@ function MyMainPage({navigation}) {
             <View style={styles.characterWrap}>
               <Progress.Circle
                 size={240}
-                progress={0.3}
+                progress={meminStats?.energy / meminStats?.fullEnergy}
                 color={'#2ACFC2'}
                 unfilledColor={'#edeef6'}
                 borderWidth={0}
                 thickness={5}
               />
-              <Image source={dummyDino} style={styles.characterImage} />
+              <Image
+                source={{uri: userInfo?.nftProfile}}
+                style={styles.characterImage}
+              />
               <TouchableOpacity onPress={handleMyEgg} style={styles.eggView}>
                 <Image source={dinoegg} style={styles.bigEggImage} />
               </TouchableOpacity>
@@ -118,13 +123,13 @@ function MyMainPage({navigation}) {
               <View
                 style={[styles.colorCircle, {backgroundColor: '#FFAEF1'}]}
               />
-              <Text style={styles.characterText}>티라노사우르스</Text>
+              <Text style={styles.characterText}>{meminStats?.dinoType}</Text>
             </View>
             <View style={styles.characterStatus}>
               <View style={styles.levelRow}>
                 <Progress.Circle
                   size={49}
-                  progress={0.5}
+                  progress={meminStats.exp / 5}
                   color={'#FFAEF1'}
                   unfilledColor={'#ffffff'}
                   borderWidth={0}
@@ -132,7 +137,7 @@ function MyMainPage({navigation}) {
                   style={styles.smallProgressCircle}
                   direction="counter-clockwise"
                   formatText={progress => {
-                    return `LV.${'3'}`;
+                    return `LV.${meminStats?.level}`;
                   }}
                   showsText={true}
                   textStyle={{
@@ -146,7 +151,7 @@ function MyMainPage({navigation}) {
                 <View style={styles.gradeView}>
                   <Progress.Circle
                     size={49}
-                    progress={0.5}
+                    progress={meminStats?.charm / 100}
                     color={'#FF9D9D'}
                     unfilledColor={'#ffffff'}
                     borderWidth={0}
@@ -155,7 +160,7 @@ function MyMainPage({navigation}) {
                     direction="counter-clockwise"
                   />
                   <Image source={likespink} style={styles.gradeImage} />
-                  <Text style={styles.gradeText}>{'A'}</Text>
+                  <Text style={styles.gradeText}>{meminStats.grade}</Text>
                 </View>
               </View>
               <View style={styles.status}>
@@ -286,11 +291,12 @@ const styles = StyleSheet.create({
   },
   characterImage: {
     position: 'absolute',
-    width: 230,
-    height: 230,
+    width: 229,
+    height: 229,
     zIndex: -4,
-    left: 5,
-    top: 5,
+    left: 5.5,
+    top: 5.5,
+    borderRadius: 100,
   },
   characterDes: {
     flexDirection: 'row',
