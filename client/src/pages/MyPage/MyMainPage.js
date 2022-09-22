@@ -102,7 +102,7 @@ function MyMainPage({navigation}) {
                 progress={meminStats?.energy / meminStats?.fullEnergy}
                 color={'#2ACFC2'}
                 unfilledColor={'#edeef6'}
-                borderWidth={0}
+                borderWidth={7}
                 thickness={5}
               />
               <Image
