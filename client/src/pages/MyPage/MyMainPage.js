@@ -107,7 +107,9 @@ function MyMainPage({navigation}) {
             <View style={styles.characterWrap}>
               <Progress.Circle
                 size={240}
-                progress={meminStats?.energy / meminStats?.fullEnergy}
+                progress={
+                  meminStats ? meminStats.energy / meminStats.fullEnergy : 0
+                }
                 color={'#2ACFC2'}
                 unfilledColor={'#edeef6'}
                 borderWidth={7}
@@ -137,7 +139,7 @@ function MyMainPage({navigation}) {
               <View style={styles.levelRow}>
                 <Progress.Circle
                   size={49}
-                  progress={meminStats && meminStats.exp / 5}
+                  progress={meminStats ? meminStats.exp / 5 : 0}
                   color={'#FFAEF1'}
                   unfilledColor={'#ffffff'}
                   borderWidth={0}
@@ -159,7 +161,7 @@ function MyMainPage({navigation}) {
                 <View style={styles.gradeView}>
                   <Progress.Circle
                     size={49}
-                    progress={meminStats?.charm / 100}
+                    progress={meminStats ? meminStats.charm / 100 : 0}
                     color={'#FF9D9D'}
                     unfilledColor={'#ffffff'}
                     borderWidth={0}
