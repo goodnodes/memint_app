@@ -224,11 +224,11 @@ function NotMyChat({item, userDetail, setUserInfoModalVisible, setUserId}) {
 
       RNFS.exists(path).then(result => {
         if (result) {
-          console.log('it is exists');
-          console.log(path);
+          // console.log('it is exists');
+          // console.log(path);
           fileSet(path);
         } else {
-          console.log('it is not exists');
+          // console.log('it is not exists');
           downloadFile(userDetail[item.sender].nftProfile);
         }
       });

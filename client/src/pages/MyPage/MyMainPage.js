@@ -30,11 +30,19 @@ import {getDino} from '../../components/myPageComponent/MeminStats';
 function MyMainPage({navigation}) {
   // const user = useUser();
   const userInfo = useUser();
-  const [meminStats, setMeminStats] = useState(userInfo.meminStats);
+
+  const [meminStats, setMeminStats] = useState('');
 
   useEffect(() => {
-    getDino(meminStats, setMeminStats);
-  }, []);
+    if (userInfo) {
+      setMeminStats(userInfo.meminStats);
+      getDino(userInfo.meminStats, setMeminStats);
+      console.log(meminStats);
+    }
+    if (meminStats) {
+      console.log('good');
+    }
+  }, [userInfo]);
   const {top} = useSafeAreaInsets();
   // const animation = useRef(new Animated.Value(1)).current;
   const [meetingRoom, setMeetingRoom] = useState(0);
@@ -129,7 +137,7 @@ function MyMainPage({navigation}) {
               <View style={styles.levelRow}>
                 <Progress.Circle
                   size={49}
-                  progress={meminStats.exp / 5}
+                  progress={meminStats && meminStats.exp / 5}
                   color={'#FFAEF1'}
                   unfilledColor={'#ffffff'}
                   borderWidth={0}
@@ -160,7 +168,7 @@ function MyMainPage({navigation}) {
                     direction="counter-clockwise"
                   />
                   <Image source={likespink} style={styles.gradeImage} />
-                  <Text style={styles.gradeText}>{meminStats.grade}</Text>
+                  <Text style={styles.gradeText}>{meminStats?.grade}</Text>
                 </View>
               </View>
               <View style={styles.status}>
