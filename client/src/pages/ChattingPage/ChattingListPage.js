@@ -9,6 +9,7 @@ import {
   SafeAreaView,
   DeviceEventEmitter,
   AppState,
+  Button,
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import useUser from '../../utils/hooks/UseUser';
@@ -18,6 +19,7 @@ import SafeStatusBar from '../../components/common/SafeStatusBar';
 import LinearGradient from 'react-native-linear-gradient';
 import {handleDate, handleDateInFormat} from '../../utils/common/Functions';
 import {getItem, setItem} from '../../lib/Chatting';
+import * as RNFS from 'react-native-fs';
 
 function ChattingListPage({navigation}) {
   const [chatLog, setChatLog] = useState('');
@@ -124,10 +126,42 @@ function MetaData({item, navigation, refresh, setRefresh}) {
   const [unChecked, setUnChecked] = useState(0);
   const [last, setLast] = useState('');
   const [currentAppState, setCurrentAppState] = useState('');
+  const [hostImg, setHostImg] = useState('');
   const appState = useRef(AppState.currentState);
 
   // AppState Subscribe 설정 및 foreground / background에 따라 state를 변경해주는 함수
   useEffect(() => {
+    // setHostImg(item.hostInfo);
+
+    // 이미지를 저장할 캐시폴더 경로 지정
+    const path = `${RNFS.CachesDirectoryPath}/${item.hostId}.png`;
+
+    // hostImg에 uri를 넣어주는 함수
+    const fileSet = uri => {
+      setHostImg(uri);
+    };
+
+    // uri로부터 파일을 다운받아 캐시폴더에 넣어주는 함수
+    const downloadFile = uri => {
+      RNFS.downloadFile({
+        fromUrl: uri,
+        toFile: path,
+      }).promise.then(() => fileSet(path));
+    };
+
+    // 캐시폴더에 hostId이름으로 된 png 파일이 있는지 확인 후, 있다면 바로 로드, 없으면 캐시 폴더에 저장해주기
+
+    RNFS.exists(path).then(result => {
+      if (result) {
+        console.log('it is exists');
+        console.log(path);
+        fileSet(path);
+      } else {
+        console.log('it is not exists');
+        downloadFile(item.hostInfo);
+      }
+    });
+
     const subscription = AppState.addEventListener('change', changedState => {
       if (
         (currentAppState === 'inactive' || 'background') &&
@@ -397,7 +431,7 @@ function MetaData({item, navigation, refresh, setRefresh}) {
         setItem(item.id, temp);
       }}>
       <View style={styles.container}>
-        <Image style={styles.image} source={{uri: item.hostInfo}} />
+        {hostImg && <Image style={styles.image} source={{uri: hostImg}} />}
         <View style={styles.chatInfo}>
           <View>
             <Text style={styles.titleText} numberOfLines={1}>

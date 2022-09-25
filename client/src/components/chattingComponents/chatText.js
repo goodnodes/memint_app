@@ -15,6 +15,8 @@ import useUser from '../../utils/hooks/UseUser';
 import UserInfoModal from '../common/UserInfoModal';
 import person from '../../assets/icons/person.png';
 import {getItem, setItem} from '../../lib/Chatting';
+import * as RNFS from 'react-native-fs';
+import {downloadFile, checkExist} from '../../lib/api/caching';
 
 function ChatText({data, roomInfo, userDetail, setRoomInfo}) {
   const [chattings, setChattings] = useState('');
@@ -198,7 +200,41 @@ function ChatText({data, roomInfo, userDetail, setRoomInfo}) {
 }
 
 function NotMyChat({item, userDetail, setUserInfoModalVisible, setUserId}) {
-  const [date, setDate] = useState();
+  const [date, setDate] = useState('');
+  const [userImg, setUserImg] = useState('');
+
+  useEffect(() => {
+    if (userDetail[item.sender]) {
+      const path = `${RNFS.CachesDirectoryPath}/${item.sender}.png`;
+
+      // hostImg에 uri를 넣어주는 함수
+      const fileSet = uri => {
+        setUserImg(uri);
+      };
+
+      // uri로부터 파일을 다운받아 캐시폴더에 넣어주는 함수
+      const downloadFile = uri => {
+        RNFS.downloadFile({
+          fromUrl: uri,
+          toFile: path,
+        }).promise.then(() => fileSet(path));
+      };
+
+      // 캐시폴더에 hostId이름으로 된 png 파일이 있는지 확인 후, 있다면 바로 로드, 없으면 캐시 폴더에 저장해주기
+
+      RNFS.exists(path).then(result => {
+        if (result) {
+          console.log('it is exists');
+          console.log(path);
+          fileSet(path);
+        } else {
+          console.log('it is not exists');
+          downloadFile(userDetail[item.sender].nftProfile);
+        }
+      });
+    }
+  }, [userDetail]);
+
   useEffect(() => {
     const date = new Date(item.createdAt.seconds * 1000).toLocaleString();
     setDate(date);
@@ -213,14 +249,16 @@ function NotMyChat({item, userDetail, setUserInfoModalVisible, setUserId}) {
             setUserId(item.sender);
             setUserInfoModalVisible(true);
           }}>
-          <Image
-            source={
-              userDetail && {
-                uri: userDetail[item.sender].nftProfile,
+          {userImg && (
+            <Image
+              source={
+                userDetail && {
+                  uri: userImg,
+                }
               }
-            }
-            style={styles.image}
-          />
+              style={styles.image}
+            />
+          )}
         </TouchableOpacity>
       ) : (
         <Image source={person} style={styles.image} />

@@ -7,10 +7,6 @@ import {
   Animated,
   Dimensions,
   Text,
-  TouchableOpacity,
-  Pressable,
-  Keyboard,
-  TouchableWithoutFeedback,
   DeviceEventEmitter,
 } from 'react-native';
 import ChatText from '../../components/chattingComponents/chatText';
