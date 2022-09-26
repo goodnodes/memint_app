@@ -8,6 +8,8 @@ import {
   Dimensions,
   Text,
   DeviceEventEmitter,
+  Platform,
+  StatusBar,
 } from 'react-native';
 import ChatText from '../../components/chattingComponents/chatText';
 import RoomHeader from '../../components/chattingComponents/roomHeader';
@@ -18,7 +20,7 @@ import SpendingModal from '../../components/common/UserInfoModal/SpendingModal';
 import firestore from '@react-native-firebase/firestore';
 import {useToast} from '../../utils/hooks/useToast';
 import useUser from '../../utils/hooks/UseUser';
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 import LinearGradient from 'react-native-linear-gradient';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -26,6 +28,12 @@ import {getItem, setItem} from '../../lib/Chatting';
 import {set} from 'immer/dist/internal';
 
 const windowWidth = Dimensions.get('window').width;
+
+function FocusAwareStatusBar(props) {
+  const isFocused = useIsFocused();
+
+  return isFocused ? <StatusBar {...props} /> : null;
+}
 
 function ChattingRoom({route}) {
   const navigation = useNavigation();
@@ -128,7 +136,16 @@ function ChattingRoom({route}) {
       // 키보드가 올라온 상태에서 추가적으로 적용할 +값
       // keyboardVerticalOffset={80}
     >
-      <SafeStatusBar />
+      {Platform.OS === 'ios' ? (
+        <SafeStatusBar />
+      ) : (
+        <FocusAwareStatusBar
+          barStyle="light-content"
+          backgroundColor="#3D3E44"
+          animated={true}
+        />
+      )}
+
       <LinearGradient
         colors={['#3D3E44', '#5A7064']}
         start={{x: 0.3, y: 0.3}}

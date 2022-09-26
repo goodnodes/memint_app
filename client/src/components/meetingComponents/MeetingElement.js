@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import MeetingLikes from './MeetingLikes';
 
 function MeetingElement({item}) {
+  console.log(item.meetDate.toDate().toLocaleString())
   const navigation = useNavigation();
   const handleNavigate = () => {
     navigation.navigate('MeetingDetail', {data: item});

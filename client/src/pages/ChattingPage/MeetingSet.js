@@ -8,6 +8,7 @@ import {
   AsyncStorage,
   Platform,
   TouchableNativeFeedback,
+  StatusBar,
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -27,6 +28,12 @@ import useMeetingActions from '../../utils/hooks/UseMeetingActions';
 import useAuthActions from '../../utils/hooks/UseAuthActions';
 import {removeItem} from '../../lib/Chatting';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
+
+function FocusAwareStatusBar(props) {
+  const isFocused = useIsFocused();
+
+  return isFocused ? <StatusBar {...props} /> : null;
+}
 
 function MeetingSet({route}) {
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
@@ -346,7 +353,15 @@ function MeetingSet({route}) {
   };
   return (
     <View style={styles.container}>
-      <SafeStatusBar />
+      {Platform.OS === 'ios' ? (
+        <SafeStatusBar />
+      ) : (
+        <FocusAwareStatusBar
+          barStyle="light-content"
+          backgroundColor="#3D3E44"
+          animated={true}
+        />
+      )}
       <View style={styles.header}>
         <BackButton />
       </View>

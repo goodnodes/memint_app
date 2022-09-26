@@ -34,6 +34,7 @@ function AddChat({chatId}) {
         value={text}
         onChangeText={setText}
         autoCorrect={false}
+        selectionColor="#58FF7D"
       />
       <TouchableOpacity
         activeOpacity={1}

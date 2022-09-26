@@ -8,10 +8,12 @@ import {
   ScrollView,
   Pressable,
   TextInput,
+  Platform,
+  StatusBar,
 } from 'react-native';
 import BackButton from '../../components/common/BackButton';
 import RNPickerSelect from 'react-native-picker-select';
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useToast} from '../../utils/hooks/useToast';
 import TagElement from '../../components/meetingComponents/TagElement';
@@ -27,8 +29,15 @@ import SpendingModal from '../../components/common/UserInfoModal/SpendingModal';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 import LinearGradient from 'react-native-linear-gradient';
 
+function FocusAwareStatusBar(props) {
+  const isFocused = useIsFocused();
+
+  return isFocused ? <StatusBar {...props} /> : null;
+}
+
 function MeetingCreate({route}) {
   const userInfo = useUser();
+
   const {saveInfo} = useAuthActions();
   const {saveMeeting} = useMeetingActions();
   const {rooms} = useMeeting();
@@ -50,6 +59,8 @@ function MeetingCreate({route}) {
   const [createSpendingModalVisible, setCreateSpendingModalVisible] =
     useState(false);
   const [inviteModalVisible, setInviteModalVisible] = useState(false);
+  const [datePicker, setDatePicker] = useState(false);
+  const [timePicker, setTimePicker] = useState(false);
   const [tagData, setTagData] = useState({mood: [], topic: [], alcohol: []});
   const navigation = useNavigation();
   const {showToast} = useToast();
@@ -223,9 +234,37 @@ function MeetingCreate({route}) {
     }
   };
 
+  const showDatePicker = () => {
+    setDatePicker(true);
+  };
+  const showTimePicker = () => {
+    setTimePicker(true);
+  };
+
+  const onDateSelected = (event, value) => {
+    setMeetingInfo({
+      ...meetingInfo,
+      meetDate: value,
+    });
+    setDatePicker(false);
+  };
+  const onTimeSelected = (event, value) => {
+    setMeetingInfo({...meetingInfo, meetDate: value});
+    setTimePicker(false);
+  };
+
   return (
     <View style={styles.view}>
-      <SafeStatusBar />
+      {Platform.OS === 'ios' ? (
+        <SafeStatusBar />
+      ) : (
+        <FocusAwareStatusBar
+          barStyle="light-content"
+          backgroundColor="#3D3E44"
+          animated={true}
+        />
+      )}
+
       <LinearGradient
         colors={['#3D3E44', '#5A7064']}
         start={{x: 0.3, y: 0.3}}
@@ -265,7 +304,9 @@ function MeetingCreate({route}) {
           amount={1}
           txType="미팅 생성"
         />
-        <ScrollView style={styles.createContainer}>
+        <ScrollView
+          style={styles.createContainer}
+          contentContainerStyle={styles.paddingBottom}>
           <Text style={styles.title}>미팅 생성</Text>
 
           <TextInput
@@ -278,6 +319,7 @@ function MeetingCreate({route}) {
             autoComplete="off"
             autoCorrect={false}
             value={meetingInfo.title}
+            selectionColor="#AEFFC1"
             // maxLength={0}
           />
           <View
@@ -297,6 +339,7 @@ function MeetingCreate({route}) {
             autoComplete="off"
             autoCorrect={false}
             value={meetingInfo.description}
+            selectionColor="#AEFFC1"
           />
           <View
             style={[
@@ -306,18 +349,68 @@ function MeetingCreate({route}) {
           />
           <View style={[styles.createElement, styles.flexRow]}>
             <Text style={styles.text}>날짜</Text>
-            <RNDateTimePicker
-              locale="ko"
-              value={meetingInfo.meetDate}
-              mode="datetime"
-              // textColor="#EAFFEF"
-              accentColor="#AEFFC1"
-              themeVariant="dark"
-              style={styles.datepicker}
-              onChange={(event, date) =>
-                setMeetingInfo({...meetingInfo, meetDate: date})
-              }
-            />
+            {Platform.OS === 'ios' ? (
+              <RNDateTimePicker
+                locale="ko"
+                value={meetingInfo.meetDate}
+                mode="datetime"
+                // textColor="#EAFFEF"
+                accentColor="#AEFFC1"
+                themeVariant="dark"
+                style={styles.datepicker}
+                onChange={(event, date) =>
+                  setMeetingInfo({...meetingInfo, meetDate: date})
+                }
+              />
+            ) : (
+              <View style={styles.datepickerAndroid}>
+                {datePicker && (
+                  <RNDateTimePicker
+                    locale="ko"
+                    value={meetingInfo.meetDate}
+                    mode="date"
+                    // textColor="#EAFFEF"
+                    accentColor="#AEFFC1"
+                    themeVariant="dark"
+                    style={styles.datepicker}
+                    onChange={onDateSelected}
+                  />
+                )}
+                {timePicker && (
+                  <RNDateTimePicker
+                    locale="ko"
+                    value={meetingInfo.meetDate}
+                    mode="time"
+                    display="spinner"
+                    // textColor="#EAFFEF"
+                    accentColor="#AEFFC1"
+                    themeVariant="dark"
+                    style={styles.datepicker}
+                    onChange={onTimeSelected}
+                  />
+                )}
+                {!datePicker && (
+                  <Pressable onPress={showDatePicker}>
+                    <Text style={styles.dateText}>
+                      {/* {`${
+                        meetingInfo.meetDate.getMonth() + 1
+                      }월 ${meetingInfo.meetDate.getDate()}일`} */}
+                      {meetingInfo.meetDate.toLocaleDateString()}
+                    </Text>
+                  </Pressable>
+                )}
+                {!timePicker && (
+                  <Pressable onPress={showTimePicker} style={styles.timepicker}>
+                    <Text style={styles.dateText}>
+                      {meetingInfo.meetDate
+                        .toLocaleTimeString('ko-KR')
+                        .slice(0, -3)}
+                      {/* {`${meetingInfo.meetDate.getHours()}시 ${meetingInfo.meetDate.getMinutes()}분`} */}
+                    </Text>
+                  </Pressable>
+                )}
+              </View>
+            )}
           </View>
           <View style={[styles.createElement, styles.flexRow]}>
             <Pressable style={styles.selectButton}>
@@ -328,8 +421,15 @@ function MeetingCreate({route}) {
                 }}
                 items={RegionDropDownData}
                 value={meetingInfo.region}
+                fixAndroidTouchableBug={true}
+                useNativeAndroidPickerStyle={false}
                 style={{
                   inputIOS: {
+                    fontSize: 16,
+                    color: '#ffffff',
+                    letterSpacing: -0.5,
+                  },
+                  inputAndroid: {
                     fontSize: 16,
                     color: '#ffffff',
                     letterSpacing: -0.5,
@@ -346,7 +446,10 @@ function MeetingCreate({route}) {
                       name="arrow-drop-down"
                       size={19}
                       color={'#EAFFEF'}
-                      style={styles.icon}
+                      style={[
+                        styles.icon,
+                        Platform.OS === 'android' ? styles.iconAndroid : null,
+                      ]}
                     />
                   );
                 }}
@@ -365,8 +468,15 @@ function MeetingCreate({route}) {
                 }}
                 items={PeopleDropDownData}
                 value={meetingInfo.peopleNum}
+                fixAndroidTouchableBug={true}
+                useNativeAndroidPickerStyle={false}
                 style={{
                   inputIOS: {
+                    fontSize: 16,
+                    color: '#ffffff',
+                    letterSpacing: -0.5,
+                  },
+                  inputAndroid: {
                     fontSize: 16,
                     color: '#ffffff',
                     letterSpacing: -0.5,
@@ -383,7 +493,10 @@ function MeetingCreate({route}) {
                       name="arrow-drop-down"
                       size={19}
                       color={'#EAFFEF'}
-                      style={styles.icon}
+                      style={[
+                        styles.icon,
+                        Platform.OS === 'android' ? styles.iconAndroid : null,
+                      ]}
                     />
                   );
                 }}
@@ -566,6 +679,9 @@ const styles = StyleSheet.create({
   datepicker: {
     width: 230,
   },
+  datepickerAndroid: {
+    flexDirection: 'row',
+  },
   textInputTitle: {
     backgroundColor: 'transparent',
     color: '#ffffff',
@@ -620,6 +736,9 @@ const styles = StyleSheet.create({
   icon: {
     position: 'absolute',
   },
+  iconAndroid: {
+    top: 8,
+  },
   tagIcon: {
     marginTop: 15,
     marginRight: 3,
@@ -633,6 +752,17 @@ const styles = StyleSheet.create({
   },
   invitedFriend: {
     color: '#ffffff',
+  },
+  dateText: {
+    fontSize: 16,
+    color: '#EAFFEF',
+    letterSpacing: -0.5,
+  },
+  timepicker: {
+    marginLeft: 20,
+  },
+  paddingBottom: {
+    paddingBottom: 60,
   },
 });
 

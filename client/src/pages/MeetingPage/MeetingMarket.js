@@ -334,6 +334,15 @@ function MeetingMarket({navigation}) {
               />
             </Pressable>
             <Pressable style={styles.listfilter}>
+              <Icon
+                name="swap-vert"
+                size={20}
+                color={'#ffffff'}
+                style={[
+                  styles.icon,
+                  Platform.OS === 'android' ? styles.iconAndroid : null,
+                ]}
+              />
               <RNPickerSelect
                 placeholder={{}}
                 onValueChange={value => {
@@ -349,19 +358,19 @@ function MeetingMarket({navigation}) {
                 }}
                 fixAndroidTouchableBug={true}
                 useNativeAndroidPickerStyle={false}
-                Icon={() => {
-                  return (
-                    <Icon
-                      name="swap-vert"
-                      size={20}
-                      color={'#ffffff'}
-                      style={[
-                        styles.icon,
-                        Platform.OS === 'android' ? styles.iconAndroid : null,
-                      ]}
-                    />
-                  );
-                }}
+                // Icon={() => {
+                //   return (
+                //     <Icon
+                //       name="swap-vert"
+                //       size={20}
+                //       color={'#ffffff'}
+                //       style={[
+                //         styles.icon,
+                //         Platform.OS === 'android' ? styles.iconAndroid : null,
+                //       ]}
+                //     />
+                //   );
+                // }}
               />
             </Pressable>
           </View>
@@ -482,6 +491,7 @@ const styles = StyleSheet.create({
   listfilter: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'flex-end',
   },
   meetingLists: {
     marginTop: 15,
@@ -508,13 +518,13 @@ const styles = StyleSheet.create({
     width: 250,
     height: 250,
   },
-  icon: {
-    width: 45,
-  },
-  iconAndroid: {
-    top: 15,
-    right: 7,
-  },
+  // icon: {
+  // width: 45,
+  // },
+  // iconAndroid: {
+  //   top: 15,
+  //   left:-2
+  // },
   paddingBottom: {
     paddingBottom: 50,
   },

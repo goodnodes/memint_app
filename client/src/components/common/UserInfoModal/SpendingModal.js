@@ -69,26 +69,18 @@ function SpendingModal({
                 width: '100%',
               }}>
               <View style={styles.calcText}>
-                <Text style={{fontWeight: '500', fontSize: 17}}>
-                  현재 보유 TING
-                </Text>
-                <Text style={{fontWeight: '500', fontSize: 17}}>
-                  {user.tokenAmount}
-                </Text>
+                <Text style={styles.boldText}>현재 보유 TING</Text>
+                <Text style={styles.boldText}>{user.tokenAmount}</Text>
               </View>
               <View style={styles.calcText}>
-                <Text style={{fontWeight: '500', fontSize: 17}}>필요 TING</Text>
-                <Text style={{fontWeight: '500', fontSize: 17}}>
-                  {amount}개
-                </Text>
+                <Text style={styles.boldText}>필요 TING</Text>
+                <Text style={styles.boldText}>{amount}개</Text>
               </View>
               {
                 user.tokenAmount > amount ? (
                   <View style={styles.calcText}>
-                    <Text style={{fontWeight: '500', fontSize: 17}}>
-                      차감 후 TING
-                    </Text>
-                    <Text style={{fontWeight: '500', fontSize: 17}}>
+                    <Text style={styles.boldText}>차감 후 TING</Text>
+                    <Text style={styles.boldText}>
                       {user.tokenAmount - amount}개
                     </Text>
                   </View>
@@ -192,5 +184,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     textAlign: 'center',
   },
+  boldText: {fontWeight: '500', fontSize: 17, color: '#000000'},
 });
 export default SpendingModal;
