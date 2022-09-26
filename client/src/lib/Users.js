@@ -262,10 +262,12 @@ export async function calculateCharm(userId, emotion) {
 
   // 매력 지수 환산
   let newCharm = 0;
-  if (meminStats.charm === 0) {
+  if (meminStats.receivedFeedbackCount === 0) {
     newCharm = feedback;
   } else {
-    newCharm = (meminStats.charm + feedback) / 2;
+    newCharm =
+      (meminStats.charm * meminStats.receivedFeedbackCount + feedback) /
+      (meminStats.receivedFeedbackCount + 1);
   }
 
   // 매력 지수에 따른 등급 조정
@@ -284,6 +286,7 @@ export async function calculateCharm(userId, emotion) {
 
   usersCollection.doc(userId).update({
     meminStats: {
+      receivedFeedbackCount: meminStats.receivedFeedbackCount + 1,
       charm: newCharm,
       energy: meminStats.energy,
       dino: meminStats.dino,

@@ -32,7 +32,7 @@ import useAuthActions from './utils/hooks/UseAuthActions';
 import {subscribeAuth} from './lib/Auth';
 import {getUser, getUserProperty, saveTokenToDatabase} from './lib/Users';
 import useNftActions from './utils/hooks/UseNftActions';
-import {getNFTs, getProfile, getMemin} from './lib/NFT';
+import {getNFTs, getProfile, getMemin, calcHumanElement} from './lib/NFT';
 import {getMeeting} from './lib/Meeting';
 import useMeetingActions from './utils/hooks/UseMeetingActions';
 import useUser from './utils/hooks/UseUser';
@@ -167,6 +167,11 @@ function App() {
         selfIntroduction: userDetail.selfIntroduction,
         isReadyToGetFreeToken: userDetail.isReadyToGetFreeToken,
         meminStats: {
+          HumanElement: calcHumanElement(
+            userDetail.meminStats.grade,
+            userDetail.meminStats.level,
+          ),
+          receivedFeedbackCount: userDetail.meminStats.receivedFeedbackCount,
           dino: userDetail.meminStats.dino,
           energy: userDetail.meminStats.energy,
           resilience: userDetail.meminStats.resilience,
@@ -190,7 +195,7 @@ function App() {
       }, 2000);
       checkApplicationPermission();
     } catch (e) {
-      console.wanr('Error occured');
+      console.warn('Error occured');
       console.warn(e);
     }
   }, []);

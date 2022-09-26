@@ -20,7 +20,12 @@ import SafeStatusBar from '../../components/common/SafeStatusBar';
 import {createUser, getUser} from '../../lib/Users';
 import storage from '@react-native-firebase/storage';
 import {createWallet} from '../../lib/api/wallet';
-import {createNFT, getImgUrl, getNFTbyNum} from '../../lib/NFT';
+import {
+  createNFT,
+  getImgUrl,
+  getNFTbyNum,
+  calcHumanElement,
+} from '../../lib/NFT';
 import {createUserNFT} from '../../lib/Users';
 import useNftActions from '../../utils/hooks/UseNftActions';
 import useAuthActions from '../../utils/hooks/UseAuthActions';
@@ -134,6 +139,11 @@ const SignUpAgreementScreen = ({navigation, route}) => {
           selfIntroduction: userDetail.selfIntroduction,
           isReadyToGetFreeToken: userDetail.isReadyToGetFreeToken,
           meminStats: {
+            HumanElement: calcHumanElement(
+              userDetail.meminStats.grade,
+              userDetail.meminStats.level,
+            ),
+            receivedFeedbackCount: userDetail.meminStats.receivedFeedbackCount,
             dino: userDetail.meminStats.dino,
             energy: userDetail.meminStats.energy,
             resilience: userDetail.meminStats.resilience,

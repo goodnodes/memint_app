@@ -44,9 +44,9 @@ function MyMainPage({navigation}) {
 
   useEffect(() => {
     if (userInfo) {
+      console.log(userInfo);
       setMeminStats(userInfo.meminStats);
       getDino(userInfo.meminStats, setMeminStats);
-      console.log(meminStats);
     }
     if (meminStats) {
       console.log('good');

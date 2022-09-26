@@ -28,6 +28,7 @@ import {useMeeting} from '../../utils/hooks/UseMeeting';
 import SpendingModal from '../../components/common/UserInfoModal/SpendingModal';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 import LinearGradient from 'react-native-linear-gradient';
+import firestore from '@react-native-firebase/firestore';
 
 function FocusAwareStatusBar(props) {
   const isFocused = useIsFocused();
@@ -139,8 +140,37 @@ function MeetingCreate({route}) {
     if (!submittable) {
       showToast('error', '필수 항목들을 작성해주세요');
       return;
+    } else if (userInfo.meminStats.energy === 0) {
+      // 에너지그 부족하면 에러
+      showToast('error', '에너지가 부족합니다.');
+      // setConfirmModalVisible(true);
     } else {
-      setConfirmModalVisible(true);
+      // 에너지가 충분하면 redux 상태 바꾸고 -> firebase 상태 바꾸고 -> 미팅 생성
+
+      const withoutHumanElement = {
+        ...userInfo.meminStats,
+        energy: userInfo.meminStats.energy - 1,
+      };
+      delete withoutHumanElement.HumanElement;
+      firestore()
+        .collection('User')
+        .doc(userInfo.id)
+        .update({
+          ...userInfo,
+          meminStats: withoutHumanElement,
+        })
+        .then(() => {
+          saveInfo({
+            ...userInfo,
+            meminStats: {
+              ...userInfo.meminStats,
+              energy: userInfo.meminStats.energy - 1,
+            },
+          });
+        })
+        .then(() => {
+          handleCreateMeeting();
+        });
     }
   };
 
@@ -284,7 +314,7 @@ function MeetingCreate({route}) {
             </Text>
           </Pressable>
         </View>
-        <DoubleModal
+        {/* <DoubleModal
           text="미팅 생성 시 TING이 차감됩니다.    미팅을 생성하시겠습니까?"
           buttonText="네"
           modalVisible={confirmModalVisible}
@@ -303,7 +333,7 @@ function MeetingCreate({route}) {
           pFunction={handleCreateMeeting}
           amount={1}
           txType="미팅 생성"
-        />
+        /> */}
         <ScrollView
           style={styles.createContainer}
           contentContainerStyle={styles.paddingBottom}>

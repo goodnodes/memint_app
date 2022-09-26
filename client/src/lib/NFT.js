@@ -84,6 +84,7 @@ export async function getMeminbyNum(num, id) {
     usersCollection.doc(id).update({
       nftProfile: memin.url,
       meminStats: {
+        receivedFeedbackCount: 0,
         dino: memin.dino,
         energy: memin.energy,
         resilience: memin.resilience,
@@ -113,3 +114,21 @@ export async function getNFTbyNum(id) {
   const num = await getNFTNum();
   await getMeminbyNum(num, id);
 }
+
+export const calcHumanElement = (grade, level) => {
+  if (grade === 'new') {
+    return 5;
+  } else if (grade === 'F') {
+    return level * 2;
+  } else if (grade === 'E') {
+    return 2 + level * 2;
+  } else if (grade === 'D') {
+    return 4 + level * 2;
+  } else if (grade === 'C') {
+    return 6 + level * 2;
+  } else if (grade === 'B') {
+    return 8 + level * 2;
+  } else if (grade === 'A') {
+    return 10 + level * 2;
+  }
+};

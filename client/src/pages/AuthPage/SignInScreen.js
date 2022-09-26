@@ -24,7 +24,7 @@ import {signIn} from '../../lib/Auth';
 import {getUser, getUserProperty} from '../../lib/Users';
 import useUser from '../../utils/hooks/UseUser';
 import useNftActions from '../../utils/hooks/UseNftActions';
-import {getNFTs, getProfile, getMemin} from '../../lib/NFT';
+import {getNFTs, getProfile, getMemin, calcHumanElement} from '../../lib/NFT';
 import GradientButton from '../../components/common/GradientButton';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 import LinearGradient from 'react-native-linear-gradient';
@@ -104,6 +104,11 @@ const SignInScreen = ({navigation, route}) => {
         selfIntroduction: userDetail.selfIntroduction,
         isReadyToGetFreeToken: userDetail.isReadyToGetFreeToken,
         meminStats: {
+          HumanElement: calcHumanElement(
+            userDetail.meminStats.grade,
+            userDetail.meminStats.level,
+          ),
+          receivedFeedbackCount: userDetail.meminStats.receivedFeedbackCount,
           dino: userDetail.meminStats.dino,
           energy: userDetail.meminStats.energy,
           resilience: userDetail.meminStats.resilience,
