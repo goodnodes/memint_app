@@ -26,6 +26,13 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import LinearGradient from 'react-native-linear-gradient';
 import BottomDrawer from '../../components/myPageComponent/BottomDrawer';
 import {getDino} from '../../components/myPageComponent/MeminStats';
+import {useIsFocused} from '@react-navigation/native';
+
+function FocusAwareStatusBar(props) {
+  const isFocused = useIsFocused();
+
+  return isFocused ? <StatusBar {...props} /> : null;
+}
 
 function MyMainPage({navigation}) {
   // const user = useUser();
@@ -74,7 +81,11 @@ function MyMainPage({navigation}) {
 
   return (
     <View style={styles.fullScreen}>
-      <StatusBar barStyle="dark-content" />
+      <FocusAwareStatusBar
+        barStyle="dark-content"
+        backgroundColor="#82EFC1"
+        animated={true}
+      />
 
       <View style={{backgroundColor: '#82EFC1', height: top}} />
 

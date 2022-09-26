@@ -15,6 +15,7 @@ import {
   Button,
   TouchableOpacity,
   ScrollView,
+  StatusBar,
 } from 'react-native';
 import BasicButton from '../../components/common/BasicButton';
 import BorderedInput from '../../components/AuthComponents/BorderedInput';
@@ -24,6 +25,13 @@ import GradientButton from '../../components/common/GradientButton';
 // import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 import {useToast} from '../../utils/hooks/useToast';
+import {useIsFocused} from '@react-navigation/native';
+
+function FocusAwareStatusBar(props) {
+  const isFocused = useIsFocused();
+
+  return isFocused ? <StatusBar {...props} /> : null;
+}
 
 const SignUpScreen = ({navigation}) => {
   const [loading, setLoading] = useState(false);
@@ -111,7 +119,15 @@ const SignUpScreen = ({navigation}) => {
       <KeyboardAvoidingView
         style={styles.KeyboardAvoidingView}
         behavior={'padding'}>
-        <SafeStatusBar />
+        {Platform.OS === 'ios' ? (
+          <SafeStatusBar />
+        ) : (
+          <FocusAwareStatusBar
+            barStyle="light-content"
+            backgroundColor="#3C3D43"
+            animated={true}
+          />
+        )}
 
         <BackButton />
         <View style={styles.fullscreen}>

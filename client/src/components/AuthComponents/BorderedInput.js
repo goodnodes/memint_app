@@ -17,6 +17,7 @@ const BorderedInput = ({hasMarginBottom, size, ...rest}, ref) => {
       {...rest}
       autoComplete="off"
       autoCorrect={false}
+      selectionColor="#AEFFC1"
       placeholderTextColor="#EAFFEF"
       onFocus={() => {
         setIsFocused(true);

@@ -8,6 +8,7 @@ import {
   Platform,
   ActionSheetIOS,
   KeyboardAvoidingView,
+  StatusBar,
 } from 'react-native';
 import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import BackButton from '../../components/common/BackButton';
@@ -21,6 +22,14 @@ import {useToast} from '../../utils/hooks/useToast';
 import {EditUserInfo} from '../../lib/Users';
 import useAuthActions from '../../utils/hooks/UseAuthActions';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
+import {useIsFocused} from '@react-navigation/native';
+
+function FocusAwareStatusBar(props) {
+  const isFocused = useIsFocused();
+
+  return isFocused ? <StatusBar {...props} /> : null;
+}
+
 function EditMyInfo({route, navigation}) {
   const [drinkInfo, setDrinkInfo] = useState(route.params.property);
   const [selfIntro, setSelfIntro] = useState(route.params.selfIntroduction);
@@ -72,6 +81,11 @@ function EditMyInfo({route, navigation}) {
   return (
     <KeyboardAvoidingView style={styles.container}>
       <SafeStatusBar />
+      <FocusAwareStatusBar
+        backgroundColor="#3C3D43"
+        barStyle="light-content"
+        animated={true}
+      />
       <View style={styles.header}>
         <BackButton />
         <TouchableOpacity onPress={handleSubmit}>

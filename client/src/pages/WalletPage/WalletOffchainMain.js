@@ -59,7 +59,11 @@ function WalletOffchainMain({navigation}) {
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor="#AAD1C1"
+        animated={true}
+      />
 
       <View style={{backgroundColor: '#AAD1C1', height: top}} />
       <TouchableOpacity

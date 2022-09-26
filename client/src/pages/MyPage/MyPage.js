@@ -25,7 +25,11 @@ function MyPage({navigation}) {
 
   return (
     <View style={styles.view}>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor="#82EFC1"
+        animated={true}
+      />
 
       <View style={{backgroundColor: '#82EFC1', height: top}} />
       <LinearGradient

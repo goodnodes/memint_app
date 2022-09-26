@@ -9,6 +9,8 @@ import {
   Image,
   Button,
   Animated,
+  Platform,
+  StatusBar,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MeetingElement from '../../components/meetingComponents/MeetingElement';
@@ -27,6 +29,12 @@ import Sauropod from '../../assets/icons/Sauropod.png';
 import DoubleModal from '../../components/common/DoubleModal';
 import useUser from '../../utils/hooks/UseUser';
 import ActivationModal from '../../components/common/ActivationModal';
+
+function FocusAwareStatusBar(props) {
+  const isFocused = useIsFocused();
+
+  return isFocused ? <StatusBar {...props} /> : null;
+}
 
 function MeetingMarket({navigation}) {
   const userState = useUser();
@@ -257,7 +265,16 @@ function MeetingMarket({navigation}) {
 
   return (
     <View style={styles.container}>
-      <SafeStatusBar />
+      {Platform.OS === 'ios' ? (
+        <SafeStatusBar />
+      ) : (
+        <FocusAwareStatusBar
+          backgroundColor="#3D3E44"
+          barStyle="light-content"
+          animated={true}
+        />
+      )}
+
       <LinearGradient
         colors={['#3D3E44', '#5A7064']}
         start={{x: 0.3, y: 0.3}}
@@ -281,8 +298,15 @@ function MeetingMarket({navigation}) {
                 }}
                 items={RegionDropDownData}
                 value={filter.region}
+                fixAndroidTouchableBug={true}
+                useNativeAndroidPickerStyle={false}
                 style={{
                   inputIOS: {
+                    color: 'white',
+                    fontFamily: 'NeoDunggeunmoPro-Regular',
+                    letterSpacing: 2.5,
+                  },
+                  inputAndroid: {
                     color: 'white',
                     fontFamily: 'NeoDunggeunmoPro-Regular',
                     letterSpacing: 2.5,
@@ -321,14 +345,20 @@ function MeetingMarket({navigation}) {
                   inputIOS: {
                     color: 'white',
                   },
+                  inputAndroid: {color: 'white'},
                 }}
+                fixAndroidTouchableBug={true}
+                useNativeAndroidPickerStyle={false}
                 Icon={() => {
                   return (
                     <Icon
                       name="swap-vert"
                       size={20}
                       color={'#ffffff'}
-                      style={styles.icon}
+                      style={[
+                        styles.icon,
+                        Platform.OS === 'android' ? styles.iconAndroid : null,
+                      ]}
                     />
                   );
                 }}
@@ -480,6 +510,10 @@ const styles = StyleSheet.create({
   },
   icon: {
     width: 45,
+  },
+  iconAndroid: {
+    top: 15,
+    right: 7,
   },
   paddingBottom: {
     paddingBottom: 50,

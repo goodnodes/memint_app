@@ -15,6 +15,7 @@ import {
   Button,
   TouchableOpacity,
   ScrollView,
+  StatusBar,
 } from 'react-native';
 import BasicButton from '../../components/common/BasicButton';
 import BorderedInput from '../../components/AuthComponents/BorderedInput';
@@ -80,6 +81,11 @@ const ChangePw = ({navigation}) => {
       <KeyboardAvoidingView
         style={styles.KeyboardAvoidingView}
         behavior={'padding'}>
+        <StatusBar
+          backgroundColor="#ABDCC1"
+          barStyle="dark-content"
+          animated={true}
+        />
         <View style={{backgroundColor: '#ABDCC1', height: top}} />
 
         <TouchableOpacity

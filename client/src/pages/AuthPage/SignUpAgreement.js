@@ -250,6 +250,7 @@ const SignUpAgreementScreen = ({navigation, route}) => {
             onChange={serviceBtnEvent}
             onCheckColor="#58FF7D"
             onTintColor="#58FF7D"
+            tintColors={{true: '#58FF7D'}}
           />
 
           <Text style={styles.text}>서비스 약관에 동의</Text>
@@ -262,6 +263,7 @@ const SignUpAgreementScreen = ({navigation, route}) => {
             onChange={useBtnEvent}
             onCheckColor="#58FF7D"
             onTintColor="#58FF7D"
+            tintColors={{true: '#58FF7D'}}
           />
           <Text style={styles.text}>개인정보 수집 및 이용동의</Text>
           <Text style={styles.textSub}>필수</Text>
@@ -273,6 +275,7 @@ const SignUpAgreementScreen = ({navigation, route}) => {
             onChange={ageBtnEvent}
             onCheckColor="#58FF7D"
             onTintColor="#58FF7D"
+            tintColors={{true: '#58FF7D'}}
           />
           <Text style={styles.text}>만 19세 이상</Text>
           <Text style={styles.textSub}>필수</Text>
@@ -284,6 +287,7 @@ const SignUpAgreementScreen = ({navigation, route}) => {
             onChange={marketingBtnEvent}
             onCheckColor="#58FF7D"
             onTintColor="#58FF7D"
+            tintColors={{true: '#58FF7D'}}
           />
           <Text style={styles.text}>혜택 및 이벤트 알림 수신 동의</Text>
           <Text style={styles.textSub}>선택</Text>
@@ -299,6 +303,7 @@ const SignUpAgreementScreen = ({navigation, route}) => {
             onChange={allBtnEvent}
             onCheckColor="#58FF7D"
             onTintColor="#58FF7D"
+            tintColors={{true: '#58FF7D'}}
           />
           <Text style={styles.text}>모두 동의합니다.</Text>
         </View>

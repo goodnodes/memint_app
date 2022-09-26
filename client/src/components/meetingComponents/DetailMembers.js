@@ -127,21 +127,24 @@ const styles = StyleSheet.create({
   },
   memberInfoContentEl: {
     margin: 5,
+    color: '#000000',
   },
   memberInfoNickName: {
     margin: 5,
     fontWeight: '700',
+    color: '#000000',
   },
   title: {
     fontWeight: '700',
-    color: 'black',
+    color: '#000000',
   },
   currentPeopleNum: {
     fontWeight: '500',
+    color: '#000000',
   },
   peopleNum: {
     fontWeight: '500',
-    color: 'black',
+    color: '#000000',
   },
   image: {
     width: 40,

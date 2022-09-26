@@ -10,6 +10,8 @@ import {
   DeviceEventEmitter,
   AppState,
   Button,
+  StatusBar,
+  Platform,
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import useUser from '../../utils/hooks/UseUser';
@@ -20,6 +22,12 @@ import LinearGradient from 'react-native-linear-gradient';
 import {handleDate, handleDateInFormat} from '../../utils/common/Functions';
 import {getItem, setItem} from '../../lib/Chatting';
 import * as RNFS from 'react-native-fs';
+
+function FocusAwareStatusBar(props) {
+  const isFocused = useIsFocused();
+
+  return isFocused ? <StatusBar {...props} /> : null;
+}
 
 function ChattingListPage({navigation}) {
   const [chatLog, setChatLog] = useState('');
@@ -77,7 +85,15 @@ function ChattingListPage({navigation}) {
 
   return (
     <View style={styles.view}>
-      <SafeStatusBar />
+      {Platform.OS === 'ios' ? (
+        <SafeStatusBar />
+      ) : (
+        <FocusAwareStatusBar
+          backgroundColor="#3D3E44"
+          barStyle="light-content"
+          animated={true}
+        />
+      )}
       <LinearGradient
         colors={['#3D3E44', '#5A7064']}
         start={{x: 0.3, y: 0.3}}

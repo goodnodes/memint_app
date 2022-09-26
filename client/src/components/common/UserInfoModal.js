@@ -320,6 +320,9 @@ const styles = StyleSheet.create({
     color: '#787878',
     width: 55,
   },
+  userinfoValue: {
+    color: '#000000',
+  },
   usertag: {
     marginTop: 10,
   },

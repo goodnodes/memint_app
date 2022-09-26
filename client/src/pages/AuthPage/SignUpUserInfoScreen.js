@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {useRoute} from '@react-navigation/native';
+import {useIsFocused, useRoute} from '@react-navigation/native';
 import {
   Alert,
   Keyboard,
@@ -12,6 +12,7 @@ import {
   TouchableWithoutFeedback,
   TouchableOpacity,
   ScrollView,
+  StatusBar,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import SelectDropdown from 'react-native-select-dropdown';
@@ -29,6 +30,12 @@ import SafeStatusBar from '../../components/common/SafeStatusBar';
 // const reference = storage().ref('/directory/filename.png');
 // await reference.putFile(uri);
 // const url = await reference.getDownloadURL();
+
+function FocusAwareStatusBar(props) {
+  const isFocused = useIsFocused();
+
+  return isFocused ? <StatusBar {...props} /> : null;
+}
 
 const SignUpUserInfoScreen = ({navigation, route}) => {
   let {userInfo} = route.params || {};
@@ -142,10 +149,20 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
       <KeyboardAvoidingView
         style={styles.KeyboardAvoidingView}
         behavior={Platform.select({ios: 'padding'})}>
-        <SafeStatusBar />
+        {Platform.OS === 'ios' ? (
+          <SafeStatusBar />
+        ) : (
+          <FocusAwareStatusBar
+            barStyle="light-content"
+            backgroundColor="#3C3D43"
+            animated={true}
+          />
+        )}
         <BackButton />
         <View style={styles.fullscreen}>
-          <ScrollView style={styles.fullscreenSub}>
+          <ScrollView
+            style={styles.fullscreenSub}
+            contentContainerStyle={styles.paddingBottom}>
             <Text style={styles.title}>프로필 설정</Text>
             <Text style={styles.alertText}>
               프로필 사진, 닉네임, 생년월일, 성별을 추가해야{'\n'}

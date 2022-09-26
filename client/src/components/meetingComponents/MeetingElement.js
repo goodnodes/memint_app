@@ -97,6 +97,7 @@ const styles = StyleSheet.create({
     fontFamily: 'NeoDunggeunmoPro-Regular',
     letterSpacing: -0.5,
     lineHeight: 22.4,
+    color: '#000000',
   },
   meetingTags: {
     flexDirection: 'row',
@@ -148,6 +149,7 @@ const styles = StyleSheet.create({
     letterSpacing: -0.5,
     textAlign: 'right',
     lineHeight: 21,
+    color: '#000000',
   },
   button: {
     backgroundColor: '#ffffff',
@@ -177,6 +179,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     letterSpacing: -0.5,
     fontWeight: '600',
+    color: '#000000',
   },
 });
 

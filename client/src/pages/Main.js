@@ -24,7 +24,6 @@ import WalletOnchainMain from './WalletPage/WalletOnchainMain';
 import MyLikesRooms from './MyPage/MyLikesRooms';
 import MyMainPage from './MyPage/MyMainPage';
 import MySettings from './MyPage/MySettings';
-import CsCenter from './MyPage/CsCenter';
 import DeleteUser from './MyPage/DeleteUser';
 
 const Tab = createMaterialBottomTabNavigator();

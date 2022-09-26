@@ -49,7 +49,6 @@ import firestore from '@react-native-firebase/firestore';
 import messaging from '@react-native-firebase/messaging';
 import {useToast} from './utils/hooks/useToast';
 import MySettings from './pages/MyPage/MySettings';
-import CsCenter from './pages/MyPage/CsCenter';
 import DeleteUser from './pages/MyPage/DeleteUser';
 import EditMyInfo from './pages/MyPage/EditMyInfo';
 import ChangePw from './pages/MyPage/ChangePw';
@@ -406,11 +405,6 @@ function App() {
               <Stack.Screen
                 name="MySettings"
                 component={MySettings}
-                options={{headerShown: false}}
-              />
-              <Stack.Screen
-                name="CsCenter"
-                component={CsCenter}
                 options={{headerShown: false}}
               />
               <Stack.Screen

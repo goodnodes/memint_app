@@ -7,6 +7,8 @@ import {
   StyleSheet,
   RefreshControl,
   FlatList,
+  Platform,
+  StatusBar,
 } from 'react-native';
 import AlarmElement from '../../components/alarmComponents/AlarmElement';
 import {getAlarmsById} from '../../lib/Alarm';
@@ -15,6 +17,12 @@ import {getUser} from '../../lib/Users';
 import LinearGradient from 'react-native-linear-gradient';
 import useUser from '../../utils/hooks/UseUser';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
+
+function FocusAwareStatusBar(props) {
+  const isFocused = useIsFocused();
+
+  return isFocused ? <StatusBar {...props} /> : null;
+}
 
 function AlarmPage({navigation}) {
   const userInfo = useUser();
@@ -81,7 +89,15 @@ function AlarmPage({navigation}) {
 
   return (
     <View style={styles.view}>
-      <SafeStatusBar />
+      {Platform.OS === 'ios' ? (
+        <SafeStatusBar />
+      ) : (
+        <FocusAwareStatusBar
+          backgroundColor="#3D3E44"
+          barStyle="light-content"
+          animated={true}
+        />
+      )}
       <LinearGradient
         colors={['#3D3E44', '#5A7064']}
         start={{x: 0.3, y: 0.3}}

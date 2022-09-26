@@ -1,6 +1,14 @@
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, StyleSheet, Text, View, AsyncStorage} from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+  AsyncStorage,
+  Platform,
+  TouchableNativeFeedback,
+} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import BackButton from '../../components/common/BackButton';
@@ -171,40 +179,108 @@ function MeetingSet({route}) {
     if (route.params.meetingInfo.hostId === userInfo.id) {
       return (
         <>
-          <TouchableOpacity
-            style={styles.li}
-            onPress={() => {
-              setEditModal(true);
-            }}>
-            <Text style={styles.liText}>미팅 정보 변경하기</Text>
-            <Icon name="arrow-forward-ios" size={15} color={'#ffffff'} />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.li} onPress={handleNavigateToReport}>
-            <Text style={styles.liText}>신고하기</Text>
-            <Icon name="arrow-forward-ios" size={15} color={'#ffffff'} />
-          </TouchableOpacity>
+          {Platform.OS === 'ios' ? (
+            <>
+              <TouchableOpacity
+                style={styles.li}
+                onPress={() => {
+                  setEditModal(true);
+                }}>
+                <Text style={styles.liText}>미팅 정보 변경하기</Text>
+                <Icon name="arrow-forward-ios" size={15} color={'#ffffff'} />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.li}
+                onPress={handleNavigateToReport}>
+                <Text style={styles.liText}>신고하기</Text>
+                <Icon name="arrow-forward-ios" size={15} color={'#ffffff'} />
+              </TouchableOpacity>
 
-          {route.params.meetingInfo.status === 'open' ||
-          route.params.meetingInfo.status === 'full' ? (
-            <TouchableOpacity
-              style={styles.li}
-              onPress={handleNavigateToMemberOut}>
-              <Text style={styles.liText}>미팅 멤버 내보내기</Text>
-              <Icon name="arrow-forward-ios" size={15} color={'#ffffff'} />
-            </TouchableOpacity>
-          ) : null}
-          <TouchableOpacity style={styles.li} onPress={setMeetingEnd}>
-            <Text style={[styles.liText]}>미팅 끝내기</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.li}
-            onPress={() => {
-              setDeleteModalVisible(true);
-            }}>
-            <Text style={[styles.liText, styles.deleteText]}>
-              미팅 삭제하기
-            </Text>
-          </TouchableOpacity>
+              {route.params.meetingInfo.status === 'open' ||
+              route.params.meetingInfo.status === 'full' ? (
+                <TouchableOpacity
+                  style={styles.li}
+                  onPress={handleNavigateToMemberOut}>
+                  <Text style={styles.liText}>미팅 멤버 내보내기</Text>
+                  <Icon name="arrow-forward-ios" size={15} color={'#ffffff'} />
+                </TouchableOpacity>
+              ) : null}
+              <TouchableOpacity style={styles.li} onPress={setMeetingEnd}>
+                <Text style={[styles.liText]}>미팅 끝내기</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.li}
+                onPress={() => {
+                  setDeleteModalVisible(true);
+                }}>
+                <Text style={[styles.liText, styles.deleteText]}>
+                  미팅 삭제하기
+                </Text>
+              </TouchableOpacity>
+            </>
+          ) : (
+            <>
+              <View>
+                <TouchableNativeFeedback
+                  onPress={() => {
+                    setEditModal(true);
+                  }}>
+                  <View style={styles.li}>
+                    <Text style={styles.liText}>미팅 정보 변경하기</Text>
+                    <Icon
+                      name="arrow-forward-ios"
+                      size={15}
+                      color={'#ffffff'}
+                    />
+                  </View>
+                </TouchableNativeFeedback>
+              </View>
+              <View>
+                <TouchableNativeFeedback onPress={handleNavigateToReport}>
+                  <View style={styles.li}>
+                    <Text style={styles.liText}>신고하기</Text>
+                    <Icon
+                      name="arrow-forward-ios"
+                      size={15}
+                      color={'#ffffff'}
+                    />
+                  </View>
+                </TouchableNativeFeedback>
+              </View>
+
+              {route.params.meetingInfo.status === 'open' ||
+              route.params.meetingInfo.status === 'full' ? (
+                <View>
+                  <TouchableNativeFeedback onPress={handleNavigateToMemberOut}>
+                    <View style={styles.li}>
+                      <Text style={styles.liText}>미팅 멤버 내보내기</Text>
+                      <Icon
+                        name="arrow-forward-ios"
+                        size={15}
+                        color={'#ffffff'}
+                      />
+                    </View>
+                  </TouchableNativeFeedback>
+                </View>
+              ) : null}
+              <View style={styles.li}>
+                <TouchableNativeFeedback onPress={setMeetingEnd}>
+                  <Text style={[styles.liText]}>미팅 끝내기</Text>
+                </TouchableNativeFeedback>
+              </View>
+              <View style={styles.li}>
+                <TouchableNativeFeedback
+                  onPress={() => {
+                    setDeleteModalVisible(true);
+                  }}>
+                  <Text style={[styles.liText, styles.deleteText]}>
+                    미팅 삭제하기
+                  </Text>
+                </TouchableNativeFeedback>
+              </View>
+            </>
+          )}
+
           <DoubleModal
             text="미팅룸 삭제 후 복구가 불가합니다. 삭제하시겠습니까?"
             nButtonText="네"
@@ -307,7 +383,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 15,
-    marginVertical: 15,
+    paddingVertical: 15,
   },
   liText: {
     fontSize: 16,

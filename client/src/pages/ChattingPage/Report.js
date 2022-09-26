@@ -1,5 +1,12 @@
 import React from 'react';
-import {StatusBar, StyleSheet, Text, View} from 'react-native';
+import {
+  Platform,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableNativeFeedback,
+  View,
+} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -10,15 +17,27 @@ function Report({navigation}) {
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor="#ABDCC1"
+        animated={true}
+      />
       <View style={{backgroundColor: '#ABDCC1', height: top}} />
       <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => navigation.pop()}>
-          <Icon name="arrow-back-ios" size={20} color={'#1D1E1E'} />
-          {/* <Text style={styles.buttonText}>Back</Text> */}
-        </TouchableOpacity>
+        {Platform.OS === 'ios' ? (
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => navigation.pop()}>
+            <Icon name="arrow-back-ios" size={20} color={'#1D1E1E'} />
+            {/* <Text style={styles.buttonText}>Back</Text> */}
+          </TouchableOpacity>
+        ) : (
+          <View style={styles.backButton}>
+            <TouchableNativeFeedback onPress={() => navigation.pop()}>
+              <Icon name="arrow-back-ios" size={20} color={'#1D1E1E'} />
+            </TouchableNativeFeedback>
+          </View>
+        )}
       </View>
       <Text style={styles.title}>고객센터</Text>
       <View style={styles.wrapper}>
@@ -32,7 +51,9 @@ function Report({navigation}) {
         </View>
         <View style={styles.section}>
           <Text style={styles.boldText}>카카오톡 문의</Text>
-          <Text>평일 10:00 ~ 19:00 (토, 일, 공휴일 휴무)</Text>
+          <Text style={styles.plainText}>
+            평일 10:00 ~ 19:00 (토, 일, 공휴일 휴무)
+          </Text>
         </View>
         <BasicButton
           text="카카오톡으로 문의하기"
@@ -90,10 +111,15 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     marginVertical: 2,
     letterSpacing: -0.5,
+    color: '#000000',
   },
   boldText: {
     fontWeight: '700',
     marginBottom: 3,
+    color: '#000000',
+  },
+  plainText: {
+    color: '#000000',
   },
   backButton: {
     paddingTop: 5,

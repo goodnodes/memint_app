@@ -12,6 +12,7 @@ import {
   Image,
   ActivityIndicator,
   TouchableWithoutFeedback,
+  StatusBar,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import OauthButton from '../../components/AuthComponents/OauthButton';
@@ -29,6 +30,13 @@ import SafeStatusBar from '../../components/common/SafeStatusBar';
 import LinearGradient from 'react-native-linear-gradient';
 import memintDino from '../../assets/icons/memintDino.png';
 import {useToast} from '../../utils/hooks/useToast';
+import {useIsFocused} from '@react-navigation/native';
+
+function FocusAwareStatusBar(props) {
+  const isFocused = useIsFocused();
+
+  return isFocused ? <StatusBar {...props} /> : null;
+}
 
 const SignInScreen = ({navigation, route}) => {
   const userInfo = useUser();
@@ -134,7 +142,16 @@ const SignInScreen = ({navigation, route}) => {
       <KeyboardAvoidingView
         style={styles.KeyboardAvoidingView}
         behavior={Platform.select({ios: 'padding'})}>
-        <SafeStatusBar />
+        {Platform.OS === 'ios' ? (
+          <SafeStatusBar />
+        ) : (
+          <FocusAwareStatusBar
+            barStyle="light-content"
+            backgroundColor="#3C3D43"
+            animated={true}
+          />
+        )}
+
         <View style={styles.fullscreen}>
           <Image source={memintDino} style={styles.logo} />
           <View style={styles.form}>

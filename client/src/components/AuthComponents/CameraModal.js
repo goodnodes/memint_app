@@ -6,14 +6,14 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
 } from 'react-native';
-import BasicButton from './BasicButton';
+import BasicButton from '../common/BasicButton';
 
 /*
   사용할 컴포넌트에서 state 사용이 필요함.
   Ex)
   const [modalVisible, setModalVisible] = useState(false);
 
-      <DoubleModal
+      <CameraModal
         text="미팅을 생성하시겠습니까?"
         //body={<Text>정말로?</Text>}
         nButtonText="아니요"
@@ -25,7 +25,7 @@ import BasicButton from './BasicButton';
       />
  */
 
-function DoubleModal({
+function CameraModal({
   text,
   body,
   pButtonText,
@@ -34,6 +34,8 @@ function DoubleModal({
   setModalVisible,
   pFunction,
   nFunction,
+  onLaunchCamera,
+  onLaunchImageLibrary,
 }) {
   return (
     <View style={styles.centeredView}>
@@ -44,43 +46,33 @@ function DoubleModal({
           }}>
           <View style={[styles.centeredView, styles.backgroudDim]}>
             <View style={styles.modalView}>
-              <Text style={styles.modalText}>{text}</Text>
-              {body}
               <View style={styles.buttonRow}>
-                {nFunction !== undefined ? (
-                  <BasicButton
-                    text={nButtonText}
-                    textSize={16}
-                    width={100}
-                    height={45}
-                    backgroundColor="white"
-                    textColor="black"
-                    border={true}
-                    margin={[0, 5, 0, 5]}
-                    onPress={nFunction}
-                  />
-                ) : (
-                  <BasicButton
-                    text={nButtonText}
-                    textSize={16}
-                    width={100}
-                    height={45}
-                    backgroundColor="white"
-                    textColor="black"
-                    border={true}
-                    margin={[0, 5, 0, 5]}
-                    onPress={() => setModalVisible(!modalVisible)}
-                  />
-                )}
                 <BasicButton
-                  text={pButtonText}
+                  text="카메라로 촬영하기"
                   textSize={16}
-                  width={100}
+                  width={200}
+                  height={45}
+                  backgroundColor="#ffffff"
+                  textColor="black"
+                  border={true}
+                  margin={[0, 5, 10, 5]}
+                  onPress={() => {
+                    onLaunchCamera();
+                    setModalVisible(!modalVisible);
+                  }}
+                />
+                <BasicButton
+                  text="사진 선택하기"
+                  textSize={16}
+                  width={200}
                   height={45}
                   margin={[0, 5, 0, 5]}
-                  backgroundColor="#AEFFC1"
+                  backgroundColor="#ffffff"
                   textColor="black"
-                  onPress={pFunction}
+                  onPress={() => {
+                    onLaunchImageLibrary();
+                    setModalVisible(!modalVisible);
+                  }}
                 />
               </View>
             </View>
@@ -91,7 +83,7 @@ function DoubleModal({
   );
 }
 
-DoubleModal.defaultProps = {
+CameraModal.defaultProps = {
   text: '모달?',
   //body={<Text>정말로?</Text>}
   nButtonText: '아니요',
@@ -142,7 +134,6 @@ const styles = StyleSheet.create({
   },
   buttonRow: {
     justifyContent: 'space-around',
-    flexDirection: 'row',
   },
 });
-export default DoubleModal;
+export default CameraModal;
