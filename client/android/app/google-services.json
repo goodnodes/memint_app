@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "139725456546",
+    "project_id": "memint-c2130",
+    "storage_bucket": "memint-c2130.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:139725456546:android:d05bcf6ce3ac97285b43fb",
+        "android_client_info": {
+          "package_name": "com.memint"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "139725456546-mg2c59tcngo807v6a1n072ish52ubaov.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhFemkogn1OVfAxAJ0KIM6J7YyS4LmOqo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "139725456546-mg2c59tcngo807v6a1n072ish52ubaov.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "139725456546-iunpmegn7tamuc1r5po81i06vh62gt98.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.peoplechain.memint"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

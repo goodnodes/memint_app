@@ -275,7 +275,7 @@ function MeetingCreate({route}) {
             onChangeText={text => {
               checkTitleByte(text);
             }}
-            autoComplete={false}
+            autoComplete="off"
             autoCorrect={false}
             value={meetingInfo.title}
             // maxLength={0}
@@ -294,7 +294,7 @@ function MeetingCreate({route}) {
             onChangeText={text => {
               checkDescByte(text);
             }}
-            autoComplete={false}
+            autoComplete="off"
             autoCorrect={false}
             value={meetingInfo.description}
           />

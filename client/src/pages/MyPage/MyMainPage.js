@@ -111,8 +111,7 @@ function MyMainPage({navigation}) {
                 }
                 color={'#2ACFC2'}
                 unfilledColor={'#edeef6'}
-                borderWidth={7}
-                thickness={5}
+                thickness={8}
               />
               <Image
                 source={{uri: userInfo?.nftProfile}}
@@ -305,7 +304,7 @@ const styles = StyleSheet.create({
     zIndex: -4,
     left: 5.5,
     top: 5.5,
-    borderRadius: 100,
+    borderRadius: 999,
   },
   characterDes: {
     flexDirection: 'row',

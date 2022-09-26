@@ -62,7 +62,7 @@ function InviteFriend() {
               multiline={true}
               blurOnSubmit={true}
               onSubmitEditing={handleSubmit}
-              autoComplete={false}
+              autoComplete="off"
               autoCapitalize={false}
             />
           </View>

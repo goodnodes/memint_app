@@ -210,7 +210,7 @@ function EditMeetingInfo({route}) {
             onChangeText={text => {
               setMeetingInfo({...meetingInfo, title: text});
             }}
-            autoComplete={false}
+            autoComplete="off"
             autoCorrect={false}
             placeholder="제목"
             placeholderTextColor="#EAFFEF"
@@ -230,7 +230,7 @@ function EditMeetingInfo({route}) {
             onChangeText={text => {
               setMeetingInfo({...meetingInfo, description: text});
             }}
-            autoComplete={false}
+            autoComplete="off"
             autoCorrect={false}
           />
           <View

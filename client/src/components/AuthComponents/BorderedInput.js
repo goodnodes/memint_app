@@ -15,7 +15,7 @@ const BorderedInput = ({hasMarginBottom, size, ...rest}, ref) => {
       ]}
       ref={ref}
       {...rest}
-      autoComplete={false}
+      autoComplete="off"
       autoCorrect={false}
       placeholderTextColor="#EAFFEF"
       onFocus={() => {

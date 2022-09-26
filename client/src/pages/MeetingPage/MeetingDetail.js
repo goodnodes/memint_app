@@ -255,7 +255,7 @@ function MeetingDetail({route}) {
                 style={styles.input}
                 value={textMessage}
                 onChangeText={setTextMessage}
-                autoComplete={false}
+                autoComplete="off"
                 autoCorrect={false}
                 maxLength={200}
               />

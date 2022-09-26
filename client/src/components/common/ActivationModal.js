@@ -81,7 +81,7 @@ function ActivationModal({
                 onChangeText={input => {
                   setActivationCode(input);
                 }}
-                autoComplete={false}
+                autoComplete="off"
                 autoCorrect={false}
                 placeholderTextColor="light-gray"
                 onFocus={() => {
