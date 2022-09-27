@@ -290,7 +290,6 @@ function MeetingMarket({navigation}) {
                 }}
               />
             </View>
-
           </View>
 
           <View style={styles.listfilterArea}>

@@ -4,7 +4,10 @@ const auth = express.Router();
 require("dotenv").config();
 // const web3 = new Web3(new Web3.providers.HttpProvider(process.env.ETH_NETWORK));
 const Caver = require("caver-js");
-const caver = new Caver(process.env.BAOBOB_NETWORK);
+//TestNet
+// const caver = new Caver(process.env.BAOBAB_NETWORK);
+//MainNet
+const caver = new Caver(process.env.CYPRESS_NETWORK);
 const { getFirestore } = require("firebase-admin/firestore");
 // const db = getFirestore();
 const app = require("../app");

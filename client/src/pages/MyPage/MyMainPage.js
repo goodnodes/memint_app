@@ -30,7 +30,6 @@ import {getDino} from '../../components/myPageComponent/MeminStats';
 function MyMainPage({navigation}) {
   // const user = useUser();
   const userInfo = useUser();
-
   const [meminStats, setMeminStats] = useState('');
 
   useEffect(() => {

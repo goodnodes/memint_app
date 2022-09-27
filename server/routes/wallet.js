@@ -22,7 +22,7 @@ wallet.route("/transferKlay").post(transferKlay);
 
 wallet.route("/transferLCN").post(transferLCN);
 
-wallet.route("/getBalance").post(getBalance);
+wallet.route("/getBalance/:id/:address").get(getBalance);
 
 // router.get("/getBalance", async (req, res) => {
 //   try {
@@ -41,7 +41,6 @@ module.exports = wallet;
 
 // {
 //     address: '0x96fF79FDF17f10c42D36f6c271031540D4bBcB61',
-//     privateKey: '0xdc84bac7f06ccbc00c233dad3599ebf86d5daa3144073c6bb4aac9401e9ddc85',
 //     signTransaction: [Function: signTransaction],
 //     sign: [Function: sign],
 //     encrypt: [Function: encrypt]

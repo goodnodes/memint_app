@@ -4,16 +4,17 @@ const HDWalletProvider = require("truffle-hdwallet-provider-klaytn");
 const abi = require("../contracts/KIP7/KIP7abi");
 const contractAddress = require("../contracts/KIP7/KIP7address");
 const byteCode = require("../contracts/KIP7/KIP7bin");
-const { SERVER_PRIVATEKEY, SERVER_ADDRESS, BAOBAB_NETWORK } = process.env;
-// const provider = new HDWalletProvider(SERVER_PRIVATEKEY, BAOBAB_NETWORK);
-const provider = new Caver(BAOBAB_NETWORK);
-// const provider = new Caver.providers.HttpProvider(BAOBAB_NETWORK);
+//TestNet
+// const { SERVER_PRIVATEKEY, SERVER_ADDRESS, BAOBAB_NETWORK } = process.env;
+// const provider = new Caver(BAOBAB_NETWORK);
+
+//MainNet
+const { SERVER_PRIVATEKEY, SERVER_ADDRESS, CYPRESS_NETWORK } = process.env;
+const provider = new Caver(CYPRESS_NETWORK);
+///
 const caver = new Caver(provider);
-// var caver = new Caver();
-// caver.setProvider(new Caver.providers.HttpProvider(BAOBAB_NETWORK));
 const { convertToPeb, convertFromPeb } = caver.utils;
 const myContract = new caver.contract(abi, contractAddress);
-// myContract.setProvider(caver.currentProvider);
 const app = require("../app");
 const firestore = require("firebase-admin/firestore");
 // 원래는 userUID를 통해 계정의 address와 pk를 받아서 tx를 해야하지만, 현재는 firestore가 연결되어있지 않기 때문에 post요청에서 address와 pk를 받아서 진행한다.
@@ -489,7 +490,17 @@ const transferLCN = async (req, res) => {
 	}
 };
 
-const getBalance = () => {};
+const getBalance = async (req, res) => {
+	const { id, address } = req.params;
+	let balance = await caver.rpc.klay.getBalance(address);
+	balance = Number(convertFromPeb(balance.toString()));
+	await updateKlay(id, balance);
+	res.status(200).send({
+		message: "success",
+		id: id,
+		KlayBalance: balance,
+	});
+};
 
 module.exports = {
 	KlayToLCN,

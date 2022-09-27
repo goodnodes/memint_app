@@ -5,6 +5,7 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
+    "ios16": "react-native run-ios --simulator=\"iPhone 14\"",
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint ."
@@ -26,6 +27,7 @@
     "@react-navigation/native-stack": "^6.7.0",
     "@reduxjs/toolkit": "^1.8.3",
     "axios": "^0.27.2",
+    "klip-sdk": "^2.2.0",
     "link": "^1.5.0",
     "react": "18.0.0",
     "react-native": "^0.69.1",

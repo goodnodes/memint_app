@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {
   SafeAreaView,
   View,
@@ -8,29 +8,75 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Modal,
+  Linking,
+  RefreshControl,
+  ScrollView,
 } from 'react-native';
+import {prepare, request, getResult} from 'klip-sdk';
 import Clipboard from '@react-native-clipboard/clipboard';
 import WalletAccountElement from '../../components/walletComponents/WalletAccountElement';
 import WalletKlayHistory from '../../components/walletComponents/WalletKlayHistory';
 import WalletLcnHistory from '../../components/walletComponents/WalletLcnHistory';
 import SingleModal from '../../components/common/SingleModal';
+import DoubleModal from '../../components/common/DoubleModal';
 import WalletCustomModal from '../../components/walletComponents/WalletCustomModal';
 import {useToast} from '../../utils/hooks/useToast';
 import useUser from '../../utils/hooks/UseUser';
 import klayIcon from '../../assets/icons/klaytn-klay-logo.png';
 import tingsymbol from '../../assets/icons/tingsymbol.png';
+import klipIcon from '../../assets/icons/klip.png';
 import BasicButton from '../../components/common/BasicButton';
+import axios from 'axios';
+import {getBalance} from '../../lib/api/wallet';
+import {getUser} from '../../lib/Users';
+import {getOnchainKlayLog} from '../../lib/OnchainKlayLog';
+import {getOnchainTokenLog} from '../../lib/OnchainTokenLog';
+import useOnchainActions from '../../utils/hooks/UseOnchainActions';
+import useAuthActions from '../../utils/hooks/UseAuthActions';
 const WalletOnchainMain = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [alarmModalVisible, setAlarmModalVisible] = useState(false);
-
   const [transferModalVisible, setTransferModalVisible] = useState(false);
   const [currentTab, setCurrentTab] = useState('account');
+  const [refreshing, setRefreshing] = useState(false);
+  const {addKlayLog, addLcnLog} = useOnchainActions();
+  const {updateTokenInfo} = useAuthActions();
   const {showToast} = useToast();
   const userInfo = useUser();
   // const slicedAddress = userInfo.address
   //   ? `${userInfo.address.substr(0, 15)}....${userInfo.address.substr(30)}`
   //   : null;
+  // Connect Klip Wallet Start
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+
+    // const balance = await getBalance(userInfo.address);
+    await getBalance(userInfo.id, userInfo.address).then(result => {
+      if (result.message === 'success') {
+        getUser(userInfo.id).then(userDetail => {
+          updateTokenInfo({
+            tokenAmount: Number(userDetail.tokenAmount),
+            klayAmount: Number(result.KlayBalance),
+            onChainTokenAmount: Number(userDetail.onChainTokenAmount),
+          });
+          getOnchainKlayLog(userInfo.id).then(res => {
+            const logs = res.docs.map(el => {
+              return {...el.data()};
+            });
+            addKlayLog(logs);
+          });
+          getOnchainTokenLog(userInfo.id).then(res => {
+            const logs = res.docs.map(el => {
+              return {...el.data()};
+            });
+            addLcnLog(logs);
+          });
+        });
+      }
+    });
+
+    setRefreshing(false);
+  }, [userInfo]);
   const slicedAddress = `${userInfo.address.substr(
     0,
     15,
@@ -57,9 +103,9 @@ const WalletOnchainMain = ({navigation}) => {
     Clipboard.setString(text);
   };
 
-  useEffect(() => {
-    setAlarmModalVisible(true);
-  }, []);
+  // useEffect(() => {
+  //   setAlarmModalVisible(true);
+  // }, []);
 
   return (
     <TouchableWithoutFeedback
@@ -68,99 +114,156 @@ const WalletOnchainMain = ({navigation}) => {
         setModalVisible(false);
         setTransferModalVisible(false);
       }}>
-      <View>
-        <View style={styles.container}>
-          <View style={styles.iconContainer}>
-            <Image source={imgSrc} style={styles.icon} />
-            <Text style={styles.balanceText}>
-              {currentBalance} {ticker}
-            </Text>
-          </View>
-          <View style={styles.address}>
-            <Text style={styles.addressText}>{slicedAddress}</Text>
-          </View>
-          <View style={styles.iconContainer}>
-            <View style={styles.iconWrapper}>
-              <TouchableOpacity
-                style={styles.iconCircle}
-                onPress={() => {
-                  setModalVisible(true);
-                }}>
-                <Image
-                  style={styles.icon}
-                  source={require('../../assets/icons/receive.png')}
-                />
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
+        <View>
+          <View style={styles.container}>
+            <View style={styles.iconContainer}>
+              <TouchableOpacity>
+                <Image source={imgSrc} style={styles.icon} />
               </TouchableOpacity>
-              <Text>Receive</Text>
+              <Text style={styles.balanceText}>
+                {currentBalance} {ticker}
+              </Text>
             </View>
-            <View style={styles.iconWrapper}>
-              <TouchableOpacity
-                style={styles.iconCircle}
-                onPress={() => {
-                  setTransferModalVisible(true);
-                }}>
-                <Image
-                  style={styles.icon}
-                  source={require('../../assets/icons/money-transfer.png')}
+            <View style={styles.address}>
+              <Text style={styles.addressText}>{slicedAddress}</Text>
+            </View>
+            <View style={styles.iconContainer}>
+              <View style={styles.iconWrapper}>
+                <TouchableOpacity
+                  style={styles.iconCircle}
+                  onPress={() => {
+                    setModalVisible(true);
+                  }}>
+                  <Image
+                    style={styles.icon}
+                    source={require('../../assets/icons/receive.png')}
+                  />
+                </TouchableOpacity>
+                <Text>Receive</Text>
+              </View>
+              <View style={styles.iconWrapper}>
+                <TouchableOpacity
+                  style={styles.iconCircle}
+                  onPress={() => {
+                    setTransferModalVisible(true);
+                  }}>
+                  <Image
+                    style={styles.icon}
+                    source={require('../../assets/icons/money-transfer.png')}
+                  />
+                </TouchableOpacity>
+                <Text>Transfer</Text>
+              </View>
+              <View style={styles.iconWrapper}>
+                <TouchableOpacity
+                  style={styles.iconCircle}
+                  // onPress={goToOnchainTrade}
+                  onPress={() => {
+                    showToast(
+                      'Coming soon',
+                      '클로즈베타에서 지원하지 않는 기능입니다',
+                    );
+                  }}>
+                  <Image
+                    style={styles.icon}
+                    source={require('../../assets/icons/transfer.png')}
+                  />
+                </TouchableOpacity>
+                <Text>Trade</Text>
+              </View>
+            </View>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => setCurrentTab('account')}>
+              <Text style={styles.walletText}>Wallet Account</Text>
+            </TouchableOpacity>
+            {currentTab === 'KLAY' ? (
+              <View style={styles.contentContainer}>
+                <WalletKlayHistory />
+              </View>
+            ) : currentTab === 'TING' ? (
+              <WalletLcnHistory />
+            ) : (
+              <View style={styles.contentContainer}>
+                <WalletAccountElement
+                  content="KLAY"
+                  balance={
+                    Math.round((userInfo.klayAmount + Number.EPSILON) * 10000) /
+                    10000
+                  }
+                  onPress={setCurrentTab}
                 />
-              </TouchableOpacity>
-              <Text>Transfer</Text>
-            </View>
-            <View style={styles.iconWrapper}>
-              <TouchableOpacity
-                style={styles.iconCircle}
-                // onPress={goToOnchainTrade}
-                onPress={() => {
-                  showToast(
-                    'Coming soon',
-                    '클로즈베타에서 지원하지 않는 기능입니다',
-                  );
-                }}>
-                <Image
-                  style={styles.icon}
-                  source={require('../../assets/icons/transfer.png')}
+                <WalletAccountElement
+                  content="TING"
+                  balance={
+                    Math.round(
+                      (userInfo.onChainTokenAmount + Number.EPSILON) * 10000,
+                    ) / 10000
+                  }
+                  onPress={setCurrentTab}
                 />
-              </TouchableOpacity>
-              <Text>Trade</Text>
-            </View>
+              </View>
+            )}
           </View>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => setCurrentTab('account')}>
-            <Text style={styles.walletText}>Wallet Account</Text>
-          </TouchableOpacity>
-          {currentTab === 'KLAY' ? (
-            <View style={styles.contentContainer}>
-              <WalletKlayHistory />
-            </View>
-          ) : currentTab === 'TING' ? (
-            <WalletLcnHistory />
-          ) : (
-            <View style={styles.contentContainer}>
-              <WalletAccountElement
-                content="KLAY"
-                balance={
-                  Math.round((userInfo.klayAmount + Number.EPSILON) * 10000) /
-                  10000
-                }
-                onPress={setCurrentTab}
-              />
-              <WalletAccountElement
-                content="TING"
-                balance={
-                  Math.round(
-                    (userInfo.onChainTokenAmount + Number.EPSILON) * 10000,
-                  ) / 10000
-                }
-                onPress={setCurrentTab}
-              />
-            </View>
-          )}
-        </View>
 
-        <SingleModal
+          {modalVisible ? (
+            <View style={styles.centeredView}>
+              <Modal
+                animationType="fade"
+                transparent={true}
+                visible={modalVisible}>
+                <TouchableWithoutFeedback
+                  onPress={() => {
+                    setModalVisible(!modalVisible);
+                  }}>
+                  <View style={[styles.centeredView, styles.backgroudDim]}>
+                    <View style={styles.recieveModalView}>
+                      <Text style={styles.modalText}>Recieve KLAY</Text>
+                      <View style={styles.address}>
+                        <Text style={styles.addressText}>{slicedAddress}</Text>
+                      </View>
+                      <View style={styles.buttonColumn}>
+                        <BasicButton
+                          text={'주소 복사하기'}
+                          textSize={16}
+                          width={140}
+                          height={55}
+                          backgroundColor="white"
+                          textColor="black"
+                          onPress={() => {
+                            setModalVisible(false);
+                            copyToClipboard(userInfo.address);
+                            showToast('success', '주소가 복사되었습니다!');
+                          }}
+                        />
+                        <TouchableOpacity
+                          onPress={() => {
+                            setModalVisible(() => false);
+                            navigation.navigate('WalletOnchainRecieve');
+                          }}
+                          disabled={false}>
+                          <View style={styles.klipButton}>
+                            <Image source={klipIcon} style={styles.klipIcon} />
+                            <Text style={[styles.klipText]}>
+                              {`Klip에서\n가져오기`}
+                            </Text>
+                          </View>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  </View>
+                </TouchableWithoutFeedback>
+              </Modal>
+            </View>
+          ) : null}
+          {/* <DoubleModal
           text="Recieve KLAY"
-          buttonText="주소 복사하기"
+          nButtonText="주소 복사하기"
+          pButtonText={`Klip에서\n가져오기`}
           body={
             <View style={styles.address}>
               <Text style={styles.addressText}>{slicedAddress}</Text>
@@ -168,65 +271,74 @@ const WalletOnchainMain = ({navigation}) => {
           }
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
-          pFunction={() => {
+          nFunction={() => {
             setModalVisible(false);
             copyToClipboard(userInfo.address);
             showToast('success', '주소가 복사되었습니다!');
           }}
-        />
-        <WalletCustomModal
-          modalVisible={transferModalVisible}
-          setModalVisible={setTransferModalVisible}
-          nFunction={() => {
-            setTransferModalVisible(false);
-            navigation.navigate('WalletKlayTransfer');
-          }}
           pFunction={() => {
-            setTransferModalVisible(false);
-            navigation.navigate('WalletLcnTransfer');
+            setModalVisible(false);
           }}
-        />
-        {/*알림 모달 */}
-        {alarmModalVisible ? (
-          <View style={styles.centeredView}>
-            <Modal
-              animationType="fade"
-              transparent={true}
-              visible={alarmModalVisible}>
-              <TouchableWithoutFeedback
-                onPress={() => {
-                  setAlarmModalVisible(false);
-                }}>
-                <View style={[styles.centeredView, styles.backgroudDim]}>
-                  <View style={styles.modalView}>
-                    <Text style={styles.modalText}>
-                      MEMINT WALLET 내 모든 거래는 Baobab Test Network 상에서
-                      이루어집니다.
-                      {/* MEMINT 지갑 내 모든 거래는{'\n'}Baobab Test Network 상에서{'\n'}이루어집니다. */}
-                    </Text>
-                    <Text style={styles.subText}>
-                      ※ 실제 가상 자산 거래가 이루어지지 않습니다.
-                    </Text>
-                    <View style={styles.buttonRow}>
-                      <BasicButton
-                        text={'확인'}
-                        textSize={16}
-                        width={120}
-                        height={45}
-                        backgroundColor="#AEFFC1"
-                        textColor="black"
-                        onPress={() => {
-                          setAlarmModalVisible(false);
-                        }}
-                      />
+        /> */}
+          <WalletCustomModal
+            modalVisible={transferModalVisible}
+            setModalVisible={setTransferModalVisible}
+            nFunction={() => {
+              setTransferModalVisible(false);
+              navigation.navigate('WalletKlayTransfer');
+            }}
+            pFunction={() => {
+              showToast(
+                'Coming soon',
+                '클로즈베타에서 지원하지 않는 기능입니다',
+              );
+
+              // setTransferModalVisible(false);
+              // navigation.navigate('WalletLcnTransfer');
+            }}
+          />
+          {/*알림 모달 */}
+          {alarmModalVisible ? (
+            <View style={styles.centeredView}>
+              <Modal
+                animationType="fade"
+                transparent={true}
+                visible={alarmModalVisible}>
+                <TouchableWithoutFeedback
+                  onPress={() => {
+                    setAlarmModalVisible(false);
+                  }}>
+                  <View style={[styles.centeredView, styles.backgroudDim]}>
+                    <View style={styles.modalView}>
+                      <Text style={styles.modalText}>
+                        MEMINT WALLET 내 모든 거래는 Baobab Test Network 상에서
+                        이루어집니다.
+                        {/* MEMINT 지갑 내 모든 거래는{'\n'}Baobab Test Network 상에서{'\n'}이루어집니다. */}
+                      </Text>
+                      <Text style={styles.subText}>
+                        ※ 실제 가상 자산 거래가 이루어지지 않습니다.
+                      </Text>
+                      <View style={styles.buttonRow}>
+                        <BasicButton
+                          text={'확인'}
+                          textSize={16}
+                          width={120}
+                          height={45}
+                          backgroundColor="#AEFFC1"
+                          textColor="black"
+                          onPress={() => {
+                            setAlarmModalVisible(false);
+                          }}
+                        />
+                      </View>
                     </View>
                   </View>
-                </View>
-              </TouchableWithoutFeedback>
-            </Modal>
-          </View>
-        ) : null}
-      </View>
+                </TouchableWithoutFeedback>
+              </Modal>
+            </View>
+          ) : null}
+        </View>
+      </ScrollView>
     </TouchableWithoutFeedback>
   );
 };
@@ -305,6 +417,10 @@ const styles = StyleSheet.create({
     height: 35,
     paddingTop: 20,
   },
+  klipIcon: {
+    width: 35,
+    height: 35,
+  },
   balanceText: {
     fontSize: 36,
     fontWeight: '600',
@@ -350,6 +466,27 @@ const styles = StyleSheet.create({
     // shadowRadius: 4,
     // elevation: 5,
   },
+  recieveModalView: {
+    width: 330,
+    height: 250,
+    backgroundColor: 'white',
+    borderRadius: 12,
+    padding: 30,
+    paddingTop: 50,
+    paddingBottom: 40,
+    alignItems: 'center',
+    borderColor: '#AEFFC1',
+    borderWidth: 1,
+    zIndex: -1,
+    // shadowColor: '#000',
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 2,
+    // },
+    // shadowOpacity: 0.25,
+    // shadowRadius: 4,
+    // elevation: 5,
+  },
   modalText: {
     fontWeight: '500',
     marginBottom: 15,
@@ -370,6 +507,34 @@ const styles = StyleSheet.create({
   },
   buttonRow: {
     marginTop: 'auto',
+  },
+  buttonColumn: {
+    flexDirection: 'row',
+    marginTop: 20,
+  },
+  klipButton: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 5,
+    width: 140,
+    height: 55,
+    backgroundColor: 'white',
+    textColor: 'black',
+    text: '버튼',
+    textSize: 14,
+    borderRadius: 30,
+    border: true,
+    disabled: false,
+    borderWidth: 1,
+    borderColor: '#AEFFC1',
+  },
+  klipText: {
+    marginLeft: 10,
+    fontSize: 16,
+    color: 'black',
+    textAlign: 'center',
+    fontWeight: 'bold',
   },
 });
 

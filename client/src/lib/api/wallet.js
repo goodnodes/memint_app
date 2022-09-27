@@ -39,8 +39,8 @@ export const transferLCN = async body => {
   });
 };
 
-export const getBalance = async body => {
-  return axios.post('wallet/getBalance', body).then(result => {
+export const getBalance = async (id, addr) => {
+  return axios.get(`wallet/getBalance/${id}/${addr}`).then(result => {
     return result.data;
   });
 };
