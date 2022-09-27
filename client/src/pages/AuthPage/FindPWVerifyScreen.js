@@ -10,6 +10,7 @@ import {
   Image,
   TouchableWithoutFeedback,
   TouchableOpacity,
+  StatusBar,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import BasicButton from '../../components/common/BasicButton';
@@ -18,6 +19,14 @@ import BackButton from '../../components/common/BackButton';
 import {passwordReset} from '../../lib/Auth';
 import {useToast} from '../../utils/hooks/useToast';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
+import {useIsFocused} from '@react-navigation/native';
+
+function FocusAwareStatusBar(props) {
+  const isFocused = useIsFocused();
+
+  return isFocused ? <StatusBar {...props} /> : null;
+}
+
 const FindPWVerifyScreen = ({navigation}) => {
   const {showToast} = useToast();
   const [form, setForm] = useState({
@@ -45,7 +54,15 @@ const FindPWVerifyScreen = ({navigation}) => {
       <KeyboardAvoidingView
         style={styles.KeyboardAvoidingView}
         behavior={Platform.select({ios: 'padding'})}>
-        <SafeStatusBar />
+        {Platform.OS === 'ios' ? (
+          <SafeStatusBar />
+        ) : (
+          <FocusAwareStatusBar
+            barStyle="light-content"
+            backgroundColor="#3C3D43"
+            animated={true}
+          />
+        )}
         <BackButton />
         <View style={styles.fullscreen}>
           <Text style={styles.title}>내 정보 찾기</Text>

@@ -1,4 +1,4 @@
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState, useCallback} from 'react';
 import {
   Text,
@@ -8,6 +8,8 @@ import {
   TextInput,
   Image,
   ScrollView,
+  Platform,
+  StatusBar,
 } from 'react-native';
 import BackButton from '../../components/common/BackButton';
 import BasicButton from '../../components/common/BasicButton';
@@ -24,10 +26,15 @@ import {
 } from '../../utils/common/Functions';
 import crown from '../../assets/icons/crown.png';
 import WalletButton from '../../components/common/WalletButton';
-import LinearGradient from 'react-native-linear-gradient';
 import MeetingLikes from '../../components/meetingComponents/MeetingLikes';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 import ActivationModal from '../../components/common/ActivationModal';
+
+function FocusAwareStatusBar(props) {
+  const isFocused = useIsFocused();
+
+  return isFocused ? <StatusBar {...props} /> : null;
+}
 
 function MeetingDetail({route}) {
   const userInfo = useUser();
@@ -158,7 +165,16 @@ function MeetingDetail({route}) {
   }, [getMembersInfo]);
   return (
     <View style={styles.view}>
-      <SafeStatusBar />
+      {Platform.OS === 'ios' ? (
+        <SafeStatusBar />
+      ) : (
+        <FocusAwareStatusBar
+          barStyle="light-content"
+          backgroundColor="#3C3D43"
+          animated={true}
+        />
+      )}
+
       <View style={styles.header}>
         <BackButton />
         <View style={styles.walletView}>

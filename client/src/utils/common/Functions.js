@@ -8,7 +8,9 @@ export const handleDate = obj => {
 
 export const handleDateInFormat = obj => {
   const day = obj.toDate().getDay();
-  const date = obj.toDate().toLocaleString();
+  const month = obj.toDate().getMonth() + 1;
+  const date = obj.toDate().getDate();
+  const dateString = obj.toDate().toLocaleString('ko-KR');
   let str = '';
   switch (day) {
     case 0:
@@ -32,16 +34,42 @@ export const handleDateInFormat = obj => {
     case 6:
       str = '토';
   }
-  if (date.length === 22) {
-    return `${date.slice(5, 7)}월 ${date.slice(9, 10)}일(${str}) ${date.slice(
-      12,
-      -6,
-    )}시`;
+  // if (date.length === 22) {
+  //   return `${dateString.slice(5, 7)}월 ${dateString.slice(9, 10)}일(${str}) ${dateString.slice(
+  //     12,
+  //     -6,
+  //   )}시`;
+  // } else {
+  //   return `${dateString.slice(5, 7)}월 ${dateString.slice(9, 11)}일(${str}) ${dateString.slice(
+  //     13,
+  //     -6,
+  //   )}시`;
+  // }
+  console.log(`month ${month} date ${date} string ${dateString}`);
+  if (month > 9) {
+    if (date > 9) {
+      return `${dateString.slice(6, 8)}월 ${dateString.slice(
+        10,
+        12,
+      )}일(${str}) ${dateString.slice(14, -3)}`;
+    } else {
+      return `${dateString.slice(6, 8)}월 ${dateString.slice(
+        10,
+        11,
+      )}일(${str}) ${dateString.slice(13, -3)}`;
+    }
   } else {
-    return `${date.slice(5, 7)}월 ${date.slice(9, 11)}일(${str}) ${date.slice(
-      13,
-      -6,
-    )}시`;
+    if (date > 9) {
+      return `${dateString.slice(6, 7)}월 ${dateString.slice(
+        9,
+        11,
+      )}일(${str}) ${dateString.slice(13, -3)}`;
+    } else {
+      return `${dateString.slice(6, 7)}월 ${dateString.slice(
+        9,
+        10,
+      )}일(${str}) ${dateString.slice(12, -3)}`;
+    }
   }
 };
 

@@ -1,9 +1,10 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Platform, Pressable} from 'react-native';
 import DatePicker from '../common/DatePicker';
 import RNPickerSelect from 'react-native-picker-select';
 import SingleModal from '../common/SingleModal';
 import {getMeetingTags} from '../../lib/MeetingTag';
+import RNDateTimePicker from '@react-native-community/datetimepicker';
 
 function FilterModal({
   setFilter,
@@ -13,9 +14,12 @@ function FilterModal({
   setFilterModalVisible,
 }) {
   const [tags, setTags] = useState([]);
+  const [datePicker, setDatePicker] = useState(false);
+
   useEffect(() => {
     getTags();
   }, [getTags]);
+
   const getTags = useCallback(async () => {
     const res = await getMeetingTags();
     const data = res.docs.map(el => el.data());
@@ -32,6 +36,16 @@ function FilterModal({
       });
     setTags(meetingTags);
   }, []);
+
+  const showDatePicker = () => {
+    setDatePicker(true);
+  };
+
+  const onDateSelected = (event, value) => {
+    setFilter({...filter, meetDate: value});
+    setDatePicker(false);
+  };
+
   return (
     <SingleModal
       text="필터를 설정하세요"
@@ -39,54 +53,97 @@ function FilterModal({
         <View style={styles.filterContent}>
           <View style={styles.filterElement}>
             <Text style={styles.filterText}>인원</Text>
-            <RNPickerSelect
-              placeholder={{label: '전체', value: 0}}
-              onValueChange={value => {
-                setFilter({...filter, peopleNum: value});
-              }}
-              items={FilterPeopleDropDownData}
-              value={filter.peopleNum}
-              style={{
-                inputIOS: {
-                  fontSize: 16,
-                  color: 'black',
-                },
-                placeholder: {
-                  fontSize: 16,
-                  color: 'gray',
-                },
-              }}
-            />
+            <Pressable>
+              <RNPickerSelect
+                placeholder={{label: '전체', value: 0}}
+                onValueChange={value => {
+                  setFilter({...filter, peopleNum: value});
+                }}
+                items={FilterPeopleDropDownData}
+                value={filter.peopleNum}
+                fixAndroidTouchableBug={true}
+                useNativeAndroidPickerStyle={false}
+                style={{
+                  inputIOS: {
+                    fontSize: 16,
+                    color: 'black',
+                  },
+                  inputAndroid: {
+                    fontSize: 16,
+                    color: 'black',
+                  },
+                  placeholder: {
+                    fontSize: 16,
+                    color: 'gray',
+                  },
+                }}
+              />
+            </Pressable>
           </View>
           <View style={styles.filterElement}>
             <Text style={styles.filterText}>날짜</Text>
-            <DatePicker
-              value={filter.meetDate}
-              onChange={(event, date) => {
-                setFilter({...filter, meetDate: date});
-              }}
-            />
+            {Platform.OS === 'ios' ? (
+              <DatePicker
+                value={filter.meetDate}
+                onChange={(event, date) => {
+                  setFilter({...filter, meetDate: date});
+                }}
+              />
+            ) : (
+              <View>
+                {datePicker && (
+                  <RNDateTimePicker
+                    locale="ko"
+                    value={filter.meetDate}
+                    mode="date"
+                    // textColor="#EAFFEF"
+                    accentColor="#AEFFC1"
+                    themeVariant="dark"
+                    style={styles.datepicker}
+                    onChange={onDateSelected}
+                  />
+                )}
+                {!datePicker && (
+                  <Pressable onPress={showDatePicker}>
+                    <Text style={styles.dateText}>
+                      {/* {`${
+                        meetingInfo.meetDate.getMonth() + 1
+                      }월 ${meetingInfo.meetDate.getDate()}일`} */}
+                      {filter.meetDate.toLocaleDateString()}
+                    </Text>
+                  </Pressable>
+                )}
+              </View>
+            )}
           </View>
           <View style={styles.filterElement}>
             <Text style={styles.filterText}>태그</Text>
-            <RNPickerSelect
-              placeholder={{label: '전체', value: 0}}
-              onValueChange={value => {
-                setFilter({...filter, meetingTags: value});
-              }}
-              items={tags}
-              value={filter.meetingTags}
-              style={{
-                inputIOS: {
-                  fontSize: 16,
-                  color: 'black',
-                },
-                placeholder: {
-                  fontSize: 16,
-                  color: 'gray',
-                },
-              }}
-            />
+            <Pressable>
+              <RNPickerSelect
+                placeholder={{label: '전체', value: 0}}
+                onValueChange={value => {
+                  setFilter({...filter, meetingTags: value});
+                }}
+                items={tags}
+                value={filter.meetingTags}
+                fixAndroidTouchableBug={true}
+                useNativeAndroidPickerStyle={false}
+                style={{
+                  inputIOS: {
+                    fontSize: 16,
+                    color: 'black',
+                  },
+                  inputAndroid: {
+                    fontSize: 16,
+                    color: 'black',
+                  },
+                  placeholder: {
+                    fontSize: 16,
+                    color: 'gray',
+                  },
+                }}
+              />
+            </Pressable>
           </View>
         </View>
       }
@@ -117,6 +174,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
     marginHorizontal: 30,
+  },
+  dateText: {
+    fontSize: 16,
+    color: '#000000',
   },
 });
 

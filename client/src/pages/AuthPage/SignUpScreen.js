@@ -117,8 +117,8 @@ const SignUpScreen = ({navigation}) => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <KeyboardAvoidingView
-        style={styles.KeyboardAvoidingView}
-        behavior={'padding'}>
+        behavior={Platform.select({ios: 'padding'})}
+        style={styles.KeyboardAvoidingView}>
         {Platform.OS === 'ios' ? (
           <SafeStatusBar />
         ) : (

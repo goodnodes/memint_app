@@ -68,7 +68,6 @@ const styles = StyleSheet.create({
     paddingVertical: 25,
     height: 174,
     borderRadius: 30,
-    marginVertical: 4,
     justifyContent: 'space-between',
   },
   usernamelikes: {
@@ -87,6 +86,7 @@ const styles = StyleSheet.create({
     width: '100%',
     fontFamily: 'NeoDunggeunmoPro-Regular',
     letterSpacing: -0.5,
+    color: '#000000',
   },
   meetingTags: {
     flexDirection: 'row',
@@ -135,6 +135,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     letterSpacing: -0.5,
     textAlign: 'right',
+    color: '#000000',
   },
   button: {
     backgroundColor: '#ffffff',

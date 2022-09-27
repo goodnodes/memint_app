@@ -1,6 +1,14 @@
 import {useIsFocused} from '@react-navigation/native';
 import React, {useCallback, useEffect, useState} from 'react';
-import {SafeAreaView, View, Text, StyleSheet, ScrollView} from 'react-native';
+import {
+  SafeAreaView,
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  StatusBar,
+  Platform,
+} from 'react-native';
 import BackButton from '../../components/common/BackButton';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 import MyLikesElement from '../../components/myPageComponent/MyLikesElement';
@@ -8,12 +16,20 @@ import {getMeeting} from '../../lib/Meeting';
 import {getUser} from '../../lib/Users';
 import useUser from '../../utils/hooks/UseUser';
 
+function FocusAwareStatusBar(props) {
+  const isFocused = useIsFocused();
+
+  return isFocused ? <StatusBar {...props} /> : null;
+}
+
 function MyLikesRooms() {
   const [likesRooms, setLikesRooms] = useState([]);
   const isFocused = useIsFocused();
+
   useEffect(() => {
     getMyLikesRooms();
   }, [getMyLikesRooms, isFocused]);
+
   const userInfo = useUser();
   const getMyLikesRooms = useCallback(async () => {
     const meetings = await Promise.all(
@@ -41,7 +57,16 @@ function MyLikesRooms() {
 
   return (
     <View style={styles.container}>
-      <SafeStatusBar />
+      {Platform.OS === 'ios' ? (
+        <SafeStatusBar />
+      ) : (
+        <FocusAwareStatusBar
+          barStyle="light-content"
+          backgroundColor="#3C3D43"
+          animated={true}
+        />
+      )}
+
       <BackButton />
       <View style={styles.wrap}>
         <Text style={styles.title}>찜한 미팅</Text>

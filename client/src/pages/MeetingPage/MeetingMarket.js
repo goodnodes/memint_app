@@ -57,6 +57,12 @@ function MeetingMarket({navigation}) {
 
   useEffect(() => {
     setSortSelect(0);
+    setFilter({
+      region: '서울 전체',
+      peopleNum: undefined,
+      meetDate: new Date(),
+      meetingTags: undefined,
+    });
     getMeetingMarket();
   }, [isFocused, getMeetingMarket]);
 
@@ -64,6 +70,7 @@ function MeetingMarket({navigation}) {
     setFilteredMeetings(handleFilter(meetings));
     handleSort();
   }, [handleFilter, meetings, filter, handleSort, sortSelect]);
+
   const handleCreateMeeting = async () => {
     if (userState.isActivated) {
       setConfirmModalVisible(true);

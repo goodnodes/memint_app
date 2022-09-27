@@ -1,10 +1,20 @@
 package com.memint;
 
+import android.os.Bundle;
+import org.devio.rn.splashscreen.SplashScreen;
+
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.ReactRootView;
 
 public class MainActivity extends ReactActivity {
+
+  @Override
+    protected void onCreate(Bundle savedInstanceState) {
+      androidx.core.splashscreen.SplashScreen.installSplashScreen(this); // native splash screen which will be skipped
+      org.devio.rn.splashscreen.SplashScreen.show(this, true); // custom splash screen from react-native-splash-screen library
+      super.onCreate(null);
+    }
 
   /**
    * Returns the name of the main component registered from JavaScript. This is used to schedule

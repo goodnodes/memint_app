@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
+  Dimensions,
 } from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import MyMeetingList from '../../components/myPageComponent/MyMeetingList';
@@ -33,6 +34,8 @@ function FocusAwareStatusBar(props) {
 
   return isFocused ? <StatusBar {...props} /> : null;
 }
+
+const {width} = Dimensions.get('window');
 
 function MyMainPage({navigation}) {
   // const user = useUser();
@@ -185,7 +188,7 @@ function MyMainPage({navigation}) {
               <View style={styles.status}>
                 <Image source={eggS} style={styles.eggImage} />
                 <Progress.Bar
-                  width={320}
+                  width={width * 0.8}
                   height={16}
                   progress={0.5}
                   color={'#2ACFC2'}
@@ -198,7 +201,7 @@ function MyMainPage({navigation}) {
               <View style={styles.status}>
                 <Image source={eggD} style={styles.eggImage} />
                 <Progress.Bar
-                  width={320}
+                  width={width * 0.8}
                   height={16}
                   progress={0.5}
                   color={'#4E00F5'}
@@ -211,7 +214,7 @@ function MyMainPage({navigation}) {
               <View style={styles.status}>
                 <Image source={eggB} style={styles.eggImage} />
                 <Progress.Bar
-                  width={320}
+                  width={width * 0.8}
                   height={16}
                   progress={0.5}
                   color={'#CFAB2A'}

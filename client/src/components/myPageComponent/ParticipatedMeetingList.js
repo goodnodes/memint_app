@@ -295,6 +295,7 @@ const styles = StyleSheet.create({
     fontFamily: 'NeoDunggeunmoPro-Regular',
     letterSpacing: -0.5,
     lineHeight: 22.4,
+    color: '#000000',
   },
 
   details: {
@@ -374,6 +375,7 @@ const styles = StyleSheet.create({
     letterSpacing: -0.5,
     textAlign: 'right',
     lineHeight: 21,
+    color: '#000000',
   },
   listView: {
     paddingHorizontal: 15,

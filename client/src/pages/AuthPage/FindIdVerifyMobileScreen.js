@@ -10,6 +10,7 @@ import {
   Image,
   TouchableWithoutFeedback,
   TouchableOpacity,
+  StatusBar,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import BasicButton from '../../components/common/BasicButton';
@@ -18,6 +19,13 @@ import BackButton from '../../components/common/BackButton';
 import GradientButton from '../../components/common/GradientButton';
 import {getUserByPhoneNumber} from '../../lib/Users';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
+import {useIsFocused} from '@react-navigation/native';
+
+function FocusAwareStatusBar(props) {
+  const isFocused = useIsFocused();
+
+  return isFocused ? <StatusBar {...props} /> : null;
+}
 
 const FindIdVerifyMobileScreen = ({navigation}) => {
   const [buttonReady, setButtonReady] = useState(false);
@@ -95,7 +103,15 @@ const FindIdVerifyMobileScreen = ({navigation}) => {
       <KeyboardAvoidingView
         style={styles.KeyboardAvoidingView}
         behavior={Platform.select({ios: 'padding'})}>
-        <SafeStatusBar />
+        {Platform.OS === 'ios' ? (
+          <SafeStatusBar />
+        ) : (
+          <FocusAwareStatusBar
+            barStyle="light-content"
+            backgroundColor="#3C3D43"
+            animated={true}
+          />
+        )}
         <BackButton />
 
         <View style={styles.fullscreen}>

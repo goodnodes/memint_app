@@ -5,6 +5,7 @@ import {
   Text,
   StyleSheet,
   TouchableWithoutFeedback,
+  Pressable,
 } from 'react-native';
 import BasicButton from './BasicButton';
 
