@@ -69,12 +69,14 @@ const WalletKlayTransfer = () => {
           <StatusBar barStyle="dark-content" />
 
           <View style={{backgroundColor: '#AAD1C1', height: top}} />
-          <TouchableOpacity
-            style={styles.backButton}
-            onPress={() => navigation.pop()}>
-            <Icon name="arrow-back-ios" size={20} color={'#1D1E1E'} />
-            {/* <Text style={styles.buttonText}>Back</Text> */}
-          </TouchableOpacity>
+          <View style={styles.header}>
+            <TouchableOpacity
+              style={styles.backButton}
+              onPress={() => navigation.pop()}>
+              <Icon name="arrow-back-ios" size={20} color={'#1D1E1E'} />
+              {/* <Text style={styles.buttonText}>Back</Text> */}
+            </TouchableOpacity>
+          </View>
 
           <ScrollView style={styles.container}>
             <Text style={styles.transferText}>Transfer</Text>
@@ -202,12 +204,25 @@ const styles = StyleSheet.create({
     fontSize: 40,
     marginTop: 40,
     marginBottom: 10,
+    color: '#000000',
   },
-  text: {fontWeight: 'bold', fontSize: 16, marginTop: 20, marginLeft: 25},
+  text: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    marginTop: 20,
+    marginLeft: 25,
+    color: '#000000',
+  },
   backButton: {
     paddingLeft: 15,
     paddingRight: 10,
     paddingTop: 5,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 5,
+    height: 50,
   },
 });
 export default WalletKlayTransfer;

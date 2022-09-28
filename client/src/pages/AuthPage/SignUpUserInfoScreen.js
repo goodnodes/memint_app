@@ -158,7 +158,9 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
             animated={true}
           />
         )}
-        <BackButton />
+        <View style={styles.header}>
+          <BackButton />
+        </View>
         <View style={styles.fullscreen}>
           <ScrollView
             style={styles.fullscreenSub}
@@ -343,6 +345,11 @@ const styles = StyleSheet.create({
   fullscreen: {
     flex: 1,
     paddingHorizontal: 15,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 50,
   },
   fullscreenSub: {
     flex: 1,

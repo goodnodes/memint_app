@@ -10,6 +10,8 @@ import {
   RefreshControl,
   ActivityIndicator,
   Dimensions,
+  TouchableNativeFeedback,
+  StatusBar,
 } from 'react-native';
 import BackButton from '../../components/common/BackButton';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -24,12 +26,21 @@ import {createConfirmAlarm} from '../../lib/Alarm';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 import LinearGradient from 'react-native-linear-gradient';
 import {makeCreateDiscord} from '../../lib/api/notification';
+import CameraModal from '../../components/AuthComponents/CameraModal';
+import {useIsFocused} from '@react-navigation/native';
 const window = Dimensions.get('window');
+
+function FocusAwareStatusBar(props) {
+  const isFocused = useIsFocused();
+
+  return isFocused ? <StatusBar {...props} /> : null;
+}
 
 function MeetingConfirm({route}) {
   const [meetingInfo, setMeetingInfo] = useState(route.params.meetingInfo);
   const [refreshing, setRefreshing] = useState(true);
   const [image, setImage] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const userInfo = useUser();
   // const {meetingInfo} = route.params;
@@ -43,6 +54,7 @@ function MeetingConfirm({route}) {
     setMeetingInfo({id: res.id, ...res.data()});
     setRefreshing(false);
   };
+
   const imagePickerOption = {
     mediaType: 'photo',
     maxWidth: 768,
@@ -57,7 +69,19 @@ function MeetingConfirm({route}) {
     setImage(res);
   };
 
+  const onLaunchCamera = () => {
+    launchCamera(imagePickerOption, onPickImage);
+  };
+  const onLaunchImageLibrary = () => {
+    launchImageLibrary(imagePickerOption, onPickImage);
+  };
+
   const handleCamera = () => {
+    if (Platform.OS === 'android') {
+      setModalVisible(true);
+      return;
+    }
+
     ActionSheetIOS.showActionSheetWithOptions(
       {
         title: '사진 업로드',
@@ -67,9 +91,9 @@ function MeetingConfirm({route}) {
       },
       buttonIndex => {
         if (buttonIndex === 0) {
-          launchCamera(imagePickerOption, onPickImage);
+          onLaunchCamera();
         } else if (buttonIndex === 1) {
-          launchImageLibrary(imagePickerOption, onPickImage);
+          onLaunchImageLibrary();
         }
       },
     );
@@ -263,7 +287,7 @@ function MeetingConfirm({route}) {
                   />
                   <BasicButton text="인증보내기" onPress={handleSubmit} />
                 </View>
-              ) : (
+              ) : Platform.OS === 'ios' ? (
                 <TouchableOpacity
                   style={styles.photoButton}
                   onPress={handleCamera}>
@@ -275,6 +299,20 @@ function MeetingConfirm({route}) {
                   />
                   <Text style={styles.buttonText}>미팅 인증샷</Text>
                 </TouchableOpacity>
+              ) : (
+                <View>
+                  <TouchableNativeFeedback onPress={handleCamera}>
+                    <View style={styles.photoButton}>
+                      <Icon
+                        name="photo-camera"
+                        size={25}
+                        style={styles.photoIcon}
+                        color="#33ED96"
+                      />
+                      <Text style={styles.buttonText}>미팅 인증샷</Text>
+                    </View>
+                  </TouchableNativeFeedback>
+                </View>
               )}
             </>
           )}
@@ -302,7 +340,9 @@ function MeetingConfirm({route}) {
               />
               <View style={styles.dateText}>
                 <Text style={styles.plainText}>
-                  {meetingInfo?.confirmCreatedAt.toDate().toLocaleString()}
+                  {meetingInfo?.confirmCreatedAt
+                    .toDate()
+                    .toLocaleString('ko-KR')}
                 </Text>
               </View>
               {renderMessage()}
@@ -319,7 +359,15 @@ function MeetingConfirm({route}) {
 
   return (
     <View style={styles.container}>
-      <SafeStatusBar />
+      {Platform.OS === 'ios' ? (
+        <SafeStatusBar />
+      ) : (
+        <FocusAwareStatusBar
+          barStyle="light-content"
+          backgroundColor="#3D3E44"
+          animated={true}
+        />
+      )}
       <LinearGradient
         colors={['#3D3E44', '#5A7064']}
         start={{x: 0.3, y: 0.3}}
@@ -345,6 +393,20 @@ function MeetingConfirm({route}) {
             </View>
 
             {renderByUser()}
+            <CameraModal
+              text="미팅을 생성하시겠습니까?"
+              //body={<Text>정말로?</Text>}
+              nButtonText="아니요"
+              pButtonText="네"
+              modalVisible={modalVisible}
+              setModalVisible={setModalVisible}
+              pFunction={() => {}}
+              nFunction={() => {
+                setModalVisible(!modalVisible);
+              }}
+              onLaunchCamera={onLaunchCamera}
+              onLaunchImageLibrary={onLaunchImageLibrary}
+            />
           </View>
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>인증 방법 및 주의사항</Text>

@@ -53,7 +53,7 @@ function FilterModal({
         <View style={styles.filterContent}>
           <View style={styles.filterElement}>
             <Text style={styles.filterText}>인원</Text>
-            <Pressable>
+            <View>
               <RNPickerSelect
                 placeholder={{label: '전체', value: 0}}
                 onValueChange={value => {
@@ -78,7 +78,7 @@ function FilterModal({
                   },
                 }}
               />
-            </Pressable>
+            </View>
           </View>
           <View style={styles.filterElement}>
             <Text style={styles.filterText}>날짜</Text>
@@ -118,7 +118,7 @@ function FilterModal({
           </View>
           <View style={styles.filterElement}>
             <Text style={styles.filterText}>태그</Text>
-            <Pressable>
+            <View>
               <RNPickerSelect
                 placeholder={{label: '전체', value: 0}}
                 onValueChange={value => {
@@ -143,7 +143,7 @@ function FilterModal({
                   },
                 }}
               />
-            </Pressable>
+            </View>
           </View>
         </View>
       }

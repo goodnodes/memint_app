@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginBottom: 3,
     justifyContent: 'flex-end',
+    color: '#000000',
   },
   txHashText: {
     marginLeft: '65%',
@@ -59,6 +60,7 @@ const styles = StyleSheet.create({
   contentText: {
     fontSize: 20,
     fontWeight: 'bold',
+    color: '#000000',
   },
   button: {
     flexDirection: 'row',

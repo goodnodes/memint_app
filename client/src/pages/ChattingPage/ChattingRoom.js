@@ -131,7 +131,7 @@ function ChattingRoom({route}) {
   }, [animation, roomInfo, route.params, userRef, users, user, ex]);
   return (
     <KeyboardAvoidingView
-      behavior={'padding'}
+      behavior={Platform.select({ios: 'padding'})}
       style={{flex: 1, backgroundColor: 'white'}}
       // 키보드가 올라온 상태에서 추가적으로 적용할 +값
       // keyboardVerticalOffset={80}
@@ -195,13 +195,19 @@ function ChattingRoom({route}) {
                     fontSize: 17,
                     fontWeight: '500',
                     letterSpacing: -0.5,
+                    color: '#000000',
                   }}>
                   미팅 참가를 확정하시겠습니까?
                 </Text>
                 <View style={{alignItems: 'flex-start'}}>
                   {/* 리덕스에서 받아오는 meeting 정보로 업데이트할 것  */}
                   <Text
-                    style={{marginTop: 10, fontSize: 16, letterSpacing: -0.5}}>
+                    style={{
+                      marginTop: 10,
+                      fontSize: 16,
+                      letterSpacing: -0.5,
+                      color: '#000000',
+                    }}>
                     🗓 날짜:{'   '}
                     {route.params.data.meetDate
                       .toDate()
@@ -209,12 +215,17 @@ function ChattingRoom({route}) {
                       .slice(0, 11)}
                   </Text>
                   <Text
-                    style={{marginTop: 7, fontSize: 16, letterSpacing: -0.5}}>
-                    ⏰ 시간:{'   '}
+                    style={{
+                      marginTop: 7,
+                      fontSize: 16,
+                      letterSpacing: -0.5,
+                      color: '#000000',
+                    }}>
+                    ⏰ 시간:{'  '}
                     {route.params.data.meetDate
                       .toDate()
                       .toLocaleString()
-                      .slice(12, 19)}
+                      .slice(12, -3)}
                   </Text>
                   <Text
                     style={{
@@ -222,8 +233,10 @@ function ChattingRoom({route}) {
                       fontSize: 16,
                       letterSpacing: -0.5,
                       marginBottom: 20,
+                      color: '#000000',
                     }}>
-                    🏖 장소: {route.params.data.region}
+                    🏖 장소:{'   '}
+                    {route.params.data.region}
                   </Text>
                 </View>
               </>

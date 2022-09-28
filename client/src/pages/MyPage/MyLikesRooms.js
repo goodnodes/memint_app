@@ -66,8 +66,9 @@ function MyLikesRooms() {
           animated={true}
         />
       )}
-
-      <BackButton />
+      <View style={styles.header}>
+        <BackButton />
+      </View>
       <View style={styles.wrap}>
         <Text style={styles.title}>찜한 미팅</Text>
         <View style={styles.meetingList}>
@@ -98,9 +99,8 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderBottomColor: 'black',
-    borderBottomWidth: 1,
-    paddingVertical: 10,
+    paddingVertical: 5,
+    height: 50,
   },
   meetingList: {
     marginTop: 10,

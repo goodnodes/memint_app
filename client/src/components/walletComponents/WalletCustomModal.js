@@ -111,6 +111,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontSize: 15,
     fontWeight: '600',
+    color: '#000000',
   },
   backgroudDim: {
     flex: 1,

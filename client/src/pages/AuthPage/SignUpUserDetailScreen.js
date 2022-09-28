@@ -10,6 +10,7 @@ import {
   TouchableWithoutFeedback,
   ScrollView,
   TouchableOpacity,
+  StatusBar,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import BackButton from '../../components/common/BackButton';
@@ -20,6 +21,13 @@ import {createProperty} from '../../lib/Users';
 import LinearGradient from 'react-native-linear-gradient';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 import {useToast} from '../../utils/hooks/useToast';
+import {useIsFocused} from '@react-navigation/native';
+
+function FocusAwareStatusBar(props) {
+  const isFocused = useIsFocused();
+
+  return isFocused ? <StatusBar {...props} /> : null;
+}
 
 const SignUpUserDetailScreen = ({navigation, route}) => {
   let {userInfo} = route.params || {};
@@ -80,8 +88,18 @@ const SignUpUserDetailScreen = ({navigation, route}) => {
       <KeyboardAvoidingView
         style={styles.KeyboardAvoidingView}
         behavior={Platform.select({ios: 'padding'})}>
-        <SafeStatusBar />
-        <BackButton />
+        {Platform.OS === 'ios' ? (
+          <SafeStatusBar />
+        ) : (
+          <FocusAwareStatusBar
+            barStyle="light-content"
+            backgroundColor="#3C3D43"
+            animated={true}
+          />
+        )}
+        <View style={styles.header}>
+          <BackButton />
+        </View>
         <LinearGradient
           colors={['#3D3E44', '#5A7064']}
           start={{x: 0.3, y: 0.3}}
@@ -169,6 +187,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#3C3D43',
   },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 50,
+  },
   gradientBackground: {
     flex: 1,
     paddingHorizontal: 15,
@@ -179,7 +202,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   form: {
-    marginTop: 16,
     marginBottom: 16,
     width: '100%',
     flexDirection: 'row',

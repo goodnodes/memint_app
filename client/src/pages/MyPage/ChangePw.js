@@ -80,20 +80,22 @@ const ChangePw = ({navigation}) => {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <KeyboardAvoidingView
         style={styles.KeyboardAvoidingView}
-        behavior={'padding'}>
+        behavior={Platform.select({ios: 'padding'})}>
         <StatusBar
           backgroundColor="#ABDCC1"
           barStyle="dark-content"
           animated={true}
         />
         <View style={{backgroundColor: '#ABDCC1', height: top}} />
+        <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => navigation.pop()}>
+            <Icon name="arrow-back-ios" size={20} color={'#1D1E1E'} />
+            {/* <Text style={styles.buttonText}>Back</Text> */}
+          </TouchableOpacity>
+        </View>
 
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => navigation.pop()}>
-          <Icon name="arrow-back-ios" size={20} color={'#1D1E1E'} />
-          {/* <Text style={styles.buttonText}>Back</Text> */}
-        </TouchableOpacity>
         <View style={styles.fullscreen}>
           <Text style={styles.title}>비밀번호 변경</Text>
 
@@ -196,6 +198,13 @@ const styles = StyleSheet.create({
   fullscreen: {
     flex: 1,
     paddingHorizontal: 15,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 5,
+    height: 50,
   },
   fullscreenSub: {
     flex: 1,

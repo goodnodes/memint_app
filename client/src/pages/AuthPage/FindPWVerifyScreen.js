@@ -63,7 +63,9 @@ const FindPWVerifyScreen = ({navigation}) => {
             animated={true}
           />
         )}
-        <BackButton />
+        <View style={styles.header}>
+          <BackButton />
+        </View>
         <View style={styles.fullscreen}>
           <Text style={styles.title}>내 정보 찾기</Text>
           <Text style={styles.contentText}>
@@ -106,6 +108,11 @@ const styles = StyleSheet.create({
   fullscreen: {
     paddingHorizontal: 15,
     flex: 1,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 50,
   },
   fullscreenSub: {
     flex: 1,

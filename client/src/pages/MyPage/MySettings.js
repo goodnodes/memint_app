@@ -16,6 +16,7 @@ import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {signOut} from '../../lib/Auth';
 import useAuthActions from '../../utils/hooks/UseAuthActions';
 import DoubleModal from '../../components/common/DoubleModal';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 function FocusAwareStatusBar(props) {
   const isFocused = useIsFocused();
@@ -24,6 +25,8 @@ function FocusAwareStatusBar(props) {
 }
 
 function MySettings({route}) {
+  const {top} = useSafeAreaInsets();
+
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
   const {logout} = useAuthActions();
@@ -63,20 +66,24 @@ function MySettings({route}) {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <FocusAwareStatusBar
         barStyle="dark-content"
         backgroundColor="#ABDCC1"
         animated={true}
       />
+      <View style={{backgroundColor: '#ABDCC1', height: top}} />
+
       {Platform.OS === 'ios' ? (
         <>
-          <TouchableOpacity
-            style={styles.backButton}
-            onPress={() => navigation.pop()}>
-            <Icon name="arrow-back-ios" size={20} color={'#1D1E1E'} />
-            {/* <Text style={styles.buttonText}>Back</Text> */}
-          </TouchableOpacity>
+          <View style={styles.header}>
+            <TouchableOpacity
+              style={styles.backButton}
+              onPress={() => navigation.pop()}>
+              <Icon name="arrow-back-ios" size={20} color={'#1D1E1E'} />
+              {/* <Text style={styles.buttonText}>Back</Text> */}
+            </TouchableOpacity>
+          </View>
 
           <Text style={styles.title}>설정</Text>
 
@@ -143,13 +150,15 @@ function MySettings({route}) {
         </>
       ) : (
         <>
-          <View style={styles.backButton}>
-            <TouchableNativeFeedback
-              style={styles.backButton}
-              onPress={() => navigation.pop()}>
-              <Icon name="arrow-back-ios" size={20} color={'#1D1E1E'} />
-              {/* <Text style={styles.buttonText}>Back</Text> */}
-            </TouchableNativeFeedback>
+          <View style={styles.header}>
+            <View style={styles.backButton}>
+              <TouchableNativeFeedback
+                style={styles.backButton}
+                onPress={() => navigation.pop()}>
+                <Icon name="arrow-back-ios" size={20} color={'#1D1E1E'} />
+                {/* <Text style={styles.buttonText}>Back</Text> */}
+              </TouchableNativeFeedback>
+            </View>
           </View>
 
           <Text style={styles.title}>설정</Text>
@@ -240,7 +249,7 @@ function MySettings({route}) {
           setModalVisible(!modalVisible);
         }}
       />
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -252,7 +261,8 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingBottom: 10,
+    paddingVertical: 5,
+    height: 50,
   },
   title: {
     marginLeft: 15,
@@ -287,6 +297,7 @@ const styles = StyleSheet.create({
   },
   backButton: {
     paddingLeft: 15,
+    paddingRight: 10,
     paddingTop: 5,
   },
 });

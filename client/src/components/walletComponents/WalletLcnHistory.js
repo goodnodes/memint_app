@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     // marginTop: 20,
     marginBottom: 20,
+    color: '#000000'
   },
 });
 

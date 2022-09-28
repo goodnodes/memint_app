@@ -139,7 +139,62 @@ function EditMeetingInfo({route}) {
   };
 
   const handleUpdate = () => {
-    try {
+    if (meetingInfo.members.length === meetingInfo.peopleNum * 2) {
+      updateMeeting(item.id, {
+        title: meetingInfo.title,
+        description: meetingInfo.description,
+        meetDate: meetingInfo.meetDate,
+        region: meetingInfo.region,
+        peopleNum: meetingInfo.peopleNum,
+        meetingTags: meetingInfo.meetingTags,
+        status: 'full',
+      })
+        .then(() => {
+          return getMeeting(item.id);
+        })
+        .then(res => {
+          return getUser(res.data().hostId).then(hostInfo => {
+            return {id: item.id, ...res.data(), hostInfo: hostInfo};
+          });
+        })
+        .then(data => {
+          setConfirmModalVisible(false);
+          showToast('success', '미팅이 수정되었습니다');
+          navigation.pop();
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    } else if (
+      meetingInfo.members.length < meetingInfo.peopleNum * 2 &&
+      item.status === 'full'
+    ) {
+      updateMeeting(item.id, {
+        title: meetingInfo.title,
+        description: meetingInfo.description,
+        meetDate: meetingInfo.meetDate,
+        region: meetingInfo.region,
+        peopleNum: meetingInfo.peopleNum,
+        meetingTags: meetingInfo.meetingTags,
+        status: 'open',
+      })
+        .then(() => {
+          return getMeeting(item.id);
+        })
+        .then(res => {
+          return getUser(res.data().hostId).then(hostInfo => {
+            return {id: item.id, ...res.data(), hostInfo: hostInfo};
+          });
+        })
+        .then(data => {
+          setConfirmModalVisible(false);
+          showToast('success', '미팅이 수정되었습니다');
+          navigation.pop();
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    } else {
       updateMeeting(item.id, {
         title: meetingInfo.title,
         description: meetingInfo.description,
@@ -157,13 +212,6 @@ function EditMeetingInfo({route}) {
           });
         })
         .then(data => {
-          // saveMeeting({
-          //   ...rooms,
-          //   createdrooms: [
-          //     data,
-          //     ...rooms.createdrooms.filter(el => el.id !== item.id),
-          //   ],
-          // });
           setConfirmModalVisible(false);
           showToast('success', '미팅이 수정되었습니다');
           navigation.pop();
@@ -171,8 +219,15 @@ function EditMeetingInfo({route}) {
         .catch(err => {
           console.log(err);
         });
-    } catch (e) {
-      console.log(e);
+    }
+  };
+
+  const handlePeopleNum = value => {
+    if (meetingInfo.members.length > value * 2) {
+      showToast('error', '참여 인원보다 적은 인원으로 변경할 수 없습니다.');
+      return;
+    } else {
+      setMeetingInfo({...meetingInfo, peopleNum: value});
     }
   };
 
@@ -343,7 +398,7 @@ function EditMeetingInfo({route}) {
             )}
           </View>
           <View style={[styles.createElement, styles.flexRow]}>
-            <TouchableOpacity style={styles.selectButton}>
+            <View style={styles.selectButton}>
               <RNPickerSelect
                 placeholder={{label: '지역'}}
                 onValueChange={value => {
@@ -384,15 +439,13 @@ function EditMeetingInfo({route}) {
                   );
                 }}
               />
-            </TouchableOpacity>
+            </View>
           </View>
           <View style={[styles.createElement, styles.flexRow]}>
-            <TouchableOpacity style={[styles.selectButton, styles.rightMargin]}>
+            <View style={[styles.selectButton, styles.rightMargin]}>
               <RNPickerSelect
                 placeholder={{label: '인원'}}
-                onValueChange={value => {
-                  setMeetingInfo({...meetingInfo, peopleNum: value});
-                }}
+                onValueChange={handlePeopleNum}
                 items={PeopleDropDownData}
                 value={meetingInfo.peopleNum}
                 fixAndroidTouchableBug={true}
@@ -429,7 +482,7 @@ function EditMeetingInfo({route}) {
                 }}
               />
               {/* <Icon name="arrow-drop-down" size={19} color={'gray'} /> */}
-            </TouchableOpacity>
+            </View>
             <ScrollView style={styles.invitedFriends} horizontal={true}>
               {meetingInfo.membersNickName?.map((el, idx) => (
                 <View key={idx} style={styles.invitedFriend}>

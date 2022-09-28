@@ -45,7 +45,6 @@ export const handleDateInFormat = obj => {
   //     -6,
   //   )}시`;
   // }
-  console.log(`month ${month} date ${date} string ${dateString}`);
   if (month > 9) {
     if (date > 9) {
       return `${dateString.slice(6, 8)}월 ${dateString.slice(

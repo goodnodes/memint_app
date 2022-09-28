@@ -413,7 +413,7 @@ function MeetingCreate({route}) {
             )}
           </View>
           <View style={[styles.createElement, styles.flexRow]}>
-            <Pressable style={styles.selectButton}>
+            <View style={styles.selectButton}>
               <RNPickerSelect
                 placeholder={{label: '지역'}}
                 onValueChange={value => {
@@ -454,13 +454,13 @@ function MeetingCreate({route}) {
                   );
                 }}
               />
-            </Pressable>
+            </View>
           </View>
           <View
             style={[styles.line, meetingInfo.region ? styles.activeLine : null]}
           />
           <View style={[styles.createElement, styles.flexRow]}>
-            <Pressable style={[styles.selectButton, styles.rightMargin]}>
+            <View style={[styles.selectButton, styles.rightMargin]}>
               <RNPickerSelect
                 placeholder={{label: '인원'}}
                 onValueChange={value => {
@@ -501,7 +501,7 @@ function MeetingCreate({route}) {
                   );
                 }}
               />
-            </Pressable>
+            </View>
             <ScrollView style={styles.invitedFriends} horizontal={true}>
               {friendsNames.map((el, idx) => (
                 <View key={idx}>

@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
   View,
   Platform,
+  StatusBar,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import BackButton from '../../components/common/BackButton';
@@ -25,6 +26,13 @@ import useNftActions from '../../utils/hooks/UseNftActions';
 import useAuthActions from '../../utils/hooks/UseAuthActions';
 import useUser from '../../utils/hooks/UseUser';
 import {useToast} from '../../utils/hooks/useToast';
+import {useIsFocused} from '@react-navigation/native';
+
+function FocusAwareStatusBar(props) {
+  const isFocused = useIsFocused();
+
+  return isFocused ? <StatusBar {...props} /> : null;
+}
 
 const SignUpAgreementScreen = ({navigation, route}) => {
   let {userInfo} = route.params || {};
@@ -134,8 +142,9 @@ const SignUpAgreementScreen = ({navigation, route}) => {
             exp: userDetail.meminStats.exp,
             level: userDetail.meminStats.level,
           },
-        }),
-          navigation.navigate('SignUpServeNFT');
+        });
+        console.log('here')
+        navigation.navigate('SignUpServeNFT');
       } catch (e) {
         console.log(e);
       } finally {
@@ -239,8 +248,18 @@ const SignUpAgreementScreen = ({navigation, route}) => {
   }
   return (
     <View style={styles.fullscreen}>
-      <SafeStatusBar />
-      <BackButton />
+      {Platform.OS === 'ios' ? (
+        <SafeStatusBar />
+      ) : (
+        <FocusAwareStatusBar
+          barStyle="light-content"
+          backgroundColor="#3C3D43"
+          animated={true}
+        />
+      )}
+      <View style={styles.header}>
+        <BackButton />
+      </View>
       <View style={styles.fullscreenSub}>
         <Text style={styles.textMain}>서비스 약관</Text>
         <View style={styles.form}>
@@ -333,6 +352,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#3C3D43',
   },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 50,
+  },
   fullscreenLoading: {
     flex: 1,
     alignItems: 'center',
@@ -341,7 +365,6 @@ const styles = StyleSheet.create({
   },
   fullscreenSub: {
     paddingHorizontal: 15,
-
     flex: 1,
     flexDirection: 'column',
     alignItems: 'flex-start',
@@ -387,7 +410,7 @@ const styles = StyleSheet.create({
   textMain: {
     fontWeight: '400',
     fontSize: 24,
-    marginTop: 40,
+    marginTop: 20,
     marginBottom: 30,
     color: '#ffffff',
     fontFamily: 'NeoDunggeunmoPro-Regular',

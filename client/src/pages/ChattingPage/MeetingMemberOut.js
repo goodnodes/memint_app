@@ -6,6 +6,8 @@ import {
   TextInput,
   View,
   Image,
+  Platform,
+  StatusBar,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import BackButton from '../../components/common/BackButton';
@@ -14,9 +16,16 @@ import CheckBox from '@react-native-community/checkbox';
 import useUser from '../../utils/hooks/UseUser';
 import {memberOut} from '../../lib/Meeting';
 import DoubleModal from '../../components/common/DoubleModal';
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {useToast} from '../../utils/hooks/useToast';
 import {createMeetingBanned} from '../../lib/Alarm';
+import SafeStatusBar from '../../components/common/SafeStatusBar';
+
+function FocusAwareStatusBar(props) {
+  const isFocused = useIsFocused();
+
+  return isFocused ? <StatusBar {...props} /> : null;
+}
 
 function MeetingMemberOut({route}) {
   const {showToast} = useToast();
@@ -39,11 +48,20 @@ function MeetingMemberOut({route}) {
     });
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
+      {Platform.OS === 'ios' ? (
+        <SafeStatusBar />
+      ) : (
+        <FocusAwareStatusBar
+          barStyle="light-content"
+          backgroundColor="#3D3E44"
+          animated={true}
+        />
+      )}
       <View style={styles.header}>
         <BackButton />
-        <Text style={styles.title}>미팅 멤버 내보내기</Text>
       </View>
+      <Text style={styles.title}>미팅 멤버 내보내기</Text>
       <View style={styles.wrapper}>
         <View style={styles.warningBox}>
           <Icon name="error-outline" size={30} color="red" />
@@ -86,8 +104,8 @@ function MeetingMemberOut({route}) {
           width={332}
           height={50}
           textSize={18}
-          backgroundColor={form.receiver && form.text ? '#000000' : 'gray'}
-          textColor="#ffffff"
+          backgroundColor={form.receiver && form.text ? '#58FF7D' : 'gray'}
+          textColor="#000000"
           margin={[30, 3, 3, 3]}
           borderRadius={10}
           onPress={() => {
@@ -126,7 +144,7 @@ function MeetingMemberOut({route}) {
           setModalVisible(!modalVisible);
         }}
       />
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -148,7 +166,13 @@ const Person = ({user, form, setForm}) => {
           source={{uri: user[1]}}
           style={{width: 45, height: 45, borderRadius: 22.5}}
         />
-        <Text style={{fontSize: 17, fontWeight: 'bold', paddingLeft: 8}}>
+        <Text
+          style={{
+            fontSize: 17,
+            fontWeight: 'bold',
+            paddingLeft: 8,
+            color: '#ffffff',
+          }}>
           {user[0]}
         </Text>
       </View>
@@ -163,10 +187,11 @@ const Person = ({user, form, setForm}) => {
                 nickName: user[0],
               })
         }
-        onFillColor="#2196F3"
-        onCheckColor="white"
         animationDuration={0.1}
         offAnimationType="fade"
+        onCheckColor="#58FF7D"
+        onTintColor="#58FF7D"
+        tintColors={{true: '#58FF7D'}}
       />
     </View>
   );
@@ -174,20 +199,22 @@ const Person = ({user, form, setForm}) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
+    backgroundColor: '#3C3D43',
     flex: 1,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingBottom: 10,
-    borderBottomColor: 'black',
-    borderBottomWidth: 1,
+    height: 50,
   },
   title: {
-    fontSize: 18,
-    fontWeight: '700',
-    marginLeft: 10,
+    fontWeight: '400',
+    fontSize: 24,
+    marginVertical: 20,
+    color: '#ffffff',
+    fontFamily: 'NeoDunggeunmoPro-Regular',
+    letterSpacing: -0.5,
+    marginLeft: 15,
   },
   wrapper: {
     flexDirection: 'column',
@@ -197,7 +224,8 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   warningBox: {
-    backgroundColor: '#EDEDED',
+    borderColor: '#AEFFC1',
+    borderWidth: 1,
     borderRadius: 20,
     width: '100%',
     paddingHorizontal: 30,
@@ -210,14 +238,17 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 15,
     marginVertical: 15,
+    color: '#ffffff',
   },
   plainText: {
     fontSize: 12.2,
     marginVertical: 0.5,
+    color: '#ffffff',
   },
   bigText: {
     fontSize: 12.5,
     marginTop: 10,
+    color: '#ffffff',
   },
   selectSection: {
     width: '100%',
@@ -232,6 +263,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '700',
     marginBottom: 3,
+    color: '#ffffff',
   },
   userElement: {
     flexDirection: 'row',
@@ -241,11 +273,13 @@ const styles = StyleSheet.create({
   },
   textInput: {
     borderRadius: 10,
-    borderColor: '#8D8D8D',
+    borderColor: '#AEFFC1',
     borderWidth: 1,
     marginVertical: 10,
     height: 80,
-    padding: 10,
+    paddingHorizontal: 10,
+    paddingTop: 10,
+    backgroundColor: '#ffffff',
   },
 });
 

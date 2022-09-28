@@ -12,6 +12,7 @@ import {
   StatusBar,
   ScrollView,
   KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import BackButton from '../../components/common/BackButton';
 import LargeLcnButton from '../../components/walletComponents/LargeLcnButton';
@@ -77,16 +78,21 @@ const WalletOnchainTrade = () => {
   };
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <KeyboardAvoidingView style={styles.view} behavior={'padding'}>
+      <KeyboardAvoidingView
+        style={styles.view}
+        behavior={Platform.select({ios: 'padding'})}>
         <StatusBar barStyle="dark-content" />
 
         <View style={{backgroundColor: '#AAD1C1', height: top}} />
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => navigation.pop()}>
-          <Icon name="arrow-back-ios" size={20} color={'#1D1E1E'} />
-          {/* <Text style={styles.buttonText}>Back</Text> */}
-        </TouchableOpacity>
+        <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => navigation.pop()}>
+            <Icon name="arrow-back-ios" size={20} color={'#1D1E1E'} />
+            {/* <Text style={styles.buttonText}>Back</Text> */}
+          </TouchableOpacity>
+        </View>
+
         <ScrollView
           style={styles.subscreen}
           contentContainerStyle={styles.paddingBottom}>
@@ -215,6 +221,12 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 60,
   },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 5,
+    height: 50,
+  },
   subscreen: {
     flex: 1,
   },
@@ -245,6 +257,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
     marginTop: 40,
     marginBottom: 50,
+    color: '#000000',
   },
   backButton: {
     paddingLeft: 15,

@@ -41,6 +41,7 @@ function ChattingRoomTopTab({data}) {
               flexDirection: 'row',
               alignItems: 'center',
               maxWidth: 270,
+              marginTop: 5,
             }}>
             <Text
               style={{

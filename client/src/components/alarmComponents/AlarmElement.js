@@ -139,6 +139,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '600',
     letterSpacing: -0.5,
+    color: '#000000',
   },
   createdAt: {
     fontSize: 12,
@@ -150,19 +151,22 @@ const styles = StyleSheet.create({
   },
   meetingInfo: {
     flexDirection: 'row',
-    marginTop: 5,
+    alignContent: 'center',
+    marginBottom: 2,
   },
   bar: {
     width: 1,
+    height: 9,
+    marginHorizontal: 4,
     backgroundColor: '#3C3D43',
-    marginVertical: 1,
-    marginHorizontal: 5,
+    marginTop: 6,
   },
   meetingElement: {
     fontSize: 13,
-    fontWeight: '500',
     color: '#3C3D43',
     letterSpacing: -0.5,
+    fontWeight: '500',
+    lineHeight: 18.2,
   },
   meetingTitle: {
     fontWeight: '500',

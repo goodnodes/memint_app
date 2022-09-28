@@ -37,20 +37,25 @@ HistoryButton.defaultProps = {
 const styles = StyleSheet.create({
   timeText: {
     fontSize: 12,
+    color: '#1D1E1E',
   },
   contentText: {
     fontSize: 15,
     fontWeight: '600',
+    color: '#000000',
   },
   balanceChangeText: {
     fontSize: 16,
     fontWeight: '600',
+    color: '#000000',
   },
   lcnText: {
     fontSize: 12,
+    color: '#000000',
   },
   balanceText: {
     fontSize: 12,
+    color: '#1D1E1E',
   },
   button: {
     flexDirection: 'row',

@@ -128,8 +128,9 @@ const SignUpScreen = ({navigation}) => {
             animated={true}
           />
         )}
-
-        <BackButton />
+        <View style={styles.header}>
+          <BackButton />
+        </View>
         <View style={styles.fullscreen}>
           <Text style={styles.title}>회원가입</Text>
 
@@ -208,6 +209,11 @@ const styles = StyleSheet.create({
   fullscreen: {
     flex: 1,
     paddingHorizontal: 15,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 50,
   },
   loading: {
     flex: 1,

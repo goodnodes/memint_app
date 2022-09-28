@@ -66,12 +66,15 @@ function WalletOffchainMain({navigation}) {
       />
 
       <View style={{backgroundColor: '#AAD1C1', height: top}} />
-      <TouchableOpacity
-        style={styles.backButton}
-        onPress={() => navigation.pop()}>
-        <Icon name="arrow-back-ios" size={20} color={'#1D1E1E'} />
-        {/* <Text style={styles.buttonText}>Back</Text> */}
-      </TouchableOpacity>
+      <View style={styles.header}>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.pop()}>
+          <Icon name="arrow-back-ios" size={20} color={'#1D1E1E'} />
+          {/* <Text style={styles.buttonText}>Back</Text> */}
+        </TouchableOpacity>
+      </View>
+
       <View style={styles.contentContainer}>
         <View style={styles.buttonWrapper}>
           <WalletCustomButton
@@ -112,6 +115,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#AAD1C1',
   },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 5,
+    height: 50,
+  },
   contentContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -135,7 +144,7 @@ const styles = StyleSheet.create({
   backButton: {
     paddingLeft: 15,
     paddingRight: 10,
-    paddingTop: 5,
+    paddingTop: 10,
   },
 });
 

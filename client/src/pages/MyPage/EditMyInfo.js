@@ -79,7 +79,9 @@ function EditMyInfo({route, navigation}) {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.container}>
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.select({ios: 'padding'})}>
       <SafeStatusBar />
       <FocusAwareStatusBar
         backgroundColor="#3C3D43"

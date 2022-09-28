@@ -340,7 +340,7 @@ function MeetingMarket({navigation}) {
                 // handleFilter={()=>{}}
               />
             </Pressable>
-            <Pressable style={styles.listfilter}>
+            <View style={styles.listfilter}>
               <Icon
                 name="swap-vert"
                 size={20}
@@ -379,7 +379,7 @@ function MeetingMarket({navigation}) {
                 //   );
                 // }}
               />
-            </Pressable>
+            </View>
           </View>
           {shownMeetings.length === 0 ? (
             <View style={styles.emptyView}>

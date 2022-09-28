@@ -11,6 +11,7 @@ import {
   TextInput,
   Button,
   KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 
 import {useNavigation} from '@react-navigation/native';
@@ -49,7 +50,9 @@ function FeedbackSendPage({route}) {
   });
 
   return (
-    <KeyboardAvoidingView style={{flex: 1}} behavior={'padding'}>
+    <KeyboardAvoidingView
+      style={{flex: 1}}
+      behavior={Platform.select({ios: 'padding'})}>
       <SafeStatusBar />
       <LinearGradient
         colors={['#3D3E44', '#5A7064']}
@@ -183,7 +186,8 @@ function FeedbackSendPage({route}) {
               onPress={() => {
                 setModalVisible(true);
               }}>
-              <Text style={{color: 'white', fontSize: 20, fontWeight: 'bold'}}>
+              <Text
+                style={{color: '#000000', fontSize: 20, fontWeight: 'bold'}}>
                 후기 보내기
               </Text>
             </Pressable>
@@ -325,10 +329,10 @@ const styles = StyleSheet.create({
     paddingTop: 15,
   },
   confirmButton: {
-    backgroundColor: '#040404',
+    backgroundColor: '#58FF7D',
     width: '100%',
     height: 57,
-    borderRadius: 17,
+    borderRadius: 999,
     alignItems: 'center',
     justifyContent: 'center',
     // position: 'absolute',

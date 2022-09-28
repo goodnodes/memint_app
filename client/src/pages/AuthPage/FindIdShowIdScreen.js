@@ -27,7 +27,9 @@ const FindIdShowIdScreen = ({navigation}) => {
       style={styles.KeyboardAvoidingView}
       behavior={Platform.select({ios: 'padding'})}>
       <SafeAreaView style={styles.fullscreen}>
-        <BackButton />
+        <View style={styles.header}>
+          <BackButton />
+        </View>
         <View style={styles.fullscreenSub}>
           <Image source={memintDino} style={styles.logo} />
           <Text style={styles.contentText}>
@@ -87,6 +89,11 @@ const styles = StyleSheet.create({
   },
   fullscreen: {
     flex: 1,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 50,
   },
   fullscreenSub: {
     flex: 1,

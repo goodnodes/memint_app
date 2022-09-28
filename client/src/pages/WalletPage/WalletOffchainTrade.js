@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   ScrollView,
+  Platform,
 } from 'react-native';
 import BackButton from '../../components/common/BackButton';
 import WalletCustomButton from '../../components/walletComponents/WalletCustomButton';
@@ -48,16 +49,21 @@ const WalletOffchainTrade = ({navigation}) => {
     //   style={styles.back}
     //   onPress={Keyboard.dismiss}
     //   accessible={false}>
-    <KeyboardAvoidingView style={styles.view} behavior={'padding'}>
+    <KeyboardAvoidingView
+      style={styles.view}
+      behavior={Platform.select({ios: 'padding'})}>
       <StatusBar barStyle="dark-content" />
 
       <View style={{backgroundColor: '#AAD1C1', height: top}} />
-      <TouchableOpacity
-        style={styles.backButton}
-        onPress={() => navigation.pop()}>
-        <Icon name="arrow-back-ios" size={20} color={'#1D1E1E'} />
-        {/* <Text style={styles.buttonText}>Back</Text> */}
-      </TouchableOpacity>
+      <View style={styles.header}>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.pop()}>
+          <Icon name="arrow-back-ios" size={20} color={'#1D1E1E'} />
+          {/* <Text style={styles.buttonText}>Back</Text> */}
+        </TouchableOpacity>
+      </View>
+
       <ScrollView contentContainerStyle={styles.padddingBottom}>
         <View style={styles.accountWrapper}>
           {/* <Image
@@ -157,6 +163,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#AAD1C1',
     flex: 1,
   },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 5,
+    height: 50,
+  },
   container: {
     // flex: 1,
     marginTop: 60,
@@ -182,7 +194,7 @@ const styles = StyleSheet.create({
     width: 170,
     height: 170,
   },
-  freeTingText: {fontSize: 16, marginBottom: 220},
+  freeTingText: {fontSize: 16, marginBottom: 220, color: '#000000'},
   buttonContainer: {
     flexDirection: 'column',
     justifyContent: 'center',
@@ -208,12 +220,14 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 24,
     letterSpacing: -0.5,
+    color: '#000000',
   },
   lcnText: {
     textAlign: 'center',
     fontWeight: '600',
     fontSize: 20,
     letterSpacing: -0.5,
+    color: '#000000',
   },
   backButton: {
     paddingLeft: 15,

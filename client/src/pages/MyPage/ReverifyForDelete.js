@@ -11,6 +11,7 @@ import {
   ScrollView,
   TouchableOpacity,
   StatusBar,
+  Platform,
 } from 'react-native';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import BasicButton from '../../components/common/BasicButton';
@@ -153,16 +154,18 @@ const ReverifyForDelete = ({navigation, route}) => {
         behavior={Platform.select({ios: 'padding'})}> */}
       <KeyboardAvoidingView
         style={styles.KeyboardAvoidingView}
-        behavior="padding">
+        behavior={Platform.select({ios: 'padding'})}>
         <StatusBar barStyle="dark-content" />
         <View style={{backgroundColor: '#ABDCC1', height: top}} />
+        <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => navigation.pop()}>
+            <Icon name="arrow-back-ios" size={20} color={'#1D1E1E'} />
+            {/* <Text style={styles.buttonText}>Back</Text> */}
+          </TouchableOpacity>
+        </View>
 
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => navigation.pop()}>
-          <Icon name="arrow-back-ios" size={20} color={'#1D1E1E'} />
-          {/* <Text style={styles.buttonText}>Back</Text> */}
-        </TouchableOpacity>
         <View style={styles.fullscreen}>
           <Text style={styles.title}>본인 인증</Text>
           <Text style={styles.contentText}>
@@ -363,6 +366,12 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     // alignItems: 'center',
     // justifyContent: 'center',
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 5,
+    height: 50,
   },
   title: {
     fontWeight: '400',

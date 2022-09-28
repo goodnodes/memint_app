@@ -44,11 +44,13 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     fontSize: 15,
     fontWeight: '600',
+    color: '#000000',
   },
   balanceText: {
     marginRight: 30,
     fontSize: 15,
     fontWeight: '600',
+    color: '#000000',
   },
   button: {
     flexDirection: 'row',

@@ -12,6 +12,7 @@ import {
   Alert,
   ScrollView,
   TouchableOpacity,
+  StatusBar,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import BasicButton from '../../components/common/BasicButton';
@@ -22,6 +23,13 @@ import {createPhoneNumber, getUserByPhoneNumber} from '../../lib/Users';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 import {useToast} from '../../utils/hooks/useToast';
+import {useIsFocused} from '@react-navigation/native';
+
+function FocusAwareStatusBar(props) {
+  const isFocused = useIsFocused();
+
+  return isFocused ? <StatusBar {...props} /> : null;
+}
 
 const VerifyMobileScreen = ({navigation, route}) => {
   let {userInfo} = route.params || {};
@@ -122,9 +130,19 @@ const VerifyMobileScreen = ({navigation, route}) => {
         behavior={Platform.select({ios: 'padding'})}> */}
       <KeyboardAvoidingView
         style={styles.KeyboardAvoidingView}
-        behavior="padding">
-        <SafeStatusBar />
-        <BackButton />
+        behavior={Platform.select({ios: 'padding'})}>
+        {Platform.OS === 'ios' ? (
+          <SafeStatusBar />
+        ) : (
+          <FocusAwareStatusBar
+            barStyle="light-content"
+            backgroundColor="#3C3D43"
+            animated={true}
+          />
+        )}
+        <View style={styles.header}>
+          <BackButton />
+        </View>
         <View style={styles.fullscreen}>
           <Text style={styles.title}>휴대폰 인증</Text>
           <Text style={styles.contentText}>
@@ -266,6 +284,11 @@ const styles = StyleSheet.create({
   fullscreen: {
     paddingHorizontal: 15,
     flex: 1,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 50,
   },
   fullscreenSub: {
     flex: 1,

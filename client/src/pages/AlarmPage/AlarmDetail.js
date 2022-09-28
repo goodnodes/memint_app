@@ -334,6 +334,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     letterSpacing: -0.5,
     fontFamily: 'NeoDunggeunmoPro-Regular',
+    color: '#000000',
   },
   userInfo: {
     marginLeft: 10,
@@ -349,18 +350,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 8,
     marginBottom: 10,
+    alignItems: 'center',
   },
   meetingElement: {
     fontSize: 13,
-    color: '#3C3D43',
+    color: '#000000',
     fontWeight: '500',
     letterSpacing: -0.5,
   },
   bar: {
     width: 1,
-    backgroundColor: 'gray',
-    marginVertical: 1,
-    marginHorizontal: 5,
+    height: 9,
+    marginHorizontal: 4,
+    backgroundColor: '#000000',
   },
   key: {
     color: '#3C3D43',
@@ -373,17 +375,20 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     fontSize: 15,
     letterSpacing: -0.5,
+    color: '#000000',
   },
   message: {
     marginTop: 10,
     marginBottom: 25,
     fontSize: 15,
     letterSpacing: -0.5,
+    color: '#000000',
   },
   meetingTitle: {
     marginTop: 10,
     fontSize: 15,
     letterSpacing: -0.5,
+    color: '#000000',
   },
   emotionIcon: {
     height: 30,
@@ -400,6 +405,7 @@ const styles = StyleSheet.create({
   emotionText: {
     fontSize: 12,
     fontWeight: '500',
+    color: '#000000',
   },
 });
 

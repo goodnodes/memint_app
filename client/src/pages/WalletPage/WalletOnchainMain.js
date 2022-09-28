@@ -143,7 +143,7 @@ const WalletOnchainMain = ({navigation}) => {
                     source={require('../../assets/icons/receive.png')}
                   />
                 </TouchableOpacity>
-                <Text>Receive</Text>
+                <Text style={styles.plainText}>Receive</Text>
               </View>
               <View style={styles.iconWrapper}>
                 <TouchableOpacity
@@ -156,7 +156,7 @@ const WalletOnchainMain = ({navigation}) => {
                     source={require('../../assets/icons/money-transfer.png')}
                   />
                 </TouchableOpacity>
-                <Text>Transfer</Text>
+                <Text style={styles.plainText}>Transfer</Text>
               </View>
               <View style={styles.iconWrapper}>
                 <TouchableOpacity
@@ -164,7 +164,7 @@ const WalletOnchainMain = ({navigation}) => {
                   // onPress={goToOnchainTrade}
                   onPress={() => {
                     showToast(
-                      'Coming soon',
+                      'basic',
                       '클로즈베타에서 지원하지 않는 기능입니다',
                     );
                   }}>
@@ -173,7 +173,7 @@ const WalletOnchainMain = ({navigation}) => {
                     source={require('../../assets/icons/transfer.png')}
                   />
                 </TouchableOpacity>
-                <Text>Trade</Text>
+                <Text style={styles.plainText}>Trade</Text>
               </View>
             </View>
             <TouchableOpacity
@@ -428,12 +428,14 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginLeft: 10,
     letterSpacing: -0.5,
+    color: '#000000',
   },
   walletText: {
     fontSize: 16,
     fontWeight: '600',
     textAlign: 'center',
     letterSpacing: -0.5,
+    color: '#000000',
   },
   centeredView: {
     justifyContent: 'center',
@@ -493,6 +495,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     lineHeight: 20,
     fontSize: 17,
+    color: '#000000',
   },
   backgroudDim: {
     flex: 1,
@@ -535,6 +538,12 @@ const styles = StyleSheet.create({
     color: 'black',
     textAlign: 'center',
     fontWeight: 'bold',
+  },
+  addressText: {
+    color: '#1D1E1E',
+  },
+  planText: {
+    color: '#000000',
   },
 });
 
