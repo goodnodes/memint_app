@@ -542,7 +542,7 @@ const styles = StyleSheet.create({
   addressText: {
     color: '#1D1E1E',
   },
-  planText: {
+  plainText: {
     color: '#000000',
   },
 });
