@@ -223,17 +223,33 @@ function MeetingConfirm({route}) {
             </View>
           ) : (
             <View style={styles.deniedArea}>
-              <TouchableOpacity
-                style={styles.photoButton}
-                onPress={handleCamera}>
-                <Icon
-                  name="photo-camera"
-                  size={25}
-                  style={styles.photoIcon}
-                  color="#33ED96"
-                />
-                <Text style={styles.buttonText}>다시 인증하기</Text>
-              </TouchableOpacity>
+              {Platform.OS === 'ios' ? (
+                <TouchableOpacity
+                  style={styles.photoButton}
+                  onPress={handleCamera}>
+                  <Icon
+                    name="photo-camera"
+                    size={25}
+                    style={styles.photoIcon}
+                    color="#33ED96"
+                  />
+                  <Text style={styles.buttonText}>다시 인증하기</Text>
+                </TouchableOpacity>
+              ) : (
+                <View>
+                  <TouchableNativeFeedback onPress={handleCamera}>
+                    <View style={styles.photoButton}>
+                      <Icon
+                        name="photo-camera"
+                        size={25}
+                        style={styles.photoIcon}
+                        color="#33ED96"
+                      />
+                      <Text style={styles.buttonText}>다시 인증하기</Text>
+                    </View>
+                  </TouchableNativeFeedback>
+                </View>
+              )}
             </View>
           )}
         </>
