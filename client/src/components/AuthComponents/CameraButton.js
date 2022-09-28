@@ -16,17 +16,17 @@ import CameraModal from './CameraModal';
 // const reference = storage().ref('/directory/filename.png');
 // await reference.putFile(uri);
 // const url = await reference.getDownloadURL();
-const imagePickerOption = {
-  mediaType: 'photo',
-  maxWidth: 768,
-  maxHeight: 768,
-  inculdeBase64: Platform.OS === 'android',
-};
 
 const CameraButton = ({response, setResponse, uid}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const insets = useSafeAreaInsets();
 
+  const imagePickerOption = {
+    mediaType: 'photo',
+    maxWidth: 768,
+    maxHeight: 768,
+    inculdeBase64: Platform.OS === 'android',
+  };
   const onPickImage = res => {
     if (res.didCancel || !res) {
       return;

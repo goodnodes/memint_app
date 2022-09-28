@@ -106,13 +106,7 @@ function MeetingConfirm({route}) {
     const extension = asset.fileName.split('.').pop(); //확장자 추출
     const reference = storage().ref(`/meeting/${meetingInfo.id}.${extension}`);
 
-    if (Platform.OS === 'android') {
-      await reference.putString(asset.base64, 'base64', {
-        contentType: asset.type,
-      });
-    } else {
-      await reference.putFile(asset.uri);
-    }
+    await reference.putFile(asset.uri);
 
     photoURL = image ? await reference.getDownloadURL() : null;
     await updateMeeting(meetingInfo.id, {
