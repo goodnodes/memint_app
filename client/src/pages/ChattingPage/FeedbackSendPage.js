@@ -138,7 +138,8 @@ function FeedbackSendPage({route}) {
                 maxLength={100}
                 onChangeText={text => {
                   setForm({...form, message: text});
-                }}></TextInput>
+                }}
+                selectionColor={'#AEFFC1'}></TextInput>
               <Text
                 style={{
                   fontWeight: '500',

@@ -222,7 +222,7 @@ const WalletOnchainMain = ({navigation}) => {
                   }}>
                   <View style={[styles.centeredView, styles.backgroudDim]}>
                     <View style={styles.recieveModalView}>
-                      <Text style={styles.modalText}>Recieve KLAY</Text>
+                      <Text style={styles.modalText}>Receive KLAY</Text>
                       <View style={styles.address}>
                         <Text style={styles.addressText}>{slicedAddress}</Text>
                       </View>
@@ -232,7 +232,7 @@ const WalletOnchainMain = ({navigation}) => {
                           textSize={16}
                           width={140}
                           height={55}
-                          backgroundColor="white"
+                          backgroundColor="#AEFFC1"
                           textColor="black"
                           onPress={() => {
                             setModalVisible(false);
@@ -470,12 +470,10 @@ const styles = StyleSheet.create({
   },
   recieveModalView: {
     width: 330,
-    height: 250,
-    backgroundColor: 'white',
+    height: 230,
+    backgroundColor: '#ffffff',
     borderRadius: 12,
     padding: 30,
-    paddingTop: 50,
-    paddingBottom: 40,
     alignItems: 'center',
     borderColor: '#AEFFC1',
     borderWidth: 1,
@@ -493,9 +491,10 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     marginBottom: 15,
     textAlign: 'center',
-    lineHeight: 20,
-    fontSize: 17,
-    color: '#000000',
+    lineHeight: 25.2,
+    fontSize: 18,
+    color: '#1D1E1E',
+    letterSpacing: -0.5,
   },
   backgroudDim: {
     flex: 1,
@@ -522,7 +521,7 @@ const styles = StyleSheet.create({
     margin: 5,
     width: 140,
     height: 55,
-    backgroundColor: 'white',
+    backgroundColor: '#AEFFC1',
     textColor: 'black',
     text: '버튼',
     textSize: 14,

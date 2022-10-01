@@ -85,8 +85,9 @@ function WalletOffchainMain({navigation}) {
             width={140}
             height={38}
             textSize={18}
-            margin={[5, 0, 5, 5]}
+            margin={[0, 0, 0, 5]}
             text="SPENDING"
+            fontFamily="Silkscreen"
             hasMarginBottom
             onPress={handleSpendingSelect}
             selected={spendingSelected}
@@ -96,8 +97,9 @@ function WalletOffchainMain({navigation}) {
             width={140}
             height={38}
             textSize={18}
-            margin={[5, 5, 5, 0]}
+            margin={[0, 5, 0, 0]}
             text="WALLET"
+            fontFamily="Silkscreen"
             hasMarginBottom
             onPress={handleWalletSelect}
             selected={walletSelected}
@@ -128,12 +130,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 50,
+    marginTop: 25,
   },
   buttonWrapper: {
     flexDirection: 'row',
     justifyContent: 'center',
     marginTop: 0,
+    marginBottom: 10,
     backgroundColor: '#3C3D43',
     borderRadius: 999,
     height: 50,

@@ -97,6 +97,7 @@ function MeetingMemberOut({route}) {
             onChangeText={text => {
               setForm({...form, text});
             }}
+            selectionColor={'#AEFFC1'}
           />
         </View>
         <BasicButton

@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 import BackButton from '../../components/common/BackButton';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import memintDino from '../../assets/icons/memintDino.png';
 import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import useUser from '../../utils/hooks/UseUser';
@@ -191,7 +192,7 @@ function MeetingConfirm({route}) {
       if (meetingInfo.confirmStatus === 'confirmed') {
         return (
           <View style={styles.messageArea}>
-            <Icon name="face" size={20} style={styles.messageIcon} />
+            <Image source={memintDino} style={styles.memintDino} />
             <Text style={styles.plainText}>{meetingInfo.confirmMessage}</Text>
           </View>
         );
@@ -652,6 +653,7 @@ const styles = StyleSheet.create({
     top: window.height / 2.2,
     left: window.width / 2.25,
     zIndex: 3,
+    color: 'light-gray',
   },
   joinerText: {
     color: '#ffffff',
@@ -665,6 +667,11 @@ const styles = StyleSheet.create({
   header: {
     height: 50,
     justifyContent: 'center',
+  },
+  memintDino: {
+    width: 25,
+    height: 25,
+    marginRight: 10,
   },
 });
 

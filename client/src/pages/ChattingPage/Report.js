@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Linking,
   Platform,
   StatusBar,
   StyleSheet,
@@ -15,6 +16,10 @@ import BasicButton from '../../components/common/BasicButton';
 function Report({navigation}) {
   const {top} = useSafeAreaInsets();
 
+  const moveToReport = () => {
+    Linking.openURL('http://pf.kakao.com/_RrRjxj ');
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar
@@ -27,7 +32,9 @@ function Report({navigation}) {
         {Platform.OS === 'ios' ? (
           <TouchableOpacity
             style={styles.backButton}
-            onPress={() => navigation.pop()}>
+            onPress={() => {
+              navigation.pop();
+            }}>
             <Icon name="arrow-back-ios" size={20} color={'#1D1E1E'} />
             {/* <Text style={styles.buttonText}>Back</Text> */}
           </TouchableOpacity>

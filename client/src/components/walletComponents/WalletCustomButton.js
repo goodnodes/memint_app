@@ -35,6 +35,7 @@ function WalletCustomButton({
   margin,
   onPress,
   selected,
+  fontFamily
 }) {
   const [marginTop, marginRight, marginBottom, marginLeft] = margin;
   const backgroundColor = selected ? '#AAD1C1' : 'transparent';
@@ -55,7 +56,7 @@ function WalletCustomButton({
           },
         ]}>
         <Text
-          style={[styles.buttonText, {fontSize: textSize, color: textColor}]}>
+          style={[styles.buttonText, {fontSize: textSize, color: textColor, fontFamily: fontFamily}]}>
           {text}
         </Text>
       </View>
@@ -86,7 +87,6 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     textAlign: 'center',
-    fontWeight: 'bold',
     fontFamily: 'Silkscreen',
     letterSpacing: -0.5,
   },

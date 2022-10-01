@@ -95,6 +95,7 @@ const WalletOffchainTrade = ({navigation}) => {
               textSize={17}
               margin={[5, 0, 5, 5]}
               text="가져오기"
+              fontFamily="NeoDunggeunmoPro-Regular"
               hasMarginBottom
               onPress={handleRecieveSelect}
               selected={recieveSelected}
@@ -106,6 +107,7 @@ const WalletOffchainTrade = ({navigation}) => {
               textSize={17}
               margin={[5, 5, 5, 0]}
               text="내보내기"
+              fontFamily="NeoDunggeunmoPro-Regular"
               hasMarginBottom
               onPress={handleTransferSelect}
               selected={transferSelected}

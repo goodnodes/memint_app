@@ -139,6 +139,7 @@ function WalletOffchainHistory({navigation}) {
 const styles = StyleSheet.create({
   view: {
     alignItems: 'flex-start',
+    flex: 1,
   },
   container: {
     flex: 1,

@@ -307,6 +307,7 @@ function EditMeetingInfo({route}) {
             autoCorrect={false}
             placeholder="제목"
             placeholderTextColor="#EAFFEF"
+            selectionColor={'#AEFFC1'}
           />
           <View
             style={[
@@ -325,6 +326,7 @@ function EditMeetingInfo({route}) {
             }}
             autoComplete="off"
             autoCorrect={false}
+            selectionColor={'#AEFFC1'}
           />
           <View
             style={[

@@ -46,7 +46,9 @@ function WalletCustomModal({
           }}>
           <View style={[styles.centeredView, styles.backgroudDim]}>
             <View style={styles.modalView}>
-              <TouchableOpacity style={styles.tokenWrapper} onPress={nFunction}>
+              <TouchableOpacity
+                style={[styles.tokenWrapper, styles.klayWrapper]}
+                onPress={nFunction}>
                 <Image source={klayIcon} style={styles.icon} />
                 <Text style={styles.contentText}>KLAY</Text>
               </TouchableOpacity>
@@ -73,13 +75,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalView: {
-    width: 300,
-    height: 200,
+    width: 254,
+    height: 158,
     backgroundColor: 'white',
     borderRadius: 12,
     borderColor: '#AEFFC1',
     borderWidth: 1,
-    padding: 30,
+    paddingVertical: 23,
+    paddingHorizontal: 37,
     alignItems: 'center',
     // shadowColor: '#000',
     // shadowOffset: {
@@ -102,10 +105,9 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     backgroundColor: 'white',
     borderWidth: 1,
-    borderRadius: 5,
-    width: 250,
+    borderRadius: 12,
+    width: 180,
     height: 52,
-    marginTop: 10,
   },
   contentText: {
     marginLeft: 10,
@@ -116,6 +118,9 @@ const styles = StyleSheet.create({
   backgroudDim: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.3)',
+  },
+  klayWrapper: {
+    marginBottom: 8,
   },
 });
 export default WalletCustomModal;

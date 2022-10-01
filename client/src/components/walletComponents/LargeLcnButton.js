@@ -49,6 +49,7 @@ function LargeLcnButton({
             value={amount}
             onChangeText={setAmount}
             keyboardType="numeric"
+            selectionColor={'#AAD1C1'}
           />
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <Image source={imgSrc} style={styles.icon} />

@@ -104,7 +104,7 @@ const WalletOnchainRecieve = () => {
           </View>
 
           <ScrollView style={styles.container}>
-            <Text style={styles.transferText}>Recieve From Klip</Text>
+            <Text style={styles.transferText}>Receive From Klip</Text>
             <View style={styles.imageContainer}>
               <Image source={klipIcon} style={styles.klipIcon} />
             </View>
@@ -210,12 +210,12 @@ const styles = StyleSheet.create({
     height: 100,
   },
   input: {
-    borderColor: '#bdbdbd',
-    borderWidth: 3,
+    borderColor: '#1D1E1E',
+    borderWidth: 1,
     paddingHorizontal: 16,
-    borderRadius: 10,
+    borderRadius: 12,
     height: 48,
-    backgroundColor: 'white',
+    backgroundColor: '#ffffff',
     marginHorizontal: 25,
     marginTop: 10,
   },
@@ -230,14 +230,16 @@ const styles = StyleSheet.create({
     fontSize: 40,
     marginTop: 40,
     marginBottom: 10,
-    color: '#000000',
+    letterSpacing: -0.5,
+    color: '#1D1E1E',
   },
   text: {
-    fontWeight: 'bold',
-    fontSize: 16,
+    fontWeight: '500',
+    fontSize: 18,
     marginTop: 20,
     marginLeft: 25,
-    color: '#000000',
+    color: '#1D1E1E',
+    letterSpacing: -0.5,
   },
   backButton: {
     paddingLeft: 15,

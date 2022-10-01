@@ -215,6 +215,7 @@ function MyMainPage({navigation}) {
                 color={'#2ACFC2'}
                 unfilledColor={'#edeef6'}
                 thickness={8}
+                borderWidth={0}
               />
               <Image
                 source={{uri: userInfo?.nftProfile}}
@@ -583,7 +584,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
     lineHeight: 15,
     letterSpacing: -0.5,
-    fontWeight: '700',
     fontFamily: 'Silkscreen',
     position: 'absolute',
     top: 19.5,

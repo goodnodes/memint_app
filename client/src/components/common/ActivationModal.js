@@ -91,6 +91,7 @@ function ActivationModal({
                 onEndEditing={() => {
                   setIsFocused(false);
                 }}
+                selectionColor={'#AEFFC1'}
               />
               {body}
               <BasicButton

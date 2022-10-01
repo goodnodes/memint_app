@@ -62,7 +62,7 @@ const WalletOffchainRecieve = ({navigation}) => {
             setAmount={setAmount}
             backgroundColor={'white'}
           />
-          <Icon name="arrow-downward" size={50} />
+          <Icon name="arrow-downward" size={24} color={'#3C3D43'} />
           <SmallLcnButton
             width={330}
             height={100}

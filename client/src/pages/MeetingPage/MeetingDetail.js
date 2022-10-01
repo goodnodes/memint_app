@@ -300,6 +300,7 @@ function MeetingDetail({route}) {
                 autoComplete="off"
                 autoCorrect={false}
                 maxLength={200}
+                selectionColor={'#AEFFC1'}
               />
             </View>
           }

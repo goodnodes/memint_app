@@ -71,7 +71,7 @@ const WalletOffchainTransfer = ({navigation}) => {
             backgroundColor={'#EAFFEFCC'}
             amount={amount}
           />
-          <Icon name="arrow-upward" size={50} />
+          <Icon name="arrow-upward" size={24} color={'#3C3D43'} />
           <LargeLcnButton
             balance={userInfo.tokenAmount}
             width={330}
