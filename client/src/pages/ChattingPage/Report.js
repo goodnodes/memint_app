@@ -17,7 +17,7 @@ function Report({navigation}) {
   const {top} = useSafeAreaInsets();
 
   const moveToReport = () => {
-    Linking.openURL('http://pf.kakao.com/_RrRjxj ');
+    Linking.openURL('http://pf.kakao.com/_RrRjxj');
   };
 
   return (
@@ -71,7 +71,7 @@ function Report({navigation}) {
           textColor="#000000"
           margin={[30, 3, 3, 3]}
           borderRadius={10}
-          onPress={() => {}}
+          onPress={moveToReport}
           border={false}
         />
       </View>
