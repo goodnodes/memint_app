@@ -55,3 +55,18 @@ export function createEarnOffTxLg(userId, amount, txType, balance) {
       tokenAmount: balance + amount,
     });
 }
+
+export async function createEarnOffTxLog(userId, amount, txType, balance) {
+  return await firestore()
+    .collection('User')
+    .doc(userId)
+    .collection('OffchainTokenLog')
+    .add({
+      amount,
+      txType,
+      createdAt: firestore.FieldValue.serverTimestamp(),
+      from: 'serverId',
+      to: userId,
+      balance,
+    });
+}

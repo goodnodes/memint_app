@@ -1,5 +1,7 @@
 export const handleDate = obj => {
   // console.log(obj.toDate().toLocaleString());
+  // console.log('debug');
+  // console.log({obj});
   const date = obj.toDate().toLocaleString();
   // console.log(date);
   const res = date.slice(5, 11).concat(' ' + date.slice(12, -3));

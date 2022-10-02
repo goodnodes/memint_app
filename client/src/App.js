@@ -26,6 +26,7 @@ import FindIdShowIdScreen from './pages/AuthPage/FindIdShowIdScreen';
 import FindPWVerifyScreen from './pages/AuthPage/FindPWVerifyScreen';
 import SetNewPWScreen from './pages/AuthPage/SetNewPWScreen';
 import WalletOffchainScreen from './pages/WalletPage/WalletOffchainScreen';
+import EventPage from './pages/ChattingPage/EventPage';
 import useAuth from './utils/hooks/UseAuth';
 import useAuthActions from './utils/hooks/UseAuthActions';
 import {subscribeAuth} from './lib/Auth';
@@ -400,6 +401,11 @@ function App() {
               <Stack.Screen
                 name="MeetingConfirm"
                 component={MeetingConfirm}
+                options={{headerShown: false}}
+              />
+              <Stack.Screen
+                name="EventPage"
+                component={EventPage}
                 options={{headerShown: false}}
               />
               <Stack.Screen

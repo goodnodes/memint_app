@@ -90,7 +90,8 @@ function WalletOffchainHistory({navigation}) {
 
   useEffect(() => {
     getOffchainLog();
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const getOffchainLog = async () => {
     const res = await getOffchainTokenLog(user.id);
     const logs = res.docs.map(el => {
@@ -119,7 +120,8 @@ function WalletOffchainHistory({navigation}) {
             return (
               <HistoryButton
                 key={idx}
-                time={handleDate(log.createdAt)}
+                // time={handleDate(log.createdAt)}
+                time={log.createdAt}
                 balanceChange={user.id === log.from ? -log.amount : log.amount}
                 balance={log.balance}
                 content={log.txType}

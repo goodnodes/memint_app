@@ -28,6 +28,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {makeCreateDiscord} from '../../lib/api/notification';
 import CameraModal from '../../components/AuthComponents/CameraModal';
 import {useIsFocused} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 const window = Dimensions.get('window');
 
 function FocusAwareStatusBar(props) {
@@ -43,6 +44,7 @@ function MeetingConfirm({route}) {
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const userInfo = useUser();
+  const navigation = useNavigation();
   // const {meetingInfo} = route.params;
 
   useEffect(() => {
@@ -68,7 +70,9 @@ function MeetingConfirm({route}) {
     }
     setImage(res);
   };
-
+  const goToEventPage = () => {
+    navigation.navigate('EventPage', {meetingInfo: meetingInfo});
+  };
   const onLaunchCamera = () => {
     launchCamera(imagePickerOption, onPickImage);
   };
@@ -209,6 +213,37 @@ function MeetingConfirm({route}) {
     }
   };
 
+  const renderEvent = () => {
+    if (meetingInfo.confirmMessage) {
+      if (
+        meetingInfo.confirmStatus === 'confirmed' &&
+        meetingInfo.hostId === userInfo.id
+      ) {
+        return (
+          <View>
+            {Platform.OS === 'ios' ? (
+              <TouchableOpacity
+                style={styles.eventButton}
+                onPress={goToEventPage}>
+                <Text style={styles.buttonText}>이벤트 상품받기!</Text>
+              </TouchableOpacity>
+            ) : (
+              <View>
+                <TouchableNativeFeedback onPress={goToEventPage}>
+                  <View style={styles.eventButton}>
+                    <Text style={styles.buttonText}>
+                      클릭해서 이벤트 상품받기!
+                    </Text>
+                  </View>
+                </TouchableNativeFeedback>
+              </View>
+            )}
+          </View>
+        );
+      }
+    }
+  };
+
   const renderDenied = () => {
     if (meetingInfo.confirmStatus === 'denied') {
       return (
@@ -285,6 +320,7 @@ function MeetingConfirm({route}) {
 
               {renderMessage()}
               {renderDenied()}
+              {renderEvent()}
             </View>
           ) : (
             <>
@@ -546,6 +582,27 @@ const styles = StyleSheet.create({
   },
   photoIcon: {
     marginRight: 7,
+  },
+  eventButton: {
+    backgroundColor: '#AEFFC1',
+    borderRadius: 99,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    paddingVertical: 13,
+    alignContent: 'center',
+    marginTop: 10,
+    marginBottom: 10,
+    width: '100%',
+    height: 50,
+    shadowColor: 'rgba(174, 255, 192, 0.5)',
+    shadowOffset: {
+      width: 0,
+      height: 9,
+    },
+    shadowOpacity: 0.48,
+    shadowRadius: 11.95,
+
+    elevation: 18,
   },
   imageView: {
     flexDirection: 'column',

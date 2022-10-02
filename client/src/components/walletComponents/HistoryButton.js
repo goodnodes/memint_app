@@ -1,8 +1,9 @@
 import React from 'react';
 import {View, StyleSheet, Text, TouchableOpacity, Image} from 'react-native';
 import tingsymbol from '../../assets/icons/tingsymbol.png';
-
+import {handleDate} from '../../utils/common/Functions';
 function HistoryButton({onPress, time, balanceChange, balance, content}) {
+  const parsedTime = handleDate(time);
   return (
     <View style={[styles.button]}>
       <View style={styles.contentWrapper}>
@@ -10,7 +11,7 @@ function HistoryButton({onPress, time, balanceChange, balance, content}) {
           <Image source={tingsymbol} style={styles.icon} />
           <Text style={styles.contentText}>{content}</Text>
         </View>
-        <Text style={styles.timeText}>{time}</Text>
+        <Text style={styles.timeText}>{parsedTime}</Text>
       </View>
       <View style={styles.balanceWrapper}>
         <View style={styles.balanceChange}>

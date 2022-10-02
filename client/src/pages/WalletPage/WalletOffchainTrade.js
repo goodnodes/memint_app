@@ -25,6 +25,9 @@ import tingIcon from '../../assets/icons/tingSymbolBig.png';
 import DoubleModal from '../../components/common/DoubleModal';
 import {getUser, getFreeToken} from '../../lib/Users';
 import useAuthActions from '../../utils/hooks/UseAuthActions';
+import {createEarnOffTxLog} from '../../lib/OffchianTokenLog';
+import {getOffchainTokenLog} from '../../lib/OffchianTokenLog';
+import useOffchainActions from '../../utils/hooks/UseOffchainActions';
 
 const WalletOffchainTrade = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -33,6 +36,7 @@ const WalletOffchainTrade = ({navigation}) => {
   const {showToast} = useToast();
   const {saveInfo} = useAuthActions();
   const {top} = useSafeAreaInsets();
+  const {addLog} = useOffchainActions();
   const user = useUser();
   const handleRecieveSelect = () => {
     setRecieveSelected(true);
@@ -130,12 +134,26 @@ const WalletOffchainTrade = ({navigation}) => {
                       userId: userDetail.userId,
                       updatedTokenAmount: userDetail.tokenAmount + 1,
                     }).then(() => {
-                      saveInfo({
-                        ...user,
-                        tokenAmount: userDetail.tokenAmount + 1,
+                      console.log(userDetail.tokenAmount);
+                      createEarnOffTxLog(
+                        userDetail.userId,
+                        1,
+                        '무료 TING 지급',
+                        userDetail.tokenAmount + 1,
+                      ).then(async () => {
+                        const res = await getOffchainTokenLog(user.id);
+                        const logs = res.docs.map(el => {
+                          return {...el.data()};
+                        });
+                        addLog(logs);
+                        saveInfo({
+                          ...user,
+                          tokenAmount: userDetail.tokenAmount + 1,
+                        });
+                        showToast('success', 'TING 지급이 완료되었습니다.');
                       });
+                      // });
                     });
-                    showToast('success', 'TING 지급이 완료되었습니다.');
                   } else {
                     showToast(
                       'error',
