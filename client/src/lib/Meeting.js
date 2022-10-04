@@ -12,6 +12,12 @@ export const getMeeting = async meetingId => {
   return await meetingCollection.doc(meetingId).get();
 };
 
+export const createEventFlag = async (meetingId, eventStatus) => {
+  return await meetingCollection
+    .doc(meetingId)
+    .update({eventStatus: eventStatus});
+};
+
 //미팅 생성
 //title, description, region, peopleNum, meetingTags, meetDate
 export const createMeeting = ({hostId, friends, ...rest}) => {

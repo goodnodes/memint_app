@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   Alert,
   StyleSheet,
@@ -6,13 +6,22 @@ import {
   View,
   Image,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   Animated,
   Easing,
+  Linking,
+  ScrollView,
 } from 'react-native';
+import * as Animatable from 'react-native-animatable';
+import LottieView from 'lottie-react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import BackButton from '../../components/common/BackButton';
+import CloseButton from '../../components/common/CloseButton';
 import LinearGradient from 'react-native-linear-gradient';
 import memintDino from '../../assets/icons/memintDino.png';
+import randomBox from '../../assets/icons/randombox.png';
+import bomb from '../../assets/icons/bomb.png';
+import partyPopper from '../../assets/icons/partyPopper.png';
+import celebrate from '../../assets/animations/celebrate.json';
 import useUser from '../../utils/hooks/UseUser';
 import * as Progress from 'react-native-progress';
 import {useNavigation} from '@react-navigation/native';
@@ -20,67 +29,47 @@ import {createNFT, getImgUrl} from '../../lib/NFT';
 import useNftActions from '../../utils/hooks/UseNftActions';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 import {useToast} from '../../utils/hooks/useToast';
-import {getMeeting, updateMeeting} from '../../lib/Meeting';
+import {getMeeting, updateMeeting, createEventFlag} from '../../lib/Meeting';
 let interval = undefined;
+
+//만약 Android에서 애니메이션 문제 있을시 아래 블로그 참고
+//https://velog.io/@swanious/react-native-lottie-%EC%95%A0%EB%8B%88%EB%A9%94%EC%9D%B4%EC%85%98-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0
 
 const EventPage = ({route}) => {
   // let {userInfo} = route.params || {};
   const navigation = useNavigation();
   const [meetingInfo, setMeetingInfo] = useState(route.params.meetingInfo);
+
   const [eventItem, setEventItem] = useState('');
   const user = useUser();
   const [running, setRunning] = useState(true);
   const [progress, setProgress] = useState(0);
-  //   console.log(meetingInfo);
-  // const {setNftProfile} = useNftActions();
-  // const [profileImg, setProfileImg] = useState('');
+
   const {showToast} = useToast();
-  // const getNFT = async () => {
-  //   try {
-  //     const nftProfileImg = await getImgUrl();
-
-  //     setProfileImg(nftProfileImg);
-  //   } catch (e) {
-  //     showToast('error', 'NFT 이미지 불러오기가 실패했습니다.');
-  //     console.log(e);
-  //   }
-  // };
-  // useEffect(() => {
-  //   getNFT();
-  // }, []);
-
+  const AnimationRef = useRef(new Animated.Value(0));
+  const animationProgress = useRef(new Animated.Value(0));
   const onEventHandler = async () => {
-    Animated.timing(spinValue, {
-      toValue: 1,
-      duration: 2000,
-      easing: Easing.linear, // Easing is an additional import from react-native
-      useNativeDriver: true, // To make use of native driver for performance
-    }).start(async () => {
-      const res = await getMeeting(route.params.meetingInfo.id);
-      console.log(res._data.eventItem);
-      setEventItem(res._data.eventItem);
-      //   if (running) {
-      //     const res = await getMeeting(route.params.meetingInfo.id);
-      //     console.log(res._data.eventItem);
-      //     setEventItem(res._data.eventItem);
-      //     interval = setInterval(() => {
-      //       setProgress(prev => prev + 1);
-      //     }, 20);
-      //   } else {
-      //     clearInterval(interval);
-      //   }
-    });
-  };
-  //   useEffect(() => {
-  //     if (running) {
-  //       interval = setInterval(() => {
-  //         setProgress(prev => prev + 1);
-  //       }, 20);
-  //     } else {
-  //       clearInterval(interval);
-  //     }
-  //   }, [running]);
+    if (AnimationRef) {
+      // console.log(AnimationRef);
+      await AnimationRef.current?.swing(700);
+      // Animated.timing(AnimationRef.crruent, {
+      //   duration: 700,
+      //   iterationCount: 5,
+      // }).start();
 
+      Animated.timing(animationProgress.current, {
+        toValue: 1,
+        duration: 3000,
+        easing: Easing.linear,
+        useNativeDriver: false,
+      }).start(async () => {
+        const res = await getMeeting(route.params.meetingInfo.id);
+        await createEventFlag(route.params.meetingInfo.id, 'clicked');
+        console.log(res._data.eventItem);
+        setEventItem(res._data.eventItem);
+      });
+    }
+  };
   useEffect(() => {
     if (progress === 100) {
       setRunning(false);
@@ -88,15 +77,84 @@ const EventPage = ({route}) => {
     }
   }, [progress]);
 
-  // const {nickName, uid} = route.params;
-  //   console.log(nickName);
-  //   console.log(uid);
-  //   console.log(profileImg);
+  useEffect(() => {
+    getMeetingInfo();
+  }, []);
+  const getMeetingInfo = async () => {
+    const res = await getMeeting(route.params.meetingInfo.id);
+    setMeetingInfo({id: res.id, ...res.data()});
+  };
 
+  const rednerMeminCrew = () => {
+    return (
+      <ScrollView>
+        <View style={styles.eventTitle}>
+          <Text style={styles.meetingTitle}>{meetingInfo.title}</Text>
+          <Text style={styles.eventResult}>이벤트 당첨 결과</Text>
+          <Text style={styles.meetingTime}>
+            미팅 인증 일시{' '}
+            {meetingInfo?.confirmCreatedAt.toDate().toLocaleString()}
+          </Text>
+        </View>
+        <View style={styles.popperArea}>
+          <Image source={partyPopper} />
+          <Text style={styles.meetingTitle}>당첨을 축하합니다 🥳</Text>
+          <Text style={styles.eventResult}>미민크루 출동!</Text>
+        </View>
+        <View style={styles.descriptionArea}>
+          <Text style={styles.eventNotiTitle}>
+            🦖미민크루🦖 이벤트 당첨자 안내 사항!
+          </Text>
+          <Text>
+            미민크루 이벤트는 미민트 스탭이 여러분의 술 자리에 나타나 깜짝
+            선물을 증정하는 이벤트입니다.{'\n'}미민크루의 선물을 받고 싶다면
+            Memint 카카오 채널로 다음의 사항을 보내주세요. 최대한 빨리
+            출동할게요 :)
+          </Text>
+          <Text style={styles.eventNotiDesc}>
+            1. 당첨 페이지 캡처화면{'\n'}2. 미팅 호스트 이름, 전화번호
+            {'\n'}
+            3. 진행 중인 미팅 장소
+          </Text>
+          <Text style={styles.grayTitle}>
+            다음의 경우에는 선물 증정이 불가합니다.
+          </Text>
+          <Text style={styles.grayContent}>
+            • 미팅 인증 후 2시간 안에 카카오톡 연락을 보내지 않은 경우
+            {'\n'}• 미팅 멤버 중 과반수 이상이 흩어진 경우(미민크루 도착 시)
+          </Text>
+        </View>
+      </ScrollView>
+    );
+  };
+  const renderBlank = () => {
+    return (
+      <ScrollView>
+        <View style={styles.eventTitle}>
+          <Text style={styles.meetingTitle}>{meetingInfo.title}</Text>
+          <Text style={styles.eventResult}>이벤트 당첨 결과</Text>
+          <Text style={styles.meetingTime}>
+            미팅 인증 일시{' '}
+            {meetingInfo?.confirmCreatedAt.toDate().toLocaleString()}
+          </Text>
+        </View>
+        <View style={styles.bombArea}>
+          <Image source={bomb} />
+          <Text style={styles.meetingTitle}>아쉽네요 꽝입니다 😭</Text>
+        </View>
+      </ScrollView>
+    );
+  };
+  const goToKakao = async () => {
+    Linking.openURL('http://pf.kakao.com/_RrRjxj/chat');
+  };
   const onSubmit = async () => {
     navigation.navigate('Main');
   };
 
+  const goToMeetingConfirm = () => {
+    navigation.pop();
+  };
   const spinValue = new Animated.Value(0);
   const rotate = spinValue.interpolate({
     inputRange: [0, 1],
@@ -114,6 +172,15 @@ const EventPage = ({route}) => {
     inputRange: [0, 1],
     outputRange: ['0deg', '360deg'],
   });
+  // useEffect(() => {
+  //   Animated.timing(animationProgress.current, {
+  //     toValue: 1,
+  //     duration: 5000,
+  //     easing: Easing.linear,
+  //     useNativeDriver: false,
+  //   }).start();
+  // }, []);
+  console.log(eventItem, meetingInfo.eventStatus);
 
   return (
     <View style={styles.fullscreen}>
@@ -123,48 +190,61 @@ const EventPage = ({route}) => {
         start={{x: 0.3, y: 0.3}}
         end={{x: 1, y: 1}}
         style={styles.gradientBackground}>
-        {/* <BackButton /> */}
+        {eventItem !== '' ? <CloseButton /> : null}
         <View style={styles.fullscreenSub}>
           {eventItem !== '' ? (
             <View style={styles.progressdoneArea}>
-              <Text style={styles.textMain}>축하합니다 !!!</Text>
-              {/* <Image style={styles.nftImg} source={{uri: user.nftProfile}} /> */}
-              <Text style={styles.textSub}>{eventItem}</Text>
-              <TouchableOpacity style={styles.button} onPress={onSubmit}>
-                <Text style={styles.buttonText}>다음</Text>
-              </TouchableOpacity>
+              <View style={styles.containerArea}>
+                {eventItem === '미민크루'
+                  ? rednerMeminCrew()
+                  : eventItem === '꽝'
+                  ? renderBlank()
+                  : renderBlank()}
+              </View>
+              {eventItem === '미민크루' ? (
+                <TouchableOpacity style={styles.button} onPress={goToKakao}>
+                  <Text style={styles.buttonText}>
+                    Memint 카카오 채널 바로가기
+                  </Text>
+                </TouchableOpacity>
+              ) : eventItem === '꽝' ? (
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={goToMeetingConfirm}>
+                  <Text style={styles.buttonText}>돌아가기</Text>
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={goToMeetingConfirm}>
+                  <Text style={styles.buttonText}>돌아가기</Text>
+                </TouchableOpacity>
+              )}
             </View>
           ) : (
             <>
-              <TouchableOpacity
-                activeOpacity={1}
-                style={styles.progressArea}
-                onPress={onEventHandler}>
-                <Text style={styles.textMain}>
-                  클로즈베타 테스터를 위한 이벤트 !
-                </Text>
-                <Animated.Image
-                  source={memintDino}
-                  style={[
-                    styles.logo,
-                    {
-                      transform: [
-                        {
-                          rotateY: rotate,
-                        },
-                      ],
-                    },
-                  ]}
-                />
-                {/* {running && progress !== 0 ? (
-                  <Text style={styles.textSubContent}>두근두근...</Text>
-                ) : (
-                  <Text style={styles.textSubContent}> </Text>
-                )} */}
-                <Text style={styles.textSub}>
-                  미민이를 클릭해서 상품을 받으세요!
-                </Text>
-              </TouchableOpacity>
+              <LottieView
+                source={celebrate}
+                // source={require('../../assets/animations/celebrate.json')}
+                progress={animationProgress.current}
+              />
+              <TouchableWithoutFeedback onPress={onEventHandler}>
+                <View style={styles.progressArea}>
+                  <Text style={styles.textSub}>
+                    랜덤박스를 터치해 열어보세요
+                  </Text>
+                  <Animatable.Image
+                    animation="swing"
+                    iterationCount={3}
+                    duration={0}
+                    delay={100000000000}
+                    ref={AnimationRef}
+                    source={randomBox}
+                    style={[styles.logo]}
+                  />
+                </View>
+              </TouchableWithoutFeedback>
+              {/* </TouchableOpacity> */}
             </>
           )}
         </View>
@@ -248,9 +328,18 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontFamily: 'NeoDunggeunmoPro-Regular',
     letterSpacing: -0.5,
-    marginTop: 30,
+    marginBottom: 30,
     // alignItems: 'center',
     // justifyContent: 'center',
+  },
+  grayTitle: {
+    color: '#B9C5D1',
+    marginBottom: 20,
+    fontSize: 12,
+  },
+  grayContent: {
+    color: '#B9C5D1',
+    fontSize: 12,
   },
   contentText: {
     fontSize: 12,
@@ -294,9 +383,9 @@ const styles = StyleSheet.create({
     height: 30,
   },
   logo: {
-    width: 101,
-    height: 108.77,
-    marginBottom: 15,
+    width: 148,
+    height: 148,
+    // marginBottom: 15,
   },
   button: {
     marginTop: 'auto',
@@ -327,12 +416,65 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     letterSpacing: -0.01,
   },
+  eventNotiTitle: {
+    fontStyle: 'normal',
+    fontWeight: '600',
+    fontSize: 15,
+    marginVertical: 20,
+  },
+  eventNotiDesc: {
+    marginVertical: 20,
+    fontSize: 15,
+    lineHeight: 21,
+    fontWeight: '400',
+  },
+  meetingTitle: {
+    // fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontWeight: '600',
+    fontSize: 16,
+    // lineHeight: 140,
+    // marginTop: 5,
+  },
+  meetingTime: {
+    backgroundColor: '#1D1E1E',
+    fontWeight: '400',
+    fontSize: 12,
+    color: '#B9C5D1',
+    margin: 15,
+  },
+  eventTitle: {
+    marginTop: 35,
+    alignItems: 'center',
+  },
+  eventResult: {
+    marginTop: 2,
+  },
+  popperArea: {alignItems: 'center'},
+  bombArea: {alignItems: 'center', marginTop: 70},
+  descriptionArea: {padding: 25},
+  containerArea: {
+    position: 'absolute',
+    width: 358,
+    height: 605,
+    // left: 16,
+    top: 54,
+
+    /* 5 */
+    backgroundColor: '#FFFFFF',
+    /* B5 */
+    borderWidth: 2,
+    borderStyle: 'solid',
+    borderColor: '#AEFFC1',
+    borderRadius: 15,
+  },
   progressdoneArea: {
-    marginTop: 120,
+    // marginTop: 120,
     flexDirection: 'column',
     alignItems: 'center',
     width: '100%',
     flex: 1,
+    // box-sizing: border-box;
   },
   progressArea: {
     // marginTop: 200,

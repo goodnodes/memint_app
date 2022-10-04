@@ -23,6 +23,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import useUser from '../../utils/hooks/UseUser';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import SingleModal from '../../components/common/SingleModal';
+import {useToast} from '../../utils/hooks/useToast';
 
 function WalletOffchainMain({navigation}) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -30,12 +31,14 @@ function WalletOffchainMain({navigation}) {
   const [walletSelected, setWalletSelected] = useState(false);
   const [spendingSelected, setSpendingSelected] = useState(true);
   const user = useUser();
+  const {showToast} = useToast();
   const {logout} = useAuthActions();
   const {top} = useSafeAreaInsets();
 
   const handleWalletSelect = () => {
-    setWalletSelected(true);
-    setSpendingSelected(false);
+    // setWalletSelected(true);
+    // setSpendingSelected(false);
+    showToast('basic', 'Coming Soon');
   };
 
   const handleSpendingSelect = () => {
