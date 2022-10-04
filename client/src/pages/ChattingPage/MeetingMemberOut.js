@@ -69,20 +69,18 @@ function MeetingMemberOut({route}) {
             멤버 퇴출은 다음의 경우에만 진행해 주세요.
           </Text>
           <View>
+            <Text style={styles.plainText}>• 채팅방 내 타인을 모욕, 비방</Text>
             <Text style={styles.plainText}>
-              • {'\t'}채팅방 내 타인을 모욕, 비방
+              • 음란물, 불법 사행성 도박 사이트 홍보 메시지 발송
             </Text>
             <Text style={styles.plainText}>
-              • {'\t'}음란물, 불법 사행성 도박 사이트 홍보 메시지 발송
+              • 불법촬영물, 허위영상물, 아동・청소년 성착취물 공유
             </Text>
             <Text style={styles.plainText}>
-              • {'\t'}불법촬영물, 허위영상물, 아동・청소년 성착취물 공유
+              • 타인의 개인정보 유출 및 권리침해
             </Text>
-            <Text style={styles.plainText}>
-              • {'\t'}타인의 개인정보 유출 및 권리침해
-            </Text>
-            <Text style={styles.plainText}>• {'\t'}장기간 미응답</Text>
-            <Text style={styles.plainText}>• {'\t'}기타 특이사항</Text>
+            <Text style={styles.plainText}>• 장기간 미응답</Text>
+            <Text style={styles.plainText}>• 기타 특이사항</Text>
           </View>
           <Text style={styles.bigText}>
             ※ 잦은 멤버 퇴출은 이용제한조치 사유가 될 수 있습니다.
@@ -169,12 +167,12 @@ const Person = ({user, form, setForm}) => {
         }}>
         <Image
           source={{uri: user[1]}}
-          style={{width: 45, height: 45, borderRadius: 22.5}}
+          style={{width: 30, height: 30, borderRadius: 999}}
         />
         <Text
           style={{
             fontSize: 17,
-            fontWeight: 'bold',
+            fontWeight: '500',
             paddingLeft: 8,
             color: '#ffffff',
           }}>
@@ -197,6 +195,7 @@ const Person = ({user, form, setForm}) => {
         onCheckColor="#58FF7D"
         onTintColor="#58FF7D"
         tintColors={{true: '#58FF7D'}}
+        style={{width: 20, height: 20}}
       />
     </View>
   );
