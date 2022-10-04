@@ -1,40 +1,24 @@
 import React, {useState} from 'react';
 import {TouchableOpacity, Text, StyleSheet, View} from 'react-native';
 
-function TagElement({tag, drinkInfo, setDrinkInfo, type, wholeInfo}) {
+function TagElement({tag, property, setProperty, type, selectLimit}) {
   const [colored, setColored] = useState(
-    drinkInfo.indexOf(tag) !== -1 ? true : false,
+    property[type].indexOf(tag) !== -1 ? true : false,
   );
   const handleClick = () => {
     if (colored) {
       setColored(false);
-      if (type === 'alcoholType') {
-        console.log(drinkInfo);
-        setDrinkInfo({
-          ...wholeInfo,
-          alcoholType: drinkInfo.filter(el => el !== tag),
-        });
-      } else {
-        setDrinkInfo({
-          ...wholeInfo,
-          drinkStyle: drinkInfo.filter(el => el !== tag),
-        });
-      }
+      setProperty({
+        ...property,
+        [type]: property[type].filter(el => el !== tag),
+      });
     } else {
-      setColored(true);
-      if (type === 'alcoholType') {
-        const alcoholType = [...drinkInfo, tag];
-        setDrinkInfo({
-          ...wholeInfo,
-          alcoholType: alcoholType,
-        });
-      } else if (type === 'drinkStyle') {
-        const drinkStyle = [...drinkInfo, tag];
-        setDrinkInfo({
-          ...wholeInfo,
-          drinkStyle: drinkStyle,
-        });
+      if (property[type].length >= selectLimit) {
+        return;
       }
+      setColored(true);
+      const data = [...property[type], tag];
+      setProperty({...property, [type]: data});
     }
   };
   return (
@@ -61,7 +45,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 11,
     marginVertical: 4,
     borderRadius: 99,
-    borderColor: '#EAFFEFCC',
+    borderColor: 'transparent',
     borderWidth: 1,
     marginHorizontal: 4,
   },

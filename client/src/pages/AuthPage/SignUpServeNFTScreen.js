@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   Animated,
   Easing,
+  Platform,
+  StatusBar,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import BackButton from '../../components/common/BackButton';
@@ -20,7 +22,14 @@ import {createNFT, getImgUrl} from '../../lib/NFT';
 import useNftActions from '../../utils/hooks/UseNftActions';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 import {useToast} from '../../utils/hooks/useToast';
+import {useIsFocused} from '@react-navigation/native';
 let interval = undefined;
+
+function FocusAwareStatusBar(props) {
+  const isFocused = useIsFocused();
+
+  return isFocused ? <StatusBar {...props} /> : null;
+}
 
 const SignUpServeNFTScreen = ({navigation}) => {
   // let {userInfo} = route.params || {};
@@ -88,7 +97,15 @@ const SignUpServeNFTScreen = ({navigation}) => {
 
   return (
     <View style={styles.fullscreen}>
-      <SafeStatusBar />
+      {Platform.OS === 'ios' ? (
+        <SafeStatusBar />
+      ) : (
+        <FocusAwareStatusBar
+          barStyle="light-content"
+          backgroundColor="#3C3D43"
+          animated={true}
+        />
+      )}
       <LinearGradient
         colors={['#3D3E44', '#5A7064']}
         start={{x: 0.3, y: 0.3}}

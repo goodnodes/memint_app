@@ -155,11 +155,7 @@ function App() {
         // createdroomId: userDetail.createdroomId,
         // joinedroomId: userDetail.joinedroomId,
         nftProfile: userDetail.nftProfile,
-        property: {
-          alcoholType: userDetail.property.alcoholType,
-          drinkCapa: userDetail.property.drinkCapa,
-          drinkStyle: userDetail.property.drinkStyle,
-        },
+        property: userDetail.property,
         visibleUser: userDetail.visibleUser,
         likesroomId: userDetail.likesroomId,
         marketingAgreement: userDetail.marketingAgreement,

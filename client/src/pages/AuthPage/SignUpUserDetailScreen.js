@@ -18,6 +18,7 @@ import SafeStatusBar from '../../components/common/SafeStatusBar';
 import LinearGradient from 'react-native-linear-gradient';
 import TagElement from '../../components/AuthComponents/TagElement';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {data} from '../../assets/docs/contents';
 
 function FocusAwareStatusBar(props) {
   const isFocused = useIsFocused();
@@ -42,7 +43,7 @@ const SignUpUserDetailScreen = ({navigation, route}) => {
   });
   const [selfIntroduction, setSelfIntroduction] = useState('');
 
-  const [animatedValue, setAnimatedValue] = useState(new Animated.Value(0));
+  const [animatedValue] = useState(new Animated.Value(0));
 
   useEffect(() => {
     Animated.timing(animatedValue, {
@@ -85,114 +86,11 @@ const SignUpUserDetailScreen = ({navigation, route}) => {
     }
   };
 
-  const data = {
-    mbti: [
-      'ISFP',
-      'ESFP',
-      'ISTP',
-      'ESTP',
-      'INFP',
-      'ENFP',
-      'ISTJ',
-      'ESTJ',
-      'ISFJ',
-      'ESTJ',
-      'INFJ',
-      'ENFJ',
-      'INTJ',
-      'ENTJ',
-      'INTP',
-      'ENTP',
-    ],
-    region: [
-      '강남',
-      '건대',
-      '망원',
-      '명동',
-      '문래',
-      '사당',
-      '삼성',
-      '서울대입구',
-      '서촌',
-      '성수',
-      '신사',
-      '신촌',
-      '여의도',
-      '왕십리',
-      '을지로',
-      '이태원',
-      '잠실',
-      '종로',
-      '한남',
-      '합정',
-      '혜화',
-      '홍대',
-    ],
-    drinkCapa: [
-      '한 잔만',
-      '반 병 이하',
-      '한 병 이하',
-      '두 병 이하',
-      '세 병 이하',
-      '세 병 이상',
-    ],
-    alcoholType: [
-      '소주',
-      '맥주',
-      '보드카',
-      '칵테일',
-      '고량주',
-      '막걸리',
-      '와인',
-      '소맥',
-      '전통주',
-      '사케',
-      '위스키',
-      '테킬라',
-      '하이볼',
-    ],
-    drinkStyle: [
-      '진지한 분위기를 좋아해요. 함께 이야기 나눠요!',
-      '신나는 분위기를 좋아해요. 친해져요!',
-      '일단 마시고 생각하자구요. 부어라 마셔라!',
-      '먹는게 삶의 낙이죠. 술보다 안주가 좋아요.',
-    ],
-    curfew: [
-      '오후 8시',
-      '오후 9시',
-      '오후 10시',
-      '오후 11시',
-      '자정',
-      '오전 1시',
-      '오전 2시',
-      '오전 3시',
-      '제 통금은 9시에요. 오전 9시',
-      '해 지기 전에 들어가야해요',
-    ],
-    favGame: [
-      '출석부',
-      '베스킨라빈스31',
-      '손병호',
-      '아파트',
-      '바니바니',
-      '007빵',
-      '더게임오브데스',
-      '오렌지',
-      '훈민정음',
-      '딸기',
-      '귓속말',
-      '눈치게임',
-      '홍삼',
-      '딸기당근수박참외메론',
-      '진실게임',
-      '기타',
-    ],
-  };
-
   return (
     <KeyboardAwareScrollView
       contentContainerStyle={styles.KeyboardAvoidingView}
-      enableOnAndroid={true}>
+      enableOnAndroid={true}
+      enableAutomaticScroll={Platform.OS === 'ios' ? true : false}>
       {Platform.OS === 'ios' ? (
         <SafeStatusBar />
       ) : (
@@ -327,7 +225,7 @@ const SignUpUserDetailScreen = ({navigation, route}) => {
 };
 
 const Emoji = ({property, setProperty, nickName}) => {
-  const [animatedValue, setAnimatedValue] = useState(new Animated.Value(0));
+  const [animatedValue] = useState(new Animated.Value(0));
   function handleEmoji(string) {
     var regex =
       /([\u2700-\u27bf]|(\ud83c[\udde6-\uddff]){2}|[\ud800-\udbff][\udc00-\udfff]|[\u0023-\u0039]\ufe0f?\u20e3|\u3299|\u3297|\u303d|\u3030|\u24c2|\ud83c[\udd70-\udd71]|\ud83c[\udd7e-\udd7f]|\ud83c\udd8e|\ud83c[\udd91-\udd9a]|\ud83c[\udde6-\uddff]|\ud83c[\ude01-\ude02]|\ud83c\ude1a|\ud83c\ude2f|\ud83c[\ude32-\ude3a]|\ud83c[\ude50-\ude51]|\u203c|\u2049|[\u25aa-\u25ab]|\u25b6|\u25c0|[\u25fb-\u25fe]|\u00a9|\u00ae|\u2122|\u2139|\ud83c\udc04|[\u2600-\u26FF]|\u2b05|\u2b06|\u2b07|\u2b1b|\u2b1c|\u2b50|\u2b55|\u231a|\u231b|\u2328|\u23cf|[\u23e9-\u23f3]|[\u23f8-\u23fa]|\ud83c\udccf|\u2934|\u2935|[\u2190-\u21ff])/g;
@@ -384,8 +282,8 @@ const Emoji = ({property, setProperty, nickName}) => {
   );
 };
 
-const Region = ({data, property, setProperty}) => {
-  const [animatedValue, setAnimatedValue] = useState(new Animated.Value(0));
+const Region = ({property, setProperty}) => {
+  const [animatedValue] = useState(new Animated.Value(0));
   useEffect(() => {
     Animated.timing(animatedValue, {
       toValue: 1,
@@ -427,7 +325,7 @@ const Region = ({data, property, setProperty}) => {
 };
 
 const FavYoutube = ({property, setProperty}) => {
-  const [animatedValue, setAnimatedValue] = useState(new Animated.Value(0));
+  const [animatedValue] = useState(new Animated.Value(0));
   useEffect(() => {
     Animated.timing(animatedValue, {
       toValue: 1,
@@ -473,7 +371,7 @@ const FavYoutube = ({property, setProperty}) => {
 };
 
 const TwinCeleb = ({property, setProperty}) => {
-  const [animatedValue, setAnimatedValue] = useState(new Animated.Value(0));
+  const [animatedValue] = useState(new Animated.Value(0));
   useEffect(() => {
     Animated.timing(animatedValue, {
       toValue: 1,
@@ -522,8 +420,8 @@ const TwinCeleb = ({property, setProperty}) => {
   );
 };
 
-const DrinkCapa = ({data, property, setProperty}) => {
-  const [animatedValue, setAnimatedValue] = useState(new Animated.Value(0));
+const DrinkCapa = ({property, setProperty}) => {
+  const [animatedValue] = useState(new Animated.Value(0));
   useEffect(() => {
     Animated.timing(animatedValue, {
       toValue: 1,
@@ -565,8 +463,8 @@ const DrinkCapa = ({data, property, setProperty}) => {
   );
 };
 
-const AlcoholType = ({data, property, setProperty}) => {
-  const [animatedValue, setAnimatedValue] = useState(new Animated.Value(0));
+const AlcoholType = ({property, setProperty}) => {
+  const [animatedValue] = useState(new Animated.Value(0));
   useEffect(() => {
     Animated.timing(animatedValue, {
       toValue: 1,
@@ -607,8 +505,8 @@ const AlcoholType = ({data, property, setProperty}) => {
   );
 };
 
-const DrinkStyle = ({data, property, setProperty}) => {
-  const [animatedValue, setAnimatedValue] = useState(new Animated.Value(0));
+const DrinkStyle = ({property, setProperty}) => {
+  const [animatedValue] = useState(new Animated.Value(0));
   useEffect(() => {
     Animated.timing(animatedValue, {
       toValue: 1,
@@ -649,8 +547,8 @@ const DrinkStyle = ({data, property, setProperty}) => {
   );
 };
 
-const Curfew = ({data, property, setProperty}) => {
-  const [animatedValue, setAnimatedValue] = useState(new Animated.Value(0));
+const Curfew = ({property, setProperty}) => {
+  const [animatedValue] = useState(new Animated.Value(0));
   useEffect(() => {
     Animated.timing(animatedValue, {
       toValue: 1,
@@ -690,8 +588,8 @@ const Curfew = ({data, property, setProperty}) => {
   );
 };
 
-const FavGame = ({data, property, setProperty, nickName}) => {
-  const [animatedValue, setAnimatedValue] = useState(new Animated.Value(0));
+const FavGame = ({property, setProperty, nickName}) => {
+  const [animatedValue] = useState(new Animated.Value(0));
   useEffect(() => {
     Animated.timing(animatedValue, {
       toValue: 1,
@@ -737,7 +635,7 @@ const FavGame = ({data, property, setProperty, nickName}) => {
 };
 
 const SelfIntroduction = ({selfIntroduction, setSelfIntroduction}) => {
-  const [animatedValue, setAnimatedValue] = useState(new Animated.Value(0));
+  const [animatedValue] = useState(new Animated.Value(0));
   useEffect(() => {
     Animated.timing(animatedValue, {
       toValue: 1,
@@ -854,7 +752,7 @@ const styles = StyleSheet.create({
     letterSpacing: -0.01,
   },
   paddingBottom: {
-    paddingBottom: 80,
+    paddingBottom: 120,
   },
   propertyView: {
     alignItems: 'center',

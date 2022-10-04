@@ -1,25 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {
   Text,
   StyleSheet,
   View,
   Image,
-  useWindowDimensions,
   ScrollView,
   TouchableOpacity,
+  Dimensions,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {useMemin, useNftProfile} from '../../utils/hooks/UseNft';
-import {useToast} from '../../utils/hooks/useToast';
-import BasicButton from '../common/BasicButton';
-import SingleModal from '../common/SingleModal';
-import SpendingModal from '../common/UserInfoModal/SpendingModal';
-import MyMeMin from './MyMeMin';
 
-// <Image
-//   source={require('../../assets/icons/nftBadge.png')}
-//   style={styles.badge}
-// />
+const {width} = Dimensions.get('window');
 
 function MyProfile({User, navigation}) {
   return (
@@ -90,38 +81,82 @@ function MyProfile({User, navigation}) {
       </View>
 
       <View style={styles.userInfos}>
-        <Text style={styles.userNickName}>Lv.1 {User.nickName}</Text>
+        <Text style={styles.userNickName}>{User.nickName}</Text>
         <Text style={styles.userBirth}>{User.birth}</Text>
         <Text style={styles.userBirth}>
           {User.selfIntroduction === undefined ? '' : User.selfIntroduction}
         </Text>
       </View>
       <View style={styles.userTags}>
-        <Text style={styles.plainText}>{User.nickName}님의 미팅 스타일은?</Text>
         <View style={styles.userTag}>
-          {/* <Icon name="circle" size={9} color={'#4E00F5'} /> */}
-          <Text style={styles.tagText}>주량 </Text>
+          <Text style={styles.tagText}>MBTI</Text>
+          <View style={styles.tag}>
+            <Text style={styles.tagFont}>{User.property.mbti}</Text>
+          </View>
+        </View>
+        <View style={styles.userTag}>
+          <Text style={styles.tagText}>주출몰지</Text>
+          <View style={styles.tags}>
+            {User.property.region.map((el, index) => (
+              <View style={styles.tag} key={index}>
+                <Text style={styles.tagFont}>{el}</Text>
+              </View>
+            ))}
+          </View>
+        </View>
+        <View style={styles.userTag}>
+          <Text style={styles.tagText}>자주 보는 유튜브</Text>
+          <View style={styles.plainTag}>
+            <Text style={styles.tagFont}>{User.property.favYoutube}</Text>
+          </View>
+        </View>
+        <View style={styles.userTag}>
+          <Text style={styles.tagText}>닮은꼴 연예인</Text>
+          <View style={styles.plainTag}>
+            <Text style={styles.tagFont}>{User.property.twinCeleb}</Text>
+          </View>
+        </View>
+        <View style={styles.userTag}>
+          <Text style={styles.tagText}>주량</Text>
           <View style={styles.tag}>
             <Text style={styles.tagFont}>{User.property.drinkCapa}</Text>
           </View>
         </View>
         <View style={styles.userTag}>
-          {/* <Icon name="circle" size={9} color={'#4E00F5'} /> */}
-          <Text style={styles.tagText}>주종 </Text>
-          {User.property.alcoholType.map((el, index) => (
-            <View style={styles.tag} key={index}>
-              <Text style={styles.tagFont}>{el}</Text>
-            </View>
-          ))}
+          <Text style={styles.tagText}>선호 주류</Text>
+          <View style={styles.tags}>
+            {User.property.alcoholType.map((el, index) => (
+              <View style={styles.tag} key={index}>
+                <Text style={styles.tagFont}>{el}</Text>
+              </View>
+            ))}
+          </View>
         </View>
         <View style={styles.userTag}>
-          {/* <Icon name="circle" size={9} color={'#4E00F5'} /> */}
-          <Text style={styles.tagText}>스타일 </Text>
-          {User.property.drinkStyle.map((el, index) => (
-            <View style={styles.tag} key={index}>
-              <Text style={styles.tagFont}>{el}</Text>
-            </View>
-          ))}
+          <Text style={styles.tagText}>술자리 스타일</Text>
+          <View style={styles.tags}>
+            {User.property.drinkStyle.map((el, index) => (
+              <View style={styles.tag} key={index}>
+                <Text style={styles.tagFont}>{el}</Text>
+              </View>
+            ))}
+          </View>
+        </View>
+        <View style={styles.userTag}>
+          <Text style={styles.tagText}>통금</Text>
+          <View style={styles.tag}>
+            <Text style={styles.tagFont}>{User.property.curfew}</Text>
+          </View>
+        </View>
+        <View style={styles.userTag}>
+          <Text style={styles.tagText}>주력 게임</Text>
+          <View style={styles.tags}>
+            {User.property.favGame.map((el, index) => (
+              <View style={styles.tag} key={index}>
+                <Text style={styles.tagFont}>{el}</Text>
+              </View>
+            ))}
+          </View>
         </View>
       </View>
 
@@ -160,28 +195,21 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   profileImage: {
-    width: 232,
-    height: 232,
+    width: 230,
+    height: 230,
     borderRadius: 999,
     borderColor: '#ffffff',
-    borderWidth: 3,
-    // bottom: 0,
-    // left: 20,
-    // position: 'absolute',
-    // zIndex: 2,
+    borderWidth: 5,
   },
   imageWrapper: {
-    marginTop: 50,
-    marginBottom: 15,
+    marginTop: 32,
+    marginBottom: 7,
     alignItems: 'center',
   },
-
   userInfos: {
-    marginVertical: 20,
-    marginHorizontal: 30,
     flexDirection: 'column',
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'space-between',
   },
   userNickName: {
     fontSize: 20,
@@ -189,52 +217,61 @@ const styles = StyleSheet.create({
     letterSpacing: -0.5,
     fontFamily: 'NeoDunggeunmoPro-Regular',
     color: '#1D1E1E',
+    lineHeight: 28,
+    marginBottom: 5,
   },
   userBirth: {
     fontSize: 14,
     fontWeight: '500',
     color: '#3C3D43',
-    marginTop: 15,
+    marginTop: 2,
     letterSpacing: -0.5,
+    lineHeight: 19.6,
   },
   userTags: {
-    marginVertical: 20,
+    marginVertical: 16,
     marginHorizontal: 15,
   },
   userTag: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 5,
-    // paddingLeft: 5,
+    marginVertical: 8,
   },
   tagText: {
-    // marginLeft: 5,
-    fontWeight: '500',
+    fontWeight: '600',
     fontSize: 15,
-    marginVertical: 3,
-    color: '#4E00F5',
+    color: '#3C3D43',
+    lineHeight: 21,
+    letterSpacing: -0.5,
+    width: width * 0.3,
   },
-
   mintButton: {
     top: -30,
     left: 60,
     paddingBottom: 0,
   },
+  tags: {
+    maxWidth: width * 0.67,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
 
   tag: {
-    backgroundColor: '#3C3D43',
+    backgroundColor: '#EAFFEFCC',
     paddingHorizontal: 10,
     paddingVertical: 8,
     borderRadius: 99,
     borderColor: 'transparent',
     borderWidth: 1,
-    marginHorizontal: 5,
-    marginVertical: 3,
+    marginHorizontal: 4,
+    maxWidth: width * 0.67,
   },
   tagFont: {
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: '400',
-    color: '#AEFFC0',
+    color: '#3C3D43',
+    lineHeight: 19.6,
+    letterSpacing: -0.5,
   },
 
   badge: {
@@ -245,12 +282,13 @@ const styles = StyleSheet.create({
     left: 15,
     position: 'absolute',
   },
-  plainText: {
-    fontSize: 16,
-    letterSpacing: -0.5,
-    fontWeight: '500',
-    marginBottom: 8,
-    color: '#4E00F5',
+  plainTag: {
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderRadius: 99,
+    borderColor: 'transparent',
+    borderWidth: 1,
+    marginHorizontal: 5,
   },
   marginBottom: {
     paddingBottom: 140,

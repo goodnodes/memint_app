@@ -139,7 +139,7 @@ function MyMainPage({navigation}) {
         }}> */}
       <LinearGradient
         colors={['#82EFC1', '#ffffff']}
-        start={{x: 0.5, y: 0.4}}
+        start={{x: 1, y: 0.3}}
         end={{x: 1, y: 1}}
         style={styles.gradientBackground}>
         <ScrollView

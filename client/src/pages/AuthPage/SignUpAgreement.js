@@ -70,13 +70,8 @@ const SignUpAgreementScreen = ({navigation, route}) => {
           const asset = userInfo.photoRes.assets[0];
           const extension = asset.fileName.split('.').pop(); //확장자 추출
           const reference = storage().ref(`/profile/${user.uid}.${extension}`);
-          if (Platform.OS === 'android') {
-            await reference.putString(asset.base64, 'base64', {
-              contentType: asset.type,
-            });
-          } else {
-            await reference.putFile(asset.uri);
-          }
+
+          await reference.putFile(asset.uri);
           photoURL = userInfo.photoRes
             ? await reference.getDownloadURL()
             : null;
@@ -147,7 +142,7 @@ const SignUpAgreementScreen = ({navigation, route}) => {
             level: userDetail.meminStats.level,
           },
         });
-        console.log('here')
+        console.log('here');
         navigation.navigate('SignUpServeNFT');
       } catch (e) {
         console.log(e);

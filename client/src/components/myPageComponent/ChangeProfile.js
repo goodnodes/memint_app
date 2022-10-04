@@ -80,6 +80,7 @@ const ChangeProfile = ({profile, setProfile, uid}) => {
             uri: profile,
           }}
         />
+        <Icon name="edit" size={30} color={'#ffffff'} style={styles.icon} />
       </TouchableOpacity>
     </>
   );
@@ -87,20 +88,18 @@ const ChangeProfile = ({profile, setProfile, uid}) => {
 
 const styles = StyleSheet.create({
   li: {
-    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    marginVertical: 15,
-    width: 100,
-    marginLeft: 30,
+    justifyContent: 'center',
+    width: '100%',
   },
   profileImage: {
     width: 100,
     height: 100,
     borderRadius: 100,
     backgroundColor: 'black',
-    opacity: 0.4,
+    // opacity: 0.4,
     borderColor: '#AEFFC1',
+    borderWidth: 3,
   },
   wrapper: {
     marginTop: 30,
@@ -127,6 +126,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: 3,
     borderColor: '#AEFFC1',
+  },
+  icon: {
+    position: 'absolute',
   },
 });
 

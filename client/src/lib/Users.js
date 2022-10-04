@@ -10,8 +10,8 @@ export function createUser({
   birth,
   picture,
   phoneNumber,
-property,
-selfIntroduction,
+  property,
+  selfIntroduction,
   marketingAgreement,
 }) {
   // return usersCollection.doc(id).get();
@@ -228,12 +228,12 @@ export async function deletePhoneNumber(userId) {
 export const EditUserInfo = async (
   userId,
   profileImg,
-  drinkInfo,
+  property,
   selfIntroduction,
 ) => {
   await usersCollection.doc(userId).update({
     picture: profileImg,
-    property: drinkInfo,
+    property: property,
     selfIntroduction,
   });
 };

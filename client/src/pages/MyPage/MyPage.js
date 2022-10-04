@@ -34,7 +34,7 @@ function MyPage({navigation}) {
       <View style={{backgroundColor: '#82EFC1', height: top}} />
       <LinearGradient
         colors={['#82EFC1', '#ffffff']}
-        start={{x: 0.5, y: 0.3}}
+        start={{x: 1, y: 0.3}}
         end={{x: 1, y: 1}}
         style={styles.gradientBackground}>
         <View style={styles.header}>
