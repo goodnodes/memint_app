@@ -68,22 +68,27 @@ function MeetingDetail({route}) {
     ) {
       return (
         <BasicButton
-          width={340}
+          width={'100%'}
           height={50}
           textSize={17}
           backgroundColor={'white'}
           textColor={'black'}
           text="채팅방으로 이동"
+          margin={[0, 0, 0, 0]}
           onPress={() => {
-            navigation.navigate('ChattingRoom', {data});
+            navigation.navigate('ChattingListPage');
+            setTimeout(() => {
+              navigation.navigate('ChattingRoom', {data: data});
+            }, 800);
           }}
         />
       );
     } else if (data.waiting && data.waiting.indexOf(loginUser) !== -1) {
       return (
         <BasicButton
-          width={340}
+          width={'100%'}
           height={50}
+          margin={[0, 0, 0, 0]}
           textSize={17}
           border={false}
           backgroundColor={'lightgray'}
@@ -103,8 +108,9 @@ function MeetingDetail({route}) {
         //   }}
         // />
         <BasicButton
-          width={340}
+          width={'100%'}
           height={50}
+          margin={[0, 0, 0, 0]}
           textSize={17}
           text="미팅 신청 보내기"
           // onPress={() => {

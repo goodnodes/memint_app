@@ -94,10 +94,10 @@ function AlarmDetail({route}) {
               /> */}
             <BasicButton
               text="수락하기"
-              width={240}
+              width={'100%'}
               height={50}
               textSize={17}
-              margin={[5, 20, 5, 20]}
+              margin={[5, 0, 5, 0]}
               onPress={() => setModalVisible(true)}
             />
           </View>
@@ -214,9 +214,14 @@ function AlarmDetail({route}) {
           <View>
             <Text style={styles.key}>미팅 정보</Text>
             <TouchableOpacity
-              onPress={() =>
-                navigation.navigate('MeetingDetail', {data: alarm.meetingInfo})
-              }>
+              onPress={() => {
+                navigation.navigate('ChattingListPage');
+                setTimeout(() => {
+                  navigation.navigate('ChattingRoom', {
+                    data: alarm.meetingInfo,
+                  });
+                }, 800);
+              }}>
               <Text style={styles.meetingTitle}>{alarm.meetingInfo.title}</Text>
               <View style={styles.meetingInfo}>
                 <Text style={styles.meetingElement}>
@@ -355,7 +360,6 @@ const styles = StyleSheet.create({
   meetingElement: {
     fontSize: 13,
     color: '#000000',
-    fontWeight: '500',
     letterSpacing: -0.5,
   },
   bar: {
@@ -365,7 +369,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000',
   },
   key: {
-    color: '#3C3D43',
+    color: '#B9C5D1',
     width: 60,
     fontSize: 15,
     letterSpacing: -0.5,

@@ -92,7 +92,10 @@ function MyMeetings({item, navigation}) {
       <TouchableOpacity
         style={styles.meetingCard}
         onPress={() => {
-          navigation.navigate('ChattingRoom', {data: item});
+          navigation.navigate('ChattingListPage');
+          setTimeout(() => {
+            navigation.navigate('ChattingRoom', {data: item});
+          }, 800);
         }}>
         <View>
           <View style={styles.usernamelikes}>

@@ -63,24 +63,21 @@ function EditMeetingInfo({route}) {
   const {showToast} = useToast();
   const RegionDropDownData = [
     {label: '서울 전체', value: '서울 전체'},
-    {label: '강남구', value: '강남구'},
-    {label: '강동구', value: '강동구'},
-    {label: '강북구', value: '강북구'},
-    {label: '강서구', value: '강서구'},
-    {label: '관악구', value: '관악구'},
-    {label: '광진구', value: '광진구'},
-    {label: '구로구', value: '구로구'},
-    {label: '금천구', value: '금천구'},
-    {label: '노원구', value: '노원구'},
-    {label: '도봉구', value: '도봉구'},
-    {label: '동대문구', value: '동대문구'},
-    {label: '동작구', value: '동작구'},
-    {label: '마포구', value: '마포구'},
-    {label: '서대문구', value: '서대문구'},
-    {label: '서초구', value: '서초구'},
+    {label: '강남', value: '강남'},
+    {label: '신사', value: '신사'},
+    {label: '홍대', value: '홍대'},
+    {label: '신촌', value: '신촌'},
+    {label: '여의도', value: '여의도'},
+    {label: '구로', value: '구로'},
+    {label: '신도림', value: '신도림'},
+    {label: '혜화', value: '혜화'},
+    {label: '안암', value: '안암'},
+    {label: '종로', value: '종로'},
+    {label: '동대문', value: '동대문'},
+    {label: '성수', value: '성수'},
+    {label: '이태원', value: '이태원'},
   ];
   const PeopleDropDownData = [
-    {label: '1:1', value: 1},
     {label: '2:2', value: 2},
     {label: '3:3', value: 3},
     {label: '4:4', value: 4},
@@ -289,12 +286,15 @@ function EditMeetingInfo({route}) {
           </TouchableOpacity>
         </View>
         <Text style={styles.title}>미팅 정보 수정하기</Text>
-        <SingleModal
+        <DoubleModal
           text="미팅 정보를 수정하시겠습니까?"
           buttonText="네"
           modalVisible={confirmModalVisible}
           setModalVisible={setConfirmModalVisible}
           pFunction={handleUpdate}
+          nFunction={() => {
+            setConfirmModalVisible(false);
+          }}
         />
         <ScrollView style={styles.container}>
           <TextInput
@@ -306,7 +306,7 @@ function EditMeetingInfo({route}) {
             autoComplete="off"
             autoCorrect={false}
             placeholder="제목"
-            placeholderTextColor="#EAFFEF"
+            placeholderTextColor="#EAFFEFCC"
             selectionColor={'#AEFFC1'}
           />
           <View
@@ -317,7 +317,7 @@ function EditMeetingInfo({route}) {
           />
           <TextInput
             style={styles.textInputDes}
-            placeholderTextColor="#EAFFEF"
+            placeholderTextColor="#EAFFEFCC"
             placeholder="설명"
             value={meetingInfo.description}
             multiline={true}
@@ -399,6 +399,12 @@ function EditMeetingInfo({route}) {
               </View>
             )}
           </View>
+          <View
+            style={[
+              styles.line,
+              meetingInfo.peopleNum ? styles.activeLine : null,
+            ]}
+          />
           <View style={[styles.createElement, styles.flexRow]}>
             <View style={styles.selectButton}>
               <RNPickerSelect
@@ -420,10 +426,11 @@ function EditMeetingInfo({route}) {
                     fontSize: 16,
                     color: '#ffffff',
                     letterSpacing: -0.5,
+                    padding: 0,
                   },
                   placeholder: {
                     fontSize: 16,
-                    color: '#EAFFEF',
+                    color: '#EAFFEFCC',
                     letterSpacing: -0.5,
                   },
                 }}
@@ -432,7 +439,7 @@ function EditMeetingInfo({route}) {
                     <Icon
                       name="arrow-drop-down"
                       size={19}
-                      color={'#EAFFEF'}
+                      color={'#EAFFEFCC'}
                       style={[
                         styles.icon,
                         Platform.OS === 'android' ? styles.iconAndroid : null,
@@ -443,6 +450,12 @@ function EditMeetingInfo({route}) {
               />
             </View>
           </View>
+          <View
+            style={[
+              styles.line,
+              meetingInfo.peopleNum ? styles.activeLine : null,
+            ]}
+          />
           <View style={[styles.createElement, styles.flexRow]}>
             <View style={[styles.selectButton, styles.rightMargin]}>
               <RNPickerSelect
@@ -462,10 +475,11 @@ function EditMeetingInfo({route}) {
                     fontSize: 16,
                     color: '#ffffff',
                     letterSpacing: -0.5,
+                    padding: 0,
                   },
                   placeholder: {
                     fontSize: 16,
-                    color: '#EAFFEF',
+                    color: '#EAFFEFCC',
                     letterSpacing: -0.5,
                   },
                 }}
@@ -474,7 +488,7 @@ function EditMeetingInfo({route}) {
                     <Icon
                       name="arrow-drop-down"
                       size={19}
-                      color={'#EAFFEF'}
+                      color={'#EAFFEFCC'}
                       style={[
                         styles.icon,
                         Platform.OS === 'android' ? styles.iconAndroid : null,
@@ -493,6 +507,12 @@ function EditMeetingInfo({route}) {
               ))}
             </ScrollView>
           </View>
+          <View
+            style={[
+              styles.line,
+              meetingInfo.peopleNum ? styles.activeLine : null,
+            ]}
+          />
           <View style={styles.tagElement}>
             <Text style={[styles.text, styles.tagTitle]}>태그</Text>
             <View style={styles.tagsContainer}>
@@ -614,7 +634,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
-    color: '#EAFFEF',
+    color: '#EAFFEFCC',
     letterSpacing: -0.5,
   },
   datepicker: {
@@ -675,13 +695,12 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   invitedFriend: {
-    backgroundColor: '#EAFFEF',
+    backgroundColor: '#EAFFEFCC',
     padding: 8,
     marginHorizontal: 8,
     paddingHorizontal: 10,
     paddingVertical: 8,
     borderRadius: 10,
-    borderWidth: 1,
   },
   leftMargin: {
     marginLeft: 5,
@@ -696,7 +715,7 @@ const styles = StyleSheet.create({
   },
   line: {
     height: 1,
-    backgroundColor: '#EAFFEF',
+    backgroundColor: '#EAFFEFCC',
   },
   activeLine: {
     backgroundColor: '#AEFFC1',
@@ -710,14 +729,19 @@ const styles = StyleSheet.create({
   },
   dateText: {
     fontSize: 16,
-    color: '#EAFFEF',
+    color: '#1D1E1E',
     letterSpacing: -0.5,
+    lineHeight: 22.4,
+    backgroundColor: '#EAFFEFCC',
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderRadius: 5,
   },
   timepicker: {
-    marginLeft: 20,
+    marginLeft: 10,
   },
   iconAndroid: {
-    top: 8,
+    top: 5,
   },
   memberText: {
     color: '#3D3E44',

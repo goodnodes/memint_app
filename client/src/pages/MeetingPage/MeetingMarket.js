@@ -253,7 +253,6 @@ function MeetingMarket({navigation}) {
     {label: '위치 가까운 순', value: 3},
   ];
   const FilterPeopleDropDownData = [
-    {label: '1:1', value: 1},
     {label: '2:2', value: 2},
     {label: '3:3', value: 3},
     {label: '4:4', value: 4},

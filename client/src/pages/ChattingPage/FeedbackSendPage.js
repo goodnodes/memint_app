@@ -218,7 +218,7 @@ function FeedbackSendPage({route}) {
                       });
                     notification({
                       receiver: person[2],
-                      message: '미팅 후기 메시지가 도착했습니다!',
+                      message: '미팅 후기 메시지가 도착했습니다',
                       title: 'MEMINT',
                     });
                     calculateCharm(person[2], form.emotion);

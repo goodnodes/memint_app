@@ -173,7 +173,7 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
             <View style={styles.cameraArea}>
               <CameraButton response={response} setResponse={setResponse} />
             </View>
-            <View style={styles.form}>
+            <View style={[styles.form, styles.nickNameForm]}>
               <Text style={styles.infoText}>닉네임</Text>
               <BorderedInput
                 size="wide"
@@ -184,7 +184,6 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
                 autoCorrect={false}
                 returnKeyType={'next'}
               />
-
               <Text
                 style={[
                   styles.validNickname,
@@ -353,6 +352,8 @@ const styles = StyleSheet.create({
   },
   validNickname: {
     marginTop: 5,
+    fontSize: 12,
+    height: 15,
   },
   fullscreen: {
     flex: 1,
@@ -371,11 +372,12 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: '400',
     marginTop: 20,
-    marginBottom: 15,
+    marginBottom: 8,
     fontSize: 24,
     color: '#ffffff',
     fontFamily: 'NeoDunggeunmoPro-Regular',
     letterSpacing: -0.5,
+    lineHeight: 33.6,
   },
   text: {
     fontSize: 32,
@@ -394,8 +396,7 @@ const styles = StyleSheet.create({
     marginBottom: 60,
   },
   alertText: {
-    marginTop: 30,
-    fontSize: 14,
+    fontSize: 13,
     letterSpacing: -0.5,
     color: '#ffffff',
     lineHeight: 18.2,
@@ -421,11 +422,14 @@ const styles = StyleSheet.create({
   },
   form: {
     // position: 'static',
-    marginBottom: 26,
+    marginBottom: 30,
     width: '100%',
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
+  },
+  nickNameForm: {
+    marginBottom: 10,
   },
   birthform: {
     flexDirection: 'row',

@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     borderRadius: 99,
     borderColor: 'transparent',
     borderWidth: 1,
-    marginHorizontal: 5,
+    marginHorizontal: 4,
     marginVertical: 3,
   },
   coloredTag: {

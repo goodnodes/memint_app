@@ -69,7 +69,12 @@ function ChattingRoomTopTab({data}) {
         </View>
 
         <TouchableOpacity
-          onPress={() => navigation.navigate('MeetingDetail', {data: data})}>
+          onPress={() => {
+            navigation.navigate('meeting');
+            setTimeout(() => {
+              navigation.navigate('MeetingDetail', {data: data});
+            }, 300);
+          }}>
           <Text
             style={{
               marginTop: 13,

@@ -1,10 +1,10 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {View, Text, StyleSheet, Platform, Pressable} from 'react-native';
 import DatePicker from '../common/DatePicker';
 import RNPickerSelect from 'react-native-picker-select';
 import SingleModal from '../common/SingleModal';
-import {getMeetingTags} from '../../lib/MeetingTag';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
+import {meetingTags} from '../../assets/docs/contents';
 
 function FilterModal({
   setFilter,
@@ -13,29 +13,35 @@ function FilterModal({
   filterModalVisible,
   setFilterModalVisible,
 }) {
-  const [tags, setTags] = useState([]);
   const [datePicker, setDatePicker] = useState(false);
 
-  useEffect(() => {
-    getTags();
-  }, [getTags]);
-
-  const getTags = useCallback(async () => {
-    const res = await getMeetingTags();
-    const data = res.docs.map(el => el.data());
-    const meetingTags = data
-      .sort((a, b) => {
-        if (a.type > b.type) {
-          return -1;
-        } else {
-          return 1;
-        }
-      })
-      .map(el => {
-        return {label: el.content, value: el.content};
-      });
-    setTags(meetingTags);
-  }, []);
+  const tags = [
+    ...meetingTags.alcohol.map(el => {
+      return {label: el, value: el};
+    }),
+    ...meetingTags.mood.map(el => {
+      return {label: el, value: el};
+    }),
+    ...meetingTags.topic.map(el => {
+      return {label: el, value: el};
+    }),
+  ];
+  // const getTags = useCallback(async () => {
+  //   const res = await getMeetingTags();
+  //   const data = res.docs.map(el => el.data());
+  //   const meetingTags = data
+  //     .sort((a, b) => {
+  //       if (a.type > b.type) {
+  //         return -1;
+  //       } else {
+  //         return 1;
+  //       }
+  //     })
+  //     .map(el => {
+  //       return {label: el.content, value: el.content};
+  //     });
+  //   setTags(meetingTags);
+  // }, []);
 
   const showDatePicker = () => {
     setDatePicker(true);
@@ -163,7 +169,7 @@ function FilterModal({
 
 const styles = StyleSheet.create({
   filterContent: {
-    marginBottom: 30,
+    marginBottom: 15,
     marginHorizontal: 10,
   },
   filterElement: {

@@ -28,6 +28,7 @@ import {getNFTs, getProfile, getMemin, calcHumanElement} from '../../lib/NFT';
 import GradientButton from '../../components/common/GradientButton';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 import LinearGradient from 'react-native-linear-gradient';
+import meminDino from '../../assets/icons/meminDino.png';
 import memintDino from '../../assets/icons/memintDino.png';
 import {useToast} from '../../utils/hooks/useToast';
 import {useIsFocused} from '@react-navigation/native';
@@ -93,11 +94,7 @@ const SignInScreen = ({navigation, route}) => {
         klayAmount: userDetail.klayAmount,
         onChainTokenAmount: userDetail.onChainTokenAmount,
         nftProfile: userDetail.nftProfile,
-        property: {
-          alcoholType: userDetail.property.alcoholType,
-          drinkCapa: userDetail.property.drinkCapa,
-          drinkStyle: userDetail.property.drinkStyle,
-        },
+        property: userDetail.property,
         visibleUser: userDetail.visibleUser,
         marketingAgreement: userDetail.marketingAgreement,
         isActivated: userDetail.isActivated,
@@ -159,7 +156,7 @@ const SignInScreen = ({navigation, route}) => {
         )}
 
         <View style={styles.fullscreen}>
-          <Image source={memintDino} style={styles.logo} />
+          <Image source={meminDino} style={styles.logo} />
           <View style={styles.form}>
             <SignForm
               onSubmit={onSubmitSignIn}
@@ -217,15 +214,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#3C3D43',
+    paddingBottom: 130,
   },
   gradientBackground: {
     flex: 1,
   },
   logo: {
-    width: 101,
-    height: 108.77,
+    width: 210,
+    height: 210,
     marginTop: 30,
   },
+
   text: {
     fontSize: 32,
     fontWeight: 'bold',
@@ -234,7 +233,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 35,
+    marginTop: 48,
     marginBottom: 60,
   },
   textAsk: {
@@ -250,7 +249,6 @@ const styles = StyleSheet.create({
     letterSpacing: -0.5,
   },
   form: {
-    marginTop: 40,
     width: '100%',
     paddingHorizontal: 16,
   },

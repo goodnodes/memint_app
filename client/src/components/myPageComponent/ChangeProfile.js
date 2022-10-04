@@ -12,6 +12,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {launchImageLibrary, launchCamera} from 'react-native-image-picker';
 import storage from '@react-native-firebase/storage';
+import CameraModal from '../AuthComponents/CameraModal';
 
 const imagePickerOption = {
   mediaType: 'photo',
@@ -23,6 +24,7 @@ const imagePickerOption = {
 const ChangeProfile = ({profile, setProfile, uid}) => {
   const insets = useSafeAreaInsets();
   const existImg = profile;
+  const [modalVisible, setModalVisible] = useState(false);
   let photoURL = null;
   const onPickImage = async res => {
     if (res.didCancel || !res) {
@@ -53,6 +55,10 @@ const ChangeProfile = ({profile, setProfile, uid}) => {
   };
 
   const onPress = () => {
+    if (Platform.OS === 'android') {
+      setModalVisible(true);
+      return;
+    }
     ActionSheetIOS.showActionSheetWithOptions(
       {
         title: '사진 업로드',
@@ -82,6 +88,20 @@ const ChangeProfile = ({profile, setProfile, uid}) => {
         />
         <Icon name="edit" size={30} color={'#ffffff'} style={styles.icon} />
       </TouchableOpacity>
+      <CameraModal
+        text="미팅을 생성하시겠습니까?"
+        //body={<Text>정말로?</Text>}
+        nButtonText="아니요"
+        pButtonText="네"
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        pFunction={() => {}}
+        nFunction={() => {
+          setModalVisible(!modalVisible);
+        }}
+        onLaunchCamera={onLaunchCamera}
+        onLaunchImageLibrary={onLaunchImageLibrary}
+      />
     </>
   );
 };

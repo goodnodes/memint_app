@@ -20,6 +20,8 @@ const SignButtons = ({onSubmitSignIn, onSubmitSignUp}) => {
         size="medium"
         variant="disable"
         text="회원가입"
+        backgroundColor={'#3C3D43'}
+        textColor={'#ffffff'}
         width={150}
         height={42}
         textSize={15}
@@ -33,8 +35,7 @@ const styles = StyleSheet.create({
   buttons: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    // alignItems: 'center',
-    marginTop: 10,
+    marginTop: 16,
   },
   button: {
     flex: 1,

@@ -129,7 +129,7 @@ function WalletOffchainHistory({navigation}) {
             );
           })
         ) : (
-          <ActivityIndicator size="large" color="black" />
+          <ActivityIndicator size="large" color="#AEFFC1" />
         )}
       </ScrollView>
     </View>

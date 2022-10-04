@@ -45,7 +45,10 @@ function BasicButton({
 }) {
   const [marginTop, marginRight, marginBottom, marginLeft] = margin;
   return (
-    <TouchableOpacity onPress={onPress} disabled={disabled}>
+    <TouchableOpacity
+      onPress={onPress}
+      disabled={disabled}
+      style={width === '100%' ? {width: '100%'} : null}>
       <View
         style={[
           styles.button,

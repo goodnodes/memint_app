@@ -16,6 +16,7 @@ const SignForm = ({onSubmit, form, createChangeTextHandler}) => {
         autoCompleteType="email"
         keyboardType="email-address"
         returnKeyType="next"
+        margin={[0, 0, 8, 0]}
         onSubmitEditing={() => passwordRef.current.focus()}
       />
       <BorderedInput
@@ -23,6 +24,7 @@ const SignForm = ({onSubmit, form, createChangeTextHandler}) => {
         value={form.password}
         onChangeText={createChangeTextHandler('password')}
         secureTextEntry
+        margin={[0, 0, 0, 0]}
         ref={passwordRef}
         returnKeyType={'done'}
         onSubmitEditing={() => {

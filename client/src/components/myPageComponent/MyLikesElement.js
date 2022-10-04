@@ -7,7 +7,10 @@ import MeetingLikes from '../meetingComponents/MeetingLikes';
 function MyLikesElement({item}) {
   const navigation = useNavigation();
   const handleNavigate = () => {
-    navigation.navigate('MeetingDetail', {data: item});
+    navigation.navigate('meeting');
+    setTimeout(() => {
+      navigation.navigate('MeetingDetail', {data: item});
+    }, 300);
   };
 
   return (

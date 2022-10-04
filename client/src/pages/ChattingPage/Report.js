@@ -17,7 +17,7 @@ function Report({navigation}) {
   const {top} = useSafeAreaInsets();
 
   const moveToReport = () => {
-    Linking.openURL('http://pf.kakao.com/_RrRjxj');
+    Linking.openURL('http://pf.kakao.com/_RrRjxj/chat');
   };
 
   return (
@@ -64,12 +64,12 @@ function Report({navigation}) {
         </View>
         <BasicButton
           text="카카오톡으로 문의하기"
-          width={332}
+          width={'100%'}
           height={50}
           textSize={18}
           backgroundColor="#ffffff"
           textColor="#000000"
-          margin={[30, 3, 3, 3]}
+          margin={[30, 0, 3, 0]}
           borderRadius={10}
           onPress={moveToReport}
           border={false}

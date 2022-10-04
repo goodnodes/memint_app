@@ -81,7 +81,9 @@ function MyProfile({User, navigation}) {
       </View>
 
       <View style={styles.userInfos}>
-        <Text style={styles.userNickName}>{User.nickName}</Text>
+        <Text style={styles.userNickName}>
+          {User.nickName} {User.property.emoji}
+        </Text>
         <Text style={styles.userBirth}>{User.birth}</Text>
         <Text style={styles.userBirth}>
           {User.selfIntroduction === undefined ? '' : User.selfIntroduction}
@@ -235,7 +237,7 @@ const styles = StyleSheet.create({
   userTag: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 8,
+    marginVertical: 7,
   },
   tagText: {
     fontWeight: '600',
@@ -264,6 +266,7 @@ const styles = StyleSheet.create({
     borderColor: 'transparent',
     borderWidth: 1,
     marginHorizontal: 4,
+    marginVertical: 1,
     maxWidth: width * 0.67,
   },
   tagFont: {

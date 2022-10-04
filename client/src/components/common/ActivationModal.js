@@ -161,6 +161,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     lineHeight: 20,
     fontSize: 17,
+    color: '#000000',
   },
   invalidText: {
     color: 'red',

@@ -7,31 +7,33 @@ import {
   TouchableOpacity,
   Image,
   Dimensions,
+  ScrollView,
 } from 'react-native';
 import BasicButton from './BasicButton';
 import SpendingModal from './UserInfoModal/SpendingModal';
 import AskSpendingModal from './UserInfoModal/AskSpendingModal';
-import MySingleModal from '../chattingComponents/MySingleModal';
 import {ActivityIndicator} from 'react-native-paper';
 import {getOtherUser} from '../../lib/Users';
 import {addVisibleUser} from '../../lib/Users';
 import useUser from '../../utils/hooks/UseUser';
 import useAuthActions from '../../utils/hooks/UseAuthActions';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import {handleBirth} from '../../utils/common/Functions';
-import LinearGradient from 'react-native-linear-gradient';
 
 /*
 사용할 컴포넌트에서 state 사용이 필요함.
   const [userInfoModalVisible, setUserInfoModalVisible] = useState(false);
 
       <UserInfoModal
-      userId= 
+      userId=
         userInfoModalVisible={userInfoModalVisible}
         setUserInfoModalVisible={setUserInfoModalVisible}
         pFunction={() => {}}
         visible=
       />
  */
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
 
 function UserInfoModal({
   userId,
@@ -39,8 +41,6 @@ function UserInfoModal({
   setUserInfoModalVisible,
   visible,
 }) {
-  const width = Dimensions.get('window').width;
-  const height = Dimensions.get('window').height;
   const {saveInfo} = useAuthActions();
   const owner = useUser();
   const [spendingModalVisible, setSpendingModalVisible] = useState(false);
@@ -61,137 +61,238 @@ function UserInfoModal({
         transparent={true}
         visible={userInfoModalVisible}>
         <View style={[styles.centeredView, styles.backgroudDim]}>
-          <View style={styles.modalView}>
-            {user ? (
-              <View style={styles.userInfoWrapper}>
-                <View style={{flexDirection: 'row'}}>
-                  <TouchableOpacity
-                    activeOpacity={1}
-                    style={styles.images}
-                    onPress={() => {
-                      visible === false
-                        ? setAskSpendingModalVisible(true)
-                        : null;
-                    }}>
-                    <View style={styles.imageLarge}>
-                      <Image
-                        style={styles.imageLarge}
-                        source={{uri: user.nftProfile}}
-                      />
-                      <TouchableOpacity
-                        activeOpacity={1}
-                        onPress={() => {
-                          setBicPicture(true);
-                        }}>
-                        <Image
-                          source={{uri: user.picture}}
-                          style={
-                            visible
-                              ? styles.imageSmall
-                              : {...styles.imageSmall, height: 0, width: 0}
-                          }
-                        />
-                      </TouchableOpacity>
-                    </View>
-                  </TouchableOpacity>
-                  <View
-                    style={{marginLeft: 20, justifyContent: 'space-around'}}>
-                    <View style={styles.userinfo}>
-                      <Text style={styles.userinfoKey}>닉네임</Text>
-                      <Text style={styles.userinfoValue}>{user.nickName}</Text>
-                    </View>
-                    <View style={styles.userinfo}>
-                      <Text style={styles.userinfoKey}>나이</Text>
-                      <Text style={styles.userinfoValue}>
-                        {handleBirth(user.birth)}
-                      </Text>
-                    </View>
-                    <View style={styles.userinfo}>
-                      <Text style={styles.userinfoKey}>성별</Text>
-                      <Text style={styles.userinfoValue}>{user.gender}</Text>
-                    </View>
-                  </View>
-                </View>
-                <View style={styles.usertag}>
-                  <Text style={styles.hilightText}>주량</Text>
-                  <View style={styles.tags}>
-                    <View style={styles.tag}>
-                      <Text style={styles.tagText}>{user.drinkCapa}</Text>
-                    </View>
-                  </View>
-                  <Text style={styles.hilightText}>선호 주류</Text>
-                  <View style={styles.tags}>
-                    {user ? (
-                      user.alcoholType.map((ele, index) => {
-                        return (
-                          <View style={styles.tag} key={index}>
-                            <Text style={styles.tagText}>{ele}</Text>
-                          </View>
-                        );
-                      })
-                    ) : (
-                      <ActivityIndicator size="large" color="black" />
-                    )}
-                  </View>
-                  <Text style={styles.hilightText}>스타일</Text>
-                  <View style={styles.tags}>
-                    {user.drinkStyle.map((ele, index) => {
-                      return (
-                        <View style={styles.tag} key={index}>
-                          <Text style={styles.tagText}>{ele}</Text>
-                        </View>
-                      );
-                    })}
-                  </View>
-                </View>
-                {bigPicture && (
-                  <View
-                    style={{
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      width: '100%',
-                      height: '100%',
-                      zIndex: 2,
-                    }}>
+          <View style={styles.modalViewContainer}>
+            <View style={styles.closeRow}>
+              <TouchableOpacity
+                onPress={() => {
+                  setUserInfoModalVisible(false);
+                }}>
+                <Icon
+                  name="close"
+                  size={24}
+                  color={'#ffffff'}
+                  style={styles.closeIcon}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.modalView}>
+              {user ? (
+                <View style={styles.userInfoWrapper}>
+                  <View style={styles.infoRow}>
                     <TouchableOpacity
                       activeOpacity={1}
+                      style={styles.images}
                       onPress={() => {
-                        setBicPicture(!bigPicture);
-                      }}
-                      style={{
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        position: 'absolute',
-                        width,
-                        height,
-                        flex: 1,
-                        backgroundColor: 'black',
+                        visible === false
+                          ? setAskSpendingModalVisible(true)
+                          : null;
                       }}>
-                      <Image
-                        source={{uri: user.picture}}
-                        style={{width: 400, height: 400}}
-                      />
+                      <View style={styles.imageLarge}>
+                        <Image
+                          style={styles.imageLarge}
+                          source={{uri: user.nftProfile}}
+                        />
+                        <TouchableOpacity
+                          activeOpacity={1}
+                          onPress={() => {
+                            setBicPicture(true);
+                          }}>
+                          <Image
+                            source={{uri: user.picture}}
+                            style={
+                              visible
+                                ? styles.imageSmall
+                                : {...styles.imageSmall, height: 0, width: 0}
+                            }
+                          />
+                        </TouchableOpacity>
+                      </View>
                     </TouchableOpacity>
+                    <View
+                      style={{justifyContent: 'space-around', width: '58%'}}>
+                      <View style={styles.userinfo}>
+                        <Text style={styles.userinfoKey}>닉네임</Text>
+                        <Text style={styles.userinfoValue}>
+                          {user.nickName} {user.property.emoji}
+                        </Text>
+                      </View>
+                      <View style={styles.userinfo}>
+                        <Text style={styles.userinfoKey}>나이</Text>
+                        <Text style={styles.userinfoValue}>
+                          {handleBirth(user.birth)}
+                        </Text>
+                      </View>
+                      <View style={styles.userinfo}>
+                        <Text style={styles.userinfoKey}>성별</Text>
+                        <Text style={styles.userinfoValue}>{user.gender}</Text>
+                      </View>
+                    </View>
                   </View>
-                )}
-                <View style={styles.buttonRow}>
-                  <BasicButton
-                    text="닫기"
-                    size="large"
-                    variant="basic"
-                    margin={[0, 0, 0, 0]}
-                    onPress={() =>
-                      setUserInfoModalVisible(!userInfoModalVisible)
-                    }
-                  />
+                  <ScrollView style={styles.usertag}>
+                    <View style={styles.tagRow}>
+                      <Text style={styles.hilightText}>MBTI</Text>
+                      <View style={styles.tags}>
+                        <View style={styles.tag}>
+                          <Text style={styles.tagText}>
+                            {user.property.mbti}
+                          </Text>
+                        </View>
+                      </View>
+                    </View>
+                    <View style={styles.tagRow}>
+                      <Text style={styles.hilightText}>주출몰지</Text>
+                      <View style={styles.tags}>
+                        {user ? (
+                          user.property.region.map((ele, index) => {
+                            return (
+                              <View style={styles.tag} key={index}>
+                                <Text style={styles.tagText}>{ele}</Text>
+                              </View>
+                            );
+                          })
+                        ) : (
+                          <ActivityIndicator size="large" color="#AEFFC1" />
+                        )}
+                      </View>
+                    </View>
+                    <View style={styles.tagRow}>
+                      <Text style={styles.hilightText}>유튜브</Text>
+                      <View style={styles.tags}>
+                        <View style={styles.plainTag}>
+                          <Text style={styles.tagText}>
+                            {user.property.favYoutube}
+                          </Text>
+                        </View>
+                      </View>
+                    </View>
+                    <View style={styles.tagRow}>
+                      <Text style={styles.hilightText}>닮은꼴</Text>
+                      <View style={styles.tags}>
+                        <View style={styles.plainTag}>
+                          <Text style={styles.tagText}>
+                            {user.property.twinCeleb}
+                          </Text>
+                        </View>
+                      </View>
+                    </View>
+                    <View style={styles.tagRow}>
+                      <Text style={styles.hilightText}>주량</Text>
+                      <View style={styles.tags}>
+                        <View style={styles.tag}>
+                          <Text style={styles.tagText}>
+                            {user.property.drinkCapa}
+                          </Text>
+                        </View>
+                      </View>
+                    </View>
+                    <View style={styles.tagRow}>
+                      <Text style={styles.hilightText}>선호 주류</Text>
+                      <View style={styles.tags}>
+                        {user ? (
+                          user.property.alcoholType.map((ele, index) => {
+                            return (
+                              <View style={styles.tag} key={index}>
+                                <Text style={styles.tagText}>{ele}</Text>
+                              </View>
+                            );
+                          })
+                        ) : (
+                          <ActivityIndicator size="large" color="#AEFFC1" />
+                        )}
+                      </View>
+                    </View>
+
+                    <View style={styles.tagRow}>
+                      <Text style={styles.hilightText}>술자리</Text>
+                      <View style={styles.tags}>
+                        {user.property.drinkStyle.map((ele, index) => {
+                          return (
+                            <View style={styles.tag} key={index}>
+                              <Text style={styles.tagText}>{ele}</Text>
+                            </View>
+                          );
+                        })}
+                      </View>
+                    </View>
+                    <View style={styles.tagRow}>
+                      <Text style={styles.hilightText}>통금</Text>
+                      <View style={styles.tags}>
+                        <View style={styles.tag}>
+                          <Text style={styles.tagText}>
+                            {user.property.curfew}
+                          </Text>
+                        </View>
+                      </View>
+                    </View>
+                    <View style={styles.tagRow}>
+                      <Text style={styles.hilightText}>주력 게임</Text>
+                      <View style={styles.tags}>
+                        {user ? (
+                          user.property.favGame.map((ele, index) => {
+                            return (
+                              <View style={styles.tag} key={index}>
+                                <Text style={styles.tagText}>{ele}</Text>
+                              </View>
+                            );
+                          })
+                        ) : (
+                          <ActivityIndicator size="large" color="#AEFFC1" />
+                        )}
+                      </View>
+                    </View>
+                  </ScrollView>
+
+                  {bigPicture && (
+                    <View style={styles.pictureView}>
+                      <Modal
+                        animationType="fade"
+                        transparent={true}
+                        visible={bigPicture}>
+                        <TouchableOpacity
+                          activeOpacity={1}
+                          onPress={() => {
+                            setBicPicture(!bigPicture);
+                          }}
+                          style={styles.pictureModalView}>
+                          <View style={styles.pictureCloseRow}>
+                            <TouchableOpacity
+                              onPress={() => {
+                                setBicPicture(false);
+                              }}>
+                              <Icon
+                                name="close"
+                                size={24}
+                                color={'#ffffff'}
+                                style={styles.closeIcon}
+                              />
+                            </TouchableOpacity>
+                          </View>
+                          <Image
+                            source={{uri: user.picture}}
+                            style={styles.pictureImage}
+                          />
+                        </TouchableOpacity>
+                      </Modal>
+                    </View>
+                  )}
+                  <View style={styles.buttonRow}>
+                    <BasicButton
+                      text="확인"
+                      width={width * 0.75}
+                      height={50}
+                      textSize={18}
+                      variant="basic"
+                      margin={[0, 0, 0, 0]}
+                      onPress={() =>
+                        setUserInfoModalVisible(!userInfoModalVisible)
+                      }
+                    />
+                  </View>
                 </View>
-              </View>
-            ) : (
-              <ActivityIndicator size="large" color="black" />
-            )}
+              ) : (
+                <ActivityIndicator size="large" color="#AEFFC1" />
+              )}
+            </View>
           </View>
         </View>
         <AskSpendingModal
@@ -237,31 +338,44 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  modalViewContainer: {
+    position: 'absolute',
+  },
+  closeRow: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  closeIcon: {
+    paddingVertical: 15,
+  },
+  pictureCloseRow: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    width: '100%',
+  },
   modalView: {
-    margin: 20,
-    width: 300,
+    width: width * 0.925,
+    height: height * 0.8,
     backgroundColor: 'white',
     borderRadius: 12,
-    padding: 30,
-    alignItems: 'center',
-    // shadowColor: '#000',
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 2,
-    // },
-    // shadowOpacity: 0.25,
-    // shadowRadius: 4,
-    // elevation: 5,
-    position: 'absolute',
     borderColor: '#58FF7D',
     borderWidth: 1,
+    paddingHorizontal: width * 0.09,
+    paddingTop: 32,
+    paddingBottom: 28,
+    marginBottom: 30,
   },
   userInfoWrapper: {
     height: '100%',
     width: '100%',
     flexDirection: 'column',
-    alignContent: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  infoRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
   },
   modalText: {
     fontWeight: 'bold',
@@ -275,7 +389,7 @@ const styles = StyleSheet.create({
   buttonRow: {
     justifyContent: 'space-around',
     flexDirection: 'row',
-    paddingTop: 20,
+    paddingTop: 10,
   },
   images: {
     height: 80,
@@ -289,6 +403,8 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     justifyContent: 'flex-end',
     borderRadius: 40,
+    borderWidth: 2,
+    borderColor: '#58FF7D',
   },
   imageSmall: {
     height: 30,
@@ -296,43 +412,83 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   hilightText: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginTop: 15,
-    color: '#3C3D43',
-    marginBottom: 7,
+    fontSize: 12,
+    lineHeight: 16.8,
+    letterSpacing: -0.5,
+    color: '#B9C5D1',
+    width: '17%',
+  },
+  tagRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
+    position: 'relative',
+    justifyContent: 'space-between',
+    marginVertical: 5,
   },
   tags: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    width: '85%',
   },
   tag: {
-    backgroundColor: '#3C3D43',
+    backgroundColor: '#EDEEF6',
     paddingHorizontal: 10,
     paddingVertical: 8,
     borderRadius: 99,
     borderColor: 'transparent',
     borderWidth: 1,
-    marginHorizontal: 5,
-    marginVertical: 3,
+    marginHorizontal: 4,
+    marginVertical: 1,
+  },
+  plainTag: {
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderRadius: 99,
+    borderColor: 'transparent',
+    borderWidth: 1,
+    marginHorizontal: 4,
   },
   userinfo: {
     flexDirection: 'row',
   },
   userinfoKey: {
-    color: '#787878',
+    color: '#B9C5D1',
     width: 55,
   },
   userinfoValue: {
     color: '#000000',
   },
   usertag: {
-    marginTop: 10,
+    width: '100%',
+    flexDirection: 'column',
+    marginTop: 20,
   },
   tagText: {
     fontSize: 14,
     fontWeight: '400',
-    color: '#EAFFEF',
+    color: '#1D1E1E',
+    lineHeight: 19.6,
   },
+  pictureView: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    zIndex: 2,
+  },
+  pictureModalView: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    width,
+    height,
+    flex: 1,
+    backgroundColor: 'black',
+  },
+  pictureImage: {width: 400, height: 400, marginBottom: 30},
 });
 export default UserInfoModal;

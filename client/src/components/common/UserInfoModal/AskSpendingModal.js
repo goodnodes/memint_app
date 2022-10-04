@@ -33,26 +33,34 @@ function AskSpendingModal({
         <View style={[styles.centeredView, styles.backgroudDim]}>
           <View style={styles.modalView}>
             <View style={{alignItems: 'center'}}>
-              <Text style={{fontSize: 18, fontWeight: '500'}}>
+              <Text style={{fontSize: 18, fontWeight: '500', color: '#000000'}}>
                 프로필 사진을 확인하시겠어요?
               </Text>
-              <Text style={{fontWeight: '600', margin: 10, fontSize: 16}}>
+              <Text
+                style={{
+                  fontWeight: '600',
+                  margin: 10,
+                  fontSize: 16,
+                  color: '#000000',
+                }}>
                 {`${amount}TING이 소모됩니다.`}
               </Text>
             </View>
             <View style={styles.buttonRow}>
               <BasicButton
                 text={nButtonText}
-                size="small"
                 variant="disable"
                 backgroundColor={'#ffffff'}
+                width={100}
+                height={45}
                 onPress={() =>
                   setAskSpendingModalVisible(!askSpendingModalVisible)
                 }
               />
               <BasicButton
+                width={100}
+                height={45}
                 text={pButtonText}
-                size="small"
                 onPress={pFunction}
               />
             </View>

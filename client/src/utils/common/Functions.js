@@ -131,13 +131,13 @@ export const handleBirth = str => {
   if (age > 40) {
     res = '40대';
   } else if (age > 35) {
-    res = '30 후';
+    res = '30대 후';
   } else if (age > 30) {
-    res = '30 초';
+    res = '30대 초';
   } else if (age > 25) {
-    res = '20 후';
+    res = '20대 후';
   } else if (age > 20) {
-    res = '20 초';
+    res = '20대 초';
   } else {
     res = '넘 어린디';
   }

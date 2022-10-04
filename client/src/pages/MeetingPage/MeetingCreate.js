@@ -1,8 +1,7 @@
 import RNDateTimePicker from '@react-native-community/datetimepicker';
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Text,
-  SafeAreaView,
   View,
   StyleSheet,
   ScrollView,
@@ -19,16 +18,13 @@ import {useToast} from '../../utils/hooks/useToast';
 import TagElement from '../../components/meetingComponents/TagElement';
 import DoubleModal from '../../components/common/DoubleModal';
 import {createMeeting, getMeeting} from '../../lib/Meeting';
-import {getMeetingTags} from '../../lib/MeetingTag';
 import useUser from '../../utils/hooks/UseUser';
 import {updateUserMeetingIn} from '../../lib/Users';
-import useAuthActions from '../../utils/hooks/UseAuthActions';
-import useMeetingActions from '../../utils/hooks/UseMeetingActions';
-import {useMeeting} from '../../utils/hooks/UseMeeting';
 import SpendingModal from '../../components/common/UserInfoModal/SpendingModal';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 import LinearGradient from 'react-native-linear-gradient';
 import firestore from '@react-native-firebase/firestore';
+import {meetingTags} from '../../assets/docs/contents';
 
 function FocusAwareStatusBar(props) {
   const isFocused = useIsFocused();
@@ -38,10 +34,6 @@ function FocusAwareStatusBar(props) {
 
 function MeetingCreate({route}) {
   const userInfo = useUser();
-
-  const {saveInfo} = useAuthActions();
-  const {saveMeeting} = useMeetingActions();
-  const {rooms} = useMeeting();
 
   const [submittable, setSubmittable] = useState(false);
   const [meetingInfo, setMeetingInfo] = useState({
@@ -62,7 +54,6 @@ function MeetingCreate({route}) {
   const [inviteModalVisible, setInviteModalVisible] = useState(false);
   const [datePicker, setDatePicker] = useState(false);
   const [timePicker, setTimePicker] = useState(false);
-  const [tagData, setTagData] = useState({mood: [], topic: [], alcohol: []});
   const navigation = useNavigation();
   const {showToast} = useToast();
   const RegionDropDownData = [
@@ -82,7 +73,6 @@ function MeetingCreate({route}) {
     {label: '이태원', value: '이태원'},
   ];
   const PeopleDropDownData = [
-    {label: '1:1', value: 1},
     {label: '2:2', value: 2},
     {label: '3:3', value: 3},
     {label: '4:4', value: 4},
@@ -95,46 +85,27 @@ function MeetingCreate({route}) {
     } else {
       setSubmittable(false);
     }
-    getTags();
-    handleInvitedFriends();
-  }, [meetingInfo, route, handleInvitedFriends]);
+    // handleInvitedFriends();
+  }, [meetingInfo, route]);
 
-  const handleInvitedFriends = useCallback(() => {
-    if (route.params?.friendId === undefined) {
-      return;
-    }
-    if (meetingInfo.friends.indexOf(route.params.friendId) !== -1) {
-      showToast('error', '이미 추가된 친구입니다');
-      route.params.friendId = undefined;
-      route.params.friendNickname = undefined;
-      return;
-    }
-    setMeetingInfo({
-      ...meetingInfo,
-      friends: [...meetingInfo.friends, route.params.friendId],
-    });
-    setFriendsName([...friendsNames, route.params.friendNickname]);
-    route.params.friendId = undefined;
-    route.params.friendNickname = undefined;
-  }, [meetingInfo, route, showToast, friendsNames]);
-
-  const getTags = async () => {
-    try {
-      const res = await getMeetingTags();
-      const data = res.docs.reduce(
-        (acc, cur) => {
-          return {
-            ...acc,
-            [cur.data().type]: acc[cur.data().type].concat(cur.data().content),
-          };
-        },
-        {mood: [], topic: [], alcohol: []},
-      );
-      setTagData(data);
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  // const handleInvitedFriends = useCallback(() => {
+  //   if (route.params?.friendId === undefined) {
+  //     return;
+  //   }
+  //   if (meetingInfo.friends.indexOf(route.params.friendId) !== -1) {
+  //     showToast('error', '이미 추가된 친구입니다');
+  //     route.params.friendId = undefined;
+  //     route.params.friendNickname = undefined;
+  //     return;
+  //   }
+  //   setMeetingInfo({
+  //     ...meetingInfo,
+  //     friends: [...meetingInfo.friends, route.params.friendId],
+  //   });
+  //   setFriendsName([...friendsNames, route.params.friendNickname]);
+  //   route.params.friendId = undefined;
+  //   route.params.friendNickname = undefined;
+  // }, [meetingInfo, route, showToast, friendsNames]);
 
   const handleSubmit = () => {
     if (!submittable) {
@@ -185,18 +156,6 @@ function MeetingCreate({route}) {
         'createdroomId',
         res._documentPath._parts[1],
       );
-      // const newMeeting = await getMeeting(res._documentPath._parts[1]);
-      // saveInfo({
-      //   ...userInfo,
-      //   createdroomId: [...userInfo.createdroomId, res._documentPath._parts[1]],
-      // });
-      // saveMeeting({
-      //   ...rooms,
-      //   createdrooms: [
-      //     {id: newMeeting.id, ...newMeeting.data()},
-      //     ...rooms.createdrooms,
-      //   ],
-      // });
       setConfirmModalVisible(false);
       showToast('success', '미팅이 생성되었습니다');
       navigation.navigate('MeetingMarket');
@@ -207,9 +166,9 @@ function MeetingCreate({route}) {
     }
   };
 
-  const handleNavigate = () => {
-    navigation.navigate('InviteFriend');
-  };
+  // const handleNavigate = () => {
+  //   navigation.navigate('InviteFriend');
+  // };
 
   const checkTitleByte = text => {
     const maxByte = 64; //최대 100바이트
@@ -339,7 +298,7 @@ function MeetingCreate({route}) {
           <TextInput
             style={styles.textInputTitle}
             placeholder="제목"
-            placeholderTextColor="#EAFFEF"
+            placeholderTextColor="#EAFFEFCC"
             onChangeText={text => {
               checkTitleByte(text);
             }}
@@ -347,7 +306,6 @@ function MeetingCreate({route}) {
             autoCorrect={false}
             value={meetingInfo.title}
             selectionColor="#AEFFC1"
-            // maxLength={0}
           />
           <View
             style={[
@@ -419,9 +377,6 @@ function MeetingCreate({route}) {
                 {!datePicker && (
                   <Pressable onPress={showDatePicker}>
                     <Text style={styles.dateText}>
-                      {/* {`${
-                        meetingInfo.meetDate.getMonth() + 1
-                      }월 ${meetingInfo.meetDate.getDate()}일`} */}
                       {meetingInfo.meetDate.toLocaleDateString()}
                     </Text>
                   </Pressable>
@@ -432,7 +387,6 @@ function MeetingCreate({route}) {
                       {meetingInfo.meetDate
                         .toLocaleTimeString('ko-KR')
                         .slice(0, -3)}
-                      {/* {`${meetingInfo.meetDate.getHours()}시 ${meetingInfo.meetDate.getMinutes()}분`} */}
                     </Text>
                   </Pressable>
                 )}
@@ -450,29 +404,13 @@ function MeetingCreate({route}) {
                 value={meetingInfo.region}
                 fixAndroidTouchableBug={true}
                 useNativeAndroidPickerStyle={false}
-                style={{
-                  inputIOS: {
-                    fontSize: 16,
-                    color: '#ffffff',
-                    letterSpacing: -0.5,
-                  },
-                  inputAndroid: {
-                    fontSize: 16,
-                    color: '#ffffff',
-                    letterSpacing: -0.5,
-                  },
-                  placeholder: {
-                    fontSize: 16,
-                    color: '#EAFFEF',
-                    letterSpacing: -0.5,
-                  },
-                }}
+                style={styles.pickerStyle}
                 Icon={() => {
                   return (
                     <Icon
                       name="arrow-drop-down"
                       size={19}
-                      color={'#EAFFEF'}
+                      color={'#EAFFEFCC'}
                       style={[
                         styles.icon,
                         Platform.OS === 'android' ? styles.iconAndroid : null,
@@ -497,29 +435,13 @@ function MeetingCreate({route}) {
                 value={meetingInfo.peopleNum}
                 fixAndroidTouchableBug={true}
                 useNativeAndroidPickerStyle={false}
-                style={{
-                  inputIOS: {
-                    fontSize: 16,
-                    color: '#ffffff',
-                    letterSpacing: -0.5,
-                  },
-                  inputAndroid: {
-                    fontSize: 16,
-                    color: '#ffffff',
-                    letterSpacing: -0.5,
-                  },
-                  placeholder: {
-                    fontSize: 16,
-                    color: '#EAFFEF',
-                    letterSpacing: -0.5,
-                  },
-                }}
+                style={styles.pickerStyle}
                 Icon={() => {
                   return (
                     <Icon
                       name="arrow-drop-down"
                       size={19}
-                      color={'#EAFFEF'}
+                      color={'#EAFFEFCC'}
                       style={[
                         styles.icon,
                         Platform.OS === 'android' ? styles.iconAndroid : null,
@@ -529,7 +451,7 @@ function MeetingCreate({route}) {
                 }}
               />
             </View>
-            <ScrollView style={styles.invitedFriends} horizontal={true}>
+            {/* <ScrollView style={styles.invitedFriends} horizontal={true}>
               {friendsNames.map((el, idx) => (
                 <View key={idx}>
                   <Text style={styles.invitedFriend}>{el}</Text>
@@ -551,7 +473,7 @@ function MeetingCreate({route}) {
               <Text style={[styles.text, styles.leftMargin]}>
                 친구 초대하기
               </Text>
-            </Pressable>
+            </Pressable> */}
           </View>
           <View
             style={[
@@ -584,14 +506,14 @@ function MeetingCreate({route}) {
             <Text style={[styles.text, styles.tagTitle]}>태그</Text>
             <View style={styles.tagsContainer}>
               <View style={styles.tagCategory}>
-                <Icon
+                {/* <Icon
                   name="circle"
                   size={8}
                   color={'#EAFFEF'}
                   style={styles.tagIcon}
-                />
+                /> */}
                 <View style={styles.tags}>
-                  {tagData.mood.map((tag, idx) => (
+                  {meetingTags.mood.map((tag, idx) => (
                     <TagElement
                       key={idx}
                       tag={tag}
@@ -602,14 +524,14 @@ function MeetingCreate({route}) {
                 </View>
               </View>
               <View style={styles.tagCategory}>
-                <Icon
+                {/* <Icon
                   name="circle"
                   size={8}
                   color={'#EAFFEF'}
                   style={styles.tagIcon}
-                />
+                /> */}
                 <View style={styles.tags} horizontal={true}>
-                  {tagData.topic.map((tag, idx) => (
+                  {meetingTags.topic.map((tag, idx) => (
                     <TagElement
                       key={idx}
                       tag={tag}
@@ -620,14 +542,14 @@ function MeetingCreate({route}) {
                 </View>
               </View>
               <View style={styles.tagCategory}>
-                <Icon
+                {/* <Icon
                   name="circle"
                   size={8}
                   color={'#EAFFEF'}
                   style={styles.tagIcon}
-                />
-                <View style={styles.tags} horizontal={true}>
-                  {tagData.alcohol.map((tag, idx) => (
+                /> */}
+                <View style={styles.tags}>
+                  {meetingTags.alcohol.map((tag, idx) => (
                     <TagElement
                       key={idx}
                       tag={tag}
@@ -700,7 +622,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
-    color: '#EAFFEF',
+    color: '#EAFFEFCC',
     letterSpacing: -0.5,
   },
   datepicker: {
@@ -712,8 +634,6 @@ const styles = StyleSheet.create({
   textInputTitle: {
     backgroundColor: 'transparent',
     color: '#ffffff',
-    // borderBottomColor: '#EAFFEF',
-    // borderBottomWidth: 1,
     height: 60,
     padding: 10,
     fontSize: 16,
@@ -735,7 +655,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   tagTitle: {
-    marginTop: 10,
+    marginVertical: 10,
   },
   tagsContainer: {
     marginBottom: 70,
@@ -764,7 +684,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
   iconAndroid: {
-    top: 8,
+    top: 5,
   },
   tagIcon: {
     marginTop: 15,
@@ -772,7 +692,7 @@ const styles = StyleSheet.create({
   },
   line: {
     height: 1,
-    backgroundColor: '#EAFFEF',
+    backgroundColor: '#EAFFEFCC',
   },
   activeLine: {
     backgroundColor: '#AEFFC1',
@@ -782,14 +702,37 @@ const styles = StyleSheet.create({
   },
   dateText: {
     fontSize: 16,
-    color: '#EAFFEF',
+    color: '#1D1E1E',
     letterSpacing: -0.5,
+    lineHeight: 22.4,
+    backgroundColor: '#EAFFEFCC',
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderRadius: 5,
   },
   timepicker: {
-    marginLeft: 20,
+    marginLeft: 10,
   },
   paddingBottom: {
     paddingBottom: 60,
+  },
+  pickerStyle: {
+    inputIOS: {
+      fontSize: 16,
+      color: '#ffffff',
+      letterSpacing: -0.5,
+    },
+    inputAndroid: {
+      fontSize: 16,
+      color: '#ffffff',
+      letterSpacing: -0.5,
+      padding: 0,
+    },
+    placeholder: {
+      fontSize: 16,
+      color: '#EAFFEFCC',
+      letterSpacing: -0.5,
+    },
   },
 });
 

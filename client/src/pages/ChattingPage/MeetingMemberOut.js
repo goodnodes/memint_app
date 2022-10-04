@@ -64,23 +64,25 @@ function MeetingMemberOut({route}) {
       <Text style={styles.title}>미팅 멤버 내보내기</Text>
       <View style={styles.wrapper}>
         <View style={styles.warningBox}>
-          <Icon name="error-outline" size={30} color="red" />
+          <Icon name="error-outline" size={30} color="#58FF7D" />
           <Text style={styles.boldText}>
             멤버 퇴출은 다음의 경우에만 진행해 주세요.
           </Text>
           <View>
-            <Text style={styles.plainText}>• 채팅방 내 타인을 모욕, 비방</Text>
             <Text style={styles.plainText}>
-              • 음란물, 불법 사행성 도박 사이트 홍보 메시지 발송
+              • {'\t'}채팅방 내 타인을 모욕, 비방
             </Text>
             <Text style={styles.plainText}>
-              • 불법촬영물, 허위영상물, 아동 ・ 청소년 성착취물 공유
+              • {'\t'}음란물, 불법 사행성 도박 사이트 홍보 메시지 발송
             </Text>
             <Text style={styles.plainText}>
-              • 타인의 개인정보 유출 및 권리침해
+              • {'\t'}불법촬영물, 허위영상물, 아동・청소년 성착취물 공유
             </Text>
-            <Text style={styles.plainText}>• 장기간 미응답</Text>
-            <Text style={styles.plainText}>• 기타 특이사항</Text>
+            <Text style={styles.plainText}>
+              • {'\t'}타인의 개인정보 유출 및 권리침해
+            </Text>
+            <Text style={styles.plainText}>• {'\t'}장기간 미응답</Text>
+            <Text style={styles.plainText}>• {'\t'}기타 특이사항</Text>
           </View>
           <Text style={styles.bigText}>
             ※ 잦은 멤버 퇴출은 이용제한조치 사유가 될 수 있습니다.
@@ -88,7 +90,9 @@ function MeetingMemberOut({route}) {
         </View>
         <View style={styles.selectSection}>{member}</View>
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>퇴출 사유</Text>
+          <Text style={styles.sectionTitle}>
+            멤버 내보내기 사유를 작성해 주세요.
+          </Text>
           <TextInput
             style={styles.textInput}
             placeholder="퇴출 사유를 구체적으로 적어주세요"
@@ -102,7 +106,7 @@ function MeetingMemberOut({route}) {
         </View>
         <BasicButton
           text="내보내기"
-          width={332}
+          width={'100%'}
           height={50}
           textSize={18}
           backgroundColor={form.receiver && form.text ? '#58FF7D' : 'gray'}
@@ -211,7 +215,8 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: '400',
     fontSize: 24,
-    marginVertical: 20,
+    marginTop: 20,
+    marginBottom: 10,
     color: '#ffffff',
     fontFamily: 'NeoDunggeunmoPro-Regular',
     letterSpacing: -0.5,
@@ -225,18 +230,16 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   warningBox: {
-    borderColor: '#AEFFC1',
-    borderWidth: 1,
     borderRadius: 20,
     width: '100%',
-    paddingHorizontal: 30,
+    paddingHorizontal: 15,
     paddingTop: 15,
     paddingBottom: 23,
     flexDirection: 'column',
     alignItems: 'center',
   },
   boldText: {
-    fontWeight: '700',
+    fontWeight: '600',
     fontSize: 15,
     marginVertical: 15,
     color: '#ffffff',
@@ -258,11 +261,12 @@ const styles = StyleSheet.create({
   },
   section: {
     width: '100%',
-    paddingHorizontal: 10,
   },
   sectionTitle: {
-    fontSize: 15,
-    fontWeight: '700',
+    fontSize: 16,
+    letterSpacing: -0.5,
+    fontWeight: '500',
+    lineHeight: 22.4,
     marginBottom: 3,
     color: '#ffffff',
   },
@@ -273,14 +277,12 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
   textInput: {
-    borderRadius: 10,
-    borderColor: '#AEFFC1',
-    borderWidth: 1,
+    borderRadius: 5,
     marginVertical: 10,
     height: 80,
     paddingHorizontal: 10,
     paddingTop: 10,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#EAFFEFCC',
   },
 });
 

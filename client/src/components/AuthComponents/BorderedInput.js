@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
 import {StyleSheet, TextInput} from 'react-native';
 
-const BorderedInput = ({hasMarginBottom, size, value, ...rest}, ref) => {
+const BorderedInput = (
+  {hasMarginBottom, size, value, margin, ...rest},
+  ref,
+) => {
   const sizeStyle = SIZE[size];
-
   return (
     <TextInput
       style={[
@@ -11,6 +13,12 @@ const BorderedInput = ({hasMarginBottom, size, value, ...rest}, ref) => {
         hasMarginBottom && styles.margin,
         sizeStyle,
         value ? styles.border : null,
+        {
+          marginTop: margin ? margin[0] : 0,
+          marginRight: margin ? margin[1] : 0,
+          marginBottom: margin ? margin[2] : 0,
+          marginLeft: margin ? margin[3] : 0,
+        },
       ]}
       ref={ref}
       {...rest}

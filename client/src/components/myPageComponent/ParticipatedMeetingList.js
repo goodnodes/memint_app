@@ -142,7 +142,10 @@ function ParticipatedMeetings({item, getJoinedRoom}) {
         style={styles.meetingCard}
         onPress={() => {
           // console.log(item);
-          navigation.navigate('ChattingRoom', {data: item});
+          navigation.navigate('ChattingListPage');
+          setTimeout(() => {
+            navigation.navigate('ChattingRoom', {data: item});
+          }, 800);
         }}>
         <View>
           <View style={styles.usernamelikes}>

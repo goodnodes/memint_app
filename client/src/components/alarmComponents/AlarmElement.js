@@ -83,7 +83,7 @@ function AlarmElement({alarm}) {
                 </Text>
                 <View style={styles.bar} />
                 <Text style={styles.meetingElement}>
-                  {handleBirth(alarm.meetingInfo.hostId.birth)}
+                  {handleBirth(alarm.meetingInfo.hostInfo.birth)}
                 </Text>
                 <View style={styles.bar} />
                 <Text style={styles.meetingElement}>

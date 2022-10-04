@@ -37,26 +37,26 @@ function SingleModal({
   return (
     <View style={styles.centeredView}>
       <Modal animationType="fade" transparent={true} visible={modalVisible}>
-        <TouchableWithoutFeedback
+        {/* <TouchableWithoutFeedback
           onPress={() => {
             setModalVisible(false);
-          }}>
-          <View style={[styles.centeredView, styles.backgroudDim]}>
-            <View style={styles.modalView}>
-              <Text style={styles.modalText}>{text}</Text>
-              {body}
-              <BasicButton
-                text={buttonText}
-                textSize={16}
-                width={120}
-                height={45}
-                backgroundColor="#AEFFC1"
-                textColor="black"
-                onPress={pFunction}
-              />
-            </View>
+          }}> */}
+        <View style={[styles.centeredView, styles.backgroudDim]}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>{text}</Text>
+            {body}
+            <BasicButton
+              text={buttonText}
+              textSize={16}
+              width={120}
+              height={45}
+              backgroundColor="#AEFFC1"
+              textColor="black"
+              onPress={pFunction}
+            />
           </View>
-        </TouchableWithoutFeedback>
+        </View>
+        {/* </TouchableWithoutFeedback> */}
       </Modal>
     </View>
   );
