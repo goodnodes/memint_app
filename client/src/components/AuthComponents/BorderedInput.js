@@ -1,9 +1,8 @@
 import React, {useState} from 'react';
 import {StyleSheet, TextInput} from 'react-native';
 
-const BorderedInput = ({hasMarginBottom, size, ...rest}, ref) => {
+const BorderedInput = ({hasMarginBottom, size, value, ...rest}, ref) => {
   const sizeStyle = SIZE[size];
-  const [isFocused, setIsFocused] = useState(false);
 
   return (
     <TextInput
@@ -11,7 +10,7 @@ const BorderedInput = ({hasMarginBottom, size, ...rest}, ref) => {
         styles.input,
         hasMarginBottom && styles.margin,
         sizeStyle,
-        isFocused ? styles.isFocused : null,
+        value ? styles.border : null,
       ]}
       ref={ref}
       {...rest}
@@ -19,12 +18,6 @@ const BorderedInput = ({hasMarginBottom, size, ...rest}, ref) => {
       autoCorrect={false}
       selectionColor="#AEFFC1"
       placeholderTextColor="#EAFFEF"
-      onFocus={() => {
-        setIsFocused(true);
-      }}
-      onEndEditing={() => {
-        setIsFocused(false);
-      }}
     />
   );
 };
@@ -61,8 +54,9 @@ const styles = StyleSheet.create({
   margin: {
     marginBottom: 16,
   },
-  isFocused: {
+  border: {
     borderColor: '#AEFFC1',
+    borderWidth: 2,
   },
 });
 export default React.forwardRef(BorderedInput);

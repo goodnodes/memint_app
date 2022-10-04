@@ -167,8 +167,8 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
             contentContainerStyle={styles.paddingBottom}>
             <Text style={styles.title}>프로필 설정</Text>
             <Text style={styles.alertText}>
-              프로필 사진, 닉네임, 생년월일, 성별을 추가해야{'\n'}
-              다음 페이지로 넘어갈 수 있어요.
+              본인의 얼굴이 잘 나온 사진을 올려주세요.{'\n'}
+              본인 얼굴이 아닌 다른 이미지 사용 시 서비스 이용에 제한이 있어요.
             </Text>
             <View style={styles.cameraArea}>
               <CameraButton response={response} setResponse={setResponse} />
@@ -215,7 +215,9 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
                     setForm({...form, birthYear: selectedItem});
                   }}
                   defaultButtonText=" "
-                  buttonStyle={styles.dropdown}
+                  buttonStyle={
+                    form.birthYear ? styles.borderedDropdown : styles.dropdown
+                  }
                   dropdownStyle={styles.dropdownStyle}
                   rowTextStyle={styles.dropdownTextStyle}
                   buttonTextStyle={styles.buttonTextStyle}
@@ -241,7 +243,11 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
                     setForm({...form, birthMonth: selectedItem});
                   }}
                   defaultButtonText=" "
-                  buttonStyle={styles.dropdownSmall}
+                  buttonStyle={
+                    form.birthMonth
+                      ? styles.borderedDropdownSmall
+                      : styles.dropdownSmall
+                  }
                   dropdownStyle={styles.dropdownStyle}
                   rowTextStyle={styles.dropdownTextStyle}
                   buttonTextStyle={styles.buttonTextStyle}
@@ -285,7 +291,11 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
                     setForm({...form, birthDay: selectedItem});
                   }}
                   defaultButtonText=" "
-                  buttonStyle={styles.dropdownSmall}
+                  buttonStyle={
+                    form.birthDay
+                      ? styles.borderedDropdownSmall
+                      : styles.dropdownSmall
+                  }
                   dropdownStyle={styles.dropdownStyle}
                   rowTextStyle={styles.dropdownTextStyle}
                   buttonTextStyle={styles.buttonTextStyle}
@@ -301,7 +311,9 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
                   setForm({...form, gender: selectedItem});
                 }}
                 defaultButtonText=" "
-                buttonStyle={styles.dropdown}
+                buttonStyle={
+                  form.gender ? styles.borderedDropdown : styles.dropdown
+                }
                 dropdownStyle={styles.dropdownStyleGender}
                 rowTextStyle={styles.dropdownTextStyle}
                 buttonTextStyle={styles.buttonTextStyle}
@@ -359,6 +371,7 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: '400',
     marginTop: 20,
+    marginBottom: 15,
     fontSize: 24,
     color: '#ffffff',
     fontFamily: 'NeoDunggeunmoPro-Regular',
@@ -385,6 +398,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     letterSpacing: -0.5,
     color: '#ffffff',
+    lineHeight: 18.2,
   },
   contentTextSub: {
     fontSize: 18,
@@ -500,6 +514,26 @@ const styles = StyleSheet.create({
   },
   paddingBottom: {
     paddingBottom: 80,
+  },
+  borderedDropdown: {
+    width: 120,
+    // borderColor: '#EAFFEF',
+    // borderWidth: 1,
+    paddingHorizontal: 16,
+    borderRadius: 4,
+    height: 40,
+    backgroundColor: 'transparent',
+    borderColor: '#AEFFC1',
+    borderWidth: 2,
+  },
+  borderedDropdownSmall: {
+    width: 70,
+    borderWidth: 2,
+    borderColor: '#AEFFC1',
+    paddingHorizontal: 16,
+    height: 40,
+    backgroundColor: '#3C3D43',
+    borderRadius: 5,
   },
 });
 
