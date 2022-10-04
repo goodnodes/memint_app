@@ -1,27 +1,23 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import {useIsFocused} from '@react-navigation/native';
 import {
-  Keyboard,
-  KeyboardAvoidingView,
   Platform,
   StyleSheet,
   Text,
   View,
-  Alert,
-  TouchableWithoutFeedback,
-  ScrollView,
   TouchableOpacity,
+  ScrollView,
   StatusBar,
+  TextInput,
+  Animated,
 } from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import BackButton from '../../components/common/BackButton';
-import BasicButton from '../../components/common/BasicButton';
 import SelectDropdown from 'react-native-select-dropdown';
-import TagElement from '../../components/AuthComponents/TagElement';
-import {createProperty} from '../../lib/Users';
-import LinearGradient from 'react-native-linear-gradient';
-import SafeStatusBar from '../../components/common/SafeStatusBar';
+import BackButton from '../../components/common/BackButton';
 import {useToast} from '../../utils/hooks/useToast';
-import {useIsFocused} from '@react-navigation/native';
+import SafeStatusBar from '../../components/common/SafeStatusBar';
+import LinearGradient from 'react-native-linear-gradient';
+import TagElement from '../../components/AuthComponents/TagElement';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 function FocusAwareStatusBar(props) {
   const isFocused = useIsFocused();
@@ -32,40 +28,114 @@ function FocusAwareStatusBar(props) {
 const SignUpUserDetailScreen = ({navigation, route}) => {
   let {userInfo} = route.params || {};
   const {showToast} = useToast();
-  const [drinkInfo, setDrinkInfo] = useState({
+  const [property, setProperty] = useState({
+    mbti: '',
+    emoji: '',
+    region: [],
+    favYoutube: '',
+    twinCeleb: '',
     drinkCapa: '',
-    drinkStyle: [],
     alcoholType: [],
+    drinkStyle: [],
+    curfew: '',
+    favGame: [],
   });
+  const [selfIntroduction, setSelfIntroduction] = useState('');
+
+  const [animatedValue, setAnimatedValue] = useState(new Animated.Value(0));
+
+  useEffect(() => {
+    Animated.timing(animatedValue, {
+      toValue: 1,
+      duration: 800,
+      useNativeDriver: true,
+    }).start();
+  }, [animatedValue]);
 
   const goToNextPage = () => {
-    console.log(drinkInfo);
     if (
-      drinkInfo.drinkCapa === '' ||
-      drinkInfo.drinkStyle.length === 0 ||
-      drinkInfo.alcoholType.length === 0
+      property.mbti === '' ||
+      property.emoji === '' ||
+      property.region.length === 0 ||
+      property.favYoutube === '' ||
+      property.twinCeleb === '' ||
+      property.drinkCapa === '' ||
+      property.drinkStyle.length === 0 ||
+      property.alcoholType.length === 0 ||
+      property.curfew === '' ||
+      property.favGame.length === 0 ||
+      selfIntroduction === ''
     ) {
       // Alert.alert('실패', '회원 정보를 올바르게 입력해주세요');
-      showToast('error', '회원 정보를 올바르게 입력해주세요.');
+      showToast('error', '모든 내용을 입력해주세요.');
     } else {
       userInfo = {
         ...userInfo,
-        drinkCapa: drinkInfo.drinkCapa,
-        drinkStyle: drinkInfo.drinkStyle,
-        alcoholType: drinkInfo.alcoholType,
+        property,
+        selfIntroduction,
       };
       // createProperty({
       //   userId: uid,
-      //   drinkCapa: drinkInfo.drinkCapa,
-      //   drinkStyle: drinkInfo.drinkStyle,
-      //   alcoholType: drinkInfo.alcoholType,
+      //   drinkCapa: property.drinkCapa,
+      //   drinkStyle: property.drinkStyle,
+      //   alcoholType: property.alcoholType,
       // });
       navigation.push('SignUpAgreement', {userInfo});
       // navigate('SignUpServeNFT', route.params);
     }
   };
 
-  const tagData = {
+  const data = {
+    mbti: [
+      'ISFP',
+      'ESFP',
+      'ISTP',
+      'ESTP',
+      'INFP',
+      'ENFP',
+      'ISTJ',
+      'ESTJ',
+      'ISFJ',
+      'ESTJ',
+      'INFJ',
+      'ENFJ',
+      'INTJ',
+      'ENTJ',
+      'INTP',
+      'ENTP',
+    ],
+    region: [
+      '강남',
+      '건대',
+      '망원',
+      '명동',
+      '문래',
+      '사당',
+      '삼성',
+      '서울대입구',
+      '서촌',
+      '성수',
+      '신사',
+      '신촌',
+      '여의도',
+      '왕십리',
+      '을지로',
+      '이태원',
+      '잠실',
+      '종로',
+      '한남',
+      '합정',
+      '혜화',
+      '홍대',
+    ],
+    drinkCapa: [
+      '한 잔만',
+      '반 병 이하',
+      '한 병 이하',
+      '두 병 이하',
+      '세 병 이하',
+      '세 병 이상',
+    ],
     alcoholType: [
       '소주',
       '맥주',
@@ -74,111 +144,643 @@ const SignUpUserDetailScreen = ({navigation, route}) => {
       '고량주',
       '막걸리',
       '와인',
+      '소맥',
+      '전통주',
+      '사케',
+      '위스키',
+      '테킬라',
+      '하이볼',
     ],
     drinkStyle: [
       '진지한 분위기를 좋아해요. 함께 이야기 나눠요!',
       '신나는 분위기를 좋아해요. 친해져요!',
       '일단 마시고 생각하자구요. 부어라 마셔라!',
-      '안주보다 술이 좋아요',
-      '술보다 안주가 좋아요.',
+      '먹는게 삶의 낙이죠. 술보다 안주가 좋아요.',
+    ],
+    curfew: [
+      '오후 8시',
+      '오후 9시',
+      '오후 10시',
+      '오후 11시',
+      '자정',
+      '오전 1시',
+      '오전 2시',
+      '오전 3시',
+      '제 통금은 9시에요. 오전 9시',
+      '해 지기 전에 들어가야해요',
+    ],
+    favGame: [
+      '출석부',
+      '베스킨라빈스31',
+      '손병호',
+      '아파트',
+      '바니바니',
+      '007빵',
+      '더게임오브데스',
+      '오렌지',
+      '훈민정음',
+      '딸기',
+      '귓속말',
+      '눈치게임',
+      '홍삼',
+      '딸기당근수박참외메론',
+      '진실게임',
+      '기타',
     ],
   };
-  return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <KeyboardAvoidingView
-        style={styles.KeyboardAvoidingView}
-        behavior={Platform.select({ios: 'padding'})}>
-        {Platform.OS === 'ios' ? (
-          <SafeStatusBar />
-        ) : (
-          <FocusAwareStatusBar
-            barStyle="light-content"
-            backgroundColor="#3C3D43"
-            animated={true}
-          />
-        )}
-        <View style={styles.header}>
-          <BackButton />
-        </View>
-        <LinearGradient
-          colors={['#3D3E44', '#5A7064']}
-          start={{x: 0.3, y: 0.3}}
-          end={{x: 1, y: 1}}
-          style={styles.gradientBackground}>
-          <ScrollView style={styles.fullscreenSub}>
-            <View style={styles.form}>
-              <Text style={styles.text}>나의 주량은?</Text>
-              <View style={styles.selectWrap}>
-                <SelectDropdown
-                  data={[
-                    '한 잔만',
-                    '반 병 이하',
-                    '한 병 이하',
-                    '두 병 이하',
-                    '세 병 이하',
-                    '세 병 이상',
-                  ]}
-                  onSelect={(selectedItem, index) => {
-                    setDrinkInfo({...drinkInfo, drinkCapa: selectedItem});
-                  }}
-                  defaultButtonText=" "
-                  buttonStyle={styles.dropdown}
-                  dropdownStyle={styles.dropdownStyle}
-                  rowTextStyle={styles.dropdownTextStyle}
-                  buttonTextStyle={styles.buttonTextStyle}
-                />
-              </View>
-            </View>
-            <View>
-              <Text style={styles.contentText}>
-                선호하는 주류를 선택해주세요.(중복가능)
-              </Text>
-              <View style={styles.tagsContainer}>
-                {tagData.alcoholType.map((tag, idx) => (
-                  <TagElement
-                    key={idx}
-                    tag={tag}
-                    drinkInfo={drinkInfo}
-                    setDrinkInfo={setDrinkInfo}
-                    type="alcoholType"
-                  />
-                ))}
-              </View>
-            </View>
-            <View style={styles.marginBottom}>
-              <Text style={styles.contentText}>
-                당신의 음주 스타일을 알려주세요.(중복 가능)
-              </Text>
-              <View style={styles.tagsContainer}>
-                {tagData.drinkStyle.map((tag, idx) => (
-                  <TagElement
-                    key={idx}
-                    tag={tag}
-                    drinkInfo={drinkInfo}
-                    setDrinkInfo={setDrinkInfo}
-                    type="drinkStyle"
-                  />
-                ))}
-              </View>
-            </View>
 
-            {/* <BasicButton
-            style={styles.button}
-            width={300}
-            height={40}
-            textSize={17}
-            margin={[5, 5, 5, 5]}
-            text="다음 단계"
-            hasMarginBottom
-            onPress={goToNextPage}
-          /> */}
+  return (
+    <KeyboardAwareScrollView
+      contentContainerStyle={styles.KeyboardAvoidingView}
+      enableOnAndroid={true}>
+      {Platform.OS === 'ios' ? (
+        <SafeStatusBar />
+      ) : (
+        <FocusAwareStatusBar
+          barStyle="light-content"
+          backgroundColor="#3C3D43"
+          animated={true}
+        />
+      )}
+      <View style={styles.header}>
+        <BackButton />
+      </View>
+      <LinearGradient
+        colors={['#3D3E44', '#5A7064']}
+        start={{x: 1, y: 0.5}}
+        end={{x: 1, y: 1}}
+        style={styles.gradientBackground}>
+        <View style={styles.fullscreen}>
+          <ScrollView
+            style={styles.fullscreenSub}
+            contentContainerStyle={styles.paddingBottom}
+            behavior={Platform.select({ios: 'padding'})}>
+            <View style={styles.propertyView}>
+              <Text style={styles.title}>
+                {userInfo.nickName}님에 대해{'\n'}알고 싶어요!
+              </Text>
+              <Text style={styles.propertydesc}>
+                더 재밌는 미팅을 위해{'\n'}아래의 질문들에 답해주세요.
+              </Text>
+            </View>
+            <Animated.View
+              style={[
+                styles.propertyView,
+                {
+                  transform: [
+                    {
+                      translateY: animatedValue.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [200, 0],
+                      }),
+                    },
+                  ],
+                },
+              ]}>
+              <Text style={styles.propertyTitle}>가볍게 시작해볼까요?</Text>
+              <Text style={styles.propertydesc}>
+                {userInfo.nickName}님의 MBTI는 뭐에요?
+              </Text>
+              <SelectDropdown
+                data={data.mbti}
+                onSelect={selectedItem => {
+                  setProperty({...property, mbti: selectedItem});
+                }}
+                defaultButtonText=" "
+                buttonStyle={styles.dropdown}
+                dropdownStyle={styles.dropdownStyle}
+                rowTextStyle={styles.dropdownTextStyle}
+                buttonTextStyle={styles.buttonTextStyle}
+              />
+            </Animated.View>
+
+            {!property.mbti ? null : (
+              <Emoji
+                property={property}
+                setProperty={setProperty}
+                nickName={userInfo.nickName}
+              />
+            )}
+            {!property.emoji ? null : (
+              <Region
+                data={data}
+                property={property}
+                setProperty={setProperty}
+              />
+            )}
+            {!property.region.length ? null : (
+              <FavYoutube property={property} setProperty={setProperty} />
+            )}
+            {!property.favYoutube ? null : (
+              <TwinCeleb property={property} setProperty={setProperty} />
+            )}
+            {!property.twinCeleb ? null : (
+              <DrinkCapa
+                data={data}
+                property={property}
+                setProperty={setProperty}
+              />
+            )}
+            {!property.drinkCapa ? null : (
+              <AlcoholType
+                data={data}
+                property={property}
+                setProperty={setProperty}
+              />
+            )}
+            {!property.alcoholType.length ? null : (
+              <DrinkStyle
+                data={data}
+                property={property}
+                setProperty={setProperty}
+              />
+            )}
+            {!property.drinkStyle.length ? null : (
+              <Curfew
+                data={data}
+                property={property}
+                setProperty={setProperty}
+              />
+            )}
+            {!property.curfew ? null : (
+              <FavGame
+                data={data}
+                property={property}
+                setProperty={setProperty}
+                nickName={userInfo.nickName}
+              />
+            )}
+            {!property.favGame.length ? null : (
+              <SelfIntroduction
+                selfIntroduction={selfIntroduction}
+                setSelfIntroduction={setSelfIntroduction}
+              />
+            )}
           </ScrollView>
           <TouchableOpacity style={styles.button} onPress={goToNextPage}>
             <Text style={styles.buttonText}>다음</Text>
           </TouchableOpacity>
-        </LinearGradient>
-      </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
+        </View>
+      </LinearGradient>
+    </KeyboardAwareScrollView>
+  );
+};
+
+const Emoji = ({property, setProperty, nickName}) => {
+  const [animatedValue, setAnimatedValue] = useState(new Animated.Value(0));
+  function handleEmoji(string) {
+    var regex =
+      /([\u2700-\u27bf]|(\ud83c[\udde6-\uddff]){2}|[\ud800-\udbff][\udc00-\udfff]|[\u0023-\u0039]\ufe0f?\u20e3|\u3299|\u3297|\u303d|\u3030|\u24c2|\ud83c[\udd70-\udd71]|\ud83c[\udd7e-\udd7f]|\ud83c\udd8e|\ud83c[\udd91-\udd9a]|\ud83c[\udde6-\uddff]|\ud83c[\ude01-\ude02]|\ud83c\ude1a|\ud83c\ude2f|\ud83c[\ude32-\ude3a]|\ud83c[\ude50-\ude51]|\u203c|\u2049|[\u25aa-\u25ab]|\u25b6|\u25c0|[\u25fb-\u25fe]|\u00a9|\u00ae|\u2122|\u2139|\ud83c\udc04|[\u2600-\u26FF]|\u2b05|\u2b06|\u2b07|\u2b1b|\u2b1c|\u2b50|\u2b55|\u231a|\u231b|\u2328|\u23cf|[\u23e9-\u23f3]|[\u23f8-\u23fa]|\ud83c\udccf|\u2934|\u2935|[\u2190-\u21ff])/g;
+    if (regex.test(string)) {
+      return string;
+    } else {
+      return '';
+    }
+  }
+  useEffect(() => {
+    Animated.timing(animatedValue, {
+      toValue: 1,
+      duration: 800,
+      useNativeDriver: true,
+    }).start();
+  }, [animatedValue]);
+  return (
+    <Animated.View
+      style={[
+        styles.propertyView,
+        {
+          transform: [
+            {
+              translateY: animatedValue.interpolate({
+                inputRange: [0, 1],
+                outputRange: [200, 0],
+              }),
+            },
+          ],
+        },
+      ]}>
+      <Text style={styles.propertyTitle}>
+        {nickName}님을 가장 잘 표현한 이모지
+      </Text>
+      <TextInput
+        style={[
+          styles.textInput,
+          property.emoji ? styles.borderedTextInput : null,
+        ]}
+        value={property.emoji}
+        placeholderTextColor="#EAFFEFB2"
+        placeholder="한 개만 입력해주세요 :)"
+        autoComplete="off"
+        autoCorrect={false}
+        selectionColor="#AEFFC1"
+        onChangeText={value => {
+          let emoji = handleEmoji(value);
+          setProperty({...property, emoji: emoji});
+        }}
+        onSubmitEditing={() => {}}
+        maxLength={2}
+      />
+    </Animated.View>
+  );
+};
+
+const Region = ({data, property, setProperty}) => {
+  const [animatedValue, setAnimatedValue] = useState(new Animated.Value(0));
+  useEffect(() => {
+    Animated.timing(animatedValue, {
+      toValue: 1,
+      duration: 800,
+      useNativeDriver: true,
+    }).start();
+  }, [animatedValue]);
+  return (
+    <Animated.View
+      style={[
+        styles.propertyView,
+        {
+          transform: [
+            {
+              translateY: animatedValue.interpolate({
+                inputRange: [0, 1],
+                outputRange: [200, 0],
+              }),
+            },
+          ],
+        },
+      ]}>
+      <Text style={styles.propertyTitle}>나의 주출몰지</Text>
+      <Text style={styles.propertydesc}>최대 3개까지 선택 가능해요.</Text>
+      <View style={styles.tagsContainer}>
+        {data.region.map((tag, idx) => (
+          <TagElement
+            key={idx}
+            tag={tag}
+            property={property}
+            setProperty={setProperty}
+            selectLimit={3}
+            type="region"
+          />
+        ))}
+      </View>
+    </Animated.View>
+  );
+};
+
+const FavYoutube = ({property, setProperty}) => {
+  const [animatedValue, setAnimatedValue] = useState(new Animated.Value(0));
+  useEffect(() => {
+    Animated.timing(animatedValue, {
+      toValue: 1,
+      duration: 800,
+      useNativeDriver: true,
+    }).start();
+  }, [animatedValue]);
+  return (
+    <Animated.View
+      style={[
+        styles.propertyView,
+        {
+          transform: [
+            {
+              translateY: animatedValue.interpolate({
+                inputRange: [0, 1],
+                outputRange: [200, 0],
+              }),
+            },
+          ],
+        },
+      ]}>
+      <Text style={styles.propertyTitle}>최근에 자주 본 유튜브 채널</Text>
+      <TextInput
+        style={[
+          styles.textInput,
+          property.favYoutube ? styles.borderedTextInput : null,
+        ]}
+        value={property.favYoutube}
+        placeholder="여러개 쓰셔도 좋아요!"
+        placeholderTextColor="#EAFFEFB2"
+        autoComplete="off"
+        autoCorrect={false}
+        selectionColor="#AEFFC1"
+        onChangeText={value => {
+          setProperty({...property, favYoutube: value});
+        }}
+        onSubmitEditing={() => {}}
+        maxLength={20}
+      />
+    </Animated.View>
+  );
+};
+
+const TwinCeleb = ({property, setProperty}) => {
+  const [animatedValue, setAnimatedValue] = useState(new Animated.Value(0));
+  useEffect(() => {
+    Animated.timing(animatedValue, {
+      toValue: 1,
+      duration: 800,
+      useNativeDriver: true,
+    }).start();
+  }, [animatedValue]);
+  return (
+    <Animated.View
+      style={[
+        styles.propertyView,
+        {
+          transform: [
+            {
+              translateY: animatedValue.interpolate({
+                inputRange: [0, 1],
+                outputRange: [200, 0],
+              }),
+            },
+          ],
+        },
+      ]}>
+      <Text style={styles.propertyTitle}>나의 닮은꼴 연예인</Text>
+      <TextInput
+        style={[
+          styles.textInput,
+          styles.twinCeleb,
+          property.twinCeleb ? styles.borderedTextInput : null,
+        ]}
+        value={property.twinCeleb}
+        multiline
+        placeholder={
+          '부끄러워 마세요! 누구나 절친에게 들은 닮은꼴\n연예인 한 명쯤은 있잖아요 😏'
+        }
+        placeholderTextColor="#EAFFEFB2"
+        autoComplete="off"
+        autoCorrect={false}
+        selectionColor="#AEFFC1"
+        onChangeText={value => {
+          setProperty({...property, twinCeleb: value});
+        }}
+        onSubmitEditing={() => {}}
+        maxLength={20}
+      />
+    </Animated.View>
+  );
+};
+
+const DrinkCapa = ({data, property, setProperty}) => {
+  const [animatedValue, setAnimatedValue] = useState(new Animated.Value(0));
+  useEffect(() => {
+    Animated.timing(animatedValue, {
+      toValue: 1,
+      duration: 800,
+      useNativeDriver: true,
+    }).start();
+  }, [animatedValue]);
+  return (
+    <Animated.View
+      style={[
+        styles.propertyView,
+        {
+          transform: [
+            {
+              translateY: animatedValue.interpolate({
+                inputRange: [0, 1],
+                outputRange: [200, 0],
+              }),
+            },
+          ],
+        },
+      ]}>
+      <Text style={[styles.propertyTitle, styles.meetingStyle]}>
+        이제부터, 마포감자은민님의{'\n'}미팅 스타일을 알아보려고 해요!
+      </Text>
+      <Text style={styles.propertyTitle}>나의 주량은?</Text>
+      <SelectDropdown
+        data={data.drinkCapa}
+        onSelect={value => {
+          setProperty({...property, drinkCapa: value});
+        }}
+        defaultButtonText=" "
+        buttonStyle={styles.dropdown}
+        dropdownStyle={styles.dropdownStyle}
+        rowTextStyle={styles.dropdownTextStyle}
+        buttonTextStyle={styles.buttonTextStyle}
+      />
+    </Animated.View>
+  );
+};
+
+const AlcoholType = ({data, property, setProperty}) => {
+  const [animatedValue, setAnimatedValue] = useState(new Animated.Value(0));
+  useEffect(() => {
+    Animated.timing(animatedValue, {
+      toValue: 1,
+      duration: 800,
+      useNativeDriver: true,
+    }).start();
+  }, [animatedValue]);
+  return (
+    <Animated.View
+      style={[
+        styles.propertyView,
+        {
+          transform: [
+            {
+              translateY: animatedValue.interpolate({
+                inputRange: [0, 1],
+                outputRange: [200, 0],
+              }),
+            },
+          ],
+        },
+      ]}>
+      <Text style={styles.propertyTitle}>나의 선호 주류</Text>
+      <Text style={styles.propertydesc}>최대 3개까지 선택 가능해요.</Text>
+      <View style={styles.tagsContainer}>
+        {data.alcoholType.map((tag, idx) => (
+          <TagElement
+            key={idx}
+            tag={tag}
+            property={property}
+            setProperty={setProperty}
+            type="alcoholType"
+            selectLimit={3}
+          />
+        ))}
+      </View>
+    </Animated.View>
+  );
+};
+
+const DrinkStyle = ({data, property, setProperty}) => {
+  const [animatedValue, setAnimatedValue] = useState(new Animated.Value(0));
+  useEffect(() => {
+    Animated.timing(animatedValue, {
+      toValue: 1,
+      duration: 800,
+      useNativeDriver: true,
+    }).start();
+  }, [animatedValue]);
+  return (
+    <Animated.View
+      style={[
+        styles.propertyView,
+        {
+          transform: [
+            {
+              translateY: animatedValue.interpolate({
+                inputRange: [0, 1],
+                outputRange: [200, 0],
+              }),
+            },
+          ],
+        },
+      ]}>
+      <Text style={styles.propertyTitle}>나의 술자리 스타일</Text>
+      <Text style={styles.propertydesc}>하나만 선택해 주세요.</Text>
+      <View style={styles.tagsContainer}>
+        {data.drinkStyle.map((tag, idx) => (
+          <TagElement
+            key={idx}
+            tag={tag}
+            property={property}
+            setProperty={setProperty}
+            type="drinkStyle"
+            selectLimit={1}
+          />
+        ))}
+      </View>
+    </Animated.View>
+  );
+};
+
+const Curfew = ({data, property, setProperty}) => {
+  const [animatedValue, setAnimatedValue] = useState(new Animated.Value(0));
+  useEffect(() => {
+    Animated.timing(animatedValue, {
+      toValue: 1,
+      duration: 800,
+      useNativeDriver: true,
+    }).start();
+  }, [animatedValue]);
+  return (
+    <Animated.View
+      style={[
+        styles.propertyView,
+        {
+          transform: [
+            {
+              translateY: animatedValue.interpolate({
+                inputRange: [0, 1],
+                outputRange: [200, 0],
+              }),
+            },
+          ],
+        },
+      ]}>
+      <Text style={styles.propertyTitle}>나의 통금</Text>
+      <View style={styles.tagsContainer}>
+        {data.curfew.map((tag, idx) => (
+          <TagElement
+            key={idx}
+            tag={tag}
+            property={property}
+            setProperty={setProperty}
+            type="curfew"
+            selectLimit={1}
+          />
+        ))}
+      </View>
+    </Animated.View>
+  );
+};
+
+const FavGame = ({data, property, setProperty, nickName}) => {
+  const [animatedValue, setAnimatedValue] = useState(new Animated.Value(0));
+  useEffect(() => {
+    Animated.timing(animatedValue, {
+      toValue: 1,
+      duration: 800,
+      useNativeDriver: true,
+    }).start();
+  }, [animatedValue]);
+  return (
+    <Animated.View
+      style={[
+        styles.propertyView,
+        {
+          transform: [
+            {
+              translateY: animatedValue.interpolate({
+                inputRange: [0, 1],
+                outputRange: [200, 0],
+              }),
+            },
+          ],
+        },
+      ]}>
+      <Text style={styles.propertyTitle}>
+        {nickName}님이 좋아하는~랜덤~게임~!
+      </Text>
+      <Text style={styles.propertydesc}>
+        좋아하는 술게임을 알려주세요. (최대3개)
+      </Text>
+      <View style={styles.tagsContainer}>
+        {data.favGame.map((tag, idx) => (
+          <TagElement
+            key={idx}
+            tag={tag}
+            property={property}
+            setProperty={setProperty}
+            type="favGame"
+            selectLimit={3}
+          />
+        ))}
+      </View>
+    </Animated.View>
+  );
+};
+
+const SelfIntroduction = ({selfIntroduction, setSelfIntroduction}) => {
+  const [animatedValue, setAnimatedValue] = useState(new Animated.Value(0));
+  useEffect(() => {
+    Animated.timing(animatedValue, {
+      toValue: 1,
+      duration: 800,
+      useNativeDriver: true,
+    }).start();
+  }, [animatedValue]);
+  return (
+    <Animated.View
+      style={[
+        styles.propertyView,
+        {
+          transform: [
+            {
+              translateY: animatedValue.interpolate({
+                inputRange: [0, 1],
+                outputRange: [200, 0],
+              }),
+            },
+          ],
+        },
+      ]}>
+      <Text style={styles.propertyTitle}>마지막으로 자기소개 부탁드려요</Text>
+      <TextInput
+        style={[
+          styles.textInput,
+          styles.selfIntroduction,
+          selfIntroduction ? styles.borderedTextInput : null,
+        ]}
+        value={selfIntroduction}
+        multiline={true}
+        placeholder="자유롭게 작성해 주세요 😉"
+        placeholderTextColor="#EAFFEFB2"
+        autoComplete="off"
+        autoCorrect={false}
+        selectionColor="#AEFFC1"
+        onChangeText={value => {
+          setSelfIntroduction(value);
+        }}
+        onSubmitEditing={() => {}}
+        maxLength={100}
+      />
+    </Animated.View>
   );
 };
 
@@ -187,83 +789,44 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#3C3D43',
   },
+  fullscreen: {
+    flex: 1,
+    paddingHorizontal: 15,
+  },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     height: 50,
   },
-  gradientBackground: {
-    flex: 1,
-    paddingHorizontal: 15,
-  },
   fullscreenSub: {
-    width: '100%',
     flex: 1,
-    flexDirection: 'column',
+    // alignItems: 'center',
+    // justifyContent: 'center',
   },
-  form: {
-    marginBottom: 16,
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  text: {
-    fontWeight: '400',
+  title: {
     fontSize: 24,
-    marginVertical: 20,
     color: '#ffffff',
     fontFamily: 'NeoDunggeunmoPro-Regular',
     letterSpacing: -0.5,
-    marginRight: 15,
-  },
-  contentText: {
-    color: '#ffffff',
-    fontSize: 16,
-    marginTop: 30,
-    marginBottom: 15,
+    lineHeight: 33.6,
+    textAlign: 'center',
+    marginBottom: 8,
   },
 
   tagsContainer: {
     flexWrap: 'wrap',
     marginBottom: 10,
     flexDirection: 'row',
-  },
-  spinnerWrapper: {
-    marginTop: 64,
-    height: 104,
-    justifyContent: 'center',
-    alignItems: 'center',
+    marginTop: 12,
   },
 
-  dropdown: {
-    width: '100%',
-    borderColor: '#EAFFEF',
-    borderWidth: 1,
-    paddingHorizontal: 16,
-    borderRadius: 99,
-    height: 36,
-    backgroundColor: '#EAFFEF',
-  },
-  dropdownStyle: {
-    backgroundColor: '#3C3D43',
-    borderRadius: 10,
-  },
-  dropdownTextStyle: {
-    color: '#ffffff',
-    fontSize: 14,
-  },
   buttonTextStyle: {
     color: '#1D1E1E',
     fontSize: 16,
   },
-  selectWrap: {
-    flex: 1,
-  },
   button: {
     // marginTop: 'auto',
     // marginBottom: 30,
-    marginHorizontal: 15,
     backgroundColor: '#ffffff',
     width: '100%',
     height: 50,
@@ -282,6 +845,7 @@ const styles = StyleSheet.create({
 
     position: 'absolute',
     bottom: 20,
+    marginHorizontal: 15,
   },
   buttonText: {
     color: '#1D1E1E',
@@ -289,8 +853,78 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     letterSpacing: -0.01,
   },
-  marginBottom: {
-    marginBottom: 90,
+  paddingBottom: {
+    paddingBottom: 80,
+  },
+  propertyView: {
+    alignItems: 'center',
+    paddingTop: 40,
+    paddingBottom: 80,
+  },
+  propertyTitle: {
+    fontSize: 18,
+    color: '#ffffff',
+    lineHeight: 25.2,
+    letterSpacing: -0.5,
+    textAlign: 'center',
+    marginBottom: 4,
+  },
+  propertydesc: {
+    color: '#EDEEF6',
+    fontSize: 14,
+    lineHeight: 19.6,
+    letterSpacing: -0.5,
+    textAlign: 'center',
+  },
+  textInput: {
+    width: '100%',
+    backgroundColor: 'tranparent',
+    borderWidth: 1,
+    borderColor: '#EAFFEFCC',
+    borderRadius: 5,
+    color: '#ffffff',
+    height: 42,
+    paddingHorizontal: 14,
+    marginTop: 12,
+    textAlign: 'center',
+  },
+  borderedTextInput: {
+    borderColor: '#AEFFC0',
+    borderWidth: 2,
+  },
+  dropdown: {
+    width: '100%',
+    borderColor: '#EAFFEF',
+    borderWidth: 1,
+    paddingHorizontal: 16,
+    borderRadius: 99,
+    height: 36,
+    backgroundColor: '#EAFFEF',
+    marginTop: 12,
+  },
+  dropdownStyle: {
+    backgroundColor: '#3C3D43',
+    borderRadius: 10,
+    height: 200,
+  },
+  dropdownTextStyle: {
+    color: '#ffffff',
+    fontSize: 14,
+  },
+  gradientBackground: {
+    flex: 1,
+  },
+  selfIntroduction: {
+    height: 100,
+    textAlign: 'left',
+    paddingTop: 10,
+  },
+  twinCeleb: {
+    height: 62,
+    paddingTop: 10,
+  },
+  meetingStyle: {
+    marginBottom: 50,
   },
 });
 

@@ -41,7 +41,6 @@ function FocusAwareStatusBar(props) {
 
 const SignUpAgreementScreen = ({navigation, route}) => {
   let {userInfo} = route.params || {};
-
   const userState = useUser();
   const {saveInfo} = useAuthActions();
   const [checkInfo, setCheckInfo] = useState({
@@ -90,11 +89,9 @@ const SignUpAgreementScreen = ({navigation, route}) => {
           gender: userInfo.gender,
           birth: `${userInfo.birthYear}년 ${userInfo.birthMonth}월 ${userInfo.birthDay}일`,
           picture: photoURL,
-
           phoneNumber: userInfo.phoneNumber,
-          drinkCapa: userInfo.drinkCapa,
-          drinkStyle: userInfo.drinkStyle,
-          alcoholType: userInfo.alcoholType,
+          property: userInfo.property,
+          selfIntroduction: userInfo.selfIntroduction,
           marketingAgreement: marketingCheck,
         });
         // await createUserNFT({
@@ -127,11 +124,7 @@ const SignUpAgreementScreen = ({navigation, route}) => {
           klayAmount: userDetail.klayAmount,
           onChainTokenAmount: userDetail.onChainTokenAmount,
           nftProfile: userDetail.nftProfile,
-          property: {
-            alcoholType: userDetail.property.alcoholType,
-            drinkCapa: userDetail.property.drinkCapa,
-            drinkStyle: userDetail.property.drinkStyle,
-          },
+          property: userDetail.property,
           visibleUser: userDetail.visibleUser,
           likesroomId: userDetail.likesroomId,
           marketingAgreement: marketingCheck,

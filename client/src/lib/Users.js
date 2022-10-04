@@ -10,9 +10,8 @@ export function createUser({
   birth,
   picture,
   phoneNumber,
-  drinkCapa,
-  drinkStyle,
-  alcoholType,
+property,
+selfIntroduction,
   marketingAgreement,
 }) {
   // return usersCollection.doc(id).get();
@@ -41,14 +40,10 @@ export function createUser({
     createdroomId: [],
     joinedroomId: [],
     likesroomId: [],
-    property: {
-      drinkCapa: drinkCapa,
-      drinkStyle: drinkStyle,
-      alcoholType: alcoholType,
-    },
+    property: property,
     marketingAgreement: marketingAgreement,
     isActivated: false,
-    selfIntroduction: '',
+    selfIntroduction: selfIntroduction,
     isReadyToGetFreeToken: true,
   });
 }
