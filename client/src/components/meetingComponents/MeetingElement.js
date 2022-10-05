@@ -180,7 +180,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     letterSpacing: -0.5,
     fontWeight: '600',
-    color: '#000000',
+    color: '#3C3D43',
+    lineHeight: 22.4,
   },
 });
 

@@ -283,7 +283,7 @@ function MeetingMarket({navigation}) {
 
       <LinearGradient
         colors={['#3D3E44', '#5A7064']}
-        start={{x: 0.3, y: 0.3}}
+        start={{x: 1, y: 0.3}}
         end={{x: 1, y: 1}}
         style={styles.gradientBackground}>
         {/* <Button title="로그아웃 하기" color="red" onPress={handleSignOut} /> */}
@@ -477,15 +477,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-end',
+    marginTop: 20,
+    marginBottom: 50,
   },
   title: {
     fontSize: 24,
     fontWeight: '400',
     color: '#ffffff',
-    width: 200,
+    width: 179,
     fontFamily: 'NeoDunggeunmoPro-Regular',
     letterSpacing: -0.5,
-    lineHeight: 30,
+    lineHeight: 33.6,
   },
   listfilterArea: {
     marginTop: 20,

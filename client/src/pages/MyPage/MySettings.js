@@ -286,10 +286,15 @@ const styles = StyleSheet.create({
   liText: {
     fontSize: 16,
     color: '#000000',
+    letterSpacing: -0.5,
+    lineHeight: 22.4,
   },
   liGrayText: {
     fontSize: 16,
-    color: '#868686',
+    color: '#1D1E1E',
+    fontWeight: '500',
+    lineHeight: 22.4,
+    letterSpacing: -0.5,
   },
   deleteText: {
     fontSize: 16,
