@@ -53,6 +53,7 @@ function AskSpendingModal({
                 backgroundColor={'#ffffff'}
                 width={100}
                 height={45}
+                textSize={16}
                 onPress={() =>
                   setAskSpendingModalVisible(!askSpendingModalVisible)
                 }
@@ -60,6 +61,7 @@ function AskSpendingModal({
               <BasicButton
                 width={100}
                 height={45}
+                textSize={16}
                 text={pButtonText}
                 onPress={pFunction}
               />

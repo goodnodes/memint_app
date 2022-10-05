@@ -48,12 +48,12 @@ function EarnModal({
                 width: '100%',
               }}>
               <View style={styles.calcText}>
-                <Text style={{fontWeight: 'bold'}}>보상 TING</Text>
-                <Text style={{fontWeight: 'bold'}}>{amount}개</Text>
+                <Text style={styles.modalText}>보상 TING</Text>
+                <Text style={styles.modalText}>{amount}개</Text>
               </View>
               <View style={styles.calcText}>
-                <Text style={{fontWeight: 'bold'}}>현재 보유 TING</Text>
-                <Text style={{fontWeight: 'bold'}}>{user.tokenAmount}</Text>
+                <Text style={styles.modalText}>현재 보유 TING</Text>
+                <Text style={styles.modalText}>{user.tokenAmount}</Text>
               </View>
             </View>
             <View style={styles.buttonRow}>
@@ -103,8 +103,7 @@ const styles = StyleSheet.create({
   },
   modalText: {
     fontWeight: 'bold',
-    margin: 15,
-    textAlign: 'center',
+    color: '#000000',
   },
   backgroudDim: {
     flex: 1,

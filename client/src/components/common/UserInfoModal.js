@@ -18,7 +18,10 @@ import {addVisibleUser} from '../../lib/Users';
 import useUser from '../../utils/hooks/UseUser';
 import useAuthActions from '../../utils/hooks/UseAuthActions';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import likespink from '../../assets/icons/likespink.png';
 import {handleBirth} from '../../utils/common/Functions';
+import LinearGradient from 'react-native-linear-gradient';
+import * as Progress from 'react-native-progress';
 
 /*
 사용할 컴포넌트에서 state 사용이 필요함.
@@ -53,7 +56,6 @@ function UserInfoModal({
       setUser(result);
     });
   }, [userId, visible]);
-
   return (
     <View style={styles.centeredView}>
       <Modal
@@ -108,140 +110,205 @@ function UserInfoModal({
                         </TouchableOpacity>
                       </View>
                     </TouchableOpacity>
-                    <View
-                      style={{justifyContent: 'space-around', width: '58%'}}>
-                      <View style={styles.userinfo}>
-                        <Text style={styles.userinfoKey}>닉네임</Text>
-                        <Text style={styles.userinfoValue}>
-                          {user.nickName} {user.property.emoji}
-                        </Text>
-                      </View>
-                      <View style={styles.userinfo}>
-                        <Text style={styles.userinfoKey}>나이</Text>
-                        <Text style={styles.userinfoValue}>
-                          {handleBirth(user.birth)}
-                        </Text>
-                      </View>
-                      <View style={styles.userinfo}>
-                        <Text style={styles.userinfoKey}>성별</Text>
-                        <Text style={styles.userinfoValue}>{user.gender}</Text>
+                    <View style={styles.meminStats}>
+                      <View style={styles.levelRow}>
+                        <Progress.Circle
+                          size={41.5}
+                          progress={
+                            user.meminStats ? user.meminStats.exp / 5 : 0
+                          }
+                          color={'#FFAEF1'}
+                          unfilledColor={'#58FF7D'}
+                          borderWidth={0}
+                          thickness={5}
+                          direction="counter-clockwise"
+                          formatText={progress => {
+                            return `LV.${user.meminStats?.level}`;
+                          }}
+                          showsText={true}
+                          textStyle={{
+                            color: '#000000',
+                            fontFamily: 'Silkscreen',
+                            fontSize: 10,
+                            lineHeight: 12,
+                            letterSpacing: -0.5,
+                          }}
+                        />
+                        <View style={styles.gradeView}>
+                          <Progress.Circle
+                            size={41.5}
+                            progress={
+                              user.meminStats ? user.meminStats.charm / 100 : 0
+                            }
+                            color={'#FF9D9D'}
+                            unfilledColor={'#58FF7D'}
+                            borderWidth={0}
+                            thickness={5}
+                            style={styles.smallProgressCircle}
+                            direction="counter-clockwise"
+                          />
+                          <Image source={likespink} style={styles.gradeImage} />
+                          <Text style={styles.gradeText}>
+                            {user.meminStats?.grade}
+                          </Text>
+                        </View>
                       </View>
                     </View>
                   </View>
-                  <ScrollView style={styles.usertag}>
-                    <View style={styles.tagRow}>
-                      <Text style={styles.hilightText}>MBTI</Text>
-                      <View style={styles.tags}>
-                        <View style={styles.tag}>
-                          <Text style={styles.tagText}>
-                            {user.property.mbti}
-                          </Text>
+                  <View style={styles.userInfos}>
+                    <View style={styles.userinfo}>
+                      <Text style={styles.userinfoKey}>닉네임</Text>
+                      <Text style={styles.userinfoValue}>
+                        {user.nickName} {user.property.emoji}
+                      </Text>
+                    </View>
+                    <View style={styles.userinfo}>
+                      <Text style={styles.userinfoKey}>나이</Text>
+                      <Text style={styles.userinfoValue}>
+                        {handleBirth(user.birth)}
+                      </Text>
+                    </View>
+                    <View style={styles.userinfo}>
+                      <Text style={styles.userinfoKey}>성별</Text>
+                      <Text style={styles.userinfoValue}>{user.gender}</Text>
+                    </View>
+                  </View>
+                  <View style={styles.scrollContainer}>
+                    <LinearGradient
+                      colors={[
+                        'rgba(255, 255, 255, 0)',
+                        'rgba(255, 255, 255, 1)',
+                      ]}
+                      start={{x: 1, y: 1}}
+                      end={{x: 1, y: 0}}
+                      style={styles.gradientTop}
+                    />
+                    <LinearGradient
+                      colors={[
+                        'rgba(255, 255, 255, 0)',
+                        'rgba(255, 255, 255, 1)',
+                      ]}
+                      start={{x: 1, y: 0}}
+                      end={{x: 1, y: 1}}
+                      style={styles.gradientBottom}
+                    />
+                    <ScrollView
+                      style={styles.usertag}
+                      contentContainerStyle={styles.contentContainerStyle}
+                      indicatorStyle="white">
+                      <View style={styles.tagRow}>
+                        <Text style={styles.hilightText}>MBTI</Text>
+                        <View style={styles.tags}>
+                          <View style={styles.tag}>
+                            <Text style={styles.tagText}>
+                              {user.property.mbti}
+                            </Text>
+                          </View>
                         </View>
                       </View>
-                    </View>
-                    <View style={styles.tagRow}>
-                      <Text style={styles.hilightText}>주출몰지</Text>
-                      <View style={styles.tags}>
-                        {user ? (
-                          user.property.region.map((ele, index) => {
-                            return (
-                              <View style={styles.tag} key={index}>
-                                <Text style={styles.tagText}>{ele}</Text>
-                              </View>
-                            );
-                          })
-                        ) : (
-                          <ActivityIndicator size="large" color="#AEFFC1" />
-                        )}
-                      </View>
-                    </View>
-                    <View style={styles.tagRow}>
-                      <Text style={styles.hilightText}>유튜브</Text>
-                      <View style={styles.tags}>
-                        <View style={styles.plainTag}>
-                          <Text style={styles.tagText}>
-                            {user.property.favYoutube}
-                          </Text>
+                      <View style={styles.tagRow}>
+                        <Text style={styles.hilightText}>주출몰지</Text>
+                        <View style={styles.tags}>
+                          {user ? (
+                            user.property.region.map((ele, index) => {
+                              return (
+                                <View style={styles.tag} key={index}>
+                                  <Text style={styles.tagText}>{ele}</Text>
+                                </View>
+                              );
+                            })
+                          ) : (
+                            <ActivityIndicator size="large" color="#AEFFC1" />
+                          )}
                         </View>
                       </View>
-                    </View>
-                    <View style={styles.tagRow}>
-                      <Text style={styles.hilightText}>닮은꼴</Text>
-                      <View style={styles.tags}>
-                        <View style={styles.plainTag}>
-                          <Text style={styles.tagText}>
-                            {user.property.twinCeleb}
-                          </Text>
+                      <View style={styles.tagRow}>
+                        <Text style={styles.hilightText}>유튜브</Text>
+                        <View style={styles.tags}>
+                          <View style={styles.plainTag}>
+                            <Text style={styles.tagText}>
+                              {user.property.favYoutube}
+                            </Text>
+                          </View>
                         </View>
                       </View>
-                    </View>
-                    <View style={styles.tagRow}>
-                      <Text style={styles.hilightText}>주량</Text>
-                      <View style={styles.tags}>
-                        <View style={styles.tag}>
-                          <Text style={styles.tagText}>
-                            {user.property.drinkCapa}
-                          </Text>
+                      <View style={styles.tagRow}>
+                        <Text style={styles.hilightText}>닮은꼴</Text>
+                        <View style={styles.tags}>
+                          <View style={styles.plainTag}>
+                            <Text style={styles.tagText}>
+                              {user.property.twinCeleb}
+                            </Text>
+                          </View>
                         </View>
                       </View>
-                    </View>
-                    <View style={styles.tagRow}>
-                      <Text style={styles.hilightText}>선호 주류</Text>
-                      <View style={styles.tags}>
-                        {user ? (
-                          user.property.alcoholType.map((ele, index) => {
-                            return (
-                              <View style={styles.tag} key={index}>
-                                <Text style={styles.tagText}>{ele}</Text>
-                              </View>
-                            );
-                          })
-                        ) : (
-                          <ActivityIndicator size="large" color="#AEFFC1" />
-                        )}
+                      <View style={styles.tagRow}>
+                        <Text style={styles.hilightText}>주량</Text>
+                        <View style={styles.tags}>
+                          <View style={styles.tag}>
+                            <Text style={styles.tagText}>
+                              {user.property.drinkCapa}
+                            </Text>
+                          </View>
+                        </View>
                       </View>
-                    </View>
+                      <View style={styles.tagRow}>
+                        <Text style={styles.hilightText}>선호 주류</Text>
+                        <View style={styles.tags}>
+                          {user ? (
+                            user.property.alcoholType.map((ele, index) => {
+                              return (
+                                <View style={styles.tag} key={index}>
+                                  <Text style={styles.tagText}>{ele}</Text>
+                                </View>
+                              );
+                            })
+                          ) : (
+                            <ActivityIndicator size="large" color="#AEFFC1" />
+                          )}
+                        </View>
+                      </View>
 
-                    <View style={styles.tagRow}>
-                      <Text style={styles.hilightText}>술자리</Text>
-                      <View style={styles.tags}>
-                        {user.property.drinkStyle.map((ele, index) => {
-                          return (
-                            <View style={styles.tag} key={index}>
-                              <Text style={styles.tagText}>{ele}</Text>
-                            </View>
-                          );
-                        })}
-                      </View>
-                    </View>
-                    <View style={styles.tagRow}>
-                      <Text style={styles.hilightText}>통금</Text>
-                      <View style={styles.tags}>
-                        <View style={styles.tag}>
-                          <Text style={styles.tagText}>
-                            {user.property.curfew}
-                          </Text>
-                        </View>
-                      </View>
-                    </View>
-                    <View style={styles.tagRow}>
-                      <Text style={styles.hilightText}>주력 게임</Text>
-                      <View style={styles.tags}>
-                        {user ? (
-                          user.property.favGame.map((ele, index) => {
+                      <View style={styles.tagRow}>
+                        <Text style={styles.hilightText}>술자리</Text>
+                        <View style={styles.tags}>
+                          {user.property.drinkStyle.map((ele, index) => {
                             return (
                               <View style={styles.tag} key={index}>
                                 <Text style={styles.tagText}>{ele}</Text>
                               </View>
                             );
-                          })
-                        ) : (
-                          <ActivityIndicator size="large" color="#AEFFC1" />
-                        )}
+                          })}
+                        </View>
                       </View>
-                    </View>
-                  </ScrollView>
-
+                      <View style={styles.tagRow}>
+                        <Text style={styles.hilightText}>통금</Text>
+                        <View style={styles.tags}>
+                          <View style={styles.tag}>
+                            <Text style={styles.tagText}>
+                              {user.property.curfew}
+                            </Text>
+                          </View>
+                        </View>
+                      </View>
+                      <View style={styles.tagRow}>
+                        <Text style={styles.hilightText}>주력 게임</Text>
+                        <View style={styles.tags}>
+                          {user ? (
+                            user.property.favGame.map((ele, index) => {
+                              return (
+                                <View style={styles.tag} key={index}>
+                                  <Text style={styles.tagText}>{ele}</Text>
+                                </View>
+                              );
+                            })
+                          ) : (
+                            <ActivityIndicator size="large" color="#AEFFC1" />
+                          )}
+                        </View>
+                      </View>
+                    </ScrollView>
+                  </View>
                   {bigPicture && (
                     <View style={styles.pictureView}>
                       <Modal
@@ -389,7 +456,6 @@ const styles = StyleSheet.create({
   buttonRow: {
     justifyContent: 'space-around',
     flexDirection: 'row',
-    paddingTop: 10,
   },
   images: {
     height: 80,
@@ -425,6 +491,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     justifyContent: 'space-between',
     marginVertical: 5,
+    zIndex: -10,
   },
   tags: {
     flexDirection: 'row',
@@ -449,12 +516,17 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginHorizontal: 4,
   },
+  userInfos: {
+    width: '100%',
+    marginTop: 8,
+  },
   userinfo: {
     flexDirection: 'row',
+    marginVertical: 4,
   },
   userinfoKey: {
     color: '#B9C5D1',
-    width: 55,
+    width: 65,
   },
   userinfoValue: {
     color: '#000000',
@@ -462,7 +534,6 @@ const styles = StyleSheet.create({
   usertag: {
     width: '100%',
     flexDirection: 'column',
-    marginTop: 20,
   },
   tagText: {
     fontSize: 14,
@@ -490,5 +561,46 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
   },
   pictureImage: {width: 400, height: 400, marginBottom: 30},
+  contentContainerStyle: {paddingTop: 15, paddingBottom: 15},
+  gradientBottom: {
+    zIndex: 1,
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    height: 40,
+  },
+  gradientTop: {
+    zIndex: 1,
+    position: 'absolute',
+    top: 0,
+    width: '100%',
+    height: 40,
+  },
+  scrollContainer: {height: '60%'},
+  gradeImage: {
+    width: 23.71,
+    height: 20.33,
+    position: 'absolute',
+    top: 10.5,
+    left: 24.9,
+  },
+  gradeText: {
+    color: '#C15D5D',
+    fontSize: 13,
+    lineHeight: 15,
+    letterSpacing: -0.5,
+    fontFamily: 'Silkscreen',
+    position: 'absolute',
+    top: 16.5,
+    left: 33.7,
+  },
+  levelRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: 12,
+  },
+  smallProgressCircle: {
+    marginLeft: 16,
+  },
 });
 export default UserInfoModal;

@@ -66,6 +66,7 @@ export async function getOtherUser(id) {
     nftProfile: userDetail.nftProfile,
     picture: userDetail.picture,
     property: userDetail.property,
+    meminStats: userDetail.meminStats,
   };
   return otherUser;
 }
