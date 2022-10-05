@@ -420,7 +420,7 @@ const TwinCeleb = ({property, setProperty}) => {
   );
 };
 
-const DrinkCapa = ({property, setProperty}) => {
+const DrinkCapa = ({nickName, property, setProperty}) => {
   const [animatedValue] = useState(new Animated.Value(0));
   useEffect(() => {
     Animated.timing(animatedValue, {
@@ -445,7 +445,7 @@ const DrinkCapa = ({property, setProperty}) => {
         },
       ]}>
       <Text style={[styles.propertyTitle, styles.meetingStyle]}>
-        이제부터, 마포감자은민님의{'\n'}미팅 스타일을 알아보려고 해요!
+        이제부터, {nickName}님의{'\n'}미팅 스타일을 알아보려고 해요!
       </Text>
       <Text style={styles.propertyTitle}>나의 주량은?</Text>
       <SelectDropdown
