@@ -25,6 +25,7 @@ import SafeStatusBar from '../../components/common/SafeStatusBar';
 import LinearGradient from 'react-native-linear-gradient';
 import firestore from '@react-native-firebase/firestore';
 import {meetingTags} from '../../assets/docs/contents';
+import useAuthActions from '../../utils/hooks/UseAuthActions';
 
 function FocusAwareStatusBar(props) {
   const isFocused = useIsFocused();
@@ -34,7 +35,7 @@ function FocusAwareStatusBar(props) {
 
 function MeetingCreate({route}) {
   const userInfo = useUser();
-
+  const {saveInfo} = useAuthActions();
   const [submittable, setSubmittable] = useState(false);
   const [meetingInfo, setMeetingInfo] = useState({
     title: '',
@@ -261,7 +262,10 @@ function MeetingCreate({route}) {
             <BackButton />
           </View>
 
-          <Pressable onPress={handleSubmit}>
+          <Pressable
+            onPress={() => {
+              setConfirmModalVisible(true);
+            }}>
             <Text
               style={
                 submittable ? styles.completeButton : styles.incompleteButton
@@ -270,8 +274,15 @@ function MeetingCreate({route}) {
             </Text>
           </Pressable>
         </View>
-        {/* <DoubleModal
-          text="미팅 생성 시 TING이 차감됩니다.    미팅을 생성하시겠습니까?"
+        <DoubleModal
+          text={`미팅을 생성하시겠습니까?`}
+          body={
+            <>
+              <Text style={{fontSize: 14, marginBottom: 20, marginTop: 0}}>
+                미팅 생성 시 25 Energy가 소모됩니다.
+              </Text>
+            </>
+          }
           buttonText="네"
           modalVisible={confirmModalVisible}
           setModalVisible={setConfirmModalVisible}
@@ -280,10 +291,10 @@ function MeetingCreate({route}) {
           }}
           pFunction={() => {
             setConfirmModalVisible(!confirmModalVisible);
-            setCreateSpendingModalVisible(true);
+            handleSubmit();
           }}
         />
-        <SpendingModal
+        {/* <SpendingModal
           spendingModalVisible={createSpendingModalVisible}
           setSpendingModalVisible={setCreateSpendingModalVisible}
           pFunction={handleCreateMeeting}
