@@ -678,6 +678,7 @@ const SelfIntroduction = ({selfIntroduction, setSelfIntroduction}) => {
         onSubmitEditing={() => {}}
         maxLength={100}
       />
+      <Text style={styles.texinputAlert}>{selfIntroduction.length} / 100</Text>
     </Animated.View>
   );
 };
@@ -716,6 +717,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     flexDirection: 'row',
     marginTop: 12,
+    justifyContent: 'center',
   },
 
   buttonTextStyle: {
@@ -823,6 +825,13 @@ const styles = StyleSheet.create({
   },
   meetingStyle: {
     marginBottom: 50,
+  },
+  texinputAlert: {
+    fontWeight: '500',
+    position: 'absolute',
+    right: 10,
+    bottom: 90,
+    color: '#EAEAEA',
   },
 });
 

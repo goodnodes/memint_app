@@ -229,6 +229,8 @@ const styles = StyleSheet.create({
     marginTop: 2,
     letterSpacing: -0.5,
     lineHeight: 19.6,
+    maxWidth: width * 0.8,
+    textAlign: 'center',
   },
   userTags: {
     marginVertical: 16,
