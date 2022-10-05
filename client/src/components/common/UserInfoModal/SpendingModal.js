@@ -56,15 +56,9 @@ function SpendingModal({
     // pFunction;
     setSpendingModalVisible(false);
 
-    if (txType === '에너지 충전') {
-      saveInfo({
-        ...user,
-        meminStats: {
-          ...user.meminStats,
-          energy: user.meminStats.energy + 10,
-        },
-      });
-    }
+    // if (txType === '에너지 충전') {
+
+    // }
   };
   return (
     <View style={styles.centeredView}>

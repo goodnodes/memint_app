@@ -34,6 +34,7 @@ import littledino from '../../assets/icons/littledino.png';
 import DoubleModal from '../../components/common/DoubleModal';
 import SpendingModal from '../../components/common/UserInfoModal/SpendingModal';
 import {chargeEnergy} from '../../lib/NFT';
+import {useToast} from '../../utils/hooks/useToast';
 
 function FocusAwareStatusBar(props) {
   const isFocused = useIsFocused();
@@ -51,6 +52,7 @@ function MyMainPage({navigation}) {
   const [meminStats, setMeminStats] = useState('');
   const [chargeModalVisible, setChargeModalVisible] = useState(false);
   const [spendingModalVisible, setSpendingModalVisible] = useState(false);
+  const {showToast} = useToast();
 
   useEffect(() => {
     if (userInfo) {
@@ -178,8 +180,13 @@ function MyMainPage({navigation}) {
                 modalVisible={chargeModalVisible}
                 setModalVisible={setChargeModalVisible}
                 pFunction={() => {
-                  setChargeModalVisible(false);
-                  setSpendingModalVisible(true);
+                  if (meminStats.energy === meminStats.fullEnergy) {
+                    setChargeModalVisible(false);
+                    showToast('error', '에너지가 이미 가득 차있습니다.');
+                  } else {
+                    setChargeModalVisible(false);
+                    setSpendingModalVisible(true);
+                  }
                 }}
                 nFunction={() => {
                   setChargeModalVisible(false);
@@ -190,7 +197,7 @@ function MyMainPage({navigation}) {
                   spendingModalVisible={spendingModalVisible}
                   setSpendingModalVisible={setSpendingModalVisible}
                   pFunction={() => {
-                    chargeEnergy(userInfo);
+                    chargeEnergy(userInfo, meminStats.fullEnergy, saveInfo);
                   }}
                   amount={1}
                   txType="에너지 충전"

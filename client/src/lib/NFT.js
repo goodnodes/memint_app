@@ -2,7 +2,6 @@ import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import {usersCollection} from './Users';
 import {getNFTNum, addUserlog} from './Admin';
-import {saveInfo} from '../slices/Auth';
 
 export const NFTCollection = firestore().collection('NFT');
 
@@ -200,15 +199,47 @@ export const rechargeEnergy = async (userDetail, saveInfo, now) => {
   }
 };
 
-export const chargeEnergy = async userInfo => {
-  await firestore()
-    .collection('User')
-    .doc(userInfo.id)
-    .update({
-      ...userInfo,
-      meminStats: {
-        ...userInfo.meminStats,
-        energy: userInfo.meminStats.energy + 10,
-      },
-    });
+export const chargeEnergy = async (userInfo, fullEnergy, saveInfo) => {
+  if (userInfo.meminStats.energy + 10 > fullEnergy) {
+    const num = fullEnergy - userInfo.meminStats.energy;
+    await firestore()
+      .collection('User')
+      .doc(userInfo.id)
+      .update({
+        ...userInfo,
+        meminStats: {
+          ...userInfo.meminStats,
+          energy: userInfo.meminStats.energy + num,
+        },
+      })
+      .then(() => {
+        saveInfo({
+          ...userInfo,
+          meminStats: {
+            ...userInfo.meminStats,
+            energy: userInfo.meminStats.energy + num,
+          },
+        });
+      });
+  } else {
+    await firestore()
+      .collection('User')
+      .doc(userInfo.id)
+      .update({
+        ...userInfo,
+        meminStats: {
+          ...userInfo.meminStats,
+          energy: userInfo.meminStats.energy + 10,
+        },
+      })
+      .then(() => {
+        saveInfo({
+          ...userInfo,
+          meminStats: {
+            ...userInfo.meminStats,
+            energy: userInfo.meminStats.energy + 10,
+          },
+        });
+      });
+  }
 };
