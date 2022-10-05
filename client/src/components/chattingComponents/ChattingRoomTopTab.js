@@ -1,5 +1,5 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet, Platform} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
 import useUser from '../../utils/hooks/UseUser';
@@ -41,7 +41,6 @@ function ChattingRoomTopTab({data}) {
               flexDirection: 'row',
               alignItems: 'center',
               maxWidth: 270,
-              marginTop: 5,
             }}>
             <Text
               style={{
@@ -76,12 +75,21 @@ function ChattingRoomTopTab({data}) {
             }, 300);
           }}>
           <Text
-            style={{
-              marginTop: 13,
-              color: '#ffffff',
-              fontSize: 14,
-              letterSpacing: -0.5,
-            }}>
+            style={
+              Platform.OS === 'android'
+                ? {
+                    marginTop: 6,
+                    color: '#ffffff',
+                    fontSize: 14,
+                    letterSpacing: -0.5,
+                  }
+                : {
+                    marginTop: 13,
+                    color: '#ffffff',
+                    fontSize: 14,
+                    letterSpacing: -0.5,
+                  }
+            }>
             미팅 정보 보러가기 >
           </Text>
         </TouchableOpacity>
@@ -92,10 +100,10 @@ function ChattingRoomTopTab({data}) {
 
 const styles = StyleSheet.create({
   container: {
-    height: 57,
+    height: 60,
     // borderTopWidth: 0.3,
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     paddingBottom: 3,
   },
   status: {
