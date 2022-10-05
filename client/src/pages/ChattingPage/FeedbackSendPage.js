@@ -65,7 +65,7 @@ function FeedbackSendPage({route}) {
         <ScrollView
           style={styles.container}
           contentContainerStyle={{paddingBottom: 30}}>
-          <Text style={styles.title}>미팅참여 인증하기</Text>
+          <Text style={styles.title}>미팅참여 </Text>
 
           <View style={styles.wrapper}>
             {/* <Text style={{fontSize: 15, fontWeight: '700', marginBottom: 30}}>

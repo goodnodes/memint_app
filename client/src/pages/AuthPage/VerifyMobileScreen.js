@@ -119,8 +119,12 @@ const VerifyMobileScreen = ({navigation, route}) => {
 
   const goToNextPage = () => {
     // createPhoneNumber({userId: uid, phoneNumber: fixedPhoneNumber});
-    userInfo = {...userInfo, phoneNumber: fixedPhoneNumber};
-    navigation.push('SignUpUserDetail', {userInfo});
+    if (verified) {
+      userInfo = {...userInfo, phoneNumber: fixedPhoneNumber};
+      navigation.push('SignUpUserDetail', {userInfo});
+    } else {
+      showToast('error', '휴대폰 번호를 인증해주세요');
+    }
   };
 
   return (
