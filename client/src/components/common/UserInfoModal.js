@@ -199,6 +199,7 @@ function UserInfoModal({
           pButtonText="네"
           askSpendingModalVisible={askSpendingModalVisible}
           setAskSpendingModalVisible={setAskSpendingModalVisible}
+          amount={(5 / owner.meminStats.HumanElement).toFixed(1)}
           pFunction={() => {
             setAskSpendingModalVisible(false);
             setSpendingModalVisible(true);
@@ -216,13 +217,15 @@ function UserInfoModal({
                 saveInfo({
                   ...owner,
                   visibleUser: [...owner.visibleUser, userId],
+                  tokenAmount:
+                    owner.tokenAmount - 1 / owner.meminStats.HumanElement,
                 });
               })
               .then(() => {
                 console.log(owner);
               });
           }}
-          amount={1}
+          amount={(5 / owner.meminStats.HumanElement).toFixed(1)} // Human Element에 용감함 지수 곱해주는 로직 추가해줘야함
           txType="프로필 조회"
         />
       </Modal>

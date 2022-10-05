@@ -2,6 +2,7 @@ import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import {usersCollection} from './Users';
 import {getNFTNum, addUserlog} from './Admin';
+import {saveInfo} from '../slices/Auth';
 
 export const NFTCollection = firestore().collection('NFT');
 
@@ -84,6 +85,8 @@ export async function getMeminbyNum(num, id) {
     usersCollection.doc(id).update({
       nftProfile: memin.url,
       meminStats: {
+        energyRechargeTime: String(Date.now()).slice(0, 10),
+        HumanElement: 5,
         receivedFeedbackCount: 0,
         dino: memin.dino,
         energy: memin.energy,
@@ -131,4 +134,81 @@ export const calcHumanElement = (grade, level) => {
   } else if (grade === 'A') {
     return 10 + level * 2;
   }
+};
+
+export const rechargeEnergy = async (userDetail, saveInfo, now) => {
+  const {dino} = userDetail.meminStats;
+  const recharge = async amount => {
+    await firestore()
+      .collection('User')
+      .doc(userDetail.id)
+      .update({
+        ...userDetail,
+        meminStats: {
+          ...userDetail.meminStats,
+          energy: userDetail.meminStats.energy + amount,
+          energyRechargeTime: now,
+        },
+      })
+      .then(() => {
+        saveInfo({
+          ...userDetail,
+          meminStats: {
+            ...userDetail.meminStats,
+            energy: userDetail.meminStats.energy + amount,
+            energyRechargeTime: now,
+          },
+        });
+      });
+  };
+  console.log(dino);
+  console.log(userDetail);
+
+  if (dino === 'Tyrano' && userDetail.meminStats.energy < 100) {
+    // console.log('Tyrano');
+    recharge(1);
+  } else if (dino === 'Brachio' && userDetail.meminStats.energy < 90) {
+    if (userDetail.meminStats.energy === 89) {
+      // console.log('Brachio');
+      recharge(1);
+    } else {
+      // console.log('Brachio');
+      recharge(2);
+    }
+  } else if (dino === 'Stego' && userDetail.meminStats.energy < 70) {
+    if (userDetail.meminStats.energy === 69) {
+      recharge(1);
+    } else if (userDetail.meminStats.energy === 68) {
+      recharge(2);
+    } else if (userDetail.meminStats.energy === 67) {
+      recharge(3);
+    } else {
+      recharge(4);
+    }
+  } else if (dino === 'Tricera' && userDetail.meminStats.energy < 60) {
+    if (userDetail.meminStats.energy === 59) {
+      recharge(1);
+    } else if (userDetail.meminStats.energy === 58) {
+      recharge(2);
+    } else if (userDetail.meminStats.energy === 57) {
+      recharge(3);
+    } else if (userDetail.meminStats.energy === 56) {
+      recharge(4);
+    } else {
+      recharge(5);
+    }
+  }
+};
+
+export const chargeEnergy = async userInfo => {
+  await firestore()
+    .collection('User')
+    .doc(userInfo.id)
+    .update({
+      ...userInfo,
+      meminStats: {
+        ...userInfo.meminStats,
+        energy: userInfo.meminStats.energy + 10,
+      },
+    });
 };

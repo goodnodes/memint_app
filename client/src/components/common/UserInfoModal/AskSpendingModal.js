@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Modal, StyleSheet, Text} from 'react-native';
 import BasicButton from '../BasicButton';
+import useUser from '../../../utils/hooks/UseUser';
 
 /*
 사용할 컴포넌트에서 state 사용이 필요함.
@@ -21,6 +22,7 @@ function AskSpendingModal({
   askSpendingModalVisible,
   setAskSpendingModalVisible,
   pFunction,
+  amount,
 }) {
   return (
     <View style={styles.centeredView}>
@@ -35,7 +37,7 @@ function AskSpendingModal({
                 프로필 사진을 확인하시겠어요?
               </Text>
               <Text style={{fontWeight: '600', margin: 10, fontSize: 16}}>
-                1TING이 소모됩니다.
+                {`${amount}TING이 소모됩니다.`}
               </Text>
             </View>
             <View style={styles.buttonRow}>

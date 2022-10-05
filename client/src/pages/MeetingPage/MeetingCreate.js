@@ -140,31 +140,28 @@ function MeetingCreate({route}) {
     if (!submittable) {
       showToast('error', '필수 항목들을 작성해주세요');
       return;
-    } else if (userInfo.meminStats.energy === 0) {
-      // 에너지그 부족하면 에러
+    } else if (userInfo.meminStats.energy - 25 < 0) {
+      // 에너지가 부족하면 에러
       showToast('error', '에너지가 부족합니다.');
       // setConfirmModalVisible(true);
     } else {
       // 에너지가 충분하면 redux 상태 바꾸고 -> firebase 상태 바꾸고 -> 미팅 생성
-
-      const withoutHumanElement = {
-        ...userInfo.meminStats,
-        energy: userInfo.meminStats.energy - 1,
-      };
-      delete withoutHumanElement.HumanElement;
       firestore()
         .collection('User')
         .doc(userInfo.id)
         .update({
           ...userInfo,
-          meminStats: withoutHumanElement,
+          meminStats: {
+            ...userInfo.meminStats,
+            energy: userInfo.meminStats.energy - 25,
+          },
         })
         .then(() => {
           saveInfo({
             ...userInfo,
             meminStats: {
               ...userInfo.meminStats,
-              energy: userInfo.meminStats.energy - 1,
+              energy: userInfo.meminStats.energy - 25,
             },
           });
         })

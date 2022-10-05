@@ -27,14 +27,15 @@ function SpendingModal({
 }) {
   const [dbTokenBalance, setdbTokenBalance] = useState('');
   const user = useUser();
-  const {decreaseBy} = useAuthActions();
+  const {decreaseBy, saveInfo} = useAuthActions();
 
   // DB에 있는 토큰양과 sync가 맞는지 확인
   useEffect(() => {
     getBalance(user.id);
-  });
+  }, []);
   const getBalance = async userId => {
     try {
+      console.log('in');
       const userForToken = await getUser(userId);
       setdbTokenBalance(userForToken.tokenAmount);
     } catch (e) {
@@ -54,6 +55,16 @@ function SpendingModal({
     createSpendOffTxLg(user.id, amount, txType, user.tokenAmount);
     // pFunction;
     setSpendingModalVisible(false);
+
+    if (txType === '에너지 충전') {
+      saveInfo({
+        ...user,
+        meminStats: {
+          ...user.meminStats,
+          energy: user.meminStats.energy + 10,
+        },
+      });
+    }
   };
   return (
     <View style={styles.centeredView}>

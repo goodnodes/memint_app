@@ -171,6 +171,7 @@ function App() {
             userDetail.meminStats.grade,
             userDetail.meminStats.level,
           ),
+          energyRechargeTime: userDetail.meminStats.energyRechargeTime,
           receivedFeedbackCount: userDetail.meminStats.receivedFeedbackCount,
           dino: userDetail.meminStats.dino,
           energy: userDetail.meminStats.energy,

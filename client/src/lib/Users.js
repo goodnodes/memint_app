@@ -1,4 +1,5 @@
 import firestore from '@react-native-firebase/firestore';
+import {calcHumanElement} from '../lib/NFT';
 export const usersCollection = firestore().collection('User');
 
 export function createUser({
@@ -284,8 +285,9 @@ export async function calculateCharm(userId, emotion) {
     grade = 'F';
   }
 
-  usersCollection.doc(userId).update({
+  await usersCollection.doc(userId).update({
     meminStats: {
+      HumanElement: calcHumanElement(grade, meminStats.level),
       receivedFeedbackCount: meminStats.receivedFeedbackCount + 1,
       charm: newCharm,
       energy: meminStats.energy,

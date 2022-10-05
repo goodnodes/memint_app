@@ -155,18 +155,31 @@ function FeedbackChoicePage({route}) {
               modalVisible={modalVisible}
               setModalVisible={setModalVisible}
               pFunction={() => {
-                confirmable
-                  ? setFeedbackEnd(data.id, owner.id).then(() => {
-                      showToast('success', '후기 보내기를 완료하였습니다.');
-                      navigation.pop();
-                      // 토큰 보상 로직 추가
-                    })
-                  : setModalVisible(!modalVisible);
-                showToast('error', '한 명 이상의 후기를 작성해주세요.');
+                if (confirmable) {
+                  setFeedbackEnd(data.id, owner.id).then(() => {
+                    setModalVisible(false);
+                    setEarnModalVisible(true);
+                    // 토큰 보상 로직 추가
+                  });
+                } else {
+                  setModalVisible(!modalVisible);
+                  showToast('error', '한 명 이상의 후기를 작성해주세요.');
+                }
               }}
               nFunction={() => {
                 setModalVisible(!modalVisible);
               }}
+            />
+            <EarnModal
+              EarnModalVisible={earnModalVisible}
+              setEarnModalVisible={setEarnModalVisible}
+              pFunction={() => {
+                setEarnModalVisible(false);
+                navigation.pop();
+                showToast('success', '후기 보내기를 완료하였습니다.');
+              }}
+              amount={owner.meminStats.HumanElement / 10} // 나중에 근면함 점수 곱해서 넣어줘야함
+              txType="피드백 작성"
             />
           </View>
         </View>

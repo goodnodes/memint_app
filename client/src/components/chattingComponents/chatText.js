@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Pressable,
   AppState,
+  Platform,
 } from 'react-native';
 import AddChat from './addChat';
 import firestore from '@react-native-firebase/firestore';
@@ -90,9 +91,11 @@ function ChatText({data, roomInfo, userDetail, setRoomInfo}) {
     } else if (currentAppState === 'active') {
       // 시간 범위를 체크하여 그 사이에 온 채팅이 있는지 판단하고, 있다면 업데이트해주는 함수
       console.log('in');
-      const Time = firestore.Timestamp.fromDate(
-        new Date(chattings[chattings.length - 1].createdAt.seconds * 1000),
-      );
+      const Time =
+        chattings.length > 0 &&
+        firestore.Timestamp.fromDate(
+          new Date(chattings[chattings.length - 1].createdAt.seconds * 1000),
+        );
       firestore()
         .collection('Meeting')
         .doc(data.id)
@@ -204,8 +207,12 @@ function NotMyChat({item, userDetail, setUserInfoModalVisible, setUserId}) {
   const [userImg, setUserImg] = useState('');
 
   useEffect(() => {
+    console.log(item.createdAt);
     if (userDetail[item.sender]) {
-      const path = `${RNFS.CachesDirectoryPath}/${item.sender}.png`;
+      const path =
+        Platform.OS === 'android'
+          ? `file://${RNFS.CachesDirectoryPath}/${item.sender}.png`
+          : `${RNFS.CachesDirectoryPath}/${item.sender}.png`;
 
       // hostImg에 uri를 넣어주는 함수
       const fileSet = uri => {
@@ -240,60 +247,65 @@ function NotMyChat({item, userDetail, setUserInfoModalVisible, setUserId}) {
     setDate(date);
   }, []);
   return (
-    <View style={styles.messageWrapper}>
-      {/* 클릭할 시 유저 정보를 열겠냐고 물어보는 모달 창 띄우는 값 true로 설정 */}
-      {userDetail && userDetail[item.sender] ? (
-        <TouchableOpacity
-          activeOpacity={1}
-          onPress={() => {
-            setUserId(item.sender);
-            setUserInfoModalVisible(true);
-          }}>
-          {userImg && (
-            <Image
-              source={
-                userDetail && {
-                  uri: userImg,
+    userImg &&
+    userDetail && (
+      <View style={styles.messageWrapper}>
+        {/* 클릭할 시 유저 정보를 열겠냐고 물어보는 모달 창 띄우는 값 true로 설정 */}
+        {userDetail && userDetail[item.sender] ? (
+          <TouchableOpacity
+            activeOpacity={1}
+            onPress={() => {
+              setUserId(item.sender);
+              setUserInfoModalVisible(true);
+            }}>
+            {userImg ? (
+              <Image
+                source={
+                  userDetail && {
+                    uri: userImg,
+                  }
                 }
-              }
-              style={styles.image}
-            />
-          )}
-        </TouchableOpacity>
-      ) : (
-        <Image source={person} style={styles.image} />
-      )}
-      {/* <InquireUserProfile
+                style={styles.image}
+              />
+            ) : (
+              <View style={styles.image} />
+            )}
+          </TouchableOpacity>
+        ) : (
+          <Image source={person} style={styles.image} />
+        )}
+        {/* <InquireUserProfile
         width={60}
         height={60}
         margin={[10, 3, 3, 3]}
         userId={item.data().sender}
       /> */}
 
-      <View style={styles.textWrapper}>
-        <Text style={styles.senderName}>
-          {userDetail && userDetail[item.sender]
-            ? userDetail[item.sender].nickName
-            : '(알수없음)'}
-        </Text>
-        <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
-          <View style={styles.messageBody}>
-            <Text style={{color: '#3C3D43'}}>{item.text}</Text>
-          </View>
-          <View style={styles.date}>
-            <Text
-              style={{
-                marginBottom: 5,
-                fontSize: 11,
-                color: '#ffffff',
-                letterSpacing: -0.5,
-              }}>
-              {date && date.slice(6, date.length - 3)}
-            </Text>
+        <View style={styles.textWrapper}>
+          <Text style={styles.senderName}>
+            {userDetail && userDetail[item.sender]
+              ? userDetail[item.sender].nickName
+              : '(알수없음)'}
+          </Text>
+          <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
+            <View style={styles.messageBody}>
+              <Text style={{color: '#3C3D43'}}>{item.text}</Text>
+            </View>
+            <View style={styles.date}>
+              <Text
+                style={{
+                  marginBottom: 5,
+                  fontSize: 11,
+                  color: '#ffffff',
+                  letterSpacing: -0.5,
+                }}>
+                {date && date.slice(6, date.length - 3)}
+              </Text>
+            </View>
           </View>
         </View>
       </View>
-    </View>
+    )
   );
 }
 

@@ -150,7 +150,10 @@ function MetaData({item, navigation, refresh, setRefresh}) {
     // setHostImg(item.hostInfo);
 
     // 이미지를 저장할 캐시폴더 경로 지정
-    const path = `${RNFS.CachesDirectoryPath}/${item.hostId}.png`;
+    const path =
+      Platform.OS === 'android'
+        ? `file://${RNFS.CachesDirectoryPath}/${item.sender}.png`
+        : `${RNFS.CachesDirectoryPath}/${item.sender}.png`;
 
     // hostImg에 uri를 넣어주는 함수
     const fileSet = uri => {

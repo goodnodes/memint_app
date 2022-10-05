@@ -29,6 +29,8 @@ import WalletButton from '../../components/common/WalletButton';
 import MeetingLikes from '../../components/meetingComponents/MeetingLikes';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 import ActivationModal from '../../components/common/ActivationModal';
+import firestore from '@react-native-firebase/firestore';
+import {saveInfo} from '../../slices/Auth';
 
 function FocusAwareStatusBar(props) {
   const isFocused = useIsFocused();
@@ -114,6 +116,28 @@ function MeetingDetail({route}) {
     }
   };
 
+  const spendEnergy = async () => {
+    await firestore()
+      .collection('User')
+      .doc(userInfo.id)
+      .update({
+        ...userInfo,
+        meminStats: {
+          ...userInfo.meminStats,
+          energy: userInfo.meminStats.energy - 15,
+        },
+      })
+      .then(() => {
+        saveInfo({
+          ...userInfo,
+          meminStats: {
+            ...userInfo.meminStats,
+            energy: userInfo.meminStats.energy - 15,
+          },
+        });
+      });
+  };
+
   const handleCreateProposal = () => {
     if (textMessage.length === 0) {
       setModalVisible_2(!modalVisible_2);
@@ -127,16 +151,18 @@ function MeetingDetail({route}) {
         meetingId: data.id,
         message: textMessage,
       };
-      createMeetingProposal(createData);
-      //meeting waiting 추가
-      updateWaitingIn(data.id, loginUser); //로그인된 유저
-      setModalVisible_2(!modalVisible_2);
-      setTextMessage('');
-      showToast(
-        'success',
-        '미팅 신청을 보냈습니다\n주선자의 수락을 기다려주세요!',
-      );
-      navigation.navigate('MeetingMarket');
+      spendEnergy().then(() => {
+        createMeetingProposal(createData);
+        //meeting waiting 추가
+        updateWaitingIn(data.id, loginUser); //로그인된 유저
+        setModalVisible_2(!modalVisible_2);
+        setTextMessage('');
+        showToast(
+          'success',
+          '미팅 신청을 보냈습니다\n주선자의 수락을 기다려주세요!',
+        );
+        navigation.navigate('MeetingMarket');
+      });
     } catch (e) {
       setModalVisible_2(!modalVisible_2);
       setTextMessage('');
@@ -250,7 +276,7 @@ function MeetingDetail({route}) {
         </View>
 
         <DoubleModal
-          text="미팅을 신청하시겠습니까?"
+          text={'미팅을 신청하시겠습니까?\n 15 에너지가 소비됩니다!'}
           nButtonText="아니요"
           pButtonText="신청하기"
           modalVisible={modalVisible_1}

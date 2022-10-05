@@ -28,6 +28,12 @@ import LinearGradient from 'react-native-linear-gradient';
 import BottomDrawer from '../../components/myPageComponent/BottomDrawer';
 import {getDino} from '../../components/myPageComponent/MeminStats';
 import {useIsFocused} from '@react-navigation/native';
+import {rechargeEnergy} from '../../lib/NFT';
+import useAuthActions from '../../utils/hooks/UseAuthActions';
+import littledino from '../../assets/icons/littledino.png';
+import DoubleModal from '../../components/common/DoubleModal';
+import SpendingModal from '../../components/common/UserInfoModal/SpendingModal';
+import {chargeEnergy} from '../../lib/NFT';
 
 function FocusAwareStatusBar(props) {
   const isFocused = useIsFocused();
@@ -40,13 +46,44 @@ const {width} = Dimensions.get('window');
 function MyMainPage({navigation}) {
   // const user = useUser();
   const userInfo = useUser();
+  const {saveInfo} = useAuthActions();
+  const [rechargeCheck, setRechargeCheck] = useState(false);
   const [meminStats, setMeminStats] = useState('');
+  const [chargeModalVisible, setChargeModalVisible] = useState(false);
+  const [spendingModalVisible, setSpendingModalVisible] = useState(false);
 
   useEffect(() => {
     if (userInfo) {
       console.log(userInfo);
+      if (
+        Number(userInfo.meminStats.energyRechargeTime) + 86400 <=
+        Number(String(Date.now()).slice(0, 10))
+      ) {
+        console.log('hi');
+        rechargeEnergy(
+          userInfo,
+          saveInfo,
+          Number(String(Date.now()).slice(0, 10)),
+        );
+      }
       setMeminStats(userInfo.meminStats);
       getDino(userInfo.meminStats, setMeminStats);
+    }
+  }, [rechargeCheck]);
+
+  useEffect(() => {
+    if (userInfo) {
+      //   console.log(userInfo);
+      //   if (
+      //     Number(userInfo.meminStats.energyRechargeTime) + 86400 <=
+      //     Number(String(Date.now()).slice(0, 10))
+      //   ) {
+      //     console.log('hi');
+      //     rechargeEnergy(userInfo, saveInfo);
+      //   }
+      setMeminStats(userInfo.meminStats);
+      getDino(userInfo.meminStats, setMeminStats);
+      setRechargeCheck(true);
     }
     if (meminStats) {
       console.log('good');
@@ -114,7 +151,52 @@ function MyMainPage({navigation}) {
               />
             </TouchableOpacity>
 
-            <WalletButton />
+            <View style={{flexDirection: 'row'}}>
+              <TouchableOpacity
+                // style={styles.walletButton}
+                onPress={() => {
+                  setChargeModalVisible(true);
+                }}>
+                {/* <Text style={styles.buttonText}>Wallet</Text> */}
+                <View style={styles.chargeEnergy}>
+                  <Image source={littledino} style={styles.image} />
+                  {meminStats && (
+                    <Text
+                      style={
+                        styles.buttonText
+                      }>{`${meminStats.energy} / ${meminStats.fullEnergy} +`}</Text>
+                  )}
+                </View>
+              </TouchableOpacity>
+
+              <WalletButton />
+
+              <DoubleModal
+                text={`토큰을 소모하여\n 에너지를 충전하시겠습니까?`}
+                nButtonText="아니요"
+                pButtonText="네"
+                modalVisible={chargeModalVisible}
+                setModalVisible={setChargeModalVisible}
+                pFunction={() => {
+                  setChargeModalVisible(false);
+                  setSpendingModalVisible(true);
+                }}
+                nFunction={() => {
+                  setChargeModalVisible(false);
+                }}
+              />
+              {userInfo && (
+                <SpendingModal
+                  spendingModalVisible={spendingModalVisible}
+                  setSpendingModalVisible={setSpendingModalVisible}
+                  pFunction={() => {
+                    chargeEnergy(userInfo);
+                  }}
+                  amount={1}
+                  txType="에너지 충전"
+                />
+              )}
+            </View>
           </View>
           <View style={styles.character}>
             <View style={styles.characterWrap}>
@@ -517,6 +599,32 @@ const styles = StyleSheet.create({
   },
   smallProgressCircle: {
     marginHorizontal: 10,
+  },
+  chargeEnergy: {
+    // position: 'absolute',
+    // width: 60,
+    paddingHorizontal: 8,
+    height: 28,
+    // left: 0,
+    // top: 0,
+    backgroundColor: '#3C3D43',
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: '#58FF7D',
+    borderWidth: 1,
+    flexDirection: 'row',
+    marginRight: 10,
+  },
+  buttonText: {
+    color: '#58FF7D',
+    fontSize: 16,
+    marginLeft: 4,
+    letterSpacing: -0.5,
+  },
+  image: {
+    width: 18,
+    height: 18,
   },
 });
 
