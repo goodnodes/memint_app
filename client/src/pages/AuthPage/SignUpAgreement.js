@@ -15,7 +15,6 @@ import BasicButton from '../../components/common/BasicButton';
 import CheckElement from '../../components/AuthComponents/CheckElement';
 import CheckBox from '@react-native-community/checkbox';
 import {signUp, signIn} from '../../lib/Auth';
-import GradientButton from '../../components/common/GradientButton';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 import {createUser, getUser} from '../../lib/Users';
 import storage from '@react-native-firebase/storage';

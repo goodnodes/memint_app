@@ -16,7 +16,6 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import BasicButton from '../../components/common/BasicButton';
 import BorderedInput from '../../components/AuthComponents/BorderedInput';
 import BackButton from '../../components/common/BackButton';
-import GradientButton from '../../components/common/GradientButton';
 import {getUserByPhoneNumber} from '../../lib/Users';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 import {useIsFocused} from '@react-navigation/native';

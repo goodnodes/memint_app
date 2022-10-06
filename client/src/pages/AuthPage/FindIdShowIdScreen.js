@@ -12,7 +12,6 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import BasicButton from '../../components/common/BasicButton';
 import BackButton from '../../components/common/BackButton';
 import memintDino from '../../assets/icons/memintDino.png';
-import GradientButton from '../../components/common/GradientButton';
 
 const FindIdShowIdScreen = ({navigation}) => {
   const goToSignInPage = () => {
@@ -45,7 +44,7 @@ const FindIdShowIdScreen = ({navigation}) => {
             hasMarginBottom
             onPress={goToSignInPage}
           /> */}
-          <GradientButton
+          <BasicButton
             style={styles.button}
             width={300}
             height={40}
@@ -66,7 +65,7 @@ const FindIdShowIdScreen = ({navigation}) => {
             hasMarginBottom
             onPress={goToFindPWPage}
           /> */}
-          <GradientButton
+          <BasicButton
             style={styles.button}
             width={300}
             height={40}

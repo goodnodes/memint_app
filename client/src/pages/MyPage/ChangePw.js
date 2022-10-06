@@ -20,7 +20,6 @@ import {
 import BasicButton from '../../components/common/BasicButton';
 import BorderedInput from '../../components/AuthComponents/BorderedInput';
 import BackButton from '../../components/common/BackButton';
-import GradientButton from '../../components/common/GradientButton';
 // import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 import {reauthenticate, setNewPassword} from '../../lib/Auth';

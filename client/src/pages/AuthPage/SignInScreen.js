@@ -25,7 +25,6 @@ import {getUser, getUserProperty} from '../../lib/Users';
 import useUser from '../../utils/hooks/UseUser';
 import useNftActions from '../../utils/hooks/UseNftActions';
 import {getNFTs, getProfile, getMemin, calcHumanElement} from '../../lib/NFT';
-import GradientButton from '../../components/common/GradientButton';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 import LinearGradient from 'react-native-linear-gradient';
 import meminDino from '../../assets/icons/meminDino.png';

@@ -13,7 +13,6 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import BasicButton from '../../components/common/BasicButton';
 import BorderedInput from '../../components/AuthComponents/BorderedInput';
 import BackButton from '../../components/common/BackButton';
-import GradientButton from '../../components/common/GradientButton';
 import {passwordReset} from '../../lib/Auth';
 
 const SetNewPWScreen = ({navigation}) => {
@@ -85,7 +84,7 @@ const SetNewPWScreen = ({navigation}) => {
             hasMarginBottom
             onPress={goToNextPage}
           /> */}
-          <GradientButton
+          <BasicButton
             style={styles.button}
             width={300}
             height={40}

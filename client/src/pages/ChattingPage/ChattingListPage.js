@@ -96,7 +96,7 @@ function ChattingListPage({navigation}) {
       )}
       <LinearGradient
         colors={['#3D3E44', '#5A7064']}
-        start={{x: 0.3, y: 0.3}}
+        start={{x: 1, y: 0.3}}
         end={{x: 1, y: 1}}
         style={styles.gradientBackground}>
         <View style={styles.header}>
