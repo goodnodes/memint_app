@@ -21,10 +21,10 @@ import {getUser} from '../../lib/Users';
 import {useToast} from '../../utils/hooks/useToast';
 import useUser from '../../utils/hooks/UseUser';
 import {
+  handleBirth,
   handleDateInFormat,
   handleISOtoLocale,
 } from '../../utils/common/Functions';
-import crown from '../../assets/icons/crown.png';
 import WalletButton from '../../components/common/WalletButton';
 import MeetingLikes from '../../components/meetingComponents/MeetingLikes';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
@@ -217,38 +217,25 @@ function MeetingDetail({route}) {
         style={styles.scrollview}
         contentContainerStyle={styles.paddingBottom}>
         <View style={styles.container}>
-          <View style={styles.hostArea}>
-            <View style={styles.titleRow}>
-              <Text style={styles.titleFirstRow}>
-                {data.title.slice(0, 11)}
-              </Text>
-              <Text style={styles.title}>
-                {data.title.slice(11, 12) === ' '
-                  ? data.title.slice(12)
-                  : data.title.slice(11)}
-              </Text>
-            </View>
-            <View style={styles.hostInfo}>
-              <View style={styles.hostImageWithCrown}>
-                <View style={styles.hostCrown}>
-                  <Image
-                    source={crown}
-                    style={styles.image}
-                    resizeMode="contain"
-                  />
-                </View>
-
-                <Image
-                  source={{uri: data.hostInfo.nftProfile}}
-                  style={styles.hostImage}
-                />
-              </View>
-              <Text style={styles.hostnickName}>
-                {'@' + data.hostInfo.nickName}
-              </Text>
-            </View>
+          <View style={styles.titleRow}>
+            <Text style={styles.title}>{data.title}</Text>
+            <MeetingLikes meetingId={data.id} />
           </View>
-          <MeetingLikes meetingId={data.id} />
+          <View style={styles.infoList}>
+            <Text style={[styles.infoEl]}>{data.region}</Text>
+            <View style={styles.bar} />
+            <Text style={[styles.infoEl]}>
+              {data.peopleNum + ':' + data.peopleNum}
+            </Text>
+            <View style={styles.bar} />
+            <Text style={[styles.infoEl]}>
+              {handleBirth(data.hostInfo.birth)}
+            </Text>
+            <View style={styles.bar} />
+            <Text style={[styles.infoEl]}>
+              {handleDateInFormat(data.meetDate)}
+            </Text>
+          </View>
 
           <View style={styles.descriptionRow}>
             <Text style={styles.description}>{data.description}</Text>
@@ -261,15 +248,6 @@ function MeetingDetail({route}) {
                 </View>
               );
             })}
-          </View>
-          <View style={styles.infoRow}>
-            <Text style={styles.infoEl}>{data.region}</Text>
-            <View style={styles.bar} />
-            <Text style={styles.infoEl}>
-              {typeof data.meetDate === 'object'
-                ? handleDateInFormat(data.meetDate)
-                : handleISOtoLocale(data.meetDate)}
-            </Text>
           </View>
           <View>
             <DetailMembers
@@ -354,7 +332,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-
   image: {
     width: 30,
     height: 30,
@@ -369,9 +346,6 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     width: 50,
     height: 50,
-    // position: 'absolute',
-    // bottom: 0,
-    // right: 0
   },
   hostnickName: {
     fontSize: 10,
@@ -379,66 +353,57 @@ const styles = StyleSheet.create({
     color: '#ffffff',
   },
   titleRow: {
-    marginBottom: 25,
-    marginTop: 60,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 28,
   },
   title: {
-    fontSize: 25,
-    fontWeight: '500',
+    fontSize: 18,
+    fontWeight: '600',
     color: '#ffffff',
-    width: 250,
-  },
-  titleFirstRow: {
-    fontSize: 25,
-    fontWeight: '500',
-    color: '#ffffff',
+    width: 267,
+    height: 50,
+    lineHeight: 25.2,
+    letterSpacing: -0.5,
   },
   description: {
-    fontSize: 15,
-    fontWeight: '500',
-    width: 305,
-    color: '#ffffff',
+    fontSize: 16,
+    color: '#EDEEF6',
+    lineHeight: 22.4,
+    letterSpacing: -0.5,
   },
   meetingTags: {
-    marginVertical: 10,
     flexDirection: 'row',
     width: '100%',
     flexWrap: 'wrap',
+    marginBottom: 42,
   },
   tag: {
     backgroundColor: '#3C3D43',
     paddingHorizontal: 10,
     paddingVertical: 8,
     borderRadius: 99,
-    borderColor: '#EAFFEF',
+    borderColor: '#AEFFC1',
     borderWidth: 1,
     marginHorizontal: 5,
     marginVertical: 3,
   },
   tagText: {
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: '400',
-    color: '#EAFFEF',
+    color: '#AEFFC1',
+    letterSpacing: -0.5,
+    lineHeight: 22.4,
   },
   descriptionRow: {
-    marginVertical: 20,
+    marginTop: 30,
+    marginBottom: 12,
   },
   infoRow: {
     marginVertical: 18,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  infoEl: {
-    fontSize: 22,
-    fontWeight: '600',
-    marginHorizontal: 10,
-    color: '#ffffff',
-  },
-  bar: {
-    backgroundColor: '#ffffff',
-    width: 3,
-    height: 20,
   },
   buttonRow: {
     flexDirection: 'row',
@@ -465,6 +430,24 @@ const styles = StyleSheet.create({
   },
   walletView: {
     marginRight: 15,
+  },
+  infoList: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 2,
+  },
+  infoEl: {
+    fontSize: 14,
+    color: '#B9C5D1',
+    letterSpacing: -0.5,
+    lineHeight: 19.6,
+  },
+  bar: {
+    width: 1,
+    height: 12,
+    marginHorizontal: 4,
+    marginTop: 1,
+    backgroundColor: '#B9C5D1',
   },
 });
 

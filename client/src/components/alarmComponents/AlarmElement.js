@@ -108,9 +108,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 5,
     paddingHorizontal: 25,
-    paddingVertical: 15,
-    height: 110,
-    borderRadius: 30,
+    paddingVertical: 16,
+    height: 108,
+    borderRadius: 12,
     marginVertical: 6,
     // shadowColor: '#000',
     // shadowOffset: {
@@ -132,19 +132,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    height: 35,
-    marginTop: 5,
+    marginBottom: 16,
   },
   message: {
     fontSize: 15,
     fontWeight: '600',
     letterSpacing: -0.5,
     color: '#000000',
+    lineHeight: 21,
   },
   createdAt: {
     fontSize: 12,
     color: '#000000',
     letterSpacing: -0.5,
+    lineHeight: 16.8,
   },
   meetingArea: {
     height: 40,
@@ -172,12 +173,16 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: '#3C3D43',
     letterSpacing: -0.5,
+    lineHeight: 18.2,
+    fontSize: 13,
+    marginBottom: 4,
   },
   deleteText: {
     fontSize: 13,
     fontWeight: '500',
     color: '#3C3D43',
     letterSpacing: -0.5,
+    lineHeight: 18.2,
   },
 });
 

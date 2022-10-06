@@ -77,7 +77,7 @@ BasicButton.defaultProps = {
   width: 100,
   height: 40,
   backgroundColor: '#AEFFC1',
-  textColor: 'black',
+  textColor: '#1D1E1E',
   text: '버튼',
   textSize: 14,
   margin: [5, 5, 5, 5],

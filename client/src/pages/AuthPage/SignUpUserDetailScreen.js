@@ -668,7 +668,7 @@ const SelfIntroduction = ({selfIntroduction, setSelfIntroduction}) => {
         value={selfIntroduction}
         multiline={true}
         placeholder="자유롭게 작성해 주세요 😉"
-        placeholderTextColor="#EAFFEFB2"
+        placeholderTextColor="#EAFFEFCC"
         autoComplete="off"
         autoCorrect={false}
         selectionColor="#AEFFC1"

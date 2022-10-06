@@ -9,6 +9,7 @@ import {
   ActionSheetIOS,
   KeyboardAvoidingView,
   StatusBar,
+  TouchableNativeFeedback,
 } from 'react-native';
 import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import BackButton from '../../components/common/BackButton';
@@ -80,9 +81,15 @@ function EditMyInfo({route, navigation}) {
       />
       <View style={styles.header}>
         <BackButton />
-        <TouchableOpacity onPress={handleSubmit}>
-          <Text style={styles.completeText}>완료</Text>
-        </TouchableOpacity>
+        {Platform.OS === 'android' ? (
+          <TouchableNativeFeedback onPress={handleSubmit}>
+            <Text style={styles.completeText}>완료</Text>
+          </TouchableNativeFeedback>
+        ) : (
+          <TouchableOpacity onPress={handleSubmit}>
+            <Text style={styles.completeText}>완료</Text>
+          </TouchableOpacity>
+        )}
       </View>
 
       <ScrollView

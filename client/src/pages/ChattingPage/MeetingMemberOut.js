@@ -8,6 +8,8 @@ import {
   Image,
   Platform,
   StatusBar,
+  ScrollView,
+  Pressable,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import BackButton from '../../components/common/BackButton';
@@ -20,6 +22,7 @@ import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {useToast} from '../../utils/hooks/useToast';
 import {createMeetingBanned} from '../../lib/Alarm';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 function FocusAwareStatusBar(props) {
   const isFocused = useIsFocused();
@@ -63,45 +66,49 @@ function MeetingMemberOut({route}) {
       </View>
       <Text style={styles.title}>미팅 멤버 내보내기</Text>
       <View style={styles.wrapper}>
-        <View style={styles.warningBox}>
-          <Icon name="error-outline" size={30} color="#58FF7D" />
-          <Text style={styles.boldText}>
-            멤버 퇴출은 다음의 경우에만 진행해 주세요.
-          </Text>
-          <View>
-            <Text style={styles.plainText}>• 채팅방 내 타인을 모욕, 비방</Text>
-            <Text style={styles.plainText}>
-              • 음란물, 불법 사행성 도박 사이트 홍보 메시지 발송
+        <KeyboardAwareScrollView style={{width: '100%'}}>
+          <View style={styles.warningBox}>
+            <Icon name="error-outline" size={20} color="#58FF7D" />
+            <Text style={styles.boldText}>
+              멤버 퇴출은 다음의 경우에만 진행해 주세요.
             </Text>
-            <Text style={styles.plainText}>
-              • 불법촬영물, 허위영상물, 아동・청소년 성착취물 공유
+            <View>
+              <Text style={styles.plainText}>
+                •{'  '}채팅방 내 타인을 모욕하거나 비방
+              </Text>
+              <Text style={styles.plainText}>
+                •{'  '}음란물, 불법 사행성 도박 사이트 홍보 메시지 발송
+              </Text>
+              <Text style={styles.plainText}>
+                •{'  '}불법촬영물, 허위영상물, 아동・청소년 성착취물 공유
+              </Text>
+              <Text style={styles.plainText}>
+                •{'  '}타인의 개인정보 유출 및 권리침해
+              </Text>
+              <Text style={styles.plainText}>•{'  '}장기간 미응답</Text>
+              <Text style={styles.plainText}>•{'  '}기타 특이사항</Text>
+            </View>
+            <Text style={styles.bigText}>
+              ※{'  '}잦은 멤버 퇴출은 이용제한조치 사유가 될 수 있습니다.
             </Text>
-            <Text style={styles.plainText}>
-              • 타인의 개인정보 유출 및 권리침해
-            </Text>
-            <Text style={styles.plainText}>• 장기간 미응답</Text>
-            <Text style={styles.plainText}>• 기타 특이사항</Text>
           </View>
-          <Text style={styles.bigText}>
-            ※ 잦은 멤버 퇴출은 이용제한조치 사유가 될 수 있습니다.
-          </Text>
-        </View>
-        <View style={styles.selectSection}>{member}</View>
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>
-            멤버 내보내기 사유를 작성해 주세요.
-          </Text>
-          <TextInput
-            style={styles.textInput}
-            placeholder="퇴출 사유를 구체적으로 적어주세요"
-            multiline={true}
-            value={form.text}
-            onChangeText={text => {
-              setForm({...form, text});
-            }}
-            selectionColor={'#AEFFC1'}
-          />
-        </View>
+          <View style={styles.selectSection}>{member}</View>
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>
+              멤버 내보내기 사유를 작성해 주세요.
+            </Text>
+            <TextInput
+              style={styles.textInput}
+              placeholder="퇴출 사유를 구체적으로 적어주세요"
+              multiline={true}
+              value={form.text}
+              onChangeText={text => {
+                setForm({...form, text});
+              }}
+              selectionColor={'#AEFFC1'}
+            />
+          </View>
+          {/* <View style={styles.memberoutButton}>
         <BasicButton
           text="내보내기"
           width={'100%'}
@@ -116,7 +123,19 @@ function MeetingMemberOut({route}) {
           }}
           border={false}
         />
+        </View> */}
+        </KeyboardAwareScrollView>
+        <Pressable
+          style={styles.memberoutButton}
+          onPress={() => {
+            setModalVisible(true);
+          }}>
+          <Text style={{color: '#1D1E1E', fontSize: 18, fontWeight: '600'}}>
+            완료
+          </Text>
+        </Pressable>
       </View>
+
       <DoubleModal
         text={`${form.nickName} \n님을 내보내시겠습니까?`}
         nButtonText="아니요"
@@ -195,7 +214,7 @@ const Person = ({user, form, setForm}) => {
         onCheckColor="#58FF7D"
         onTintColor="#58FF7D"
         tintColors={{true: '#58FF7D'}}
-        style={{width: 20, height: 20}}
+        style={{width: 20, height: 20, marginRight: 1}}
       />
     </View>
   );
@@ -215,7 +234,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontSize: 24,
     marginTop: 20,
-    marginBottom: 10,
+    marginBottom: 32,
     color: '#ffffff',
     fontFamily: 'NeoDunggeunmoPro-Regular',
     letterSpacing: -0.5,
@@ -225,14 +244,11 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     flex: 1,
-    paddingHorizontal: 20,
-    paddingTop: 20,
+    paddingHorizontal: 15,
   },
   warningBox: {
     borderRadius: 20,
     width: '100%',
-    paddingHorizontal: 15,
-    paddingTop: 15,
     paddingBottom: 23,
     flexDirection: 'column',
     alignItems: 'center',
@@ -240,23 +256,30 @@ const styles = StyleSheet.create({
   boldText: {
     fontWeight: '600',
     fontSize: 15,
-    marginVertical: 15,
+    lineHeight: 21,
+    letterSpacing: -0.5,
+    marginTop: 8,
+    marginBottom: 15,
     color: '#ffffff',
   },
   plainText: {
-    fontSize: 12.2,
-    marginVertical: 0.5,
+    fontSize: 14,
+    marginVertical: 1,
     color: '#ffffff',
+    lineHeight: 19.6,
+    letterSpacing: -0.5,
   },
   bigText: {
-    fontSize: 12.5,
-    marginTop: 10,
+    fontSize: 14,
+    marginTop: 7,
     color: '#ffffff',
+    lineHeight: 19.6,
+    letterSpacing: -0.5,
   },
   selectSection: {
     width: '100%',
-    marginVertical: 30,
-    paddingHorizontal: 10,
+    marginTop: 45,
+    marginBottom: 22,
   },
   section: {
     width: '100%',
@@ -282,6 +305,25 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingTop: 10,
     backgroundColor: '#EAFFEFCC',
+  },
+  memberoutButton: {
+    backgroundColor: '#ffffff',
+    width: '100%',
+    height: 50,
+    borderRadius: 999,
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    bottom: 20,
+    shadowColor: 'rgba(174, 255, 192, 0.5)',
+    shadowOffset: {
+      width: 0,
+      height: 9,
+    },
+    shadowOpacity: 0.48,
+    shadowRadius: 11.95,
+
+    elevation: 18,
   },
 });
 

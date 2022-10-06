@@ -15,7 +15,6 @@ import ParticipatedMeetingList from '../../components/myPageComponent/Participat
 import WalletButton from '../../components/common/WalletButton';
 import * as Progress from 'react-native-progress';
 import dinoegg from '../../assets/icons/dinoegg.png';
-import dummyDino from '../../assets/icons/dummyCharacter.png';
 import BasicButton from '../../components/common/BasicButton';
 import likespink from '../../assets/icons/likespink.png';
 import eggS from '../../assets/icons/eggS.png';

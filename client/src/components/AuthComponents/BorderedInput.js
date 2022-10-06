@@ -25,7 +25,7 @@ const BorderedInput = (
       autoComplete="off"
       autoCorrect={false}
       selectionColor="#AEFFC1"
-      placeholderTextColor="#EAFFEF"
+      placeholderTextColor="#EAFFEFCC"
     />
   );
 };
@@ -51,10 +51,10 @@ const SIZE = StyleSheet.create({
 
 const styles = StyleSheet.create({
   input: {
-    borderColor: '#EAFFEF',
+    borderColor: '#EAFFEFCC',
     borderWidth: 1,
     paddingHorizontal: 16,
-    borderRadius: 4,
+    borderRadius: 5,
     height: 48,
     // backgroundColor: 'white',
     color: '#ffffff',

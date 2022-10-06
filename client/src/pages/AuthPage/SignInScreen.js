@@ -27,8 +27,7 @@ import useNftActions from '../../utils/hooks/UseNftActions';
 import {getNFTs, getProfile, getMemin, calcHumanElement} from '../../lib/NFT';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 import LinearGradient from 'react-native-linear-gradient';
-import meminDino from '../../assets/icons/meminDino.png';
-import memintDino from '../../assets/icons/memintDino.png';
+import memintLogo from '../../assets/icons/memintLogo.png'
 import {useToast} from '../../utils/hooks/useToast';
 import {useIsFocused} from '@react-navigation/native';
 
@@ -155,7 +154,7 @@ const SignInScreen = ({navigation, route}) => {
         )}
 
         <View style={styles.fullscreen}>
-          <Image source={meminDino} style={styles.logo} />
+          <Image source={memintLogo} style={styles.logo} />
           <View style={styles.form}>
             <SignForm
               onSubmit={onSubmitSignIn}
@@ -211,7 +210,6 @@ const styles = StyleSheet.create({
   fullscreen: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
     backgroundColor: '#3C3D43',
     paddingBottom: 130,
   },
@@ -219,11 +217,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   logo: {
-    width: 210,
-    height: 210,
-    marginTop: 30,
+    width: 116,
+    height: 79,
+    marginTop: 92,
+    marginBottom: 64
   },
-
   text: {
     fontSize: 32,
     fontWeight: 'bold',

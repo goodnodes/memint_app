@@ -28,13 +28,13 @@ function DetailMembers({membersInfo, peopleNum, hostId}) {
   };
 
   return (
-    // <LinearGradient colors={['#A7BFEB', '#FBC2EA']} style={styles.box}>
     <View style={styles.memberBox}>
       <View style={styles.memberBoxInfo}>
-        <Text style={styles.title}>현재 모인 멤버</Text>
+        <Text style={styles.title}>현재 미팅 참여자</Text>
         <View style={styles.memberBoxInfopeopleNum}>
           <Text style={styles.currentPeopleNum}>
-            {membersInfo.length}/{peopleNum * 2}
+            {membersInfo.length}
+            <Text style={styles.peopleNum}>/{peopleNum * 2}</Text>
           </Text>
           <Text style={styles.peopleNum}>{`(${peopleNum}:${peopleNum})`}</Text>
         </View>
@@ -50,18 +50,23 @@ function DetailMembers({membersInfo, peopleNum, hostId}) {
                 }}>
                 <Image
                   source={{uri: member.nftProfile}}
-                  style={styles.userImage}
+                  style={[
+                    styles.userImage,
+                    member.id === hostId ? styles.hostImage : null,
+                  ]}
                 />
               </TouchableOpacity>
             </View>
-            <View>
-              <Text style={styles.memberInfoNickName}>{member.nickName}</Text>
+            <View style={styles.memberInfoCol}>
+              <Text style={styles.memberInfoNickName}>
+                {member.nickName} {member.property.emoji}
+              </Text>
               <View style={styles.memberGenderAge}>
                 <Text style={styles.memberInfoContentEl}>
                   {handleBirth(member.birth)}
                 </Text>
                 <Text
-                  style={styles.memberInfoContentEl}>{`(${member.gender?.slice(
+                  style={styles.memberInfoContentEl}>{` (${member.gender?.slice(
                   0,
                   1,
                 )})`}</Text>
@@ -79,20 +84,11 @@ function DetailMembers({membersInfo, peopleNum, hostId}) {
         visible={checkIsVisible(userId)}
       />
     </View>
-    // </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   memberBox: {
-    backgroundColor: 'white',
-    paddingVertical: 23,
-    paddingHorizontal: 30,
-    marginVertical: 2,
-    marginHorizontal: 2,
-    borderRadius: 35,
-    borderWidth: 1,
-    borderColor: 'black',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -106,45 +102,62 @@ const styles = StyleSheet.create({
   memberBoxInfo: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 10,
+    alignItems: 'center',
+    marginBottom: 30,
   },
   memberList: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: 'column',
   },
   memberBoxInfopeopleNum: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
   memberInfo: {
     width: 132,
     flexDirection: 'row',
-    marginVertical: 10,
-    marginHorizontal: 5,
+    marginBottom: 24,
     alignItems: 'center',
   },
   memberGenderAge: {
     flexDirection: 'row',
   },
+  memberInfoCol: {
+    justifyContent: 'space-between',
+    height: 53,
+  },
   memberInfoContentEl: {
-    margin: 5,
-    color: '#000000',
+    color: '#B9C5D1',
+    fontSize: 16,
+    lineHeight: 22.4,
+    letterSpacing: -0.5,
   },
   memberInfoNickName: {
-    margin: 5,
-    fontWeight: '700',
-    color: '#000000',
+    fontWeight: '400',
+    color: '#ffffff',
+    fontSize: 18,
+    lineHeight: 25.2,
+    letterSpacing: -0.5,
   },
   title: {
-    fontWeight: '700',
-    color: '#000000',
+    fontWeight: '400',
+    color: '#B9C5D1',
+    fontSize: 16,
+    lineHeight: 22.4,
+    letterSpacing: -0.5,
   },
   currentPeopleNum: {
-    fontWeight: '500',
-    color: '#000000',
+    fontWeight: '600',
+    color: '#AEFFC1',
+    fontSize: 20,
+    lineHeight: 28,
+    letterSpacing: -0.5,
   },
   peopleNum: {
-    fontWeight: '500',
-    color: '#000000',
+    fontWeight: '400',
+    color: '#B9C5D1',
+    fontSize: 18,
+    lineHeight: 25.2,
+    letterSpacing: -0.5,
   },
   image: {
     width: 40,
@@ -152,11 +165,13 @@ const styles = StyleSheet.create({
   },
   userImage: {
     borderRadius: 100,
-    width: 40,
-    height: 40,
-    marginRight: 3,
-    // borderColor: 'black',
-    // borderWidth:1
+    width: 53,
+    height: 53,
+    marginRight: 8,
+  },
+  hostImage: {
+    borderWidth: 2,
+    borderColor: '#58FF7D',
   },
 });
 

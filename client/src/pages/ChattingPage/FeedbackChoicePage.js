@@ -191,7 +191,6 @@ function FeedbackChoicePage({route}) {
 function Human({person, meetingId, data, userInfo}) {
   const navigation = useNavigation();
   const {showToast} = useToast();
-
   return (
     <View
       style={{
@@ -204,7 +203,12 @@ function Human({person, meetingId, data, userInfo}) {
       <View style={{alignItems: 'center', flexDirection: 'row'}}>
         <Image
           source={{uri: person[1]}}
-          style={{width: 30, height: 30, borderRadius: 999}}
+          style={[
+            {width: 30, height: 30, borderRadius: 999},
+            data.hostId === person[2]
+              ? {borderWidth: 1, borderColor: '#58FF7D'}
+              : null,
+          ]}
         />
         <Text
           style={{
@@ -212,6 +216,7 @@ function Human({person, meetingId, data, userInfo}) {
             marginLeft: 5,
             color: '#ffffff',
             letterSpacing: -0.5,
+            lineHeight: 25.2,
             fontWeight: '500',
           }}>
           {person[0]}

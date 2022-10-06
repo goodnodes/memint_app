@@ -51,30 +51,35 @@ function FeedbackSendPage({route}) {
 
   return (
     <KeyboardAvoidingView
-      style={{flex: 1}}
+      style={{flex: 1, backgroundColor: '#3D3E44'}}
       behavior={Platform.select({ios: 'padding'})}>
       <SafeStatusBar />
+      <View style={styles.header}>
+        <BackButton />
+      </View>
       <LinearGradient
         colors={['#3D3E44', '#5A7064']}
         start={{x: 1, y: 0.3}}
         end={{x: 1, y: 1}}
         style={styles.gradientBackground}>
-        <View style={styles.header}>
-          <BackButton />
-        </View>
-        <ScrollView
-          style={styles.container}
-          contentContainerStyle={{paddingBottom: 30}}>
-          <Text style={styles.title}>미팅참여 </Text>
+        <Text style={styles.title}>미팅참여 </Text>
 
-          <View style={styles.wrapper}>
-            {/* <Text style={{fontSize: 15, fontWeight: '700', marginBottom: 30}}>
+        <View style={styles.wrapper}>
+          {/* <Text style={{fontSize: 15, fontWeight: '700', marginBottom: 30}}>
               {`${person[0]}님께 후기를 작성해주세요.`}
             </Text> */}
+          <ScrollView
+            style={styles.container}
+            contentContainerStyle={{paddingBottom: 50}}>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Image
                 source={{uri: person[1]}}
-                style={{width: 50, height: 50, borderRadius: 999}}
+                style={{
+                  width: 50,
+                  height: 50,
+                  borderRadius: 999,
+                  marginRight: 8,
+                }}
               />
               <Text style={styles.name}>{person[0]}</Text>
             </View>
@@ -182,57 +187,61 @@ function FeedbackSendPage({route}) {
                 상대방에게 보내지 않기
               </Text>
             </View>
-            <Pressable
-              style={styles.confirmButton}
-              onPress={() => {
-                setModalVisible(true);
+          </ScrollView>
+          <Pressable
+            style={styles.confirmButton}
+            onPress={() => {
+              setModalVisible(true);
+            }}>
+            <Text
+              style={{
+                color: '#1D1E1E',
+                fontSize: 18,
+                fontWeight: '600',
+                lineHeight: 22,
+                letterSpacing: -1,
               }}>
-              <Text
-                style={{color: '#000000', fontSize: 20, fontWeight: 'bold'}}>
-                후기 보내기
-              </Text>
-            </Pressable>
-          </View>
-          <DoubleModal
-            text={`${person[0]}님의\n후기를 보내시겠습니까?`}
-            nButtonText="아니요"
-            pButtonText="네"
-            modalVisible={modalVisible}
-            setModalVisible={setModalVisible}
-            pFunction={() => {
-              sendFeedback(data.id, person[2], owner.id, form).then(
-                async () => {
-                  if (form.visible === true) {
-                    console.log('good');
-                    await firestore()
-                      .collection('User')
-                      .doc(person[2])
-                      .collection('Alarm')
-                      .add({
-                        type: 'feedback',
-                        sender: owner.id,
-                        message: form.message,
-                        createdAt: firestore.Timestamp.now(),
-                        meetingId: data.id,
-                        emotion: form.emotion,
-                      });
-                    notification({
-                      receiver: person[2],
-                      message: '미팅 후기 메시지가 도착했습니다',
-                      title: 'MEMINT',
-                    });
-                    calculateCharm(person[2], form.emotion);
-                  }
-                  showToast('success', '후기를 전송하였습니다.');
-                  navigation.navigate('FeedbackChoicePage', {data, userInfo});
-                },
-              );
-            }}
-            nFunction={() => {
-              setModalVisible(!modalVisible);
-            }}
-          />
-        </ScrollView>
+              후기 보내기
+            </Text>
+          </Pressable>
+        </View>
+        <DoubleModal
+          text={`${person[0]}님의\n후기를 보내시겠습니까?`}
+          nButtonText="아니요"
+          pButtonText="네"
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          pFunction={() => {
+            sendFeedback(data.id, person[2], owner.id, form).then(async () => {
+              if (form.visible === true) {
+                console.log('good');
+                await firestore()
+                  .collection('User')
+                  .doc(person[2])
+                  .collection('Alarm')
+                  .add({
+                    type: 'feedback',
+                    sender: owner.id,
+                    message: form.message,
+                    createdAt: firestore.Timestamp.now(),
+                    meetingId: data.id,
+                    emotion: form.emotion,
+                  });
+                notification({
+                  receiver: person[2],
+                  message: '미팅 후기 메시지가 도착했습니다',
+                  title: 'MEMINT',
+                });
+                calculateCharm(person[2], form.emotion);
+              }
+              showToast('success', '후기를 전송하였습니다.');
+              navigation.navigate('FeedbackChoicePage', {data, userInfo});
+            });
+          }}
+          nFunction={() => {
+            setModalVisible(!modalVisible);
+          }}
+        />
       </LinearGradient>
     </KeyboardAvoidingView>
   );
@@ -252,7 +261,18 @@ function Emotion({uri, text, state, form, setForm}) {
         source={uri}
         style={[
           styles.image,
-          form.emotion === state ? null : {tintColor: '#EAFFEFCC'},
+          form.emotion === state
+            ? {
+                shadowColor: '#fff',
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                shadowOpacity: 0.25,
+                shadowRadius: 4,
+                elevation: 5,
+              }
+            : {tintColor: '#EAFFEFCC'},
         ]}
       />
       <Text
@@ -269,10 +289,10 @@ function Emotion({uri, text, state, form, setForm}) {
 const styles = StyleSheet.create({
   gradientBackground: {
     flex: 1,
+    paddingHorizontal: 15,
   },
   container: {
     flex: 1,
-    paddingHorizontal: 15,
   },
   wrapper: {
     flex: 1,
@@ -280,7 +300,8 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: '400',
     fontSize: 24,
-    marginVertical: 20,
+    marginTop: 20,
+    marginBottom: 24,
     letterSpacing: -0.5,
     color: '#ffffff',
     fontFamily: 'NeoDunggeunmoPro-Regular',
@@ -288,7 +309,6 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 16,
     fontWeight: '500',
-    marginLeft: 15,
     color: '#ffffff',
     letterSpacing: -0.5,
   },
@@ -330,14 +350,23 @@ const styles = StyleSheet.create({
     paddingTop: 15,
   },
   confirmButton: {
-    backgroundColor: '#58FF7D',
+    backgroundColor: '#ffffff',
     width: '100%',
-    height: 57,
+    height: 50,
     borderRadius: 999,
     alignItems: 'center',
     justifyContent: 'center',
-    // position: 'absolute',
-    // bottom: 0,
+    position: 'absolute',
+    bottom: 20,
+    shadowColor: 'rgba(174, 255, 192, 0.5)',
+    shadowOffset: {
+      width: 0,
+      height: 9,
+    },
+    shadowOpacity: 0.48,
+    shadowRadius: 11.95,
+
+    elevation: 18,
   },
   header: {
     height: 50,

@@ -30,6 +30,7 @@ import {useMeeting} from '../../utils/hooks/UseMeeting';
 import LinearGradient from 'react-native-linear-gradient';
 import useMeetingActions from '../../utils/hooks/UseMeetingActions';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
+import {meetingTags} from '../../assets/docs/contents';
 
 function FocusAwareStatusBar(props) {
   const isFocused = useIsFocused();
@@ -57,7 +58,6 @@ function EditMeetingInfo({route}) {
   });
   const [confirmModalVisible, setConfirmModalVisible] = useState(false);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
-  const [tagData, setTagData] = useState({mood: [], topic: [], alcohol: []});
 
   const navigation = useNavigation();
   const {showToast} = useToast();
@@ -94,7 +94,6 @@ function EditMeetingInfo({route}) {
 
   useEffect(() => {
     getMembers();
-    getTags();
   }, [getMembers]);
 
   const getMembers = useCallback(async () => {
@@ -107,24 +106,6 @@ function EditMeetingInfo({route}) {
     );
     setMeetingInfo({...meetingInfo, membersNickName: data});
   }, [meetingInfo]);
-
-  const getTags = async () => {
-    try {
-      const res = await getMeetingTags();
-      const data = res.docs.reduce(
-        (acc, cur) => {
-          return {
-            ...acc,
-            [cur.data().type]: acc[cur.data().type].concat(cur.data().content),
-          };
-        },
-        {mood: [], topic: [], alcohol: []},
-      );
-      setTagData(data);
-    } catch (e) {
-      console.log(e);
-    }
-  };
 
   const handleSubmit = () => {
     if (!submittable) {
@@ -519,7 +500,7 @@ function EditMeetingInfo({route}) {
               <View style={styles.tagCategory}>
                 {/* <Text style={styles.tagCategoryTitle}>분위기</Text> */}
                 <View style={styles.tags} horizontal={true}>
-                  {tagData.mood.map((tag, idx) => (
+                  {meetingTags.mood.map((tag, idx) => (
                     <TagElement
                       key={idx}
                       tag={tag}
@@ -532,7 +513,7 @@ function EditMeetingInfo({route}) {
               <View style={styles.tagCategory}>
                 {/* <Text style={styles.tagCategoryTitle}>주제</Text> */}
                 <View style={styles.tags} horizontal={true}>
-                  {tagData.topic.map((tag, idx) => (
+                  {meetingTags.topic.map((tag, idx) => (
                     <TagElement
                       key={idx}
                       tag={tag}
@@ -545,7 +526,7 @@ function EditMeetingInfo({route}) {
               <View style={styles.tagCategory}>
                 {/* <Text style={styles.tagCategoryTitle}>술</Text> */}
                 <View style={styles.tags} horizontal={true}>
-                  {tagData.alcohol.map((tag, idx) => (
+                  {meetingTags.alcohol.map((tag, idx) => (
                     <TagElement
                       key={idx}
                       tag={tag}

@@ -484,7 +484,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: '400',
     color: '#ffffff',
-    width: 179,
+    width: 191,
     fontFamily: 'NeoDunggeunmoPro-Regular',
     letterSpacing: -0.5,
     lineHeight: 33.6,

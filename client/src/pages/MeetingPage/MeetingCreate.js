@@ -327,7 +327,7 @@ function MeetingCreate({route}) {
           <TextInput
             style={styles.textInputDes}
             placeholder="설명"
-            placeholderTextColor="#EAFFEF"
+            placeholderTextColor="#EAFFEFCC"
             multiline={true}
             onChangeText={text => {
               checkDescByte(text);

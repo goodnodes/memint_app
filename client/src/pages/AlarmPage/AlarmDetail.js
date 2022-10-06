@@ -312,7 +312,7 @@ const styles = StyleSheet.create({
     borderColor: '#58FF7D',
     borderRadius: 12,
     borderWidth: 1,
-    marginBottom: 30,
+    marginBottom: 45,
   },
   profileArea: {
     flexDirection: 'row',
@@ -397,7 +397,7 @@ const styles = StyleSheet.create({
   emotionIcon: {
     height: 30,
     width: 30,
-    tintColor: 'black',
+    tintColor: '#58FF7D',
     marginRight: 10,
   },
   emotionArea: {
