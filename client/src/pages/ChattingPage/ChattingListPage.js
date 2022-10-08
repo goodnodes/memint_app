@@ -147,39 +147,45 @@ function MetaData({item, navigation, refresh, setRefresh}) {
 
   // AppState Subscribe 설정 및 foreground / background에 따라 state를 변경해주는 함수
   useEffect(() => {
-    // setHostImg(item.hostInfo);
+    console.log('in');
+    setHostImg(item.hostInfo);
 
-    // 이미지를 저장할 캐시폴더 경로 지정
-    const path =
-      Platform.OS === 'android'
-        ? `file://${RNFS.CachesDirectoryPath}/${item.sender}.png`
-        : `${RNFS.CachesDirectoryPath}/${item.sender}.png`;
+    // chattingListPage 이미지들 캐싱은 일단 보류
 
-    // hostImg에 uri를 넣어주는 함수
-    const fileSet = uri => {
-      setHostImg(uri);
-    };
+    if (item.hostId) {
+      // 이미지를 저장할 캐시폴더 경로 지정
+      const path =
+        Platform.OS === 'android'
+          ? `file://${RNFS.CachesDirectoryPath}/${item.hostId}.png`
+          : `${RNFS.CachesDirectoryPath}/${item.hostId}.png`;
 
-    // uri로부터 파일을 다운받아 캐시폴더에 넣어주는 함수
-    const downloadFile = uri => {
-      RNFS.downloadFile({
-        fromUrl: uri,
-        toFile: path,
-      }).promise.then(() => fileSet(path));
-    };
+      // hostImg에 uri를 넣어주는 함수
+      const fileSet = uri => {
+        setHostImg(uri);
+      };
 
-    // 캐시폴더에 hostId이름으로 된 png 파일이 있는지 확인 후, 있다면 바로 로드, 없으면 캐시 폴더에 저장해주기
+      // uri로부터 파일을 다운받아 캐시폴더에 넣어주는 함수
+      const downloadFile = uri => {
+        RNFS.downloadFile({
+          fromUrl: uri,
+          toFile: path,
+        }).promise.then(() => fileSet(path));
+      };
 
-    RNFS.exists(path).then(result => {
-      if (result) {
-        console.log('it is exists');
-        console.log(path);
-        fileSet(path);
-      } else {
-        console.log('it is not exists');
-        downloadFile(item.hostInfo);
-      }
-    });
+      // 캐시폴더에 hostId이름으로 된 png 파일이 있는지 확인 후, 있다면 바로 로드, 없으면 캐시 폴더에 저장해주기
+
+      RNFS.exists(path).then(result => {
+        if (result) {
+          console.log('it is exists');
+          console.log(path);
+          fileSet(path);
+        } else {
+          console.log('it is not exists');
+          console.log(path);
+          downloadFile(item.hostInfo);
+        }
+      });
+    }
 
     const subscription = AppState.addEventListener('change', changedState => {
       if (
@@ -204,13 +210,14 @@ function MetaData({item, navigation, refresh, setRefresh}) {
 
   // 앱의 상태 변경(foreground, background)에 따라 AsyncStorage를 업데이트해주는 함수
   useEffect(() => {
-    if (!currentAppState || allMsgs.length === 1) return;
+    if (!currentAppState || allMsgs.length === 1 || !allMsgs) return;
     if (currentAppState === 'inactive' || currentAppState === 'background') {
       console.log('out');
       return;
     } else if (currentAppState === 'active') {
       // 시간 범위를 체크하여 그 사이에 온 채팅이 있는지 판단하고, 있다면 업데이트해주는 함수
       console.log('in');
+
       const Time = firestore.Timestamp.fromDate(
         new Date(allMsgs[allMsgs.length - 1].createdAt.seconds * 1000),
       );
