@@ -85,9 +85,13 @@ function UserInfoModal({
                       <TouchableOpacity
                         activeOpacity={1}
                         onPress={() => {
-                          visible === false
-                            ? setAskSpendingModalVisible(true)
-                            : null;
+                          if (userId === owner.id) {
+                            return;
+                          } else {
+                            if (!visible) {
+                              setAskSpendingModalVisible(true);
+                            }
+                          }
                         }}>
                         <View>
                           <Image
@@ -425,7 +429,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     borderColor: '#58FF7D',
     borderWidth: 1,
-    paddingHorizontal: width * 0.1,
+    paddingHorizontal: width * 0.09,
     paddingTop: 32,
     paddingBottom: 28,
     marginBottom: 30,
@@ -449,7 +453,7 @@ const styles = StyleSheet.create({
   },
   backgroudDim: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.4)',
+    backgroundColor: 'rgba(0,0,0,0.8)',
   },
   buttonRow: {
     justifyContent: 'space-around',
@@ -471,9 +475,21 @@ const styles = StyleSheet.create({
     borderColor: '#58FF7D',
   },
   imageSmall: {
-    height: 30,
-    width: 30,
+    height: 32,
+    width: 32,
     borderRadius: 15,
+    position: 'absolute',
+    bottom: -3,
+    right: -3,
+    shadowColor: '#FFFFFFBD',
+    shadowOffset: {
+      width: 0,
+      height: 9,
+    },
+    shadowOpacity: 0.65,
+    shadowRadius: 11.95,
+
+    elevation: 18,
   },
   hilightText: {
     fontSize: 12,
@@ -519,7 +535,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
-  userInfos: {marginLeft: 8},
+  userInfos: {marginLeft: 12},
   userinfo: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -586,7 +602,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 40,
   },
-  scrollContainer: {height: '75%'},
+  scrollContainer: {height: '76%', marginHorizontal: 0.2},
   gradeImage: {
     width: 23.71,
     height: 20.33,

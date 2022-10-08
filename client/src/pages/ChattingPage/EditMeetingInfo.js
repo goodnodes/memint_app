@@ -678,10 +678,12 @@ const styles = StyleSheet.create({
   invitedFriend: {
     backgroundColor: '#EAFFEFCC',
     padding: 8,
-    marginHorizontal: 8,
+    marginHorizontal: 5,
     paddingHorizontal: 10,
     paddingVertical: 8,
-    borderRadius: 10,
+    borderRadius: 999,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   leftMargin: {
     marginLeft: 5,
