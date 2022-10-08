@@ -7,11 +7,11 @@ import {
   FlatList,
   Image,
   SafeAreaView,
-  DeviceEventEmitter,
   AppState,
   Button,
   StatusBar,
   Platform,
+  DeviceEventEmitter,
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import useUser from '../../utils/hooks/UseUser';
@@ -144,7 +144,6 @@ function MetaData({item, navigation, refresh, setRefresh}) {
   const [currentAppState, setCurrentAppState] = useState('');
   const [hostImg, setHostImg] = useState('');
   const appState = useRef(AppState.currentState);
-
   // AppState Subscribe 설정 및 foreground / background에 따라 state를 변경해주는 함수
   useEffect(() => {
     console.log('in');
@@ -221,6 +220,7 @@ function MetaData({item, navigation, refresh, setRefresh}) {
       const Time = firestore.Timestamp.fromDate(
         new Date(allMsgs[allMsgs.length - 1].createdAt.seconds * 1000),
       );
+
       firestore()
         .collection('Meeting')
         .doc(item.id)

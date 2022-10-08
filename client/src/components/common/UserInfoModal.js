@@ -81,35 +81,50 @@ function UserInfoModal({
               {user ? (
                 <View style={styles.userInfoWrapper}>
                   <View style={styles.infoRow}>
-                    <TouchableOpacity
-                      activeOpacity={1}
-                      style={styles.images}
-                      onPress={() => {
-                        visible === false
-                          ? setAskSpendingModalVisible(true)
-                          : null;
-                      }}>
-                      <View style={styles.imageLarge}>
-                        <Image
-                          style={styles.imageLarge}
-                          source={{uri: user.nftProfile}}
-                        />
-                        <TouchableOpacity
-                          activeOpacity={1}
-                          onPress={() => {
-                            setBicPicture(true);
-                          }}>
+                    <View style={styles.userArea}>
+                      <TouchableOpacity
+                        activeOpacity={1}
+                        onPress={() => {
+                          visible === false
+                            ? setAskSpendingModalVisible(true)
+                            : null;
+                        }}>
+                        <View>
                           <Image
-                            source={{uri: user.picture}}
-                            style={
-                              visible
-                                ? styles.imageSmall
-                                : {...styles.imageSmall, height: 0, width: 0}
-                            }
+                            style={styles.imageLarge}
+                            source={{uri: user.nftProfile}}
                           />
-                        </TouchableOpacity>
+                          <TouchableOpacity
+                            activeOpacity={1}
+                            onPress={() => {
+                              setBicPicture(true);
+                            }}>
+                            <Image
+                              source={{uri: user.picture}}
+                              style={
+                                visible
+                                  ? styles.imageSmall
+                                  : {...styles.imageSmall, height: 0, width: 0}
+                              }
+                            />
+                          </TouchableOpacity>
+                        </View>
+                      </TouchableOpacity>
+                      <View style={styles.userInfos}>
+                        <Text style={styles.userinfoValue}>
+                          {user.nickName} {user.property.emoji}
+                        </Text>
+                        <View style={styles.userinfo}>
+                          <Text style={styles.userinfoValuePlain}>
+                            {user.gender}
+                          </Text>
+                          <Text style={styles.userinfoValuePlain}>
+                            {handleBirth(user.birth)}
+                          </Text>
+                        </View>
                       </View>
-                    </TouchableOpacity>
+                    </View>
+
                     <View style={styles.meminStats}>
                       <View style={styles.levelRow}>
                         <Progress.Circle
@@ -118,7 +133,7 @@ function UserInfoModal({
                             user.meminStats ? user.meminStats.exp / 5 : 0
                           }
                           color={'#FFAEF1'}
-                          unfilledColor={'#58FF7D'}
+                          unfilledColor={'#edeef6'}
                           borderWidth={0}
                           thickness={5}
                           direction="counter-clockwise"
@@ -141,7 +156,7 @@ function UserInfoModal({
                               user.meminStats ? user.meminStats.charm / 100 : 0
                             }
                             color={'#FF9D9D'}
-                            unfilledColor={'#58FF7D'}
+                            unfilledColor={'#edeef6'}
                             borderWidth={0}
                             thickness={5}
                             style={styles.smallProgressCircle}
@@ -155,24 +170,7 @@ function UserInfoModal({
                       </View>
                     </View>
                   </View>
-                  <View style={styles.userInfos}>
-                    <View style={styles.userinfo}>
-                      <Text style={styles.userinfoKey}>닉네임</Text>
-                      <Text style={styles.userinfoValue}>
-                        {user.nickName} {user.property.emoji}
-                      </Text>
-                    </View>
-                    <View style={styles.userinfo}>
-                      <Text style={styles.userinfoKey}>나이</Text>
-                      <Text style={styles.userinfoValue}>
-                        {handleBirth(user.birth)}
-                      </Text>
-                    </View>
-                    <View style={styles.userinfo}>
-                      <Text style={styles.userinfoKey}>성별</Text>
-                      <Text style={styles.userinfoValue}>{user.gender}</Text>
-                    </View>
-                  </View>
+
                   <View style={styles.scrollContainer}>
                     <LinearGradient
                       colors={[
@@ -427,7 +425,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     borderColor: '#58FF7D',
     borderWidth: 1,
-    paddingHorizontal: width * 0.09,
+    paddingHorizontal: width * 0.1,
     paddingTop: 32,
     paddingBottom: 28,
     marginBottom: 30,
@@ -451,7 +449,7 @@ const styles = StyleSheet.create({
   },
   backgroudDim: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.3)',
+    backgroundColor: 'rgba(0,0,0,0.4)',
   },
   buttonRow: {
     justifyContent: 'space-around',
@@ -463,12 +461,12 @@ const styles = StyleSheet.create({
     borderRadius: 40,
   },
   imageLarge: {
-    position: 'absolute',
-    height: 80,
-    width: 80,
+    // position: 'absolute',
+    height: 59,
+    width: 59,
     alignItems: 'flex-end',
     justifyContent: 'flex-end',
-    borderRadius: 40,
+    borderRadius: 99,
     borderWidth: 2,
     borderColor: '#58FF7D',
   },
@@ -516,13 +514,15 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginHorizontal: 4,
   },
-  userInfos: {
-    width: '100%',
-    marginTop: 8,
+  userArea: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
   },
+  userInfos: {marginLeft: 8},
   userinfo: {
     flexDirection: 'row',
-    marginVertical: 4,
+    alignItems: 'center',
   },
   userinfoKey: {
     color: '#B9C5D1',
@@ -530,6 +530,16 @@ const styles = StyleSheet.create({
   },
   userinfoValue: {
     color: '#000000',
+    fontSize: 16,
+    fontWeight: '600',
+    lineHeight: 22.4,
+    letterSpacing: -0.5,
+    marginBottom: 2,
+  },
+  userinfoValuePlain: {
+    lineHeight: 19.6,
+    letterSpacing: -0.5,
+    marginRight: 8,
   },
   usertag: {
     width: '100%',
@@ -576,7 +586,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 40,
   },
-  scrollContainer: {height: '60%'},
+  scrollContainer: {height: '75%'},
   gradeImage: {
     width: 23.71,
     height: 20.33,

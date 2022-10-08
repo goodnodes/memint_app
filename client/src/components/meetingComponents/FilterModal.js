@@ -1,10 +1,20 @@
-import React, {useState} from 'react';
-import {View, Text, StyleSheet, Platform, Pressable} from 'react-native';
+import React, {useCallback, useState} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Platform,
+  Pressable,
+  Button,
+} from 'react-native';
 import DatePicker from '../common/DatePicker';
 import RNPickerSelect from 'react-native-picker-select';
 import SingleModal from '../common/SingleModal';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
 import {meetingTags} from '../../assets/docs/contents';
+import {signOut} from '../../lib/Auth';
+import {useNavigation} from '@react-navigation/native';
+import useAuthActions from '../../utils/hooks/UseAuthActions';
 
 function FilterModal({
   setFilter,
@@ -13,6 +23,7 @@ function FilterModal({
   filterModalVisible,
   setFilterModalVisible,
 }) {
+  const navigation = useNavigation();
   const [datePicker, setDatePicker] = useState(false);
 
   const tags = [
@@ -51,12 +62,27 @@ function FilterModal({
     setFilter({...filter, meetDate: value});
     setDatePicker(false);
   };
+  const {logout} = useAuthActions();
+
+  const handleSignOut = useCallback(async () => {
+    try {
+      setFilterModalVisible(false);
+      logout();
+      await signOut();
+    } catch (e) {
+      console.log(e);
+    } finally {
+      navigation.navigate('SignIn');
+    }
+  }, [navigation, logout, setFilterModalVisible]);
 
   return (
     <SingleModal
       text="필터를 설정하세요"
       body={
         <View style={styles.filterContent}>
+          <Button title="로그아웃 하기" color="red" onPress={handleSignOut} />
+
           <View style={styles.filterElement}>
             <Text style={styles.filterText}>인원</Text>
             <View>
