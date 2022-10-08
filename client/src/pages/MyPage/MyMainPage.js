@@ -62,16 +62,26 @@ function MyMainPage({navigation}) {
         Number(String(Date.now()).slice(0, 10))
       ) {
         console.log('hi');
-        rechargeEnergy(
-          userInfo,
-          saveInfo,
-          Number(String(Date.now()).slice(0, 10)),
+        rechargeEnergy(userInfo, Number(String(Date.now()).slice(0, 10))).then(
+          amount => {
+            console.log(amount);
+            saveInfo({
+              ...userInfo,
+              meminStats: {
+                ...userInfo.meminStats,
+                energy: userInfo.meminStats.energy + amount,
+                energyRechargeTime: Number(String(Date.now()).slice(0, 10)),
+              },
+            });
+          },
         );
       }
       setMeminStats(userInfo.meminStats);
       getDino(userInfo.meminStats, setMeminStats);
     }
   }, [rechargeCheck]);
+
+  //Number(String(Date.now()).slice(0, 10)),
 
   useEffect(() => {
     if (userInfo) {
@@ -197,7 +207,17 @@ function MyMainPage({navigation}) {
                   spendingModalVisible={spendingModalVisible}
                   setSpendingModalVisible={setSpendingModalVisible}
                   pFunction={() => {
-                    chargeEnergy(userInfo, meminStats.fullEnergy, saveInfo);
+                    chargeEnergy(userInfo, meminStats.fullEnergy).then(num => {
+                      saveInfo({
+                        ...userInfo,
+                        tokenAmount: userInfo.tokenAmount - 1,
+                        meminStats: {
+                          ...userInfo.meminStats,
+                          energy: userInfo.meminStats.energy + num,
+                        },
+                      });
+                      setSpendingModalVisible(false);
+                    });
                   }}
                   amount={1}
                   txType="에너지 충전"

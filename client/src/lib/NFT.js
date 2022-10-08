@@ -135,10 +135,10 @@ export const calcHumanElement = (grade, level) => {
   }
 };
 
-export const rechargeEnergy = async (userDetail, saveInfo, now) => {
+export const rechargeEnergy = async (userDetail, now) => {
   const {dino} = userDetail.meminStats;
   const recharge = async amount => {
-    await firestore()
+    return await firestore()
       .collection('User')
       .doc(userDetail.id)
       .update({
@@ -150,14 +150,7 @@ export const rechargeEnergy = async (userDetail, saveInfo, now) => {
         },
       })
       .then(() => {
-        saveInfo({
-          ...userDetail,
-          meminStats: {
-            ...userDetail.meminStats,
-            energy: userDetail.meminStats.energy + amount,
-            energyRechargeTime: now,
-          },
-        });
+        return amount;
       });
   };
   console.log(dino);
@@ -165,44 +158,45 @@ export const rechargeEnergy = async (userDetail, saveInfo, now) => {
 
   if (dino === 'Tyrano' && userDetail.meminStats.energy < 100) {
     // console.log('Tyrano');
-    recharge(1);
+    return recharge(1);
   } else if (dino === 'Brachio' && userDetail.meminStats.energy < 90) {
     if (userDetail.meminStats.energy === 89) {
       // console.log('Brachio');
-      recharge(1);
+      return recharge(1);
     } else {
       // console.log('Brachio');
-      recharge(2);
+      return recharge(2);
     }
   } else if (dino === 'Stego' && userDetail.meminStats.energy < 70) {
     if (userDetail.meminStats.energy === 69) {
-      recharge(1);
+      return recharge(1);
     } else if (userDetail.meminStats.energy === 68) {
-      recharge(2);
+      return recharge(2);
     } else if (userDetail.meminStats.energy === 67) {
-      recharge(3);
+      return recharge(3);
     } else {
-      recharge(4);
+      return recharge(4);
     }
   } else if (dino === 'Tricera' && userDetail.meminStats.energy < 60) {
     if (userDetail.meminStats.energy === 59) {
-      recharge(1);
+      return recharge(1);
     } else if (userDetail.meminStats.energy === 58) {
-      recharge(2);
+      return recharge(2);
     } else if (userDetail.meminStats.energy === 57) {
-      recharge(3);
+      return recharge(3);
     } else if (userDetail.meminStats.energy === 56) {
-      recharge(4);
+      return recharge(4);
     } else {
-      recharge(5);
+      return recharge(5);
     }
   }
 };
 
-export const chargeEnergy = async (userInfo, fullEnergy, saveInfo) => {
+export const chargeEnergy = async (userInfo, fullEnergy) => {
   if (userInfo.meminStats.energy + 10 > fullEnergy) {
+    console.log('less than 10');
     const num = fullEnergy - userInfo.meminStats.energy;
-    await firestore()
+    return await firestore()
       .collection('User')
       .doc(userInfo.id)
       .update({
@@ -213,16 +207,12 @@ export const chargeEnergy = async (userInfo, fullEnergy, saveInfo) => {
         },
       })
       .then(() => {
-        saveInfo({
-          ...userInfo,
-          meminStats: {
-            ...userInfo.meminStats,
-            energy: userInfo.meminStats.energy + num,
-          },
-        });
+        return num;
       });
   } else {
-    await firestore()
+    console.log('10');
+    console.log(userInfo);
+    return await firestore()
       .collection('User')
       .doc(userInfo.id)
       .update({
@@ -233,13 +223,8 @@ export const chargeEnergy = async (userInfo, fullEnergy, saveInfo) => {
         },
       })
       .then(() => {
-        saveInfo({
-          ...userInfo,
-          meminStats: {
-            ...userInfo.meminStats,
-            energy: userInfo.meminStats.energy + 10,
-          },
-        });
+        console.log('work');
+        return 10;
       });
   }
 };

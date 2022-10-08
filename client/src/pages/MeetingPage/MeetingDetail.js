@@ -30,7 +30,7 @@ import MeetingLikes from '../../components/meetingComponents/MeetingLikes';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 import ActivationModal from '../../components/common/ActivationModal';
 import firestore from '@react-native-firebase/firestore';
-import {saveInfo} from '../../slices/Auth';
+import useAuthActions from '../../utils/hooks/UseAuthActions';
 
 function FocusAwareStatusBar(props) {
   const isFocused = useIsFocused();
@@ -39,10 +39,10 @@ function FocusAwareStatusBar(props) {
 }
 
 function MeetingDetail({route}) {
+  const {saveInfo} = useAuthActions();
   const userInfo = useUser();
   const loginUser = userInfo.id;
   const {data} = route.params;
-  const [modalVisible_1, setModalVisible_1] = useState(false);
   const [modalVisible_2, setModalVisible_2] = useState(false);
   const [textMessage, setTextMessage] = useState('');
   const [membersInfo, setMembersInfo] = useState([]);
@@ -51,7 +51,7 @@ function MeetingDetail({route}) {
   const [activationModalVisible, setActivationModalVisible] = useState(false);
   const handleRequestMeeting = async () => {
     if (userInfo.isActivated) {
-      setModalVisible_1(true);
+      setModalVisible_2(true);
     } else {
       setActivationModalVisible(true);
     }
@@ -281,7 +281,7 @@ function MeetingDetail({route}) {
           <View style={styles.buttonRow}>{renderByUser()}</View>
         </View>
 
-        <DoubleModal
+        {/* <DoubleModal
           text={'미팅을 신청하시겠습니까?\n 15 에너지가 소비됩니다!'}
           nButtonText="아니요"
           pButtonText="신청하기"
@@ -292,7 +292,7 @@ function MeetingDetail({route}) {
             setModalVisible_1(false);
             setModalVisible_2(true);
           }}
-        />
+        /> */}
         <DoubleModal
           text="주선자에게 보낼 메시지를 작성해주세요"
           body={
@@ -323,7 +323,7 @@ function MeetingDetail({route}) {
           buttonText="인증하기"
           modalVisible={activationModalVisible}
           setModalVisible={setActivationModalVisible}
-          setNextModalVisible={setModalVisible_1}
+          setNextModalVisible={setModalVisible_2}
         />
       </ScrollView>
     </View>
