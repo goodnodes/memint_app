@@ -4,7 +4,7 @@ const logger = require("morgan");
 const wallet = require("./routes/wallet");
 const transactionRouter = require("./routes/transaction");
 const auth = require("./routes/auth");
-const mintNFT = require("./routes/mintNFT");
+// const mintNFT = require("./routes/mintNFT");
 const notification = require("./routes/notification");
 const app = express();
 const fs = require("fs");
@@ -51,7 +51,7 @@ app.use("/web", web);
 app.use("/auth", auth);
 app.use("/wallet", wallet);
 app.use("/transaction", transactionRouter);
-app.use("/mintNFT", mintNFT);
+// app.use("/mintNFT", mintNFT);
 app.use("/notification", notification);
 app.use("/notification", notification);
 // catch 404 and forward to error handler

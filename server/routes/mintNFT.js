@@ -12,25 +12,25 @@ const myContract = new web3.eth.Contract(abi, contractAddress);
 const app = require("../app");
 
 mintNFT.route("/").post(async (req, res) => {
-  const { address, NFTId, imgUri } = req.body;
-  console.log({ address, NFTId, imgUri });
-  try {
-    const result = await myContract.methods.mintNFT(imgUri, address).send({
-      from: SERVER_ADDRESS,
-      gas: 2000000,
-      gasPrice: await web3.eth.getGasPrice(),
-    });
+	const { address, NFTId, imgUri } = req.body;
+	console.log({ address, NFTId, imgUri });
+	try {
+		const result = await myContract.methods.mintNFT(imgUri, address).send({
+			from: SERVER_ADDRESS,
+			gas: 2000000,
+			gasPrice: await web3.eth.getGasPrice(),
+		});
 
-    const tokenId = result.events.Transfer.returnValues.tokenId;
+		const tokenId = result.events.Transfer.returnValues.tokenId;
 
-    await app.db.collection("NFT").doc(NFTId).update({
-      tokenId,
-    });
+		await app.db.collection("NFT").doc(NFTId).update({
+			tokenId,
+		});
 
-    res.status(200).send({ message: "success" });
-  } catch (error) {
-    res.status(400).send({ error });
-  }
+		res.status(200).send({ message: "success" });
+	} catch (error) {
+		res.status(400).send({ error });
+	}
 });
 
 module.exports = mintNFT;

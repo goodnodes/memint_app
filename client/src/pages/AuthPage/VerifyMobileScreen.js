@@ -76,13 +76,16 @@ const VerifyMobileScreen = ({navigation, route}) => {
   async function verifyPhoneNumber(phoneNumber) {
     try {
       const userEmail = await getUserByPhoneNumber(form.mobileNumber);
+      console.log(userEmail);
       if (userEmail === 'NA') {
         const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
         setFiexedPhoneNumber(form.mobileNumber);
         setConfirm(confirmation);
+        return true;
       } else {
         setValidNumber('이미 해당 전화번호로 가입한 회원이 있습니다');
         setTextColor('#FF5029');
+        return false;
       }
     } catch (e) {
       const messages = {
@@ -196,9 +199,16 @@ const VerifyMobileScreen = ({navigation, route}) => {
                           3,
                           7,
                         )}-${form.mobileNumber.slice(7, 11)}`,
-                      ).then(() => {
-                        setTextColor('#58FF7D');
-                        setValidNumber('인증번호가 발송되었습니다');
+                      ).then(result => {
+                        if (result) {
+                          setTextColor('#58FF7D');
+                          setValidNumber('인증번호가 발송되었습니다');
+                        } else {
+                          setValidNumber(
+                            '이미 해당 전화번호로 가입한 회원이 있습니다',
+                          );
+                          setTextColor('#FF5029');
+                        }
                       });
                     }
                   }}
