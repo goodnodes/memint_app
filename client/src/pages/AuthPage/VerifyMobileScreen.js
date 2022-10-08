@@ -75,16 +75,19 @@ const VerifyMobileScreen = ({navigation, route}) => {
 
   async function verifyPhoneNumber(phoneNumber) {
     try {
+      setButtonReady(false);
       const userEmail = await getUserByPhoneNumber(form.mobileNumber);
       console.log(userEmail);
       if (userEmail === 'NA') {
         const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
         setFiexedPhoneNumber(form.mobileNumber);
         setConfirm(confirmation);
+        setButtonReady(true);
         return true;
       } else {
         setValidNumber('이미 해당 전화번호로 가입한 회원이 있습니다');
         setTextColor('#FF5029');
+        setButtonReady(true);
         return false;
       }
     } catch (e) {
