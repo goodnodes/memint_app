@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
   nftImg: {
     width: 200,
     height: 200,
-    borderColor: '#AEFFC1',
+    borderColor: '#58FF7D',
     borderWidth: 3,
     borderRadius: 999,
     marginBottom: 15,

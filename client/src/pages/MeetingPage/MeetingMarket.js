@@ -521,10 +521,10 @@ const styles = StyleSheet.create({
   },
   backgroundImage: {
     position: 'absolute',
-    top: '50%',
-    left: '19%',
-    width: 250,
-    height: 250,
+    top: '55%',
+    left: '22.5%',
+    width: 220,
+    height: 220,
   },
   // icon: {
   // width: 45,

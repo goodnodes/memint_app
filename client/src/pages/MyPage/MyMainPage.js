@@ -295,7 +295,13 @@ function MyMainPage({navigation}) {
                     direction="counter-clockwise"
                   />
                   <Image source={likespink} style={styles.gradeImage} />
-                  <Text style={styles.gradeText}>{meminStats?.grade}</Text>
+                  <Text
+                    style={[
+                      styles.gradeText,
+                      meminStats?.grade.length > 1 ? styles.gradeTextNew : null,
+                    ]}>
+                    {meminStats?.grade}
+                  </Text>
                 </View>
               </View>
               <View style={styles.status}>
@@ -616,6 +622,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 19.5,
     left: 30,
+  },
+  gradeTextNew: {
+    left: 20,
   },
   flex: {
     flex: 1,

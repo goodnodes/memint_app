@@ -212,7 +212,7 @@ function ChattingRoom({route}) {
                     {route.params.data.meetDate
                       .toDate()
                       .toLocaleString()
-                      .slice(0, 11)}
+                      .slice(0, -10)}
                   </Text>
                   <Text
                     style={{
@@ -221,11 +221,11 @@ function ChattingRoom({route}) {
                       letterSpacing: -0.5,
                       color: '#000000',
                     }}>
-                    ⏰ 시간:{'  '}
+                    ⏰ 시간:{'   '}
                     {route.params.data.meetDate
                       .toDate()
                       .toLocaleString()
-                      .slice(12, -3)}
+                      .slice(-10, -3)}
                   </Text>
                   <Text
                     style={{
