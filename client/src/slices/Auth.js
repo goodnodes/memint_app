@@ -18,7 +18,7 @@ const authSlice = createSlice({
       state.user = action.payload;
     },
     updateTokenInfo(state, action) {
-      state.user.tokenAmount = action.payload.tokenAmount;
+      state.user.tokenAmount = Math.round(action.payload.tokenAmount * 10) / 10;
       state.user.onChainTokenAmount = action.payload.onChainTokenAmount;
       state.user.klayAmount = action.payload.klayAmount;
     },
@@ -27,10 +27,13 @@ const authSlice = createSlice({
       state.auth = null;
     },
     increaseBy(state, action) {
-      state.user.tokenAmount += action.payload;
+      state.user.tokenAmount = action.payload;
+      // Math.round((state.user.tokenAmount + action.payload) * 10) / 10;
     },
     decreaseBy(state, action) {
-      state.user.tokenAmount -= action.payload;
+      // state.user.tokenAmount -= action.payload;
+      state.user.tokenAmount = action.payload;
+      // Math.round((state.user.tokenAmount - action.payload) * 10) / 10;
     },
     editUserInfo(state, action) {
       state.user.property = action.payload.property;

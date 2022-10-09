@@ -13,8 +13,8 @@ export async function getOffchainTokenLog(userId) {
   return offchainTokenLog;
 }
 
-export function createSpendOffTxLg(userId, amount, txType, balance) {
-  firestore()
+export async function createSpendOffTxLg(userId, amount, txType, balance) {
+  await firestore()
     .collection('User')
     .doc(userId)
     .collection('OffchainTokenLog')
@@ -24,19 +24,19 @@ export function createSpendOffTxLg(userId, amount, txType, balance) {
       createdAt: firestore.FieldValue.serverTimestamp(),
       from: userId,
       to: 'serverId',
-      balance: balance - amount,
+      balance: Math.round((balance - amount) * 10) / 10,
     });
 
-  firestore()
+  await firestore()
     .collection('User')
     .doc(userId)
     .update({
-      tokenAmount: balance - amount,
+      tokenAmount: Math.round((balance - amount) * 10) / 10,
     });
 }
 
-export function createEarnOffTxLg(userId, amount, txType, balance) {
-  firestore()
+export async function createEarnOffTxLg(userId, amount, txType, balance) {
+  await firestore()
     .collection('User')
     .doc(userId)
     .collection('OffchainTokenLog')
@@ -48,11 +48,11 @@ export function createEarnOffTxLg(userId, amount, txType, balance) {
       to: userId,
       balance,
     });
-  firestore()
+  await firestore()
     .collection('User')
     .doc(userId)
     .update({
-      tokenAmount: balance + amount,
+      tokenAmount: Math.round((balance + amount) * 10) / 10,
     });
 }
 
@@ -67,6 +67,6 @@ export async function createEarnOffTxLog(userId, amount, txType, balance) {
       createdAt: firestore.FieldValue.serverTimestamp(),
       from: 'serverId',
       to: userId,
-      balance,
+      balance: Math.round(balance * 10) / 10,
     });
 }

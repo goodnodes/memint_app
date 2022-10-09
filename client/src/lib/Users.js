@@ -20,6 +20,7 @@ export function createUser({
   // const newGender = gender ? gender : '';
   // const newBirth = birth ? birth : '';
   // const newPicture = picture ? picture : '';
+
   return usersCollection.doc(userId).set({
     userId,
     email: email,
@@ -261,8 +262,11 @@ export async function calculateCharm(userId, emotion) {
     newCharm = feedback;
   } else {
     newCharm =
-      (meminStats.charm * meminStats.receivedFeedbackCount + feedback) /
-      (meminStats.receivedFeedbackCount + 1);
+      Math.round(
+        ((meminStats.charm * meminStats.receivedFeedbackCount + feedback) /
+          (meminStats.receivedFeedbackCount + 1)) *
+          10,
+      ) / 10;
   }
 
   // 매력 지수에 따른 등급 조정

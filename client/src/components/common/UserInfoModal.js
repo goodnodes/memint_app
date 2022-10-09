@@ -381,21 +381,23 @@ function UserInfoModal({
           spendingModalVisible={spendingModalVisible}
           setSpendingModalVisible={setSpendingModalVisible}
           pFunction={() => {
+            console.log(5 / owner.meminStats.HumanElement);
             setSpendingModalVisible(false);
             addVisibleUser(owner.id, userId)
               .then(() => {
                 saveInfo({
                   ...owner,
                   visibleUser: [...owner.visibleUser, userId],
-                  tokenAmount:
-                    owner.tokenAmount - 1 / owner.meminStats.HumanElement,
+                  // tokenAmount:
+                  //   owner.tokenAmount -
+                  //   Math.round((5 / owner.meminStats.HumanElement) * 10) / 10,
                 });
               })
               .then(() => {
                 console.log(owner);
               });
           }}
-          amount={(5 / owner.meminStats.HumanElement).toFixed(1)} // Human Element에 용감함 지수 곱해주는 로직 추가해줘야함
+          amount={Math.round((5 / owner.meminStats.HumanElement) * 10) / 10} // Human Element에 용감함 지수 곱해주는 로직 추가해줘야함
           txType="프로필 조회"
         />
       </Modal>

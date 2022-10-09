@@ -30,10 +30,11 @@ function EarnModal({
   //earn 모달로 바뀌면서 이함수 수정 필요(은민)
 
   const transactionMade = () => {
-    //사용자의 TokenAmount 양 바꿈 (redux 정보 바꿈)
-    increaseBy(amount);
     //TokenLog 생성
-    createEarnOffTxLg(user.id, amount, txType, user.tokenAmount); //확인필요!!!(은민)
+    createEarnOffTxLg(user.id, amount, txType, user.tokenAmount).then(() => {
+      //사용자의 TokenAmount 양 바꿈 (redux 정보 바꿈)
+      increaseBy(Math.round((user.tokenAmount + amount) * 10) / 10);
+    }); //확인필요!!!(은민)
     //token 변화 firebase에 저장
     setEarnModalVisible(false);
   };

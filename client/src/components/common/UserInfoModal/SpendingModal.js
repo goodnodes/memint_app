@@ -31,6 +31,7 @@ function SpendingModal({
 
   // DB에 있는 토큰양과 sync가 맞는지 확인
   useEffect(() => {
+    console.log(user);
     getBalance(user.id);
   }, []);
   const getBalance = async userId => {
@@ -49,10 +50,15 @@ function SpendingModal({
     //   return Alert.alert('잔액 오류');
     // }
 
-    //사용자의 TokenAmount 양 바꿈 (redux 정보 바꿈)
-    decreaseBy(amount);
+    // saveInfo({
+    //   ...user,
+    //   tokenAmount: Math.round((user.tokenAmount - amount) * 10) / 10,
+    // });
     //TokenLog 생성 & Token 변화 firebase에 저장
-    createSpendOffTxLg(user.id, amount, txType, user.tokenAmount);
+    createSpendOffTxLg(user.id, amount, txType, user.tokenAmount).then(() => {
+      //사용자의 TokenAmount 양 바꿈 (redux 정보 바꿈)
+      decreaseBy(Math.round((user.tokenAmount - amount) * 10) / 10);
+    });
     // pFunction;
     setSpendingModalVisible(false);
 
@@ -86,7 +92,7 @@ function SpendingModal({
                   <View style={styles.calcText}>
                     <Text style={styles.boldText}>차감 후 TING</Text>
                     <Text style={styles.boldText}>
-                      {user.tokenAmount - amount}개
+                      {Math.round((user.tokenAmount - amount) * 10) / 10}개
                     </Text>
                   </View>
                 ) : null

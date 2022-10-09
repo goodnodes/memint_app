@@ -210,7 +210,6 @@ function MyMainPage({navigation}) {
                     chargeEnergy(userInfo, meminStats.fullEnergy).then(num => {
                       saveInfo({
                         ...userInfo,
-                        tokenAmount: userInfo.tokenAmount - 1,
                         meminStats: {
                           ...userInfo.meminStats,
                           energy: userInfo.meminStats.energy + num,
