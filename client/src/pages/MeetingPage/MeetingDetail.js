@@ -116,7 +116,13 @@ function MeetingDetail({route}) {
           // onPress={() => {
           //   setModalVisible_1(true);
           // }}
-          onPress={handleRequestMeeting}
+          onPress={() => {
+            if (userInfo.meminStats.energy < 15) {
+              showToast('error', '에너지가 부족합니다.');
+              return;
+            }
+            handleRequestMeeting();
+          }}
         />
       );
     }
@@ -293,7 +299,9 @@ function MeetingDetail({route}) {
           modalVisible={modalVisible_2}
           setModalVisible={setModalVisible_2}
           nFunction={() => setModalVisible_2(!modalVisible_2)}
-          pFunction={handleCreateProposal}
+          pFunction={() => {
+            handleCreateProposal();
+          }}
         />
         <ActivationModal
           text="Activation Code가 필요합니다."

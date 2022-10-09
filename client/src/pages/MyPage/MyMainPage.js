@@ -118,7 +118,8 @@ function MyMainPage({navigation}) {
   };
 
   const handleMyEgg = () => {
-    setModalVisible(true);
+    showToast('basic', 'Coming Soon');
+    // setModalVisible(true);
   };
 
   // useEffect(() => {
@@ -243,11 +244,12 @@ function MyMainPage({navigation}) {
               <TouchableOpacity onPress={handleMyEgg} style={styles.eggView}>
                 <Image source={dinoegg} style={styles.bigEggImage} />
               </TouchableOpacity>
-              <MyEggModal
+              {/* 기능 구현 되면 재개 */}
+              {/* <MyEggModal
                 buttonText="네"
                 modalVisible={modalVisible}
                 setModalVisible={setModalVisible}
-              />
+              /> */}
             </View>
             <Text style={styles.nickName}>{userInfo?.nickName}</Text>
             <View style={styles.characterDes}>
@@ -296,28 +298,33 @@ function MyMainPage({navigation}) {
               </View>
               <View style={styles.status}>
                 <Image source={eggS} style={styles.eggImage} />
-                <Progress.Bar
-                  width={width * 0.8}
-                  height={16}
-                  progress={0.5}
-                  color={'#2ACFC2'}
-                  unfilledColor={'#EDEEF6'}
-                  borderRadius={999}
-                  style={styles.progressBar}>
-                  <Text style={styles.statusText}>50 / 100</Text>
-                </Progress.Bar>
+                {userInfo && (
+                  <Progress.Bar
+                    width={width * 0.8}
+                    height={16}
+                    progress={userInfo.meminStats.HumanElement / 10}
+                    color={'#2ACFC2'}
+                    unfilledColor={'#EDEEF6'}
+                    borderRadius={999}
+                    style={styles.progressBar}>
+                    <Text
+                      style={
+                        styles.statusText
+                      }>{`${userInfo.meminStats.HumanElement} / 10`}</Text>
+                  </Progress.Bar>
+                )}
               </View>
               <View style={styles.status}>
                 <Image source={eggD} style={styles.eggImage} />
                 <Progress.Bar
                   width={width * 0.8}
                   height={16}
-                  progress={0.5}
+                  progress={0}
                   color={'#4E00F5'}
                   unfilledColor={'#EDEEF6'}
                   borderRadius={999}
                   style={styles.progressBar}>
-                  <Text style={styles.statusText}>{50} / 100</Text>
+                  <Text style={styles.statusText}>{0} / 10</Text>
                 </Progress.Bar>
               </View>
               <View style={styles.status}>
@@ -325,12 +332,12 @@ function MyMainPage({navigation}) {
                 <Progress.Bar
                   width={width * 0.8}
                   height={16}
-                  progress={0.5}
+                  progress={0}
                   color={'#CFAB2A'}
                   unfilledColor={'#EDEEF6'}
                   borderRadius={999}
                   style={styles.progressBar}>
-                  <Text style={styles.statusText}>50 / 100</Text>
+                  <Text style={styles.statusText}>{0} / 10</Text>
                 </Progress.Bar>
               </View>
             </View>
