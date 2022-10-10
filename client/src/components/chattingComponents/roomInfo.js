@@ -109,7 +109,8 @@ function RoomInfo({chatInfo, userDetail, setModalVisible}) {
           </Pressable>
           <Pressable
             onPress={() => {
-              if (meetingStatus === 'end') {
+              // if (meetingStatus === 'end') {
+              if (meetingStatus === 'confirmed') {
                 addFeedbackDoc(user.id, chatInfo.id, userInfo).then(result => {
                   if (result === 'qualified') {
                     navigation.navigate('FeedbackChoicePage', {
@@ -121,7 +122,7 @@ function RoomInfo({chatInfo, userDetail, setModalVisible}) {
                   }
                 });
               } else {
-                showToast('error', '미팅이 끝난 후 후기 작성이 가능합니다.');
+                showToast('error', '미팅 인증 후 후기 작성이 가능합니다.');
               }
             }}
             style={{marginTop: 20, flexDirection: 'row', alignItems: 'center'}}>

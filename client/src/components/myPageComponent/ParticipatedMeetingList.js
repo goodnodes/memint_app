@@ -123,7 +123,8 @@ function ParticipatedMeetings({item, getJoinedRoom}) {
     //       <Text style={styles.buttonText}>참여 보상받기</Text>
     //     </TouchableOpacity>
     //   );
-    if (item?.status === 'end') {
+    // if (item?.status === 'end') {
+    if (item?.status === 'confirmed') {
       return <Text style={styles.finishText}>종료된 미팅</Text>;
     }
   };

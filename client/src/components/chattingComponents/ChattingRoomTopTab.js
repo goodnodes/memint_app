@@ -29,7 +29,7 @@ function ChattingRoomTopTab({data}) {
     else if (roomStatus === 'full') setRoomStatus('모집완료');
     else if (roomStatus === 'fixed') setRoomStatus('확정');
     else if (roomStatus === 'confirmed') setRoomStatus('현장확인');
-    else if (roomStatus === 'end') setRoomStatus('미팅종료');
+    // else if (roomStatus === 'end') setRoomStatus('미팅종료');
   }, [roomStatus]);
 
   return (

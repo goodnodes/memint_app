@@ -207,7 +207,7 @@ function NotMyChat({item, userDetail, setUserInfoModalVisible, setUserId}) {
   const [userImg, setUserImg] = useState('');
 
   useEffect(() => {
-    console.log(item.createdAt);
+    // console.log(item.createdAt);
     if (userDetail[item.sender]) {
       const path =
         Platform.OS === 'android'

@@ -164,22 +164,22 @@ function MeetingSet({route}) {
   };
 
   // 미팅의 상태가
-  const setMeetingEnd = async () => {
-    if (route.params.meetingStatus === 'confirmed') {
-      return await firestore()
-        .collection('Meeting')
-        .doc(meetingInfo.id)
-        .update({status: 'end'})
-        .then(() => {
-          showToast('success', '미팅이 종료되었습니다.');
-          navigation.pop();
-        });
-    } else if (meetingInfo.status === 'end') {
-      return showToast('error', '이미 종료된 미팅입니다.');
-    } else {
-      return showToast('error', '미팅 인증을 받은 후 종료 가능합니다.');
-    }
-  };
+  // const setMeetingEnd = async () => {
+  //   if (route.params.meetingStatus === 'confirmed') {
+  //     return await firestore()
+  //       .collection('Meeting')
+  //       .doc(meetingInfo.id)
+  //       .update({status: 'end'})
+  //       .then(() => {
+  //         showToast('success', '미팅이 종료되었습니다.');
+  //         navigation.pop();
+  //       });
+  //   } else if (meetingInfo.status === 'end') {
+  //     return showToast('error', '이미 종료된 미팅입니다.');
+  //   } else {
+  //     return showToast('error', '미팅 인증을 받은 후 종료 가능합니다.');
+  //   }
+  // };
 
   const renderByUser = () => {
     if (route.params.meetingInfo.hostId === userInfo.id) {
@@ -211,9 +211,9 @@ function MeetingSet({route}) {
                   <Icon name="arrow-forward-ios" size={15} color={'#ffffff'} />
                 </TouchableOpacity>
               ) : null}
-              <TouchableOpacity style={styles.li} onPress={setMeetingEnd}>
+              {/* <TouchableOpacity style={styles.li} onPress={setMeetingEnd}>
                 <Text style={[styles.liText]}>미팅 끝내기</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
               <TouchableOpacity
                 style={styles.li}
                 onPress={() => {

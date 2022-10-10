@@ -55,15 +55,15 @@ function MyMainPage({navigation}) {
 
   useEffect(() => {
     if (userInfo) {
-      console.log(userInfo);
+      // console.log(userInfo);
       if (
         Number(userInfo.meminStats.energyRechargeTime) + 86400 <=
         Number(String(Date.now()).slice(0, 10))
       ) {
-        console.log('hi');
-        rechargeEnergy(userInfo, Number(String(Date.now()).slice(0, 10))).then(
-          amount => {
-            console.log(amount);
+        // console.log('hi');
+        rechargeEnergy(userInfo, Number(String(Date.now()).slice(0, 10)))
+          .then(amount => {
+            // console.log('amount: ' + amount);
             saveInfo({
               ...userInfo,
               meminStats: {
@@ -72,8 +72,11 @@ function MyMainPage({navigation}) {
                 energyRechargeTime: Number(String(Date.now()).slice(0, 10)),
               },
             });
-          },
-        );
+            return amount;
+          })
+          .then(amount => {
+            showToast('success', `${amount} 에너지가 충전되었습니다!`);
+          });
       }
       setMeminStats(userInfo.meminStats);
       getDino(userInfo.meminStats, setMeminStats);
@@ -97,7 +100,7 @@ function MyMainPage({navigation}) {
       setRechargeCheck(true);
     }
     if (meminStats) {
-      console.log('good');
+      // console.log('good');
     }
   }, [userInfo]);
   const {top} = useSafeAreaInsets();
