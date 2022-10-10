@@ -167,7 +167,13 @@ function UserInfoModal({
                             direction="counter-clockwise"
                           />
                           <Image source={likespink} style={styles.gradeImage} />
-                          <Text style={styles.gradeText}>
+                          <Text
+                            style={[
+                              styles.gradeText,
+                              user && user.meminStats?.grade.length > 1
+                                ? styles.gradeTextNew
+                                : null,
+                            ]}>
                             {user.meminStats?.grade}
                           </Text>
                         </View>
@@ -610,7 +616,7 @@ const styles = StyleSheet.create({
     height: 20.33,
     position: 'absolute',
     top: 10.5,
-    left: 24.9,
+    left: 21.8,
   },
   gradeText: {
     color: '#C15D5D',
@@ -620,15 +626,17 @@ const styles = StyleSheet.create({
     fontFamily: 'Silkscreen',
     position: 'absolute',
     top: 16.5,
-    left: 33.7,
+    left: 30.7,
   },
   levelRow: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: 12,
   },
   smallProgressCircle: {
-    marginLeft: 16,
+    marginLeft: 12,
+  },
+  gradeTextNew: {
+    left: 20,
   },
 });
 export default UserInfoModal;

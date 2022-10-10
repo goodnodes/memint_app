@@ -161,7 +161,13 @@ function Joiner({nickName, state, img, isHost, id, setModalVisible, chatInfo}) {
   return (
     <View style={styles.person}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <Image style={styles.personImage} source={{uri: img}} />
+        <Image
+          style={[
+            styles.personImage,
+            isHost ? {borderColor: '#33ED96', borderWidth: 1} : null,
+          ]}
+          source={{uri: img}}
+        />
 
         <Text style={styles.personName}>{nickName}</Text>
         {isHost && (
@@ -241,8 +247,6 @@ const styles = StyleSheet.create({
     height: 30,
     width: 30,
     borderRadius: 30,
-    borderWidth: 1,
-    borderColor: '#58FF7D',
   },
   personName: {
     fontSize: 18,

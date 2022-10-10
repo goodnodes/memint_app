@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
+import {navigate, navigationRef} from './RootNavigation';
 import {Provider} from 'react-redux';
 // import {createStore} from 'redux';
 // import {configureStore} from 'redux';
@@ -48,6 +49,7 @@ import Report from './pages/ChattingPage/Report';
 import MeetingConfirm from './pages/ChattingPage/MeetingConfirm';
 import firestore from '@react-native-firebase/firestore';
 import messaging from '@react-native-firebase/messaging';
+import notifee, {AndroidImportance} from '@notifee/react-native';
 import {useToast} from './utils/hooks/useToast';
 import MySettings from './pages/MyPage/MySettings';
 import DeleteUser from './pages/MyPage/DeleteUser';
@@ -65,6 +67,7 @@ function App() {
   const {saveNFT, setMemin} = useNftActions();
   const {saveMeeting} = useMeetingActions();
   const [initialRouteName, setInitialRouteName] = useState('SignIn');
+  const [alarm, setAlarm] = useState('');
   const {addKlayLog, addLcnLog} = useOnchainActions();
   const saveUserInfo = async user => {
     try {
@@ -104,38 +107,6 @@ function App() {
       saveNFT(nfts);
 
       setMemin(...getMemin(nfts));
-      // const createdrooms = await Promise.all(
-      //   userDetail.createdroomId.map(async el => {
-      //     const meetingInfo = await getMeeting(el);
-      //     const hostInfo = await getUser(meetingInfo.hostId);
-      //     return {
-      //       id: meetingInfo.id,
-      //       ...meetingInfo.data(),
-      //       hostInfo: {...hostInfo},
-      //     };
-      //   }),
-      // );
-      // const joinedrooms = await Promise.all(
-      //   userDetail.joinedroomId.map(async el => {
-      //     const meetingInfo = await getMeeting(el);
-      //     const hostInfo = await getUser(meetingInfo.hostId);
-      //     return {
-      //       id: meetingInfo.id,
-      //       ...meetingInfo.data(),
-      //       hostInfo: {...hostInfo},
-      //     };
-      //   }),
-      // );
-      // saveMeeting({
-      //   createdrooms: createdrooms.sort(
-      //     (a, b) => b.createdAt.toDate() - a.createdAt.toDate(),
-      //   ),
-      //   joinedrooms: joinedrooms.sort(
-      //     (a, b) => b.createdAt.toDate() - a.createdAt.toDate(),
-      //   ),
-      // });
-
-      // saveMeeting(meetingRes);
 
       saveInfo({
         ...userState,
@@ -249,6 +220,14 @@ function App() {
           });
         });
 
+        messaging().onNotificationOpenedApp(remoteMessage => {
+          if (remoteMessage.notification.title === 'MEMINT') {
+            navigate('alarm');
+          } else {
+            navigate('ChattingListPage');
+          }
+        });
+
         saveUserInfo(user);
         setInitialRouteName('Main');
       } else {
@@ -264,19 +243,42 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // useEffect(() => {
-  //   //get the device token
-  //   messaging()
-  //     .getToken()
-  //     .then(token => {
-  //       return saveTokenToDatabase(token);
-  //     });
+  //displaying push notification in foreground
+  const handleNotification = async message => {
+    const channelAnoucement = await notifee.createChannel({
+      id: 'default',
+      name: 'memint',
+      importance: AndroidImportance.HIGH,
+    });
 
-  //     //listen to whether the token changes
-  //   return messaging().onTokenRefresh(token => {
-  //     saveTokenToDatabase(token);
-  //   });
-  // },[]);
+    await notifee.displayNotification({
+      title: message.notification.title,
+      body: message.notification.body,
+      android: {
+        channelId: channelAnoucement,
+        smallIcon: 'ic_launcher',
+      },
+    });
+  };
+
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      if (
+        navigationRef.current?.getCurrentRoute().name === 'ChattingRoom' ||
+        navigationRef.current?.getCurrentRoute().name === 'ChattingListPage'
+      ) {
+        if (remoteMessage.notification.title !== 'MEMINT') {
+          return;
+        } else {
+          handleNotification(remoteMessage);
+        }
+      } else {
+        handleNotification(remoteMessage);
+      }
+    });
+
+    return unsubscribe;
+  }, []);
 
   if (initializing) {
     return null;
@@ -289,7 +291,7 @@ function App() {
   // }
   return (
     <SafeAreaProvider>
-      <NavigationContainer>
+      <NavigationContainer ref={navigationRef}>
         <ToastProvider>
           <ChatContextProvider>
             <Stack.Navigator initialRouteName={initialRouteName}>
@@ -357,6 +359,7 @@ function App() {
                 name="Main"
                 component={Main}
                 options={{headerShown: false}}
+                initialParams={{alarm}}
               />
 
               <Stack.Screen

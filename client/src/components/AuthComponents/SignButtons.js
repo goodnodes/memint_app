@@ -1,5 +1,12 @@
 import React from 'react';
-import {Dimensions, StyleSheet, Text, View} from 'react-native';
+import {
+  Dimensions,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableNativeFeedback,
+  View,
+} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import BasicButton from '../common/BasicButton';
 
@@ -8,29 +15,40 @@ const {width} = Dimensions.get('screen');
 const SignButtons = ({onSubmitSignIn, onSubmitSignUp}) => {
   return (
     <View style={styles.buttons}>
-      {/* <BasicButton
-        style={styles.button}
-        width={150}
-        height={42}
-        textSize={15}
-        margin={[5, 5, 5, 5]}
-        text="로그인"
-        hasMarginBottom
-        onPress={onSubmitSignIn}
-        // onPress={onPressLogin}
-      /> */}
-      <TouchableOpacity onPress={onSubmitSignIn} style={styles.buttonWrapper}>
-        <View style={styles.button}>
-          <Text style={styles.buttonText}>로그인</Text>
+      {Platform.OS === 'ios' ? (
+        <TouchableOpacity onPress={onSubmitSignIn} style={styles.buttonWrapper}>
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>로그인</Text>
+          </View>
+        </TouchableOpacity>
+      ) : (
+        <View style={styles.buttonWrapper}>
+          <TouchableNativeFeedback onPress={onSubmitSignIn}>
+            <View style={styles.button}>
+              <Text style={styles.buttonText}>로그인</Text>
+            </View>
+          </TouchableNativeFeedback>
         </View>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={onSubmitSignUp} style={styles.buttonWrapper}>
-        <View style={[styles.button, styles.buttonSignup]}>
-          <Text style={[styles.buttonText, styles.buttonTextSignup]}>
-            회원가입
-          </Text>
+      )}
+      {Platform.OS === 'ios' ? (
+        <TouchableOpacity onPress={onSubmitSignUp} style={styles.buttonWrapper}>
+          <View style={[styles.button, styles.buttonSignup]}>
+            <Text style={[styles.buttonText, styles.buttonTextSignup]}>
+              회원가입
+            </Text>
+          </View>
+        </TouchableOpacity>
+      ) : (
+        <View style={styles.buttonWrapper}>
+          <TouchableNativeFeedback onPress={onSubmitSignUp}>
+            <View style={[styles.button, styles.buttonSignup]}>
+              <Text style={[styles.buttonText, styles.buttonTextSignup]}>
+                회원가입
+              </Text>
+            </View>
+          </TouchableNativeFeedback>
         </View>
-      </TouchableOpacity>
+      )}
     </View>
   );
 };

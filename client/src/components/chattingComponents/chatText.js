@@ -185,7 +185,7 @@ function ChatText({data, roomInfo, userDetail, setRoomInfo}) {
         userId={userId}
         visible={checkIsVisible(userId)}
       />
-      <AddChat chatId={data.id} />
+      <AddChat chatId={data.id} roomInfo={data} />
       {roomInfo && (
         <Pressable
           style={{

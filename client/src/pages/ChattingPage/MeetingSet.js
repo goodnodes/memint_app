@@ -314,27 +314,65 @@ function MeetingSet({route}) {
     } else {
       return (
         <>
-          <TouchableOpacity style={styles.li} onPress={handleNavigateToReport}>
-            <Text style={styles.liText}>신고하기</Text>
-            <Icon name="arrow-forward-ios" size={15} color={'#ffffff'} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.li}
-            onPress={() => {
-              if (
-                Object.values(
-                  meetingInfo.members.filter(el => {
-                    return Object.keys(el)[0] === userInfo.id;
-                  })[0],
-                )[0] !== 'accepted'
-              ) {
-                showToast('error', '미팅 확정 이후에는 나갈 수 없습니다');
-                return;
-              }
-              setOutModal(true);
-            }}>
-            <Text style={[styles.liText, styles.deleteText]}>미팅 나가기</Text>
-          </TouchableOpacity>
+          {Platform.OS === 'ios' ? (
+            <>
+              <TouchableOpacity
+                style={styles.li}
+                onPress={handleNavigateToReport}>
+                <Text style={styles.liText}>신고하기</Text>
+                <Icon name="arrow-forward-ios" size={15} color={'#ffffff'} />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.li}
+                onPress={() => {
+                  if (
+                    Object.values(
+                      meetingInfo.members.filter(el => {
+                        return Object.keys(el)[0] === userInfo.id;
+                      })[0],
+                    )[0] !== 'accepted'
+                  ) {
+                    showToast('error', '미팅 확정 이후에는 나갈 수 없습니다');
+                    return;
+                  }
+                  setOutModal(true);
+                }}>
+                <Text style={[styles.liText, styles.deleteText]}>
+                  미팅 나가기
+                </Text>
+              </TouchableOpacity>
+            </>
+          ) : (
+            <>
+              <TouchableNativeFeedback onPress={handleNavigateToReport}>
+                <View style={styles.li}>
+                  <Text style={styles.liText}>신고하기</Text>
+                  <Icon name="arrow-forward-ios" size={15} color={'#ffffff'} />
+                </View>
+              </TouchableNativeFeedback>
+              <TouchableNativeFeedback
+                onPress={() => {
+                  if (
+                    Object.values(
+                      meetingInfo.members.filter(el => {
+                        return Object.keys(el)[0] === userInfo.id;
+                      })[0],
+                    )[0] !== 'accepted'
+                  ) {
+                    showToast('error', '미팅 확정 이후에는 나갈 수 없습니다');
+                    return;
+                  }
+                  setOutModal(true);
+                }}>
+                <View style={styles.li}>
+                  <Text style={[styles.liText, styles.deleteText]}>
+                    미팅 나가기
+                  </Text>
+                </View>
+              </TouchableNativeFeedback>
+            </>
+          )}
+
           <DoubleModal
             text="미팅방에서 나가시겠습니까?"
             nButtonText="아니오"

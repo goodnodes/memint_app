@@ -7,13 +7,10 @@ import {
   TouchableOpacity,
   Image,
   Dimensions,
-} from 'react-native';
-import {
   ScrollView,
-  TouchableWithoutFeedback,
-} from 'react-native-gesture-handler';
+} from 'react-native';
 
-import DoubleModal from '../../components/common/DoubleModal';
+// import DoubleModal from '../../components/common/DoubleModal';
 import {changeJoinerToConfirmed, getMeeting} from '../../lib/Meeting';
 import {getUser} from '../../lib/Users';
 import {handleDateInFormat} from '../../utils/common/Functions';
@@ -21,7 +18,7 @@ import {useMeeting} from '../../utils/hooks/UseMeeting';
 import useMeetingActions from '../../utils/hooks/UseMeetingActions';
 import {useToast} from '../../utils/hooks/useToast';
 import useUser from '../../utils/hooks/UseUser';
-import EarnModal from '../common/UserInfoModal/EarnModal';
+// import EarnModal from '../common/UserInfoModal/EarnModal';
 import MeetingLikes from '../meetingComponents/MeetingLikes';
 
 // function ParticipatedMeetingList({List}) {
@@ -101,10 +98,10 @@ function ParticipatedMeetingList({user}) {
 function ParticipatedMeetings({item, getJoinedRoom}) {
   const user = useUser();
   const navigation = useNavigation();
-  const [cancelModal, setCancelModal] = useState(false);
-  const [startModalVisible, setStartModalVisible] = useState(false);
-  const [earnModalVisible, setEarnModalVisible] = useState(false);
-  const {showToast} = useToast();
+  // const [cancelModal, setCancelModal] = useState(false);
+  // const [startModalVisible, setStartModalVisible] = useState(false);
+  // const [earnModalVisible, setEarnModalVisible] = useState(false);
+  // const {showToast} = useToast();
 
   const renderButton = () => {
     // if (
@@ -128,15 +125,15 @@ function ParticipatedMeetings({item, getJoinedRoom}) {
       return <Text style={styles.finishText}>종료된 미팅</Text>;
     }
   };
-  const handleStart = () => {
-    try {
-      changeJoinerToConfirmed(item.id, user.id);
-      showToast('success', '1TING이 지급되었습니다!');
-      getJoinedRoom();
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  // const handleStart = () => {
+  //   try {
+  //     changeJoinerToConfirmed(item.id, user.id);
+  //     showToast('success', '1TING이 지급되었습니다!');
+  //     getJoinedRoom();
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
   return (
     <>
       <TouchableOpacity
@@ -228,7 +225,7 @@ function ParticipatedMeetings({item, getJoinedRoom}) {
           )}
         </View> */}
         </View>
-        <DoubleModal
+        {/* <DoubleModal
           text="미팅 참여 보상을 받으시겠습니까?"
           nButtonText="아니오"
           pButtonText="네"
@@ -238,15 +235,15 @@ function ParticipatedMeetings({item, getJoinedRoom}) {
             setStartModalVisible(!startModalVisible);
             setEarnModalVisible(true);
           }}
-        />
-        <EarnModal
+        /> */}
+        {/* <EarnModal
           EarnModalVisible={earnModalVisible}
           setEarnModalVisible={setEarnModalVisible}
           amount={1}
           txType="미팅 참여"
           pFunction={handleStart}
-        />
-        <DoubleModal
+        /> */}
+        {/* <DoubleModal
           text="미팅 참가신청을 취소하시겠어요?"
           nButtonText="네"
           pButtonText="아니오"
@@ -256,7 +253,7 @@ function ParticipatedMeetings({item, getJoinedRoom}) {
             setCancelModal(false);
             showToast('success', '취소되었습니다');
           }}
-        />
+        /> */}
       </TouchableOpacity>
     </>
   );

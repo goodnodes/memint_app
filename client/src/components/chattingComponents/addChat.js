@@ -10,17 +10,39 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import ChatContext from './context/chatContext';
 import firestore from '@react-native-firebase/firestore';
 import useUser from '../../utils/hooks/UseUser';
+import {notification} from '../../lib/api/notification';
 
 // props로 채팅방의 아이디를 받아온다.
-function AddChat({chatId}) {
+function AddChat({chatId, roomInfo}) {
   const user = useUser().id;
+  const userNickname = useUser().nickName;
   const sendChat = async obj => {
     const chattingCollection = firestore()
       .collection('Meeting')
       .doc(chatId)
       .collection('Messages');
     const confirm = await chattingCollection.add(obj);
+    await sendNotification(obj);
+
     return confirm;
+  };
+
+  const sendNotification = obj => {
+    try {
+      for (let member of roomInfo.members) {
+        if (Object.keys(member)[0] === user) {
+          continue;
+        } else {
+          notification({
+            receiver: Object.keys(member)[0],
+            message: userNickname + ' : ' + obj.text,
+            title: roomInfo.title,
+          });
+        }
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   // TextInput에 담긴 값을 text라는 state로 저장한다.

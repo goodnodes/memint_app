@@ -298,7 +298,9 @@ function MyMainPage({navigation}) {
                   <Text
                     style={[
                       styles.gradeText,
-                      meminStats?.grade.length > 1 ? styles.gradeTextNew : null,
+                      meminStats && meminStats?.grade.length > 1
+                        ? styles.gradeTextNew
+                        : null,
                     ]}>
                     {meminStats?.grade}
                   </Text>
