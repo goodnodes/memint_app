@@ -159,6 +159,13 @@ export async function updateUserMeetingOut(id, field, value, nickName, status) {
     .update({[field]: firestore.FieldValue.arrayRemove(value)});
 }
 
+//update user meminStats
+export function updateMeminStats(userId, meminStats) {
+  return usersCollection.doc(userId).update({
+    meminStats,
+  });
+}
+
 //nickname으로 User 검색
 export async function getUserByNickname(str, loginUser) {
   const strlength = str.length;

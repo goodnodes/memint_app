@@ -128,13 +128,13 @@ export const deleteMeeting = meetingId => {
 };
 
 //보상받기
-export const changeJoinerToConfirmed = async (meetingId, userId) => {
+export const changeJoinerToTokenReceived = async (meetingId, userId) => {
   return await meetingCollection
     .doc(meetingId)
     .get()
     .then(result => {
       return result.data().members.map(el => {
-        return el[userId] ? {[userId]: 'confirmed'} : el;
+        return el[userId] ? {[userId]: 'tokenReceived'} : el;
       });
     })
     .then(result => {

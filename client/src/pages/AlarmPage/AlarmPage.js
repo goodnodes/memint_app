@@ -115,7 +115,14 @@ function AlarmPage({navigation}) {
             data={alarms}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({item}) => {
-              return <AlarmElement alarm={item} />;
+              return (
+                <AlarmElement
+                  alarm={item}
+                  getAlarmPage={getAlarmPage}
+                  alarms={alarms}
+                  setAlarms={setAlarms}
+                />
+              );
             }}
             refreshControl={
               <RefreshControl

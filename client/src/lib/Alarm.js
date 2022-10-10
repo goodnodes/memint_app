@@ -9,7 +9,7 @@ export const getAlarmsById = async userId => {
   const res = await userCollection.doc(userId).collection('Alarm').get();
 
   return res.docs.map(el => {
-    return el.data();
+    return {id: el.id, ...el.data()};
   });
 };
 
@@ -125,6 +125,10 @@ export const createConfirmAlarm = async data => {
 // };
 
 //delete
-// export const deleteAlarm = alarmId => {
-//   return alarmCollection.doc(alarmId).delete();
-// };
+export const deleteAlarm = async (userId, alarmId) => {
+  return await userCollection
+    .doc(userId)
+    .collection('Alarm')
+    .doc(alarmId)
+    .delete();
+};
