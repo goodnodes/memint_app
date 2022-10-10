@@ -190,6 +190,10 @@ function MeetingSet({route}) {
               <TouchableOpacity
                 style={styles.li}
                 onPress={() => {
+                  if (meetingInfo.status === 'confirmed') {
+                    showToast('error', '미팅 인증 이후에는 변경할 수 없습니다');
+                    return;
+                  }
                   setEditModal(true);
                 }}>
                 <Text style={styles.liText}>미팅 정보 변경하기</Text>

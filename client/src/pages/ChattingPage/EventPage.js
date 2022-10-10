@@ -105,7 +105,7 @@ const EventPage = ({route}) => {
           <Text style={styles.eventNotiTitle}>
             🦖미민크루🦖 이벤트 당첨자 안내 사항!
           </Text>
-          <Text>
+          <Text style={styles.eventNotiText}>
             미민크루 이벤트는 미민트 스탭이 여러분의 술 자리에 나타나 깜짝
             선물을 증정하는 이벤트입니다.{'\n'}미민크루의 선물을 받고 싶다면
             Memint 카카오 채널로 다음의 사항을 보내주세요. 최대한 빨리
@@ -421,18 +421,24 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 15,
     marginVertical: 20,
+    color: '#1D1E1E',
   },
   eventNotiDesc: {
     marginVertical: 20,
     fontSize: 15,
     lineHeight: 21,
     fontWeight: '400',
+    color: '#1D1E1E',
+  },
+  eventNotiText: {
+    color: '#1D1E1E',
   },
   meetingTitle: {
     // fontFamily: 'Roboto',
     fontStyle: 'normal',
     fontWeight: '600',
     fontSize: 16,
+    color: '#1D1E1E',
     // lineHeight: 140,
     // marginTop: 5,
   },
@@ -449,6 +455,7 @@ const styles = StyleSheet.create({
   },
   eventResult: {
     marginTop: 2,
+    color: '#1D1E1E',
   },
   popperArea: {alignItems: 'center'},
   bombArea: {alignItems: 'center', marginTop: 70},
