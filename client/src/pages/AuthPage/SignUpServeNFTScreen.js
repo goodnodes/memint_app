@@ -76,7 +76,7 @@ const SignUpServeNFTScreen = ({navigation}) => {
   //   console.log(profileImg);
 
   const onSubmit = async () => {
-    navigation.push('Main');
+    navigation.push('SignIn');
   };
 
   const spinValue = new Animated.Value(0);
