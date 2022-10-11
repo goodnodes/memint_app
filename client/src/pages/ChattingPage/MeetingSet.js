@@ -118,7 +118,7 @@ function MeetingSet({route}) {
         // });
         showToast('success', '미팅이 삭제되었습니다.');
         setDeleteModalVisible(!deleteModalVisible);
-        navigation.navigate('meeting');
+        navigation.navigate('ChattingListPage');
       })
       .catch(e => {
         console.log(e);

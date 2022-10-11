@@ -1,19 +1,13 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  Dimensions,
-} from 'react-native';
-import {
-  GestureHandlerRootView,
-  RectButton,
-  Swipeable,
-} from 'react-native-gesture-handler';
-import Animated, {set} from 'react-native-reanimated';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+// import {
+//   GestureHandlerRootView,
+//   RectButton,
+//   Swipeable,
+// } from 'react-native-gesture-handler';
+// import Animated, {set} from 'react-native-reanimated';
+// import Icon from 'react-native-vector-icons/MaterialIcons';
 import {deleteAlarm} from '../../lib/Alarm';
 import {changeJoinerToTokenReceived} from '../../lib/Meeting';
 import {updateMeminStats} from '../../lib/Users';
@@ -113,126 +107,124 @@ function AlarmElement({alarm, getAlarmPage, alarms, setAlarms}) {
     setAlarms(alarms.filter(el => el.id !== alarm.id));
   };
 
-  const renderRightActions = (progress, dragX) => {
-    // const trans = dragX.interpolate({
-    //   inputRange: [0, 50, 100, 101],
-    //   outputRange: [-20, 0, 0, 1],
-    // });
-    return (
-      <RectButton
-        style={{
-          // flex: 1,
-          width: 80,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-        onPress={handleDelete}>
-        {/* <Animated.Text
-          style={[
-            {
-              color: 'black',
-              fontSize: 16,
-              transform: [{translateX: trans}],
-            },
-          ]}>
-          Swiped!!
-        </Animated.Text> */}
-        <Icon
-          name={'delete-outline'}
-          size={30}
-          color={'rgba(241, 255, 245, 0.9)'}
-        />
-        {/* <Text>삭제</Text> */}
-      </RectButton>
-    );
-  };
+  // const renderRightActions = (progress, dragX) => {
+  //   // const trans = dragX.interpolate({
+  //   //   inputRange: [0, 50, 100, 101],
+  //   //   outputRange: [-20, 0, 0, 1],
+  //   // });
+  //   return (
+  //     <RectButton
+  //       style={{
+  //         // flex: 1,
+  //         width: 80,
+  //         justifyContent: 'center',
+  //         alignItems: 'center',
+  //       }}
+  //       onPress={handleDelete}>
+  //       {/* <Animated.Text
+  //         style={[
+  //           {
+  //             color: 'black',
+  //             fontSize: 16,
+  //             transform: [{translateX: trans}],
+  //           },
+  //         ]}>
+  //         Swiped!!
+  //       </Animated.Text> */}
+  //       <Icon
+  //         name={'delete-outline'}
+  //         size={30}
+  //         color={'rgba(241, 255, 245, 0.9)'}
+  //       />
+  //       {/* <Text>삭제</Text> */}
+  //     </RectButton>
+  //   );
+  // };
 
   return (
-    <GestureHandlerRootView>
-      <Swipeable renderRightActions={renderRightActions}>
-        <TouchableOpacity style={styles.container} onPress={handleClick}>
-          <DoubleModal
-            text="채팅창으로 이동하시겠습니까?"
-            //body={<Text>정말로?</Text>}
-            nButtonText="아니요"
-            pButtonText="네"
-            modalVisible={chattingConfirmModal}
-            setModalVisible={setChattingConfirmModal}
-            pFunction={() => {
-              setChattingConfirmModal(!chattingConfirmModal);
-              navigation.navigate('ChattingListPage');
-              setTimeout(() => {
-                navigation.navigate('ChattingRoom', {data: alarm.meetingInfo});
-              }, 800);
-              // navigation.navigate('ChattingRoom', {data: alarm.meetingInfo});
-            }}
-            nFunction={() => {
-              setChattingConfirmModal(!chattingConfirmModal);
-            }}
-          />
-          <DoubleModal
-            text="미팅 참여 보상을 받으시겠습니까?"
-            //body={<Text>정말로?</Text>}
-            nButtonText="아니요"
-            pButtonText="네"
-            modalVisible={earnAskingModal}
-            setModalVisible={setEarnAskingModal}
-            pFunction={() => {
-              setEarnAskingModal(!earnAskingModal);
-              setEarnModalVisible(true);
-            }}
-            nFunction={() => {
-              setEarnAskingModal(!earnAskingModal);
-            }}
-          />
-          <EarnModal
-            EarnModalVisible={earnModalVisible}
-            setEarnModalVisible={setEarnModalVisible}
-            pFunction={handleTokenReceive}
-            amount={user.meminStats.HumanElement / 10} // 나중에 근면함 점수 곱해서 넣어줘야함
-            txType="피드백 작성"
-          />
-          <View style={styles.content}>
-            <View style={styles.messageHead}>
-              <Text style={styles.message}>{renderByType()}</Text>
-              <Text style={styles.createdAt}>
-                {handleDateFromNow(alarm.createdAt)}
-              </Text>
-            </View>
-            <View style={styles.meetingArea}>
-              {alarm.meetingInfo ? (
-                <>
-                  <Text style={styles.meetingTitle}>
-                    {alarm.meetingInfo.title}
-                  </Text>
-                  <View style={styles.meetingInfo}>
-                    <Text style={styles.meetingElement}>
-                      {alarm.meetingInfo.region}
-                    </Text>
-                    <View style={styles.bar} />
-                    <Text style={styles.meetingElement}>
-                      {alarm.meetingInfo.peopleNum +
-                        ':' +
-                        alarm.meetingInfo.peopleNum}
-                    </Text>
-                    <View style={styles.bar} />
-                    <Text style={styles.meetingElement}>
-                      {handleBirth(alarm.meetingInfo.hostInfo.birth)}
-                    </Text>
-                    <View style={styles.bar} />
-                    <Text style={styles.meetingElement}>
-                      {handleDateInFormat(alarm.meetingInfo.meetDate)}
-                    </Text>
-                  </View>
-                </>
-              ) : (
-                <Text style={styles.deleteText}>삭제된 미팅입니다</Text>
-              )}
-            </View>
-          </View>
-        </TouchableOpacity>
-      </Swipeable>
-    </GestureHandlerRootView>
+    // <GestureHandlerRootView>
+    // <Swipeable renderRightActions={renderRightActions}>
+    <TouchableOpacity style={styles.container} onPress={handleClick}>
+      <DoubleModal
+        text="채팅창으로 이동하시겠습니까?"
+        //body={<Text>정말로?</Text>}
+        nButtonText="아니요"
+        pButtonText="네"
+        modalVisible={chattingConfirmModal}
+        setModalVisible={setChattingConfirmModal}
+        pFunction={() => {
+          setChattingConfirmModal(!chattingConfirmModal);
+          navigation.navigate('ChattingListPage');
+          setTimeout(() => {
+            navigation.navigate('ChattingRoom', {data: alarm.meetingInfo});
+          }, 800);
+          // navigation.navigate('ChattingRoom', {data: alarm.meetingInfo});
+        }}
+        nFunction={() => {
+          setChattingConfirmModal(!chattingConfirmModal);
+        }}
+      />
+      <DoubleModal
+        text="미팅 참여 보상을 받으시겠습니까?"
+        //body={<Text>정말로?</Text>}
+        nButtonText="아니요"
+        pButtonText="네"
+        modalVisible={earnAskingModal}
+        setModalVisible={setEarnAskingModal}
+        pFunction={() => {
+          setEarnAskingModal(!earnAskingModal);
+          setEarnModalVisible(true);
+        }}
+        nFunction={() => {
+          setEarnAskingModal(!earnAskingModal);
+        }}
+      />
+      <EarnModal
+        EarnModalVisible={earnModalVisible}
+        setEarnModalVisible={setEarnModalVisible}
+        pFunction={handleTokenReceive}
+        amount={user.meminStats.HumanElement / 10} // 나중에 근면함 점수 곱해서 넣어줘야함
+        txType="미팅 참여"
+      />
+      <View style={styles.content}>
+        <View style={styles.messageHead}>
+          <Text style={styles.message}>{renderByType()}</Text>
+          <Text style={styles.createdAt}>
+            {handleDateFromNow(alarm.createdAt)}
+          </Text>
+        </View>
+        <View style={styles.meetingArea}>
+          {alarm.meetingInfo ? (
+            <>
+              <Text style={styles.meetingTitle}>{alarm.meetingInfo.title}</Text>
+              <View style={styles.meetingInfo}>
+                <Text style={styles.meetingElement}>
+                  {alarm.meetingInfo.region}
+                </Text>
+                <View style={styles.bar} />
+                <Text style={styles.meetingElement}>
+                  {alarm.meetingInfo.peopleNum +
+                    ':' +
+                    alarm.meetingInfo.peopleNum}
+                </Text>
+                <View style={styles.bar} />
+                <Text style={styles.meetingElement}>
+                  {handleBirth(alarm.meetingInfo.hostInfo.birth)}
+                </Text>
+                <View style={styles.bar} />
+                <Text style={styles.meetingElement}>
+                  {handleDateInFormat(alarm.meetingInfo.meetDate)}
+                </Text>
+              </View>
+            </>
+          ) : (
+            <Text style={styles.deleteText}>삭제된 미팅입니다</Text>
+          )}
+        </View>
+      </View>
+    </TouchableOpacity>
+    // </Swipeable>
+    // </GestureHandlerRootView>
   );
 }
 

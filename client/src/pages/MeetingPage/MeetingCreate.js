@@ -276,13 +276,13 @@ function MeetingCreate({route}) {
         </View>
         <DoubleModal
           text={`미팅을 생성하시겠습니까?`}
-          body={
-            <>
-              <Text style={{fontSize: 14, marginBottom: 20, marginTop: 0}}>
-                미팅 생성 시 25 Energy가 소모됩니다.
-              </Text>
-            </>
-          }
+          // body={
+          //   <>
+          //     <Text style={{fontSize: 14, marginBottom: 20, marginTop: 0}}>
+          //       미팅 생성 시 25 Energy가 소모됩니다.
+          //     </Text>
+          //   </>
+          // }
           buttonText="네"
           modalVisible={confirmModalVisible}
           setModalVisible={setConfirmModalVisible}

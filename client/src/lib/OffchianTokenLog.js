@@ -46,7 +46,7 @@ export async function createEarnOffTxLg(userId, amount, txType, balance) {
       createdAt: firestore.FieldValue.serverTimestamp(),
       from: 'serverId',
       to: userId,
-      balance,
+      balance: Math.round((balance + amount) * 10) / 10,
     });
   await firestore()
     .collection('User')
