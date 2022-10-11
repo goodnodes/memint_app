@@ -214,7 +214,7 @@ const Person = ({user, form, setForm}) => {
         onCheckColor="#58FF7D"
         onTintColor="#58FF7D"
         tintColors={{true: '#58FF7D'}}
-        style={{width: 20, height: 20, marginRight: 1}}
+        style={{width: 20, height: 20, marginRight: 10}}
       />
     </View>
   );

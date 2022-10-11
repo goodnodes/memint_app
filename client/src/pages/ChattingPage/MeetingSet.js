@@ -273,11 +273,11 @@ function MeetingSet({route}) {
                   </TouchableNativeFeedback>
                 </View>
               ) : null}
-              <View style={styles.li}>
+              {/* <View style={styles.li}>
                 <TouchableNativeFeedback onPress={setMeetingEnd}>
                   <Text style={[styles.liText]}>미팅 끝내기</Text>
                 </TouchableNativeFeedback>
-              </View>
+              </View> */}
               <View style={styles.li}>
                 <TouchableNativeFeedback
                   onPress={() => {

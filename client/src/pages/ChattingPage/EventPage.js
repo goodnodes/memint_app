@@ -11,6 +11,8 @@ import {
   Easing,
   Linking,
   ScrollView,
+  StatusBar,
+  Platform,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import LottieView from 'lottie-react-native';
@@ -24,7 +26,7 @@ import partyPopper from '../../assets/icons/partyPopper.png';
 import celebrate from '../../assets/animations/celebrate.json';
 import useUser from '../../utils/hooks/UseUser';
 import * as Progress from 'react-native-progress';
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {createNFT, getImgUrl} from '../../lib/NFT';
 import useNftActions from '../../utils/hooks/UseNftActions';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
@@ -34,6 +36,12 @@ let interval = undefined;
 
 //만약 Android에서 애니메이션 문제 있을시 아래 블로그 참고
 //https://velog.io/@swanious/react-native-lottie-%EC%95%A0%EB%8B%88%EB%A9%94%EC%9D%B4%EC%85%98-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0
+
+function FocusAwareStatusBar(props) {
+  const isFocused = useIsFocused();
+
+  return isFocused ? <StatusBar {...props} /> : null;
+}
 
 const EventPage = ({route}) => {
   // let {userInfo} = route.params || {};
@@ -97,7 +105,7 @@ const EventPage = ({route}) => {
           </Text>
         </View>
         <View style={styles.popperArea}>
-          <Image source={partyPopper} />
+          <Image source={partyPopper} style={styles.partyPopper} />
           <Text style={styles.meetingTitle}>당첨을 축하합니다 🥳</Text>
           <Text style={styles.eventResult}>미민크루 출동!</Text>
         </View>
@@ -184,70 +192,76 @@ const EventPage = ({route}) => {
 
   return (
     <View style={styles.fullscreen}>
-      <SafeStatusBar />
+      {Platform.OS === 'ios' ? (
+        <SafeStatusBar />
+      ) : (
+        <FocusAwareStatusBar
+          barStyle="light-content"
+          backgroundColor="#3D3E44"
+          animated={true}
+        />
+      )}
       <LinearGradient
         colors={['#3D3E44', '#5A7064']}
         start={{x: 1, y: 0.3}}
         end={{x: 1, y: 1}}
         style={styles.gradientBackground}>
-        {eventItem !== '' ? <CloseButton /> : null}
-        <View style={styles.fullscreenSub}>
-          {eventItem !== '' ? (
-            <View style={styles.progressdoneArea}>
-              <View style={styles.containerArea}>
-                {eventItem === '미민크루'
-                  ? rednerMeminCrew()
-                  : eventItem === '꽝'
-                  ? renderBlank()
-                  : renderBlank()}
-              </View>
-              {eventItem === '미민크루' ? (
-                <TouchableOpacity style={styles.button} onPress={goToKakao}>
-                  <Text style={styles.buttonText}>
-                    Memint 카카오 채널 바로가기
-                  </Text>
-                </TouchableOpacity>
-              ) : eventItem === '꽝' ? (
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={goToMeetingConfirm}>
-                  <Text style={styles.buttonText}>돌아가기</Text>
-                </TouchableOpacity>
-              ) : (
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={goToMeetingConfirm}>
-                  <Text style={styles.buttonText}>돌아가기</Text>
-                </TouchableOpacity>
-              )}
+        {/* <View style={styles.fullscreenSub}> */}
+        {eventItem !== '' ? (
+          <View style={styles.progressdoneArea}>
+            {eventItem !== '' ? <CloseButton /> : null}
+            <View style={styles.containerArea}>
+              {eventItem === '미민크루'
+                ? rednerMeminCrew()
+                : eventItem === '꽝'
+                ? renderBlank()
+                : renderBlank()}
             </View>
-          ) : (
-            <>
-              <LottieView
-                source={celebrate}
-                // source={require('../../assets/animations/celebrate.json')}
-                progress={animationProgress.current}
-              />
-              <TouchableWithoutFeedback onPress={onEventHandler}>
-                <View style={styles.progressArea}>
-                  <Text style={styles.textSub}>
-                    랜덤박스를 터치해 열어보세요
-                  </Text>
-                  <Animatable.Image
-                    animation="swing"
-                    iterationCount={3}
-                    duration={0}
-                    delay={100000000000}
-                    ref={AnimationRef}
-                    source={randomBox}
-                    style={[styles.logo]}
-                  />
-                </View>
-              </TouchableWithoutFeedback>
-              {/* </TouchableOpacity> */}
-            </>
-          )}
-        </View>
+            {eventItem === '미민크루' ? (
+              <TouchableOpacity style={styles.button} onPress={goToKakao}>
+                <Text style={styles.buttonText}>
+                  Memint 카카오 채널 바로가기
+                </Text>
+              </TouchableOpacity>
+            ) : eventItem === '꽝' ? (
+              <TouchableOpacity
+                style={styles.button}
+                onPress={goToMeetingConfirm}>
+                <Text style={styles.buttonText}>돌아가기</Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                style={styles.button}
+                onPress={goToMeetingConfirm}>
+                <Text style={styles.buttonText}>돌아가기</Text>
+              </TouchableOpacity>
+            )}
+          </View>
+        ) : (
+          <>
+            <LottieView
+              source={celebrate}
+              // source={require('../../assets/animations/celebrate.json')}
+              progress={animationProgress.current}
+            />
+            <TouchableWithoutFeedback onPress={onEventHandler}>
+              <View style={styles.progressArea}>
+                <Text style={styles.textSub}>랜덤박스를 터치해 열어보세요</Text>
+                <Animatable.Image
+                  animation="swing"
+                  iterationCount={3}
+                  duration={0}
+                  delay={100000000000}
+                  ref={AnimationRef}
+                  source={randomBox}
+                  style={[styles.logo]}
+                />
+              </View>
+            </TouchableWithoutFeedback>
+            {/* </TouchableOpacity> */}
+          </>
+        )}
+        {/* </View> */}
       </LinearGradient>
     </View>
   );
@@ -265,62 +279,17 @@ const styles = StyleSheet.create({
   gradientBackground: {
     flex: 1,
     paddingHorizontal: 15,
-  },
-  KeyboardAvoidingView: {
-    flex: 1,
+    justifyContent: 'center',
   },
   fullscreen: {
     flex: 1,
-    backgroundColor: 'white',
   },
-  fullscreenSub: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  form: {
-    width: '100%',
-    // height: '50',
-    marginTop: 20,
-    paddingHorizontal: 16,
-    flexDirection: 'row',
-    // justifyContent: 'space-around',
-    alignItems: 'center',
-  },
-  formAllAgree: {
-    marginTop: 20,
-    marginBottom: 32,
-    width: '100%',
-    paddingHorizontal: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  formText: {
-    width: '100%',
-    paddingHorizontal: 16,
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
+
   text: {
     marginLeft: 10,
     fontSize: 20,
   },
-  textAllAgree: {
-    fontSize: 40,
-    fontWeight: 'bold',
-  },
-  textMain: {
-    fontWeight: '400',
-    fontSize: 22,
-    marginBottom: 40,
-    // marginVertical: 20,
-    color: '#AEFFC1',
-    fontFamily: 'NeoDunggeunmoPro-Regular',
-    letterSpacing: -0.5,
-    textAlign: 'center',
-    lineHeight: 26,
-  },
+
   textSub: {
     paddingHorizontal: 6,
     fontWeight: '400',
@@ -341,55 +310,25 @@ const styles = StyleSheet.create({
     color: '#B9C5D1',
     fontSize: 12,
   },
-  contentText: {
-    fontSize: 12,
-    marginHorizontal: 50,
-    paddingHorizontal: 30,
-    // marginTop: 30,
-  },
-  contentTextSub: {
-    fontSize: 18,
-    margin: 8,
-  },
+
   textSubContent: {
     margin: 8,
     color: '#ffffff',
     fontSize: 18,
   },
-  contentTextVerify: {
-    fontSize: 18,
-    marginTop: 20,
-  },
+
   tagsContainer: {
     flexWrap: 'wrap',
     marginBottom: 10,
     flexDirection: 'row',
     paddingHorizontal: 14,
   },
-  secondForm: {
-    marginTop: 10,
-    width: '100%',
-    paddingHorizontal: 32,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  dropdown: {
-    fontSize: 10,
-    width: 130,
-    borderColor: '#bdbdbd',
-    borderWidth: 1,
-    paddingHorizontal: 16,
-    borderRadius: 4,
-    height: 30,
-  },
-  logo: {
-    width: 148,
-    height: 148,
-    // marginBottom: 15,
-  },
+
   button: {
-    marginTop: 'auto',
-    marginBottom: 30,
+    position: 'absolute',
+    bottom: 20,
+    // marginTop: 'auto',
+    // marginBottom: 30,
     // marginHorizontal: 15,
     backgroundColor: '#ffffff',
     width: '100%',
@@ -461,11 +400,12 @@ const styles = StyleSheet.create({
   bombArea: {alignItems: 'center', marginTop: 70},
   descriptionArea: {padding: 25},
   containerArea: {
-    position: 'absolute',
-    width: 358,
-    height: 605,
+    // position: 'absolute',
+    width: '100%',
+    height: '78%',
+    marginBottom: 60,
     // left: 16,
-    top: 54,
+    // top: 54,
 
     /* 5 */
     backgroundColor: '#FFFFFF',
@@ -479,6 +419,7 @@ const styles = StyleSheet.create({
     // marginTop: 120,
     flexDirection: 'column',
     alignItems: 'center',
+    justifyContent: 'center',
     width: '100%',
     flex: 1,
     // box-sizing: border-box;
@@ -491,6 +432,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     flex: 1,
+  },
+  partyPopper: {
+    width: 148,
+    height: 148,
   },
 });
 
