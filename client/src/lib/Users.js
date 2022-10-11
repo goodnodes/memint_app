@@ -301,6 +301,7 @@ export async function calculateCharm(userId, emotion) {
       grade: grade,
       level: meminStats.level,
       resilience: meminStats.resilience,
+      eneryRechargeTime: meminStats.eneryRechargeTime,
     },
   });
 
