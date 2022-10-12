@@ -295,7 +295,10 @@ function MeetingMarket({navigation}) {
             <WalletButton />
           </View>
           <View style={styles.titleArea}>
-            <Text style={styles.title}>새로운 친구들과 술 한잔 어때?</Text>
+            <View>
+              <Text style={styles.title}>새로운 친구들과</Text>
+              <Text style={styles.title}>술 한잔 어때?</Text>
+            </View>
             <View style={styles.regionView}>
               <RNPickerSelect
                 placeholder={{}}

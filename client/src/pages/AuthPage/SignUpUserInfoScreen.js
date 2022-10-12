@@ -450,7 +450,7 @@ const styles = StyleSheet.create({
     borderColor: '#EAFFEF',
     borderWidth: 1,
     paddingHorizontal: 16,
-    borderRadius: 4,
+    borderRadius: 5,
     height: 40,
     backgroundColor: 'transparent',
   },
@@ -471,13 +471,13 @@ const styles = StyleSheet.create({
   },
   dropdownStyle: {
     backgroundColor: '#3C3D43',
-    borderRadius: 10,
+    borderRadius: 5,
     height: 185,
   },
   dropdownStyleGender: {
     height: 100,
     backgroundColor: '#3C3D43',
-    borderRadius: 10,
+    borderRadius: 5,
   },
   dropdownTextStyle: {
     color: '#ffffff',
@@ -524,7 +524,7 @@ const styles = StyleSheet.create({
     // borderColor: '#EAFFEF',
     // borderWidth: 1,
     paddingHorizontal: 16,
-    borderRadius: 4,
+    borderRadius: 5,
     height: 40,
     backgroundColor: 'transparent',
     borderColor: '#AEFFC1',

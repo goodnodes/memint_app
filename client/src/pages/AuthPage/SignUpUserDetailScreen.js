@@ -758,8 +758,8 @@ const styles = StyleSheet.create({
   },
   propertyView: {
     alignItems: 'center',
-    paddingTop: 40,
-    paddingBottom: 80,
+    paddingTop: 26,
+    paddingBottom: 38,
   },
   propertyTitle: {
     fontSize: 18,

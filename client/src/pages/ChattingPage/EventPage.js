@@ -78,12 +78,12 @@ const EventPage = ({route}) => {
       });
     }
   };
-  useEffect(() => {
-    if (progress === 100) {
-      setRunning(false);
-      clearInterval(interval);
-    }
-  }, [progress]);
+  // useEffect(() => {
+  //   if (progress === 100) {
+  //     setRunning(false);
+  //     clearInterval(interval);
+  //   }
+  // }, [progress]);
 
   useEffect(() => {
     getMeetingInfo();
@@ -114,15 +114,16 @@ const EventPage = ({route}) => {
             🦖미민크루🦖 이벤트 당첨자 안내 사항!
           </Text>
           <Text style={styles.eventNotiText}>
-            미민크루 이벤트는 미민트 스탭이 여러분의 술 자리에 나타나 깜짝
+            미민크루 이벤트는 미민트 스탭이 여러분의 술 자리에{'\n'}나타나 깜짝
             선물을 증정하는 이벤트입니다.{'\n'}미민크루의 선물을 받고 싶다면
-            Memint 카카오 채널로 다음의 사항을 보내주세요. 최대한 빨리
+            Memint 카카오 채널로{'\n'}다음의 사항을 보내주세요. 최대한 빨리
             출동할게요 :)
           </Text>
           <Text style={styles.eventNotiDesc}>
-            1. 당첨 페이지 캡처화면{'\n'}2. 미팅 호스트 이름, 전화번호
+            1.{'   '}당첨 페이지 캡처화면{'\n'}2.{'  '}미팅 호스트 이름,
+            전화번호
             {'\n'}
-            3. 진행 중인 미팅 장소
+            3.{'  '}진행 중인 미팅 장소
           </Text>
           <Text style={styles.grayTitle}>
             다음의 경우에는 선물 증정이 불가합니다.
@@ -147,7 +148,7 @@ const EventPage = ({route}) => {
           </Text>
         </View>
         <View style={styles.bombArea}>
-          <Image source={bomb} />
+          <Image source={bomb} style={styles.partyPopper} />
           <Text style={styles.meetingTitle}>아쉽네요 꽝입니다 😭</Text>
         </View>
       </ScrollView>
@@ -364,13 +365,17 @@ const styles = StyleSheet.create({
   },
   eventNotiDesc: {
     marginVertical: 20,
-    fontSize: 15,
-    lineHeight: 21,
+    fontSize: 14,
+    lineHeight: 19.6,
     fontWeight: '400',
+    letterSpacing: -0.5,
     color: '#1D1E1E',
   },
   eventNotiText: {
     color: '#1D1E1E',
+    fontSize: 14,
+    lineHeight: 19.6,
+    letterSpacing: -0.5,
   },
   meetingTitle: {
     // fontFamily: 'Roboto',
