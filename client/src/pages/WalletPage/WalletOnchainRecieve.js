@@ -90,19 +90,18 @@ const WalletOnchainRecieve = () => {
       <KeyboardAvoidingView
         style={styles.KeyboardAvoidingView}
         behavior={Platform.select({ios: 'padding'})}>
+        <StatusBar barStyle="dark-content" />
+
+        <View style={{backgroundColor: '#AAD1C1', height: top}} />
+        <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => navigation.pop()}>
+            <Icon name="arrow-back-ios" size={20} color={'#1D1E1E'} />
+            {/* <Text style={styles.buttonText}>Back</Text> */}
+          </TouchableOpacity>
+        </View>
         <View style={styles.fullscreen}>
-          <StatusBar barStyle="dark-content" />
-
-          <View style={{backgroundColor: '#AAD1C1', height: top}} />
-          <View style={styles.header}>
-            <TouchableOpacity
-              style={styles.backButton}
-              onPress={() => navigation.pop()}>
-              <Icon name="arrow-back-ios" size={20} color={'#1D1E1E'} />
-              {/* <Text style={styles.buttonText}>Back</Text> */}
-            </TouchableOpacity>
-          </View>
-
           <ScrollView style={styles.container}>
             <Text style={styles.transferText}>Receive From Klip</Text>
             <View style={styles.imageContainer}>
@@ -122,9 +121,9 @@ const WalletOnchainRecieve = () => {
             <View style={styles.buttonContainer}>
               <BasicButton
                 margin={[30, 0, 0, 0]}
-                width={330}
+                width={'100%'}
                 height={50}
-                text={'가져오기'}
+                text={'Receive'}
                 textSize={18}
                 backgroundColor="#ffffff"
                 border={false}
@@ -134,9 +133,9 @@ const WalletOnchainRecieve = () => {
               />
             </View>
             <DoubleModal
-              text={'Klip지갑으로부터\n Klay를 가져오시겠습니까?'}
-              nButtonText="아니요"
-              pButtonText="네"
+              text={'Would you like to bring Klay from your Klip wallet?'}
+              nButtonText="No"
+              pButtonText="Yes"
               modalVisible={modalVisible}
               setModalVisible={setModalVisible}
               nFunction={() => {
@@ -180,11 +179,11 @@ const WalletOnchainRecieve = () => {
 const styles = StyleSheet.create({
   KeyboardAvoidingView: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: '#AAD1C1',
   },
   fullscreen: {
     flex: 1,
-    backgroundColor: '#AAD1C1',
+    paddingHorizontal: 15,
   },
   header: {
     flexDirection: 'row',
@@ -216,8 +215,8 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     height: 48,
     backgroundColor: '#ffffff',
-    marginHorizontal: 25,
     marginTop: 10,
+    width: '100%',
   },
   buttonContainer: {
     justifyContent: 'center',
@@ -237,7 +236,6 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     fontSize: 18,
     marginTop: 20,
-    marginLeft: 25,
     color: '#1D1E1E',
     letterSpacing: -0.5,
   },

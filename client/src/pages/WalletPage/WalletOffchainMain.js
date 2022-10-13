@@ -36,9 +36,9 @@ function WalletOffchainMain({navigation}) {
   const {top} = useSafeAreaInsets();
 
   const handleWalletSelect = () => {
-    // setWalletSelected(true);
-    // setSpendingSelected(false);
-    showToast('basic', 'Coming Soon');
+    setWalletSelected(true);
+    setSpendingSelected(false);
+    // showToast('basic', 'Coming Soon');
   };
 
   const handleSpendingSelect = () => {
@@ -131,6 +131,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 25,
+    paddingHorizontal: 15,
   },
   buttonWrapper: {
     flexDirection: 'row',

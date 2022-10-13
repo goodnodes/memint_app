@@ -30,7 +30,7 @@ function DetailMembers({membersInfo, peopleNum, hostId}) {
   return (
     <View style={styles.memberBox}>
       <View style={styles.memberBoxInfo}>
-        <Text style={styles.title}>현재 미팅 참여자</Text>
+        <Text style={styles.title}>Current Participants</Text>
         <View style={styles.memberBoxInfopeopleNum}>
           <Text style={styles.currentPeopleNum}>
             {membersInfo.length}
@@ -65,11 +65,11 @@ function DetailMembers({membersInfo, peopleNum, hostId}) {
                 <Text style={styles.memberInfoContentEl}>
                   {handleBirth(member.birth)}
                 </Text>
-                <Text
-                  style={styles.memberInfoContentEl}>{` (${member.gender?.slice(
-                  0,
-                  1,
-                )})`}</Text>
+                <Text style={styles.memberInfoContentEl}>
+                  {member.gender && member.gender === '남자'
+                    ? ' (Male)'
+                    : ' (Female)'}
+                </Text>
               </View>
             </View>
           </View>

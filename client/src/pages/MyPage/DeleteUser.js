@@ -33,25 +33,28 @@ function DeleteUser({route}) {
       </View>
       <View style={styles.wrapper}>
         <View style={styles.titleRow}>
-          <Text style={styles.title}>회원탈퇴</Text>
+          <Text style={styles.title}>Withdrawal</Text>
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.bigText}>{user.nickName}님,</Text>
-          <Text style={styles.bigText}>MEMINT를 탈퇴하시겠습니까?</Text>
+          <Text style={styles.bigText}>{user.nickName},</Text>
+          <Text style={styles.bigText}>
+            Do you really want to leave Memint?
+          </Text>
         </View>
         <View style={styles.section}>
           <Text style={styles.boldText}>
-            탈퇴하기 전 아래 내용을 확인해 주세요.
+            Please check the contents below before withdrawing.
           </Text>
           <Text>
-            - 미민이 정보, 프로필 사진, 미팅 정보, 채팅 기록 등 회원님의 모든
-            활동 정보가 삭제되며, 삭제된 데이터는 복구할 수 없어요.
+            - All your activity information such as MEMIN information, profile
+            pictures, meeting information, chat history, etc. will be deleted,
+            and the deleted data will not be recovered.
           </Text>
-          <Text>- 보유하신 토큰 또한 복구가 불가합니다.</Text>
+          <Text>- Even the token you have cannot be recovered.</Text>
         </View>
         <TouchableOpacity style={styles.button} onPress={handleNextPage}>
-          <Text style={styles.buttonText}>다음으로</Text>
+          <Text style={styles.buttonText}>Continue</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

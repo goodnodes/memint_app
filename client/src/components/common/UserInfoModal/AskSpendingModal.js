@@ -33,8 +33,14 @@ function AskSpendingModal({
         <View style={[styles.centeredView, styles.backgroudDim]}>
           <View style={styles.modalView}>
             <View style={{alignItems: 'center'}}>
-              <Text style={{fontSize: 18, fontWeight: '500', color: '#000000'}}>
-                프로필 사진을 확인하시겠어요?
+              <Text
+                style={{
+                  fontSize: 18,
+                  fontWeight: '500',
+                  color: '#000000',
+                  textAlign: 'center',
+                }}>
+                Would you like to check this person's picture?
               </Text>
               <Text
                 style={{
@@ -43,7 +49,7 @@ function AskSpendingModal({
                   fontSize: 16,
                   color: '#000000',
                 }}>
-                {`${amount}TING이 소모됩니다.`}
+                {`${amount} TING will be used up.`}
               </Text>
             </View>
             <View style={styles.buttonRow}>

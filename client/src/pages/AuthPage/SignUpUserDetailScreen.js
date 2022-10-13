@@ -68,7 +68,7 @@ const SignUpUserDetailScreen = ({navigation, route}) => {
       selfIntroduction === ''
     ) {
       // Alert.alert('실패', '회원 정보를 올바르게 입력해주세요');
-      showToast('error', '모든 내용을 입력해주세요.');
+      showToast('error', 'Please enter all information.');
     } else {
       userInfo = {
         ...userInfo,
@@ -115,10 +115,11 @@ const SignUpUserDetailScreen = ({navigation, route}) => {
             behavior={Platform.select({ios: 'padding'})}>
             <View style={styles.propertyView}>
               <Text style={styles.title}>
-                {userInfo.nickName}님에 대해{'\n'}알고 싶어요!
+                Can I get to know you more?
+                {/* {userInfo.nickName}님에 대해{'\n'}알고 싶어요! */}
               </Text>
               <Text style={styles.propertydesc}>
-                더 재밌는 미팅을 위해{'\n'}아래의 질문들에 답해주세요.
+                Please answer the questions below{'\n'}for a more fun dating.
               </Text>
             </View>
             <Animated.View
@@ -135,10 +136,10 @@ const SignUpUserDetailScreen = ({navigation, route}) => {
                   ],
                 },
               ]}>
-              <Text style={styles.propertyTitle}>가볍게 시작해볼까요?</Text>
-              <Text style={styles.propertydesc}>
-                {userInfo.nickName}님의 MBTI는 뭐에요?
+              <Text style={styles.propertyTitle}>
+                Shall we start with a light question?
               </Text>
+              <Text style={styles.propertydesc}>What's your MBTI?</Text>
               <SelectDropdown
                 data={data.mbti}
                 onSelect={selectedItem => {
@@ -177,6 +178,7 @@ const SignUpUserDetailScreen = ({navigation, route}) => {
                 data={data}
                 property={property}
                 setProperty={setProperty}
+                nickName={userInfo.nickName}
               />
             )}
             {!property.drinkCapa ? null : (
@@ -216,7 +218,7 @@ const SignUpUserDetailScreen = ({navigation, route}) => {
             )}
           </ScrollView>
           <TouchableOpacity style={styles.button} onPress={goToNextPage}>
-            <Text style={styles.buttonText}>다음</Text>
+            <Text style={styles.buttonText}>Continue</Text>
           </TouchableOpacity>
         </View>
       </LinearGradient>
@@ -258,7 +260,8 @@ const Emoji = ({property, setProperty, nickName}) => {
         },
       ]}>
       <Text style={styles.propertyTitle}>
-        {nickName}님을 가장 잘 표현한 이모지
+        The emoji that expresses {nickName} the best
+        {/* {nickName}님을 가장 잘 표현한 이모지 */}
       </Text>
       <TextInput
         style={[
@@ -267,7 +270,7 @@ const Emoji = ({property, setProperty, nickName}) => {
         ]}
         value={property.emoji}
         placeholderTextColor="#EAFFEFB2"
-        placeholder="한 개만 입력해주세요 :)"
+        placeholder="Please enter one emoji :)"
         autoComplete="off"
         autoCorrect={false}
         selectionColor="#AEFFC1"
@@ -306,8 +309,8 @@ const Region = ({property, setProperty}) => {
           ],
         },
       ]}>
-      <Text style={styles.propertyTitle}>나의 주출몰지</Text>
-      <Text style={styles.propertydesc}>최대 3개까지 선택 가능해요.</Text>
+      <Text style={styles.propertyTitle}>Do you have a favorite place?</Text>
+      <Text style={styles.propertydesc}>You can choose up to three.</Text>
       <View style={styles.tagsContainer}>
         {data.region.map((tag, idx) => (
           <TagElement
@@ -348,14 +351,16 @@ const FavYoutube = ({property, setProperty}) => {
           ],
         },
       ]}>
-      <Text style={styles.propertyTitle}>최근에 자주 본 유튜브 채널</Text>
+      <Text style={styles.propertyTitle}>
+        What's your favorite Youtube channel?
+      </Text>
       <TextInput
         style={[
           styles.textInput,
           property.favYoutube ? styles.borderedTextInput : null,
         ]}
         value={property.favYoutube}
-        placeholder="여러개 쓰셔도 좋아요!"
+        placeholder="You can enter several!"
         placeholderTextColor="#EAFFEFB2"
         autoComplete="off"
         autoCorrect={false}
@@ -394,7 +399,9 @@ const TwinCeleb = ({property, setProperty}) => {
           ],
         },
       ]}>
-      <Text style={styles.propertyTitle}>나의 닮은꼴 연예인</Text>
+      <Text style={styles.propertyTitle}>
+        Is there a celebrity you look like?
+      </Text>
       <TextInput
         style={[
           styles.textInput,
@@ -403,9 +410,7 @@ const TwinCeleb = ({property, setProperty}) => {
         ]}
         value={property.twinCeleb}
         multiline
-        placeholder={
-          '부끄러워 마세요! 누구나 절친에게 들은 닮은꼴\n연예인 한 명쯤은 있잖아요 😏'
-        }
+        placeholder={`Don't be shy! There would be at least one celebrity${'\n'}you've heard from your best friend 😏`}
         placeholderTextColor="#EAFFEFB2"
         autoComplete="off"
         autoCorrect={false}
@@ -445,9 +450,11 @@ const DrinkCapa = ({nickName, property, setProperty}) => {
         },
       ]}>
       <Text style={[styles.propertyTitle, styles.meetingStyle]}>
-        이제부터, {nickName}님의{'\n'}미팅 스타일을 알아보려고 해요!
+        {/* 이제부터, {nickName}님의{'\n'}미팅 스타일을 알아보려고 해요! */}
+        Now, we're going to find out{'\n'}
+        {nickName}'s drinking style!
       </Text>
-      <Text style={styles.propertyTitle}>나의 주량은?</Text>
+      <Text style={styles.propertyTitle}>How much can you drink?</Text>
       <SelectDropdown
         data={data.drinkCapa}
         onSelect={value => {
@@ -487,8 +494,10 @@ const AlcoholType = ({property, setProperty}) => {
           ],
         },
       ]}>
-      <Text style={styles.propertyTitle}>나의 선호 주류</Text>
-      <Text style={styles.propertydesc}>최대 3개까지 선택 가능해요.</Text>
+      <Text style={styles.propertyTitle}>
+        What kind of alcohol do you like?
+      </Text>
+      <Text style={styles.propertydesc}>You can choose up to three.</Text>
       <View style={styles.tagsContainer}>
         {data.alcoholType.map((tag, idx) => (
           <TagElement
@@ -529,8 +538,8 @@ const DrinkStyle = ({property, setProperty}) => {
           ],
         },
       ]}>
-      <Text style={styles.propertyTitle}>나의 술자리 스타일</Text>
-      <Text style={styles.propertydesc}>하나만 선택해 주세요.</Text>
+      <Text style={styles.propertyTitle}>Favorite drinking party style</Text>
+      <Text style={styles.propertydesc}>Please choose one.</Text>
       <View style={styles.tagsContainer}>
         {data.drinkStyle.map((tag, idx) => (
           <TagElement
@@ -571,7 +580,7 @@ const Curfew = ({property, setProperty}) => {
           ],
         },
       ]}>
-      <Text style={styles.propertyTitle}>나의 통금</Text>
+      <Text style={styles.propertyTitle}>Do you have a curfew?</Text>
       <View style={styles.tagsContainer}>
         {data.curfew.map((tag, idx) => (
           <TagElement
@@ -612,11 +621,9 @@ const FavGame = ({property, setProperty, nickName}) => {
           ],
         },
       ]}>
-      <Text style={styles.propertyTitle}>
-        {nickName}님이 좋아하는~랜덤~게임~!
-      </Text>
+      <Text style={styles.propertyTitle}>Let's play random game!</Text>
       <Text style={styles.propertydesc}>
-        좋아하는 술게임을 알려주세요. (최대3개)
+        Tell me your favorite drinking game. (up to three)
       </Text>
       <View style={styles.tagsContainer}>
         {data.favGame.map((tag, idx) => (
@@ -658,7 +665,9 @@ const SelfIntroduction = ({selfIntroduction, setSelfIntroduction}) => {
           ],
         },
       ]}>
-      <Text style={styles.propertyTitle}>마지막으로 자기소개 부탁드려요</Text>
+      <Text style={styles.propertyTitle}>
+        Lastly, please introduce yourself
+      </Text>
       <TextInput
         style={[
           styles.textInput,
@@ -667,7 +676,7 @@ const SelfIntroduction = ({selfIntroduction, setSelfIntroduction}) => {
         ]}
         value={selfIntroduction}
         multiline={true}
-        placeholder="자유롭게 작성해 주세요 😉"
+        placeholder="Please feel free to fill it out 😉"
         placeholderTextColor="#EAFFEFCC"
         autoComplete="off"
         autoCorrect={false}
@@ -830,7 +839,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     position: 'absolute',
     right: 10,
-    bottom: 90,
+    bottom: 50,
     color: '#EAEAEA',
   },
 });

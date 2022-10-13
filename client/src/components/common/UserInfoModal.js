@@ -120,7 +120,7 @@ function UserInfoModal({
                         </Text>
                         <View style={styles.userinfo}>
                           <Text style={styles.userinfoValuePlain}>
-                            {user.gender}
+                            {user.gender === '남자' ? 'Male' : 'Female'}
                           </Text>
                           <Text style={styles.userinfoValuePlain}>
                             {handleBirth(user.birth)}
@@ -215,7 +215,7 @@ function UserInfoModal({
                         </View>
                       </View>
                       <View style={styles.tagRow}>
-                        <Text style={styles.hilightText}>주출몰지</Text>
+                        <Text style={styles.hilightText}>Favorite Place</Text>
                         <View style={styles.tags}>
                           {user ? (
                             user.property.region.map((ele, index) => {
@@ -231,7 +231,7 @@ function UserInfoModal({
                         </View>
                       </View>
                       <View style={styles.tagRow}>
-                        <Text style={styles.hilightText}>유튜브</Text>
+                        <Text style={styles.hilightText}>Favorite Channel</Text>
                         <View style={styles.tags}>
                           <View style={styles.plainTag}>
                             <Text style={styles.tagText}>
@@ -241,7 +241,7 @@ function UserInfoModal({
                         </View>
                       </View>
                       <View style={styles.tagRow}>
-                        <Text style={styles.hilightText}>닮은꼴</Text>
+                        <Text style={styles.hilightText}>Twin Celebrity</Text>
                         <View style={styles.tags}>
                           <View style={styles.plainTag}>
                             <Text style={styles.tagText}>
@@ -251,7 +251,7 @@ function UserInfoModal({
                         </View>
                       </View>
                       <View style={styles.tagRow}>
-                        <Text style={styles.hilightText}>주량</Text>
+                        <Text style={styles.hilightText}>Drink</Text>
                         <View style={styles.tags}>
                           <View style={styles.tag}>
                             <Text style={styles.tagText}>
@@ -261,7 +261,7 @@ function UserInfoModal({
                         </View>
                       </View>
                       <View style={styles.tagRow}>
-                        <Text style={styles.hilightText}>선호 주류</Text>
+                        <Text style={styles.hilightText}>Favorite Liquor</Text>
                         <View style={styles.tags}>
                           {user ? (
                             user.property.alcoholType.map((ele, index) => {
@@ -278,7 +278,7 @@ function UserInfoModal({
                       </View>
 
                       <View style={styles.tagRow}>
-                        <Text style={styles.hilightText}>술자리</Text>
+                        <Text style={styles.hilightText}>Party Style</Text>
                         <View style={styles.tags}>
                           {user.property.drinkStyle.map((ele, index) => {
                             return (
@@ -290,7 +290,7 @@ function UserInfoModal({
                         </View>
                       </View>
                       <View style={styles.tagRow}>
-                        <Text style={styles.hilightText}>통금</Text>
+                        <Text style={styles.hilightText}>Curfew</Text>
                         <View style={styles.tags}>
                           <View style={styles.tag}>
                             <Text style={styles.tagText}>
@@ -300,7 +300,7 @@ function UserInfoModal({
                         </View>
                       </View>
                       <View style={styles.tagRow}>
-                        <Text style={styles.hilightText}>주력 게임</Text>
+                        <Text style={styles.hilightText}>Favorite Game</Text>
                         <View style={styles.tags}>
                           {user ? (
                             user.property.favGame.map((ele, index) => {
@@ -352,7 +352,7 @@ function UserInfoModal({
                   )}
                   <View style={styles.buttonRow}>
                     <BasicButton
-                      text="확인"
+                      text="Close"
                       width={width * 0.75}
                       height={50}
                       textSize={18}
@@ -371,8 +371,8 @@ function UserInfoModal({
           </View>
         </View>
         <AskSpendingModal
-          nButtonText="아니오"
-          pButtonText="네"
+          nButtonText="No"
+          pButtonText="Yes"
           askSpendingModalVisible={askSpendingModalVisible}
           setAskSpendingModalVisible={setAskSpendingModalVisible}
           amount={(5 / owner.meminStats.HumanElement).toFixed(1)}
@@ -404,7 +404,7 @@ function UserInfoModal({
               });
           }}
           amount={Math.round((5 / owner.meminStats.HumanElement) * 10) / 10} // Human Element에 용감함 지수 곱해주는 로직 추가해줘야함
-          txType="프로필 조회"
+          txType="Check Profile"
         />
       </Modal>
     </View>

@@ -8,7 +8,7 @@ import {
   Dimensions,
 } from 'react-native';
 import {useMeeting} from '../../utils/hooks/UseMeeting';
-import {handleDateInFormat} from '../../utils/common/Functions';
+import {handleDate, handleDateInFormat} from '../../utils/common/Functions';
 import {getUser} from '../../lib/Users';
 import {getMeeting} from '../../lib/Meeting';
 import {useIsFocused} from '@react-navigation/native';
@@ -71,7 +71,7 @@ function MyMeetingList({navigation, user}) {
         ))
       ) : (
         // <View style={styles.emptyView}>
-        <Text style={styles.emptyText}>생성한 미팅이 없습니다.</Text>
+        <Text style={styles.emptyText}>There are no rooms I hosted.</Text>
         // {/* </View> */}
       )}
     </ScrollView>
@@ -117,7 +117,7 @@ function MyMeetings({item, navigation}) {
             <View style={styles.bar} />
 
             <Text style={styles.details}>
-              {item ? handleDateInFormat(item.meetDate) : ''}
+              {item ? handleDate(item.meetDate) : ''}
             </Text>
             <View style={styles.bar} />
 

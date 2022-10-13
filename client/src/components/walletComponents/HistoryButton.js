@@ -5,7 +5,7 @@ import {handleDate} from '../../utils/common/Functions';
 function HistoryButton({onPress, time, balanceChange, balance, content}) {
   const parsedTime = handleDate(time);
   return (
-    <View style={[styles.button]}>
+    <View style={styles.button}>
       <View style={styles.contentWrapper}>
         <View style={styles.contentRow}>
           <Image source={tingsymbol} style={styles.icon} />
@@ -18,7 +18,7 @@ function HistoryButton({onPress, time, balanceChange, balance, content}) {
           <Text style={styles.balanceChangeText}>{balanceChange} </Text>
           <Text style={styles.lcnText}> TING</Text>
         </View>
-        <Text style={styles.balanceText}>잔액 {balance} TING</Text>
+        <Text style={styles.balanceText}>Balance {balance} TING</Text>
       </View>
     </View>
   );
@@ -61,7 +61,6 @@ const styles = StyleSheet.create({
   button: {
     flexDirection: 'row',
     // paddingHorizontal: 16,
-    width: 330,
     height: 76,
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -69,17 +68,17 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     margin: 3,
     paddingVertical: 15,
+    paddingHorizontal: 15,
   },
   contentWrapper: {
     flexDirection: 'column',
-    marginLeft: '4%',
     justifyContent: 'space-between',
     height: '100%',
   },
   balanceWrapper: {
     flexDirection: 'column',
-    marginLeft: '25%',
-    marginRight: '4%',
+    // marginLeft: '25%',
+    // marginRight: '4%',
     justifyContent: 'space-between',
     height: '100%',
   },

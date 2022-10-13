@@ -163,10 +163,7 @@ const WalletOnchainMain = ({navigation}) => {
                   style={styles.iconCircle}
                   // onPress={goToOnchainTrade}
                   onPress={() => {
-                    showToast(
-                      'basic',
-                      '클로즈베타에서 지원하지 않는 기능입니다',
-                    );
+                    showToast('basic', 'Coming Soon');
                   }}>
                   <Image
                     style={styles.icon}
@@ -228,7 +225,7 @@ const WalletOnchainMain = ({navigation}) => {
                       </View>
                       <View style={styles.buttonColumn}>
                         <BasicButton
-                          text={'주소 복사하기'}
+                          text={'Copy address'}
                           textSize={16}
                           width={140}
                           height={55}
@@ -237,7 +234,7 @@ const WalletOnchainMain = ({navigation}) => {
                           onPress={() => {
                             setModalVisible(false);
                             copyToClipboard(userInfo.address);
-                            showToast('success', '주소가 복사되었습니다!');
+                            showToast('success', 'Copied');
                           }}
                         />
                         <TouchableOpacity
@@ -249,7 +246,7 @@ const WalletOnchainMain = ({navigation}) => {
                           <View style={styles.klipButton}>
                             <Image source={klipIcon} style={styles.klipIcon} />
                             <Text style={[styles.klipText]}>
-                              {`Klip에서\n가져오기`}
+                              {`Receive${'\n'}from Klip`}
                             </Text>
                           </View>
                         </TouchableOpacity>
@@ -288,10 +285,7 @@ const WalletOnchainMain = ({navigation}) => {
               navigation.navigate('WalletKlayTransfer');
             }}
             pFunction={() => {
-              showToast(
-                'Coming soon',
-                '클로즈베타에서 지원하지 않는 기능입니다',
-              );
+              showToast('basic', 'Coming Soon');
 
               // setTransferModalVisible(false);
               // navigation.navigate('WalletLcnTransfer');
@@ -355,7 +349,7 @@ const styles = StyleSheet.create({
     // marginTop: 50,
     // justifyContent: 'center',
     // alignItems: 'center',
-    // backgroundColor: 'green',
+    width: '100%',
   },
   iconContainer: {
     flexDirection: 'row',

@@ -22,6 +22,7 @@ import {useToast} from '../../utils/hooks/useToast';
 import useUser from '../../utils/hooks/UseUser';
 import {
   handleBirth,
+  handleDate,
   handleDateInFormat,
   handleISOtoLocale,
 } from '../../utils/common/Functions';
@@ -73,7 +74,7 @@ function MeetingDetail({route}) {
           textSize={17}
           backgroundColor={'white'}
           textColor={'black'}
-          text="채팅방으로 이동"
+          text="Go to Chatting room"
           margin={[0, 0, 0, 0]}
           onPress={() => {
             navigation.navigate('ChattingListPage');
@@ -92,7 +93,7 @@ function MeetingDetail({route}) {
           textSize={17}
           border={false}
           backgroundColor={'lightgray'}
-          text="신청 수락 대기 중"
+          text="Wating for host's Acceptance"
           onPress={() => {}}
         />
       );
@@ -112,13 +113,13 @@ function MeetingDetail({route}) {
           height={50}
           margin={[0, 0, 0, 0]}
           textSize={17}
-          text="미팅 신청 보내기"
+          text="Send a request"
           // onPress={() => {
           //   setModalVisible_1(true);
           // }}
           onPress={() => {
             if (userInfo.meminStats.energy < 15) {
-              showToast('error', '에너지가 부족합니다.');
+              showToast('error', 'Lack of Energy.');
               return;
             }
             handleRequestMeeting();
@@ -153,7 +154,7 @@ function MeetingDetail({route}) {
   const handleCreateProposal = () => {
     if (textMessage.length === 0) {
       setModalVisible_2(!modalVisible_2);
-      showToast('error', '메시지를 작성해주세요');
+      showToast('error', 'Please write a message for request');
       return;
     }
     try {
@@ -171,14 +172,14 @@ function MeetingDetail({route}) {
         setTextMessage('');
         showToast(
           'success',
-          '미팅 신청을 보냈습니다\n주선자의 수락을 기다려주세요!',
+          "Request has been sent\nPlease wait for the host's acceptance!",
         );
         navigation.navigate('MeetingMarket');
       });
     } catch (e) {
       setModalVisible_2(!modalVisible_2);
       setTextMessage('');
-      showToast('error', '미팅 신청에 실패했습니다.\n 다시 시도해주세요');
+      showToast('error', 'Failed.\n Please try again');
       console.log(e);
     }
   };
@@ -238,9 +239,7 @@ function MeetingDetail({route}) {
               {handleBirth(data.hostInfo.birth)}
             </Text>
             <View style={styles.bar} />
-            <Text style={[styles.infoEl]}>
-              {handleDateInFormat(data.meetDate)}
-            </Text>
+            <Text style={[styles.infoEl]}>{handleDate(data.meetDate)}</Text>
           </View>
 
           <View style={styles.descriptionRow}>
@@ -278,11 +277,11 @@ function MeetingDetail({route}) {
           }}
         /> */}
         <DoubleModal
-          text="주선자에게 보낼 메시지를 작성해주세요"
+          text="Please write a message for request"
           body={
             <View style={styles.inputBlock}>
               <TextInput
-                placeholder="메시지를 작성하세요"
+                placeholder="message"
                 multiline={true}
                 style={styles.input}
                 value={textMessage}
@@ -294,8 +293,8 @@ function MeetingDetail({route}) {
               />
             </View>
           }
-          nButtonText="닫기"
-          pButtonText="신청 보내기"
+          nButtonText="Close"
+          pButtonText="Send"
           modalVisible={modalVisible_2}
           setModalVisible={setModalVisible_2}
           nFunction={() => setModalVisible_2(!modalVisible_2)}
@@ -304,9 +303,9 @@ function MeetingDetail({route}) {
           }}
         />
         <ActivationModal
-          text="Activation Code가 필요합니다."
+          text="Activation Code is Required."
           //body={<Text>정말로?</Text>}
-          buttonText="인증하기"
+          buttonText="Submit"
           modalVisible={activationModalVisible}
           setModalVisible={setActivationModalVisible}
           setNextModalVisible={setModalVisible_2}

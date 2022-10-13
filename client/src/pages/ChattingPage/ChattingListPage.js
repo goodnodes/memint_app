@@ -100,12 +100,14 @@ function ChattingListPage({navigation}) {
         end={{x: 1, y: 1}}
         style={styles.gradientBackground}>
         <View style={styles.header}>
-          <Text style={styles.title}>채팅</Text>
+          <Text style={styles.title}>Chatting</Text>
         </View>
         {chatLog.length === 0 ? (
           <View
             style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
-            <Text style={{color: 'lightgray'}}>채팅이 없습니다</Text>
+            <Text style={{color: 'lightgray'}}>
+              There are no chatting rooms.
+            </Text>
           </View>
         ) : (
           <FlatList
@@ -466,7 +468,9 @@ function MetaData({item, navigation, refresh, setRefresh}) {
                 : item.title}
             </Text>
             <Text numberOfLines={1} style={styles.plainText}>
-              {lastMsg && lastMsg !== 'info' ? lastMsg : '채팅을 시작해보세요!'}
+              {lastMsg && lastMsg !== 'info'
+                ? lastMsg
+                : "Let's start chatting!"}
             </Text>
           </View>
           <View style={styles.date}>

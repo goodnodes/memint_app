@@ -1,10 +1,15 @@
+import {data} from '../../assets/docs/contents';
+
 export const handleDate = obj => {
   // console.log(obj.toDate().toLocaleString());
   // console.log('debug');
   // console.log({obj});
-  const date = obj.toDate().toLocaleString();
+  const date = obj.toDate().toLocaleString('en');
   // console.log(date);
-  const res = date.slice(5, 11).concat(' ' + date.slice(12, -3));
+  const res = date
+    .slice(0, -17)
+    .concat(' ' + date.slice(-11, -6))
+    .concat(' ' + date.slice(-2));
   return res;
 };
 
@@ -80,11 +85,11 @@ export const handleDateFromNow = obj => {
   const time = now.getTime() - date.getTime();
   let str = '';
   if (time / (1000 * 60 * 60) < 1) {
-    str = parseInt(time / (1000 * 60), 10) + '분 전';
+    str = parseInt(time / (1000 * 60), 10) + 'minutes ago';
   } else if (time / (1000 * 60 * 60) > 24) {
-    str = parseInt(time / (1000 * 60 * 60 * 24), 10) + '일 전';
+    str = parseInt(time / (1000 * 60 * 60 * 24), 10) + 'days ago';
   } else {
-    str = parseInt(time / (1000 * 60 * 60), 10) + '시간 전';
+    str = parseInt(time / (1000 * 60 * 60), 10) + 'hours ago';
   }
   return str;
 };
@@ -129,15 +134,15 @@ export const handleBirth = str => {
 
   let res = '';
   if (age > 40) {
-    res = '40대';
+    res = '40s';
   } else if (age >= 35) {
-    res = '30대 후';
+    res = 'Late 30s';
   } else if (age >= 30) {
-    res = '30대 초';
+    res = 'Early 30s';
   } else if (age >= 25) {
-    res = '20대 후';
+    res = 'Late 20s';
   } else if (age >= 20) {
-    res = '20대 초';
+    res = 'Early 20s';
   } else {
     res = '넘 어린디';
   }

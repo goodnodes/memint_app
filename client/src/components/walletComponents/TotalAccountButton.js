@@ -4,7 +4,7 @@ import tingsymbol from '../../assets/icons/tingsymbol.png';
 
 function TotalAccountButton({amount, onPress, backgroundColor}) {
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={onPress} style={styles.buttonWrapper}>
       <View style={[styles.button]}>
         <View style={styles.coinwrap}>
           <Image source={tingsymbol} style={styles.icon} />
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   button: {
     flexDirection: 'row',
     // paddingHorizontal: 16,
-    width: 330,
+    width: '100%',
     height: 60,
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -41,7 +41,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderWidth: 1,
     borderRadius: 12,
-    margin: 5,
   },
   text: {
     marginHorizontal: 8,
@@ -65,6 +64,9 @@ const styles = StyleSheet.create({
   coinwrap: {
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  buttonWrapper: {
+    width: '100%',
   },
 });
 

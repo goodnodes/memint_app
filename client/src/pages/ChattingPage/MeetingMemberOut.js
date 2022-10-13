@@ -64,42 +64,53 @@ function MeetingMemberOut({route}) {
       <View style={styles.header}>
         <BackButton />
       </View>
-      <Text style={styles.title}>미팅 멤버 내보내기</Text>
+      <Text style={styles.title}>Export Member</Text>
       <View style={styles.wrapper}>
-        <KeyboardAwareScrollView style={{width: '100%'}}>
+        <KeyboardAwareScrollView
+          style={{width: '100%'}}
+          contentContainerStyle={{paddingBottom: 90}}>
           <View style={styles.warningBox}>
             <Icon name="error-outline" size={20} color="#58FF7D" />
             <Text style={styles.boldText}>
-              멤버 퇴출은 다음의 경우에만 진행해 주세요.
+              Please proceed with the withdrawal of the members only in the
+              following cases.
             </Text>
             <View>
               <Text style={styles.plainText}>
-                •{'  '}채팅방 내 타인을 모욕하거나 비방
+                •{'  '}Insult or slander others in the chatting room
               </Text>
               <Text style={styles.plainText}>
-                •{'  '}음란물, 불법 사행성 도박 사이트 홍보 메시지 발송
+                •{'  '}Sending pornography, illegal gambling sites, and
+                promotional messages
               </Text>
               <Text style={styles.plainText}>
-                •{'  '}불법촬영물, 허위영상물, 아동・청소년 성착취물 공유
+                •{'  '}Sharing illegal filming, false video, and sexual
+                exploitation of children and adolescents
               </Text>
               <Text style={styles.plainText}>
-                •{'  '}타인의 개인정보 유출 및 권리침해
+                •{'  '}Leakage of personal information and infringement of
+                rights of others
               </Text>
-              <Text style={styles.plainText}>•{'  '}장기간 미응답</Text>
-              <Text style={styles.plainText}>•{'  '}기타 특이사항</Text>
+              <Text style={styles.plainText}>
+                •{'  '}Long-term unresponsive
+              </Text>
+              <Text style={styles.plainText}>
+                •{'  '}In other unusual cases
+              </Text>
             </View>
             <Text style={styles.bigText}>
-              ※{'  '}잦은 멤버 퇴출은 이용제한조치 사유가 될 수 있습니다.
+              ※{'  '}Frequent withdrawal of members can be a reason for
+              restrictions on use.
             </Text>
           </View>
           <View style={styles.selectSection}>{member}</View>
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>
-              멤버 내보내기 사유를 작성해 주세요.
+              Please write the reason for sending the member out.
             </Text>
             <TextInput
               style={styles.textInput}
-              placeholder="퇴출 사유를 구체적으로 적어주세요"
+              placeholder="Please write the reason specifically"
               multiline={true}
               value={form.text}
               onChangeText={text => {
@@ -131,15 +142,15 @@ function MeetingMemberOut({route}) {
             setModalVisible(true);
           }}>
           <Text style={{color: '#1D1E1E', fontSize: 18, fontWeight: '600'}}>
-            완료
+            Submit
           </Text>
         </Pressable>
       </View>
 
       <DoubleModal
-        text={`${form.nickName} \n님을 내보내시겠습니까?`}
-        nButtonText="아니요"
-        pButtonText="네"
+        text={`Are you sure you want to export ${form.nickName}?`}
+        nButtonText="No"
+        pButtonText="Yes"
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
         pFunction={() => {
@@ -159,7 +170,7 @@ function MeetingMemberOut({route}) {
             })
             .then(() => {
               navigation.navigate('ChattingListPage');
-              showToast('success,', `${form.nickName} 님을 내보내셨습니다.`);
+              showToast('success,', `${form.nickName} has been kicked out.`);
             });
         }}
         nFunction={() => {

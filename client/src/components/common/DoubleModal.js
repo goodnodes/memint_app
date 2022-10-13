@@ -94,8 +94,8 @@ function DoubleModal({
 DoubleModal.defaultProps = {
   text: '모달?',
   //body={<Text>정말로?</Text>}
-  nButtonText: '아니요',
-  pButtonText: '네',
+  nButtonText: 'No',
+  pButtonText: 'Yes',
   pFunction: () => {},
   nFunction: () => {},
 };

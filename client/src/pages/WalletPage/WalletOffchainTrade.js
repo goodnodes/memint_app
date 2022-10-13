@@ -84,7 +84,7 @@ const WalletOffchainTrade = ({navigation}) => {
             }}>
             <Image source={tingIcon} style={styles.icon} />
           </TouchableOpacity>
-          <Text style={styles.freeTingText}> TING을 눌러 무료 TING 받기</Text>
+          <Text style={styles.freeTingText}>Press TING to get free TING</Text>
         </View>
         <View style={styles.buttonContainer}>
           <View style={styles.buttonWrapper}>
@@ -94,7 +94,7 @@ const WalletOffchainTrade = ({navigation}) => {
               height={38}
               textSize={17}
               margin={[5, 0, 5, 5]}
-              text="가져오기"
+              text="Receive"
               fontFamily="NeoDunggeunmoPro-Regular"
               hasMarginBottom
               onPress={handleRecieveSelect}
@@ -106,7 +106,7 @@ const WalletOffchainTrade = ({navigation}) => {
               height={38}
               textSize={17}
               margin={[5, 5, 5, 0]}
-              text="내보내기"
+              text="Transfer"
               fontFamily="NeoDunggeunmoPro-Regular"
               hasMarginBottom
               onPress={handleTransferSelect}
@@ -119,9 +119,9 @@ const WalletOffchainTrade = ({navigation}) => {
             <WalletOffchainTransfer />
           )}
           <DoubleModal
-            text={`하루 한 번 1 TING을 받을 수 있습니다. 받으시겠습니까? \n(베타테스트 기간 한정)`}
-            nButtonText="아니요"
-            pButtonText="네"
+            text={`You can get 1 TING once a day. Would you like to receive it? \n(For beta test periods only)`}
+            nButtonText="No"
+            pButtonText="Yes"
             modalVisible={modalVisible}
             setModalVisible={setModalVisible}
             nFunction={() => {
@@ -140,7 +140,7 @@ const WalletOffchainTrade = ({navigation}) => {
                       createEarnOffTxLog(
                         userDetail.userId,
                         1,
-                        '무료 TING 지급',
+                        'Receive Free TING',
                         userDetail.tokenAmount + 1,
                       ).then(async () => {
                         const res = await getOffchainTokenLog(user.id);
@@ -152,14 +152,14 @@ const WalletOffchainTrade = ({navigation}) => {
                           ...user,
                           tokenAmount: userDetail.tokenAmount + 1,
                         });
-                        showToast('success', 'TING 지급이 완료되었습니다.');
+                        showToast('success', 'Successfully received.');
                       });
                       // });
                     });
                   } else {
                     showToast(
                       'error',
-                      `이미 토큰을 지급받으셨습니다.\n내일 다시 시도해주세요.`,
+                      `Already received token.\nPlease try again tomorrow.`,
                     );
                   }
                 });

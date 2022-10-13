@@ -39,7 +39,9 @@ function MeetingElement({item}) {
           </Text>
           <View style={styles.bar} />
           <Text style={[styles.infoEl]}>
-            {handleDateInFormat(item.meetDate)}
+            {item.meetDate.toDate().toLocaleString('en').slice(0, -17) +
+              item.meetDate.toDate().toLocaleString('en').slice(-11, -6) +
+              item.meetDate.toDate().toLocaleString('en').slice(-2)}
           </Text>
         </View>
         <View style={styles.meetingTags}>
@@ -59,7 +61,7 @@ function MeetingElement({item}) {
         </View>
       </View>
       <TouchableOpacity style={styles.button} onPress={handleNavigate}>
-        <Text style={styles.buttonText}> 함께하기 </Text>
+        <Text style={styles.buttonText}>{'    '}Join</Text>
         <Icon name="play-arrow" size={24} color={'#58FF7D'} />
       </TouchableOpacity>
     </View>
@@ -176,7 +178,7 @@ const styles = StyleSheet.create({
     elevation: 18,
   },
   buttonText: {
-    fontSize: 16,
+    fontSize: 18,
     letterSpacing: -0.5,
     fontWeight: '600',
     color: '#3C3D43',

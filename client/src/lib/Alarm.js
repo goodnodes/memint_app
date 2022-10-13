@@ -45,7 +45,7 @@ export const createMeetingProposal = data => {
     .then(() => {
       notification({
         receiver: data.receiver,
-        message: '미팅 신청 메시지가 도착했습니다',
+        message: 'Request message has arrived',
         title: 'MEMINT',
       });
     })
@@ -77,7 +77,7 @@ export const createMeetingAccept = ({...data}) => {
     .then(() => {
       notification({
         receiver: data.receiver,
-        message: '수락 메시지가 도착했습니다',
+        message: 'Acceptance message has arrived',
         title: 'MEMINT',
       });
     })

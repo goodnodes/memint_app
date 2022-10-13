@@ -27,7 +27,7 @@ import useNftActions from '../../utils/hooks/UseNftActions';
 import {getNFTs, getProfile, getMemin, calcHumanElement} from '../../lib/NFT';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 import LinearGradient from 'react-native-linear-gradient';
-import memintLogo from '../../assets/icons/memintLogo.png'
+import memintLogo from '../../assets/icons/memintLogo.png';
 import {useToast} from '../../utils/hooks/useToast';
 import {useIsFocused} from '@react-navigation/native';
 
@@ -116,7 +116,7 @@ const SignInScreen = ({navigation, route}) => {
       }),
         navigation.navigate('Main');
     } catch (e) {
-      showToast('error', '로그인 실패');
+      showToast('error', 'Login Failed');
       console.log(e);
     } finally {
       setLoading(false);
@@ -168,14 +168,14 @@ const SignInScreen = ({navigation, route}) => {
               onSubmitSignUp={goToSignUp}
             />
             <View style={styles.textContainer}>
-              <Text style={styles.textAsk}>이미 회원이신가요?</Text>
+              <Text style={styles.textAsk}>Already have an account?</Text>
               {/* <Text style={styles.textFind}>아이디 / 비밀번호 찾기</Text> */}
               <View style={styles.buttons}>
                 <TouchableOpacity style={styles.textFind} onPress={goToFindId}>
-                  <Text style={styles.plainText}> 아이디 찾기</Text>
+                  <Text style={styles.plainText}> Find ID</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.textFind} onPress={goToFindPW}>
-                  <Text style={styles.plainText}> 비밀번호 찾기</Text>
+                  <Text style={styles.plainText}> Find Password</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
     width: 116,
     height: 79,
     marginTop: 92,
-    marginBottom: 64
+    marginBottom: 64,
   },
   text: {
     fontSize: 32,

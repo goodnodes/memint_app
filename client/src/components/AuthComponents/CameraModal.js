@@ -48,7 +48,7 @@ function CameraModal({
             <View style={styles.modalView}>
               <View style={styles.buttonRow}>
                 <BasicButton
-                  text="카메라로 촬영하기"
+                  text="Take Photo"
                   textSize={16}
                   width={200}
                   height={45}
@@ -62,7 +62,7 @@ function CameraModal({
                   }}
                 />
                 <BasicButton
-                  text="사진 선택하기"
+                  text="Choose From Library"
                   textSize={16}
                   width={200}
                   height={45}

@@ -54,7 +54,7 @@ const SignUpAgreementScreen = ({navigation, route}) => {
   const onSubmitSignUp = async () => {
     if (!(serviceCheck && ageCheck && useCheck)) {
       // Alert.alert('실패', '약관에 동의해주세요');
-      showToast('error', '약관에 동의해주세요');
+      showToast('error', 'Please accept the terms and conditions');
     } else {
       try {
         setLoading(true);
@@ -81,7 +81,7 @@ const SignUpAgreementScreen = ({navigation, route}) => {
           email: userInfo.email,
           nickName: userInfo.nickName,
           gender: userInfo.gender,
-          birth: `${userInfo.birthYear}년 ${userInfo.birthMonth}월 ${userInfo.birthDay}일`,
+          birth: `${userInfo.birthYear}. ${userInfo.birthMonth}. ${userInfo.birthDay}`,
           picture: photoURL,
           phoneNumber: userInfo.phoneNumber,
           property: userInfo.property,
@@ -259,7 +259,7 @@ const SignUpAgreementScreen = ({navigation, route}) => {
         <BackButton />
       </View>
       <View style={styles.fullscreenSub}>
-        <Text style={styles.textMain}>서비스 약관</Text>
+        <Text style={styles.textMain}>Terms of Service</Text>
         <View style={styles.form}>
           <CheckBox
             style={styles.checkBox}
@@ -270,8 +270,8 @@ const SignUpAgreementScreen = ({navigation, route}) => {
             tintColors={{true: '#58FF7D'}}
           />
 
-          <Text style={styles.text}>서비스 약관에 동의</Text>
-          <Text style={styles.textSub}>필수</Text>
+          <Text style={styles.text}>Accept the Terms of Service</Text>
+          <Text style={styles.textSub}>required</Text>
         </View>
         <View style={styles.form}>
           <CheckBox
@@ -282,8 +282,10 @@ const SignUpAgreementScreen = ({navigation, route}) => {
             onTintColor="#58FF7D"
             tintColors={{true: '#58FF7D'}}
           />
-          <Text style={styles.text}>개인정보 수집 및 이용동의</Text>
-          <Text style={styles.textSub}>필수</Text>
+          <Text style={styles.text}>
+            Agree to collect and use personal information
+          </Text>
+          <Text style={styles.textSub}>required</Text>
         </View>
         <View style={styles.form}>
           <CheckBox
@@ -294,8 +296,8 @@ const SignUpAgreementScreen = ({navigation, route}) => {
             onTintColor="#58FF7D"
             tintColors={{true: '#58FF7D'}}
           />
-          <Text style={styles.text}>만 19세 이상</Text>
-          <Text style={styles.textSub}>필수</Text>
+          <Text style={styles.text}>19 years of age or older</Text>
+          <Text style={styles.textSub}>required</Text>
         </View>
         <View style={styles.form}>
           <CheckBox
@@ -306,12 +308,15 @@ const SignUpAgreementScreen = ({navigation, route}) => {
             onTintColor="#58FF7D"
             tintColors={{true: '#58FF7D'}}
           />
-          <Text style={styles.text}>혜택 및 이벤트 알림 수신 동의</Text>
-          <Text style={styles.textSub}>선택</Text>
+          <Text style={styles.text}>
+            Agree to receive benefits and event notifications
+          </Text>
+          <Text style={styles.textSub}>optional</Text>
         </View>
         <Text style={styles.contentText}>
-          마케팅 수신 동의를 체크하지 않으면, 추천 모임 알림, 이벤트 소식 등 앱
-          사용 멤버만을 위한 특별한 혜택 정보를 받을 수 없어요.
+          If you don't check your consent to receive marketing, you won't be
+          able to receive special benefit information only for members who use
+          the app, such as recommendation meeting notification and event news.
         </Text>
         <View style={styles.formAllAgree}>
           <CheckBox
@@ -322,7 +327,7 @@ const SignUpAgreementScreen = ({navigation, route}) => {
             onTintColor="#58FF7D"
             tintColors={{true: '#58FF7D'}}
           />
-          <Text style={styles.text}>모두 동의합니다.</Text>
+          <Text style={styles.text}>Agree with everything.</Text>
         </View>
         {/* <BasicButton
           style={styles.button}
@@ -335,7 +340,7 @@ const SignUpAgreementScreen = ({navigation, route}) => {
           onPress={onSubmitSignUp}
         /> */}
         <TouchableOpacity style={styles.button} onPress={onSubmitSignUp}>
-          <Text style={styles.buttonText}>회원가입 완료</Text>
+          <Text style={styles.buttonText}>Create Account</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -400,6 +405,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: '#ffffff',
     letterSpacing: -0.5,
+    maxWidth: 240,
   },
   textAllAgree: {
     fontSize: 40,

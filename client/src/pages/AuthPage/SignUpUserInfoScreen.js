@@ -82,7 +82,7 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
         form.gender === ''
       ) {
         // Alert.alert('실패', '회원 정보를 올바르게 입력해주세요');
-        showToast('error', '회원 정보를 올바르게 입력해주세요.');
+        showToast('error', 'Please fill out correct information.');
       } else {
         Keyboard.dismiss();
         setLoading(true);
@@ -165,16 +165,19 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
           <ScrollView
             style={styles.fullscreenSub}
             contentContainerStyle={styles.paddingBottom}>
-            <Text style={styles.title}>프로필 설정</Text>
+            <Text style={styles.title}>User Profile</Text>
             <Text style={styles.alertText}>
-              본인의 얼굴이 잘 나온 사진을 올려주세요.{'\n'}
-              본인 얼굴이 아닌 다른 이미지 사용 시 서비스 이용에 제한이 있어요.
+              Please upload a picture of your face.{'\n'}
+              There will be restrictions on the use of the service when using
+              images other than your own face.
+              {/* 본인의 얼굴이 잘 나온 사진을 올려주세요.{'\n'}
+              본인 얼굴이 아닌 다른 이미지 사용 시 서비스 이용에 제한이 있어요. */}
             </Text>
             <View style={styles.cameraArea}>
               <CameraButton response={response} setResponse={setResponse} />
             </View>
             <View style={[styles.form, styles.nickNameForm]}>
-              <Text style={styles.infoText}>닉네임</Text>
+              <Text style={styles.infoText}>Nickname</Text>
               <BorderedInput
                 size="wide"
                 // placeholder="닉네임"
@@ -189,11 +192,11 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
                   styles.validNickname,
                   {color: validNickname ? '#3C3D43' : 'red'},
                 ]}>
-                너무 긴 닉네임입니다.
+                Too long nickname
               </Text>
             </View>
             <View style={styles.form}>
-              <Text style={styles.infoText}>생년월일</Text>
+              <Text style={styles.infoText}>Birth</Text>
               <View style={styles.birthform}>
                 <SelectDropdown
                   data={[
@@ -222,7 +225,7 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
                   buttonTextStyle={styles.buttonTextStyle}
                   position={'bottom'}
                 />
-                <Text style={styles.infoText}> 년 </Text>
+                <Text style={styles.infoText}> Y </Text>
                 <SelectDropdown
                   data={[
                     '1',
@@ -251,7 +254,7 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
                   rowTextStyle={styles.dropdownTextStyle}
                   buttonTextStyle={styles.buttonTextStyle}
                 />
-                <Text style={styles.infoText}> 월 </Text>
+                <Text style={styles.infoText}> M </Text>
                 <SelectDropdown
                   data={[
                     '1',
@@ -299,13 +302,13 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
                   rowTextStyle={styles.dropdownTextStyle}
                   buttonTextStyle={styles.buttonTextStyle}
                 />
-                <Text style={styles.infoText}> 일 </Text>
+                <Text style={styles.infoText}> D </Text>
               </View>
             </View>
             <View style={styles.form}>
-              <Text style={styles.infoText}>성별</Text>
+              <Text style={styles.infoText}>Gender</Text>
               <SelectDropdown
-                data={['남자', '여자']}
+                data={['Male', 'Female']}
                 onSelect={(selectedItem, index) => {
                   setForm({...form, gender: selectedItem});
                 }}
@@ -320,8 +323,8 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
             </View>
             <View style={styles.alertTextArea}>
               <Text style={styles.alertText}>
-                닉네임, 생년월일, 성별 등 개인을 식별할 수 있는 정보는{'\n'}
-                추후 수정이 불가능합니다.
+                Information that can identify individuals, such as nickname,
+                date of birth, and gender, cannot be modified later.
               </Text>
             </View>
 
@@ -337,7 +340,7 @@ const SignUpUserInfoScreen = ({navigation, route}) => {
           /> */}
           </ScrollView>
           <TouchableOpacity style={styles.button} onPress={onSubmit}>
-            <Text style={styles.buttonText}>다음</Text>
+            <Text style={styles.buttonText}>Continue</Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>

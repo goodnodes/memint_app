@@ -13,7 +13,7 @@ import {
 // import DoubleModal from '../../components/common/DoubleModal';
 import {changeJoinerToConfirmed, getMeeting} from '../../lib/Meeting';
 import {getUser} from '../../lib/Users';
-import {handleDateInFormat} from '../../utils/common/Functions';
+import {handleDate, handleDateInFormat} from '../../utils/common/Functions';
 import {useMeeting} from '../../utils/hooks/UseMeeting';
 import useMeetingActions from '../../utils/hooks/UseMeetingActions';
 import {useToast} from '../../utils/hooks/useToast';
@@ -88,7 +88,7 @@ function ParticipatedMeetingList({user}) {
           ))
       ) : (
         // <View style={styles.emptyView}>
-        <Text style={styles.emptyText}>참여 중인 미팅이 없습니다.</Text>
+        <Text style={styles.emptyText}>There are no rooms I joined.</Text>
         // </View>
       )}
     </ScrollView>
@@ -164,9 +164,7 @@ function ParticipatedMeetings({item, getJoinedRoom}) {
             <Text style={styles.details}>{item.region}</Text>
             <View style={styles.bar} />
 
-            <Text style={styles.details}>
-              {handleDateInFormat(item.meetDate)}
-            </Text>
+            <Text style={styles.details}>{handleDate(item.meetDate)}</Text>
             <View style={styles.bar} />
             <Text Text style={styles.details}>
               {item.peopleNum + ':' + item.peopleNum}

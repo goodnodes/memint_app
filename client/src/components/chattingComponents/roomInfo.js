@@ -43,7 +43,7 @@ function RoomInfo({chatInfo, userDetail, setModalVisible}) {
 
   const handleNavigateToConfirm = () => {
     if (meetingStatus === 'open' || meetingStatus === 'full') {
-      showToast('error', '미팅 확정 후 인증이 가능합니다');
+      showToast('error', 'Confirmation is possible after meeting is fixed');
       return;
     } else {
       navigation.navigate('MeetingConfirm', {meetingInfo: chatInfo});
@@ -88,7 +88,7 @@ function RoomInfo({chatInfo, userDetail, setModalVisible}) {
   return (
     <View style={styles.container}>
       <View style={styles.wrapper}>
-        <Text style={styles.hilightText}>미팅 참여자</Text>
+        <Text style={styles.hilightText}>Members</Text>
         {people}
         <View style={styles.buttons}>
           <Pressable
@@ -104,7 +104,7 @@ function RoomInfo({chatInfo, userDetail, setModalVisible}) {
                 letterSpacing: -0.5,
               }}>
               {' '}
-              미팅참여 인증하기
+              Verification
             </Text>
           </Pressable>
           <Pressable
@@ -118,11 +118,14 @@ function RoomInfo({chatInfo, userDetail, setModalVisible}) {
                       userInfo,
                     });
                   } else {
-                    showToast('error', '이미 후기를 작성하셨습니다.');
+                    showToast('error', 'Already Wrote reviews.');
                   }
                 });
               } else {
-                showToast('error', '미팅 인증 후 후기 작성이 가능합니다.');
+                showToast(
+                  'error',
+                  'You can write reviews after verifying the meeting.',
+                );
               }
             }}
             style={{marginTop: 20, flexDirection: 'row', alignItems: 'center'}}>
@@ -136,7 +139,7 @@ function RoomInfo({chatInfo, userDetail, setModalVisible}) {
                 letterSpacing: -0.5,
               }}>
               {' '}
-              미팅 후기 보내기
+              Send a Feedback
             </Text>
           </Pressable>
           <Pressable
@@ -209,7 +212,7 @@ function Joiner({nickName, state, img, isHost, id, setModalVisible, chatInfo}) {
             fontWeight: '500',
             letterSpacing: -0.5,
           }}>
-          확정
+          Confirm
         </Text>
       </Pressable>
     </View>

@@ -29,7 +29,7 @@ function FocusAwareStatusBar(props) {
 const FindIdVerifyMobileScreen = ({navigation}) => {
   const [buttonReady, setButtonReady] = useState(false);
   const [validNumber, setValidNumber] = useState(
-    '11자리 숫자 전화번호를 입력해주세요',
+    'Please enter an 11-digit phone number',
   );
   const [textColor, setTextColor] = useState('gray');
   const [verified, setVerified] = useState(null);
@@ -48,15 +48,15 @@ const FindIdVerifyMobileScreen = ({navigation}) => {
     setForm({...form, [name]: value});
     if (name === 'mobileNumber') {
       if (value.length === 0) {
-        setValidNumber('전화번호를 입력해주세요 (11자리 숫자)');
+        setValidNumber('Please enter an 11-digit phone number');
         setTextColor('#EAFFEF');
       } else if (value.length !== 11 || value.slice(0, 3) !== '010') {
         setButtonReady(false);
-        setValidNumber('전화번호가 유효하지 않습니다');
+        setValidNumber('Invalid phone number');
         setTextColor('#FF5029');
       } else if (value.length === 11) {
         setButtonReady(true);
-        setValidNumber('유효한 전화번호 입니다.');
+        setValidNumber('Valid phone number');
         setTextColor('#58FF7D');
       }
     }
@@ -117,17 +117,17 @@ const FindIdVerifyMobileScreen = ({navigation}) => {
 
         <View style={styles.fullscreen}>
           <View style={styles.fullscreenSub}>
-            <Text style={styles.title}>내 정보로 찾기</Text>
+            <Text style={styles.title}>Find ID with My Information</Text>
             <Text style={styles.contentTextSub}>
-              회원가입 시 사용한 휴대폰 번호를 입력해 주세요.
+              Please enter the mobile phone number you used to sign up.
             </Text>
             <View style={styles.form}>
-              <Text style={styles.contentText}>휴대폰</Text>
+              <Text style={styles.contentText}>Mobile</Text>
               <View style={styles.formRow}>
                 <View style={styles.inputWrap}>
                   <BorderedInput
                     size="wide"
-                    placeholder="전화번호를 입력해주세요"
+                    placeholder="Please enter mobile phone number"
                     value={form.mobileNumber}
                     onChangeText={createChangeTextHandler('mobileNumber')}
                     autoCapitalize="none"
@@ -145,7 +145,7 @@ const FindIdVerifyMobileScreen = ({navigation}) => {
                   textColor={buttonReady ? '#1D1E1E' : '#ffffff'}
                   backgroundColor={buttonReady ? '#AEFFC1' : 'transparent'}
                   border={true}
-                  text="인증번호받기"
+                  text="Submit"
                   onPress={async () =>
                     verifyPhoneNumber(
                       `+82 ${form.mobileNumber.slice(
@@ -155,7 +155,7 @@ const FindIdVerifyMobileScreen = ({navigation}) => {
                         3,
                         7,
                       )}-${form.mobileNumber.slice(7, 11)}`,
-                    ).then(setValidNumber('인증번호가 발송되었습니다'))
+                    ).then(setValidNumber('Verification code has been sent'))
                   }
                 />
               </View>
@@ -165,12 +165,12 @@ const FindIdVerifyMobileScreen = ({navigation}) => {
             </View>
 
             <View style={styles.form}>
-              <Text style={styles.contentText}>인증번호</Text>
+              <Text style={styles.contentText}>Verification code</Text>
               <View style={styles.formRow}>
                 <View style={styles.inputWrap}>
                   <BorderedInput
                     size="wide"
-                    placeholder="인증번호를 입력해주세요"
+                    placeholder="Please enter verification code"
                     value={form.code}
                     onChangeText={createChangeTextHandler('code')}
                     // secureTextEntry
@@ -191,7 +191,7 @@ const FindIdVerifyMobileScreen = ({navigation}) => {
                   textSize={13}
                   margin={[0, 0, 0, 8]}
                   border={true}
-                  text="인증하기"
+                  text="Verify"
                   onPress={() => confirmCode()}
                 />
               </View>
@@ -200,14 +200,14 @@ const FindIdVerifyMobileScreen = ({navigation}) => {
               {verified === null
                 ? ''
                 : verified
-                ? '성공적으로 인증되었습니다'
-                : '인증번호가 유효하지 않습니다.'}
+                ? 'Successfully verified'
+                : 'Invalid verification code'}
             </Text>
             <Text style={styles.text}>
               {email === 'NA'
-                ? '전화번호와 일치하는 회원정보가 없습니다'
+                ? "There's no member matches the mobile phone number"
                 : email
-                ? `회원님이 가입하신 이메일은 ${email} 입니다`
+                ? `The email you signed up for is ${email}`
                 : null}
             </Text>
             {/* <BasicButton
@@ -223,7 +223,7 @@ const FindIdVerifyMobileScreen = ({navigation}) => {
             onPress={goToNextPage}
           /> */}
             <TouchableOpacity style={styles.button} onPress={goToNextPage}>
-              <Text style={styles.buttonText}>로그인</Text>
+              <Text style={styles.buttonText}>Sign In</Text>
             </TouchableOpacity>
           </View>
         </View>

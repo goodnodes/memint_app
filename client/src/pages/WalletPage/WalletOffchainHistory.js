@@ -113,7 +113,7 @@ function WalletOffchainHistory({navigation}) {
         onPress={goToOffchainTrade}
       />
       <Text style={styles.accountText}>History</Text>
-      <ScrollView>
+      <ScrollView style={styles.scrollView}>
         {offTxLogs ? (
           offTxLogs.map((log, idx) => {
             // console.log(log);
@@ -140,6 +140,7 @@ const styles = StyleSheet.create({
   view: {
     alignItems: 'flex-start',
     flex: 1,
+    width: '100%',
   },
   container: {
     flex: 1,
@@ -174,6 +175,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginTop: 20,
     marginBottom: 10,
+  },
+  scrollView: {
+    width: '100%',
   },
 });
 

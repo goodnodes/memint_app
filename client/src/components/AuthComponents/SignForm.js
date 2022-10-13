@@ -7,7 +7,7 @@ const SignForm = ({onSubmit, form, createChangeTextHandler}) => {
   return (
     <>
       <BorderedInput
-        placeholder="이메일"
+        placeholder="Email"
         hasMarginBottom
         value={form.email}
         onChangeText={createChangeTextHandler('email')}
@@ -20,7 +20,7 @@ const SignForm = ({onSubmit, form, createChangeTextHandler}) => {
         onSubmitEditing={() => passwordRef.current.focus()}
       />
       <BorderedInput
-        placeholder="비밀번호"
+        placeholder="Password"
         value={form.password}
         onChangeText={createChangeTextHandler('password')}
         secureTextEntry

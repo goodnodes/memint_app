@@ -55,7 +55,7 @@ function EditMyInfo({route, navigation}) {
       property.favGame.length === 0 ||
       selfIntroduction === ''
     ) {
-      showToast('error', '모든 내용을 입력해주세요.');
+      showToast('error', 'Please fill out all information.');
     } else {
       EditUserInfo(route.params.id, profileImg, property, selfIntroduction);
       editUserInfo({
@@ -64,7 +64,7 @@ function EditMyInfo({route, navigation}) {
         selfIntroduction: selfIntroduction,
         picture: profileImg,
       });
-      showToast('success', '내 정보가 수정되었습니다.');
+      showToast('success', 'Successfully edited.');
       navigation.pop();
     }
   };
@@ -83,11 +83,11 @@ function EditMyInfo({route, navigation}) {
         <BackButton />
         {Platform.OS === 'android' ? (
           <TouchableNativeFeedback onPress={handleSubmit}>
-            <Text style={styles.completeText}>완료</Text>
+            <Text style={styles.completeText}>Edit</Text>
           </TouchableNativeFeedback>
         ) : (
           <TouchableOpacity onPress={handleSubmit}>
-            <Text style={styles.completeText}>완료</Text>
+            <Text style={styles.completeText}>Edit</Text>
           </TouchableOpacity>
         )}
       </View>
@@ -95,7 +95,7 @@ function EditMyInfo({route, navigation}) {
       <ScrollView
         style={styles.scrollview}
         contentContainerStyle={styles.paddingBottom}>
-        <Text style={styles.title}>내 정보 수정</Text>
+        <Text style={styles.title}>Edit My Info</Text>
         <ChangeProfile
           profile={profileImg}
           setProfile={setProfileImg}
@@ -103,7 +103,7 @@ function EditMyInfo({route, navigation}) {
         />
 
         <View style={styles.li}>
-          <Text style={styles.liText}>닉네임</Text>
+          <Text style={styles.liText}>Nickname</Text>
           <BorderedInput
             size="wide"
             placeholder={route.params.nickName}
@@ -111,7 +111,7 @@ function EditMyInfo({route, navigation}) {
           />
         </View>
         <View style={styles.li}>
-          <Text style={styles.liText}>자기소개</Text>
+          <Text style={styles.liText}>Self Infroduction</Text>
           <BorderedInput
             size="wide"
             defaultValue={selfIntroduction}
@@ -135,7 +135,7 @@ function EditMyInfo({route, navigation}) {
           />
         </View>
         <View style={styles.li}>
-          <Text style={styles.liText}>주출몰지</Text>
+          <Text style={styles.liText}>Favorite Place</Text>
           <View style={styles.tagsContainer}>
             {data.region.map((tag, idx) => (
               <TagElement
@@ -150,7 +150,7 @@ function EditMyInfo({route, navigation}) {
           </View>
         </View>
         <View style={styles.li}>
-          <Text style={styles.liText}>자주보는 유튜브</Text>
+          <Text style={styles.liText}>Favorite Channel</Text>
           <BorderedInput
             size="wide"
             defaultValue={property.favYoutube}
@@ -161,7 +161,7 @@ function EditMyInfo({route, navigation}) {
           />
         </View>
         <View style={styles.li}>
-          <Text style={styles.liText}>닮은꼴 연예인</Text>
+          <Text style={styles.liText}>Twin Celebrity</Text>
           <BorderedInput
             size="wide"
             defaultValue={property.twinCeleb}
@@ -172,7 +172,7 @@ function EditMyInfo({route, navigation}) {
           />
         </View>
         <View style={styles.li}>
-          <Text style={styles.liText}>주량</Text>
+          <Text style={styles.liText}>Drink</Text>
           <SelectDropdown
             data={data.drinkCapa}
             onSelect={(selectedItem, index) => {
@@ -187,7 +187,7 @@ function EditMyInfo({route, navigation}) {
         </View>
 
         <View style={styles.li}>
-          <Text style={styles.liText}>선호 주류</Text>
+          <Text style={styles.liText}>Favorite Liquor</Text>
           <View style={styles.tagsContainer}>
             {data.alcoholType.map((tag, idx) => (
               <TagElement
@@ -202,7 +202,7 @@ function EditMyInfo({route, navigation}) {
           </View>
         </View>
         <View style={styles.li}>
-          <Text style={styles.liText}>술자리 스타일</Text>
+          <Text style={styles.liText}>Party Style</Text>
           <View style={styles.tagsContainer}>
             {data.drinkStyle.map((tag, idx) => (
               <TagElement
@@ -217,7 +217,7 @@ function EditMyInfo({route, navigation}) {
           </View>
         </View>
         <View style={styles.li}>
-          <Text style={styles.liText}>통금</Text>
+          <Text style={styles.liText}>Curfew</Text>
           <View style={styles.tagsContainer}>
             {data.curfew.map((tag, idx) => (
               <TagElement
@@ -232,7 +232,7 @@ function EditMyInfo({route, navigation}) {
           </View>
         </View>
         <View style={styles.li}>
-          <Text style={styles.liText}>주력 게임</Text>
+          <Text style={styles.liText}>Favorite Game</Text>
           <View style={styles.tagsContainer}>
             {data.favGame.map((tag, idx) => (
               <TagElement

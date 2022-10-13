@@ -77,7 +77,7 @@ const WalletOffchainRecieve = ({navigation}) => {
             height={45}
             backgroundColor="#ffffff"
             border={false}
-            text={'가져오기'}
+            text={'Receive'}
             textSize={18}
             onPress={() => {
               setModalVisible(true);
@@ -85,10 +85,10 @@ const WalletOffchainRecieve = ({navigation}) => {
           />
         </View>
         <DoubleModal
-          text="TING을 내부 지갑으로 가져오겠습니까?"
+          text="Do you want to bring TING into your internal wallet?"
           //body={<Text>정말로?</Text>}
-          nButtonText="아니요"
-          pButtonText="네"
+          nButtonText="No"
+          pButtonText="Yes"
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
           nFunction={() => {
@@ -97,7 +97,7 @@ const WalletOffchainRecieve = ({navigation}) => {
           pFunction={() => {
             sendToOffChain().then(result => {
               if (result.data.message === 'success') {
-                showToast('success', 'TING을 가져왔습니다!');
+                showToast('success', 'Receive TING!');
                 getUser(userInfo.id).then(userDetail => {
                   updateTokenInfo({
                     tokenAmount: Number(userDetail.tokenAmount),

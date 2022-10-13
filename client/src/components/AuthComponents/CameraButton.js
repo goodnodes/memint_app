@@ -48,8 +48,8 @@ const CameraButton = ({response, setResponse, uid}) => {
     }
     ActionSheetIOS.showActionSheetWithOptions(
       {
-        title: '사진 업로드',
-        options: ['카메라로 촬영하기', '사진 선택하기', '취소'],
+        title: 'Upload Picture',
+        options: ['Take Photo', 'Choose From Library', 'Cancel'],
         cancelButtonIndex: 2,
       },
       buttonIndex => {

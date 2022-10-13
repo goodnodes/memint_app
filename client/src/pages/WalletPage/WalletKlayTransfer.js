@@ -105,9 +105,9 @@ const WalletKlayTransfer = () => {
             <View style={styles.buttonContainer}>
               <BasicButton
                 margin={[30, 0, 0, 0]}
-                width={330}
+                width={'100%'}
                 height={50}
-                text={'보내기'}
+                text={'Transfer'}
                 textSize={18}
                 backgroundColor="#ffffff"
                 border={false}
@@ -117,9 +117,9 @@ const WalletKlayTransfer = () => {
               />
             </View>
             <DoubleModal
-              text="보내시겠습니까?"
-              nButtonText="아니요"
-              pButtonText="네"
+              text="Are you sure you want to transfer?"
+              nButtonText="No"
+              pButtonText="Yes"
               modalVisible={modalVisible}
               setModalVisible={setModalVisible}
               nFunction={() => {
@@ -130,7 +130,7 @@ const WalletKlayTransfer = () => {
                   console.log('result.data is');
                   console.log(result.data);
                   if (result.data.message === 'success') {
-                    showToast('success', 'KLAY 전송이 완료되었습니다!');
+                    showToast('success', 'KLAY Transferred!');
                     getUser(userInfo.id).then(userDetail => {
                       // console.log(userDetail);
                       updateTokenInfo({
@@ -171,6 +171,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     // marginTop: 60,
+    paddingHorizontal: 15,
   },
   imageContainer: {
     alignItems: 'center',
@@ -192,7 +193,6 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     height: 48,
     backgroundColor: '#ffffff',
-    marginHorizontal: 25,
     marginTop: 10,
   },
   buttonContainer: {
@@ -213,7 +213,6 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     fontSize: 18,
     marginTop: 20,
-    marginLeft: 25,
     color: '#1D1E1E',
     letterSpacing: -0.5,
   },

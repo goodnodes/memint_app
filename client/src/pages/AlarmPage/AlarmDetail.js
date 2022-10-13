@@ -11,7 +11,7 @@ import {
 import {useToast} from '../../utils/hooks/useToast';
 import useUser from '../../utils/hooks/UseUser';
 import {updateUserMeetingIn} from '../../lib/Users';
-import {handleBirth, handleDateInFormat} from '../../utils/common/Functions';
+import {handleBirth, handleDate, handleDateInFormat} from '../../utils/common/Functions';
 import DoubleModal from '../../components/common/DoubleModal';
 import UserInfoModal from '../../components/common/UserInfoModal';
 import knowmore from '../../assets/icons/knowmore.png';
@@ -69,7 +69,7 @@ function AlarmDetail({route}) {
       //미팅의 상태도 손수 수정해줍니다.(임시로)
       updateMeeting(alarm.meetingId, {status: 'full'});
     }
-    showToast('basic', '신청이 수락되었습니다');
+    showToast('basic', 'Request accepted');
     navigation.navigate('AlarmPage');
   };
   // const handleDeny = () => {
@@ -81,7 +81,9 @@ function AlarmDetail({route}) {
     if (alarm.meetingInfo.waiting.indexOf(alarm.sender) !== -1) {
       return (
         <>
-          <Text style={styles.acceptText}>신청을 수락하시겠습니까?</Text>
+          <Text style={styles.acceptText}>
+            Do you want to accept the request?
+          </Text>
           <View style={styles.buttonArea}>
             {/* <BasicButton
                 text="거절하기"
@@ -93,7 +95,7 @@ function AlarmDetail({route}) {
                 onPress={handleDeny}
               /> */}
             <BasicButton
-              text="수락하기"
+              text="Accept"
               width={'100%'}
               height={50}
               textSize={17}
@@ -110,7 +112,7 @@ function AlarmDetail({route}) {
           el === {[alarm.sender]: 'fixed'},
       )
     ) {
-      return <Text style={styles.acceptText}>신청을 수락했습니다</Text>;
+      return <Text style={styles.acceptText}>Accpeted request</Text>;
     } else {
       return <></>;
     }
@@ -120,22 +122,22 @@ function AlarmDetail({route}) {
     let image = null;
     if (alarm.emotion === 'knowmore') {
       image = knowmore;
-      emotionText = '좀 더 알고싶어요';
+      emotionText = 'We need more talk';
     } else if (alarm.emotion === 'befriend') {
       image = befriend;
-      emotionText = '친구가 되고싶어요';
+      emotionText = 'Wanna be a friend';
     } else if (alarm.emotion === 'fallinlove') {
       image = fallinlove;
-      emotionText = '사랑에 빠졌어요';
+      emotionText = "I'm in love";
     } else if (alarm.emotion === 'soso') {
       image = soso;
-      emotionText = '그저 그랬어요';
+      emotionText = "It wasn't bad";
     } else if (alarm.emotion === 'notgood') {
       image = notgood;
-      emotionText = '다시는 안 보고 싶어요';
+      emotionText = "I didn't like it";
     } else if (alarm.emotion === 'terrible') {
       image = terrible;
-      emotionText = '불쾌했어요';
+      emotionText = 'Uncomfortable';
     }
 
     return (
@@ -191,28 +193,28 @@ function AlarmDetail({route}) {
 
             <View style={styles.userInfo}>
               <View style={styles.userInfoElement}>
-                <Text style={styles.key}>닉네임</Text>
+                <Text style={styles.key}>Nickname</Text>
                 <Text style={styles.value}>{alarm.senderInfo.nickName}</Text>
               </View>
               <View style={styles.userInfoElement}>
-                <Text style={styles.key}>나이</Text>
+                <Text style={styles.key}>Age</Text>
                 <Text style={styles.value}>
                   {handleBirth(alarm.senderInfo.birth)}
                 </Text>
               </View>
               <View style={styles.userInfoElement}>
-                <Text style={styles.key}>성별</Text>
+                <Text style={styles.key}>Gender</Text>
                 <Text style={styles.value}>{alarm.senderInfo.gender}</Text>
               </View>
             </View>
           </View>
           <Text style={styles.key}>
-            {alarm.type === 'feedback' ? '후기 내용' : '메시지'}
+            {alarm.type === 'feedback' ? 'Feedback' : 'Message'}
           </Text>
           {alarm.type === 'feedback' ? renderEmotion() : null}
           <Text style={styles.message}>{alarm.message}</Text>
           <View>
-            <Text style={styles.key}>미팅 정보</Text>
+            <Text style={[styles.key, styles.meetingKey]}>Group Dating Information</Text>
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate('ChattingListPage');
@@ -235,7 +237,7 @@ function AlarmDetail({route}) {
                 </Text>
                 <View style={styles.bar} />
                 <Text style={styles.meetingElement}>
-                  {handleDateInFormat(alarm.meetingInfo.meetDate)}
+                  {handleDate(alarm.meetingInfo.meetDate)}
                 </Text>
               </View>
             </TouchableOpacity>
@@ -370,7 +372,7 @@ const styles = StyleSheet.create({
   },
   key: {
     color: '#B9C5D1',
-    width: 60,
+    width: 75,
     fontSize: 15,
     letterSpacing: -0.5,
   },
@@ -411,6 +413,9 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: '#000000',
   },
+  meetingKey: {
+    width: 300
+  }
 });
 
 export default AlarmDetail;

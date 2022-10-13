@@ -44,7 +44,7 @@ const FindPWVerifyScreen = ({navigation}) => {
   };
   const goToNextPage = () => {
     passwordReset(form.email).then(() => {
-      showToast('success', '이메일 전송이 완료되었습니다!');
+      showToast('success', 'Email has been sent!');
     });
     navigation.navigate('SignIn');
   };
@@ -67,17 +67,17 @@ const FindPWVerifyScreen = ({navigation}) => {
           <BackButton />
         </View>
         <View style={styles.fullscreen}>
-          <Text style={styles.title}>내 정보 찾기</Text>
+          <Text style={styles.title}>Find Password</Text>
           <Text style={styles.contentText}>
-            회원가입 시 사용한 이메일을 입력해 주세요.
+            Please enter the email you used to sign up.
           </Text>
           <View style={styles.fullscreenSub}>
             <View style={styles.form}>
-              <Text style={styles.contentText}>이메일</Text>
+              <Text style={styles.contentText}>Email</Text>
 
               <BorderedInput
                 size="wide"
-                placeholder="이메일을 입력해주세요"
+                placeholder="Please enter Email"
                 value={form.email}
                 autoCapitalize="none"
                 autoCorrect={false}
@@ -91,7 +91,7 @@ const FindPWVerifyScreen = ({navigation}) => {
               />
             </View>
             <TouchableOpacity style={styles.button} onPress={goToNextPage}>
-              <Text style={styles.buttonText}>이메일 보내기</Text>
+              <Text style={styles.buttonText}>Submit</Text>
             </TouchableOpacity>
           </View>
         </View>

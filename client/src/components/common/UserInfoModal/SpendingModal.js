@@ -80,19 +80,19 @@ function SpendingModal({
                 width: '100%',
               }}>
               <View style={styles.calcText}>
-                <Text style={styles.boldText}>현재 보유 TING</Text>
-                <Text style={styles.boldText}>{user.tokenAmount}</Text>
+                <Text style={styles.boldText}>Current</Text>
+                <Text style={styles.boldText}>{user.tokenAmount} TING</Text>
               </View>
               <View style={styles.calcText}>
-                <Text style={styles.boldText}>필요 TING</Text>
-                <Text style={styles.boldText}>{amount}개</Text>
+                <Text style={styles.boldText}>Spend</Text>
+                <Text style={styles.boldText}>{amount} TING</Text>
               </View>
               {
                 user.tokenAmount > amount ? (
                   <View style={styles.calcText}>
-                    <Text style={styles.boldText}>차감 후 TING</Text>
+                    <Text style={styles.boldText}>After</Text>
                     <Text style={styles.boldText}>
-                      {Math.round((user.tokenAmount - amount) * 10) / 10}개
+                      {Math.round((user.tokenAmount - amount) * 10) / 10} TING
                     </Text>
                   </View>
                 ) : null
@@ -106,7 +106,7 @@ function SpendingModal({
             {user.tokenAmount > amount ? (
               <View style={styles.buttonRow}>
                 <BasicButton
-                  text="아니오"
+                  text="No"
                   textSize={16}
                   width={100}
                   height={45}
@@ -117,7 +117,7 @@ function SpendingModal({
                   onPress={() => setSpendingModalVisible(false)}
                 />
                 <BasicButton
-                  text="네"
+                  text="Yes"
                   textSize={16}
                   width={100}
                   height={45}
@@ -132,7 +132,7 @@ function SpendingModal({
               </View>
             ) : (
               <BasicButton
-                text="돌아가기"
+                text="Back"
                 textSize={16}
                 width={100}
                 height={45}

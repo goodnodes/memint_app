@@ -13,6 +13,7 @@ import {changeJoinerToTokenReceived} from '../../lib/Meeting';
 import {updateMeminStats} from '../../lib/Users';
 import {
   handleBirth,
+  handleDate,
   handleDateFromNow,
   handleDateInFormat,
 } from '../../utils/common/Functions';
@@ -45,7 +46,7 @@ function AlarmElement({alarm, getAlarmPage, alarms, setAlarms}) {
           return Object.keys(el)[0] === user.id;
         })[0][user.id] === 'tokenReceived'
       ) {
-        showToast('error', '이미 보상을 받았습니다.');
+        showToast('error', "You've already been rewarded.");
         return;
       }
       setEarnAskingModal(true);
@@ -56,15 +57,15 @@ function AlarmElement({alarm, getAlarmPage, alarms, setAlarms}) {
 
   const renderByType = () => {
     if (alarm.type === 'banned') {
-      return '미팅방에서 강퇴당하셨습니다';
+      return 'You were kicked out of the group dating room."';
     } else if (alarm.type === 'feedback') {
-      return `${alarm.senderInfo?.nickName}님이 후기를 보내셨습니다`;
+      return `${alarm.senderInfo?.nickName} sent a feedback`;
     } else if (alarm.type === 'accept') {
-      return `${alarm.senderInfo?.nickName}님이 신청을 수락했습니다`;
+      return `${alarm.senderInfo?.nickName} accepted your request`;
     } else if (alarm.type === 'proposal') {
-      return `${alarm.senderInfo?.nickName}님의 신청이 도착했습니다`;
+      return `${alarm.senderInfo?.nickName}'s request has arrived`;
     } else if (alarm.type === 'earned') {
-      return '미팅 인증에 성공했습니다. 보상을 받으세요!';
+      return 'Verification succeeded. Get your rewards!';
     } else {
       return '';
     }
@@ -97,15 +98,15 @@ function AlarmElement({alarm, getAlarmPage, alarms, setAlarms}) {
     }
     //firebase meeting members 변경
     await changeJoinerToTokenReceived(alarm.meetingInfo.id, user.id);
-    showToast('success', '미팅 참여 보상을 받았습니다.');
+    showToast('success', 'Rewarded for participating in the group dating.');
     await getAlarmPage();
   };
 
-  const handleDelete = async () => {
-    await deleteAlarm(user.id, alarm.id);
-    setAlarms([]);
-    setAlarms(alarms.filter(el => el.id !== alarm.id));
-  };
+  // const handleDelete = async () => {
+  //   await deleteAlarm(user.id, alarm.id);
+  //   setAlarms([]);
+  //   setAlarms(alarms.filter(el => el.id !== alarm.id));
+  // };
 
   // const renderRightActions = (progress, dragX) => {
   //   // const trans = dragX.interpolate({
@@ -146,10 +147,10 @@ function AlarmElement({alarm, getAlarmPage, alarms, setAlarms}) {
     // <Swipeable renderRightActions={renderRightActions}>
     <TouchableOpacity style={styles.container} onPress={handleClick}>
       <DoubleModal
-        text="채팅창으로 이동하시겠습니까?"
+        text="Do you want to go to the chatting room?"
         //body={<Text>정말로?</Text>}
-        nButtonText="아니요"
-        pButtonText="네"
+        nButtonText="No"
+        pButtonText="Yes"
         modalVisible={chattingConfirmModal}
         setModalVisible={setChattingConfirmModal}
         pFunction={() => {
@@ -165,10 +166,10 @@ function AlarmElement({alarm, getAlarmPage, alarms, setAlarms}) {
         }}
       />
       <DoubleModal
-        text="미팅 참여 보상을 받으시겠습니까?"
+        text="Would you like to receive a reward for participating the group dating?"
         //body={<Text>정말로?</Text>}
-        nButtonText="아니요"
-        pButtonText="네"
+        nButtonText="No"
+        pButtonText="Yes"
         modalVisible={earnAskingModal}
         setModalVisible={setEarnAskingModal}
         pFunction={() => {
@@ -184,7 +185,7 @@ function AlarmElement({alarm, getAlarmPage, alarms, setAlarms}) {
         setEarnModalVisible={setEarnModalVisible}
         pFunction={handleTokenReceive}
         amount={user.meminStats.HumanElement / 10} // 나중에 근면함 점수 곱해서 넣어줘야함
-        txType="미팅 참여"
+        txType="Participate Group Dating"
       />
       <View style={styles.content}>
         <View style={styles.messageHead}>
@@ -213,12 +214,12 @@ function AlarmElement({alarm, getAlarmPage, alarms, setAlarms}) {
                 </Text>
                 <View style={styles.bar} />
                 <Text style={styles.meetingElement}>
-                  {handleDateInFormat(alarm.meetingInfo.meetDate)}
+                  {handleDate(alarm.meetingInfo.meetDate)}
                 </Text>
               </View>
             </>
           ) : (
-            <Text style={styles.deleteText}>삭제된 미팅입니다</Text>
+            <Text style={styles.deleteText}>Deleted group dating room..</Text>
           )}
         </View>
       </View>
@@ -235,7 +236,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 5,
-    paddingHorizontal: 25,
+    paddingHorizontal: 20,
     paddingVertical: 16,
     height: 108,
     borderRadius: 12,
@@ -263,14 +264,14 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   message: {
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: '600',
     letterSpacing: -0.5,
     color: '#000000',
     lineHeight: 21,
   },
   createdAt: {
-    fontSize: 12,
+    fontSize: 11,
     color: '#000000',
     letterSpacing: -0.5,
     lineHeight: 16.8,
@@ -291,7 +292,7 @@ const styles = StyleSheet.create({
     marginTop: 6,
   },
   meetingElement: {
-    fontSize: 13,
+    fontSize: 12,
     color: '#3C3D43',
     letterSpacing: -0.5,
     fontWeight: '500',
@@ -302,7 +303,7 @@ const styles = StyleSheet.create({
     color: '#3C3D43',
     letterSpacing: -0.5,
     lineHeight: 18.2,
-    fontSize: 13,
+    fontSize: 12,
     marginBottom: 4,
   },
   deleteText: {

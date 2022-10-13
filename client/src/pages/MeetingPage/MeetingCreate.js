@@ -58,20 +58,20 @@ function MeetingCreate({route}) {
   const navigation = useNavigation();
   const {showToast} = useToast();
   const RegionDropDownData = [
-    {label: '서울 전체', value: '서울 전체'},
-    {label: '강남', value: '강남'},
-    {label: '신사', value: '신사'},
-    {label: '홍대', value: '홍대'},
-    {label: '신촌', value: '신촌'},
-    {label: '여의도', value: '여의도'},
-    {label: '구로', value: '구로'},
-    {label: '신도림', value: '신도림'},
-    {label: '혜화', value: '혜화'},
-    {label: '안암', value: '안암'},
-    {label: '종로', value: '종로'},
-    {label: '동대문', value: '동대문'},
-    {label: '성수', value: '성수'},
-    {label: '이태원', value: '이태원'},
+    {label: 'SEOUL', value: 'Seoul'},
+    {label: 'Gangnam', value: 'Gangnam'},
+    {label: 'Sinsa', value: 'Sinsa'},
+    {label: 'Hongdae', value: 'Hongdae'},
+    {label: 'Sinchon', value: 'Sinchon'},
+    {label: 'Yeouido', value: 'Yeouido'},
+    {label: 'Guro', value: 'Guro'},
+    {label: 'Sindorim', value: 'Sindorim'},
+    {label: 'Hyehwa', value: 'Hyehwa'},
+    {label: 'Anam', value: 'Anam'},
+    {label: 'Jongro', value: 'Jongro'},
+    {label: 'Dongdaemoon', value: 'Dongdaemoon'},
+    {label: 'Seongsu', value: 'Seongsu'},
+    {label: 'Itaewon', value: 'Itaewon'},
   ];
   const PeopleDropDownData = [
     {label: '2:2', value: 2},
@@ -110,11 +110,11 @@ function MeetingCreate({route}) {
 
   const handleSubmit = () => {
     if (!submittable) {
-      showToast('error', '필수 항목들을 작성해주세요');
+      showToast('error', 'Please fill out the required information');
       return;
     } else if (userInfo.meminStats.energy - 25 < 0) {
       // 에너지가 부족하면 에러
-      showToast('error', '에너지가 부족합니다.');
+      showToast('error', 'Lack of Energy.');
       // setConfirmModalVisible(true);
     } else {
       // 에너지가 충분하면 redux 상태 바꾸고 -> firebase 상태 바꾸고 -> 미팅 생성
@@ -158,11 +158,11 @@ function MeetingCreate({route}) {
         res._documentPath._parts[1],
       );
       setConfirmModalVisible(false);
-      showToast('success', '미팅이 생성되었습니다');
+      showToast('success', 'Group dating Room Created');
       navigation.navigate('MeetingMarket');
     } catch (e) {
       setConfirmModalVisible(false);
-      showToast('error', '미팅 생성에 실패했습니다');
+      showToast('error', 'Failed');
       console.log(e);
     }
   };
@@ -190,7 +190,7 @@ function MeetingCreate({route}) {
     }
 
     if (totalByte > maxByte) {
-      showToast('error', '최대 길이입니다');
+      showToast('error', 'Maximum Length');
     } else {
       setMeetingInfo({...meetingInfo, title: text});
     }
@@ -215,7 +215,7 @@ function MeetingCreate({route}) {
     }
 
     if (totalByte > maxByte) {
-      showToast('error', '최대 길이입니다');
+      showToast('error', 'Maximum Length');
     } else {
       setMeetingInfo({...meetingInfo, description: text});
     }
@@ -270,12 +270,12 @@ function MeetingCreate({route}) {
               style={
                 submittable ? styles.completeButton : styles.incompleteButton
               }>
-              완료
+              Create
             </Text>
           </Pressable>
         </View>
         <DoubleModal
-          text={`미팅을 생성하시겠습니까?`}
+          text={`Create a group dating room?`}
           // body={
           //   <>
           //     <Text style={{fontSize: 14, marginBottom: 20, marginTop: 0}}>
@@ -283,7 +283,8 @@ function MeetingCreate({route}) {
           //     </Text>
           //   </>
           // }
-          buttonText="네"
+          pButtonText="Yes"
+          nButtonText="No"
           modalVisible={confirmModalVisible}
           setModalVisible={setConfirmModalVisible}
           nFunction={() => {
@@ -304,11 +305,11 @@ function MeetingCreate({route}) {
         <ScrollView
           style={styles.createContainer}
           contentContainerStyle={styles.paddingBottom}>
-          <Text style={styles.title}>미팅 생성</Text>
+          <Text style={styles.title}>Create</Text>
 
           <TextInput
             style={styles.textInputTitle}
-            placeholder="제목"
+            placeholder="Title"
             placeholderTextColor="#EAFFEFCC"
             onChangeText={text => {
               checkTitleByte(text);
@@ -326,7 +327,7 @@ function MeetingCreate({route}) {
           />
           <TextInput
             style={styles.textInputDes}
-            placeholder="설명"
+            placeholder="Description"
             placeholderTextColor="#EAFFEFCC"
             multiline={true}
             onChangeText={text => {
@@ -344,10 +345,10 @@ function MeetingCreate({route}) {
             ]}
           />
           <View style={[styles.createElement, styles.flexRow]}>
-            <Text style={styles.text}>날짜</Text>
+            <Text style={styles.text}>Date</Text>
             {Platform.OS === 'ios' ? (
               <RNDateTimePicker
-                locale="ko"
+                locale="en"
                 value={meetingInfo.meetDate}
                 mode="datetime"
                 // textColor="#EAFFEF"
@@ -407,7 +408,7 @@ function MeetingCreate({route}) {
           <View style={[styles.createElement, styles.flexRow]}>
             <View style={styles.selectButton}>
               <RNPickerSelect
-                placeholder={{label: '지역'}}
+                placeholder={{label: 'Place'}}
                 onValueChange={value => {
                   setMeetingInfo({...meetingInfo, region: value});
                 }}
@@ -438,7 +439,7 @@ function MeetingCreate({route}) {
           <View style={[styles.createElement, styles.flexRow]}>
             <View style={[styles.selectButton, styles.rightMargin]}>
               <RNPickerSelect
-                placeholder={{label: '인원'}}
+                placeholder={{label: 'Joiner'}}
                 onValueChange={value => {
                   setMeetingInfo({...meetingInfo, peopleNum: value});
                 }}
@@ -514,7 +515,7 @@ function MeetingCreate({route}) {
             txType="친구 초대"
           /> */}
           <View style={styles.tagElement}>
-            <Text style={[styles.text, styles.tagTitle]}>태그</Text>
+            <Text style={[styles.text, styles.tagTitle]}>Tag</Text>
             <View style={styles.tagsContainer}>
               <View style={styles.tagCategory}>
                 {/* <Icon

@@ -18,14 +18,14 @@ const SignButtons = ({onSubmitSignIn, onSubmitSignUp}) => {
       {Platform.OS === 'ios' ? (
         <TouchableOpacity onPress={onSubmitSignIn} style={styles.buttonWrapper}>
           <View style={styles.button}>
-            <Text style={styles.buttonText}>로그인</Text>
+            <Text style={styles.buttonText}>Sign In</Text>
           </View>
         </TouchableOpacity>
       ) : (
         <View style={styles.buttonWrapper}>
           <TouchableNativeFeedback onPress={onSubmitSignIn}>
             <View style={styles.button}>
-              <Text style={styles.buttonText}>로그인</Text>
+              <Text style={styles.buttonText}>Sign In</Text>
             </View>
           </TouchableNativeFeedback>
         </View>
@@ -34,7 +34,7 @@ const SignButtons = ({onSubmitSignIn, onSubmitSignUp}) => {
         <TouchableOpacity onPress={onSubmitSignUp} style={styles.buttonWrapper}>
           <View style={[styles.button, styles.buttonSignup]}>
             <Text style={[styles.buttonText, styles.buttonTextSignup]}>
-              회원가입
+              Sign Up
             </Text>
           </View>
         </TouchableOpacity>
@@ -43,7 +43,7 @@ const SignButtons = ({onSubmitSignIn, onSubmitSignUp}) => {
           <TouchableNativeFeedback onPress={onSubmitSignUp}>
             <View style={[styles.button, styles.buttonSignup]}>
               <Text style={[styles.buttonText, styles.buttonTextSignup]}>
-                회원가입
+                Sign Up
               </Text>
             </View>
           </TouchableNativeFeedback>

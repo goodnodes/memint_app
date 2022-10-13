@@ -75,7 +75,7 @@ function MyMainPage({navigation}) {
             return amount;
           })
           .then(amount => {
-            showToast('success', `${amount} 에너지가 충전되었습니다!`);
+            showToast('success', `${amount} Energy Charged!`);
           });
       }
       setMeminStats(userInfo.meminStats);
@@ -109,7 +109,7 @@ function MyMainPage({navigation}) {
   const [tabActive, setTabActive] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
-  const room = [{name: '내가 만든 방'}, {name: '참여 중인 방'}];
+  const room = [{name: 'Hosted'}, {name: 'Joined'}];
   const selecteMenuHandler = index => {
     setMeetingRoom(index);
   };
@@ -187,15 +187,15 @@ function MyMainPage({navigation}) {
               <WalletButton />
 
               <DoubleModal
-                text={`토큰을 소모하여\n 에너지를 충전하시겠습니까?`}
-                nButtonText="아니요"
-                pButtonText="네"
+                text={`Do you want to charge energy\nby consuming tokens?`}
+                nButtonText="No"
+                pButtonText="Yes"
                 modalVisible={chargeModalVisible}
                 setModalVisible={setChargeModalVisible}
                 pFunction={() => {
                   if (meminStats.energy === meminStats.fullEnergy) {
                     setChargeModalVisible(false);
-                    showToast('error', '에너지가 이미 가득 차있습니다.');
+                    showToast('error', 'The energy is already full.');
                   } else {
                     setChargeModalVisible(false);
                     setSpendingModalVisible(true);
@@ -222,7 +222,7 @@ function MyMainPage({navigation}) {
                     });
                   }}
                   amount={1}
-                  txType="에너지 충전"
+                  txType="Charge Energy"
                 />
               )}
             </View>
@@ -364,7 +364,7 @@ function MyMainPage({navigation}) {
           <TouchableOpacity
             style={styles.mylikesButton}
             onPress={handleLikesNavigate}>
-            <Text style={styles.mylikesText}>내가 찜한 미팅</Text>
+            <Text style={styles.mylikesText}>Bookmarks</Text>
             <Icon name="chevron-right" size={22} color={'#AEFFC1'} />
           </TouchableOpacity>
         </View>

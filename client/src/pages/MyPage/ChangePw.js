@@ -68,10 +68,10 @@ const ChangePw = ({navigation}) => {
   const onSubmitPw = () => {
     if (verified && confirmed) {
       setNewPassword(form.newPw);
-      showToast('success', '비밀번호가 변경되었습니다.');
+      showToast('success', 'Successfully changed.');
       navigation.pop();
     } else {
-      showToast('error', '입력한 정보를 확인해주세요.');
+      showToast('error', 'Please input correct information.');
     }
   };
 
@@ -96,14 +96,14 @@ const ChangePw = ({navigation}) => {
         </View>
 
         <View style={styles.fullscreen}>
-          <Text style={styles.title}>비밀번호 변경</Text>
+          <Text style={styles.title}>Change Password</Text>
 
           <ScrollView style={styles.fullscreenSub}>
             <View style={styles.form}>
-              <Text style={styles.infoText}>현재 비밀번호</Text>
+              <Text style={styles.infoText}>current password</Text>
               <BorderedInput
                 size="wide"
-                placeholder="현재 비밀번호를 입력해주세요"
+                placeholder="Please enter current password"
                 value={form.currentPw}
                 onChangeText={createChangeTextHandler('currentPw')}
                 autoCapitalize="none"
@@ -123,15 +123,15 @@ const ChangePw = ({navigation}) => {
                 {verified === null
                   ? ''
                   : verified
-                  ? '확인되었습니다.'
-                  : '비밀번호가 유효하지 않습니다.'}
+                  ? 'Checked.'
+                  : 'Invalid Password.'}
               </Text>
             </View>
             <View style={styles.form}>
-              <Text style={styles.infoText}>새로운 비밀번호</Text>
+              <Text style={styles.infoText}>New Password</Text>
               <BorderedInput
                 size="wide"
-                placeholder="새로운 비밀번호"
+                placeholder="Please enter New Password"
                 value={form.newPw}
                 onChangeText={createChangeTextHandler('newPw')}
                 autoCapitalize="none"
@@ -143,10 +143,10 @@ const ChangePw = ({navigation}) => {
               />
             </View>
             <View style={[styles.form, styles.padding]}>
-              <Text style={styles.infoText}>비밀번호 확인 </Text>
+              <Text style={styles.infoText}>Confirm New Password </Text>
               <BorderedInput
                 size="wide"
-                placeholder="비밀번호 확인"
+                placeholder="Please enter New Password again"
                 value={form.confirmPw}
                 onChangeText={createChangeTextHandler('confirmPw')}
                 autoCapitalize="none"
@@ -163,8 +163,8 @@ const ChangePw = ({navigation}) => {
                 {confirmed === null
                   ? ''
                   : confirmed
-                  ? '비밀번호가 일치합니다.'
-                  : '비밀번호가 일치하지 않습니다.'}
+                  ? 'correct.'
+                  : 'incorrect.'}
               </Text>
             </View>
             {/* <BasicButton
@@ -179,7 +179,7 @@ const ChangePw = ({navigation}) => {
             /> */}
           </ScrollView>
           <TouchableOpacity style={styles.button} onPress={onSubmitPw}>
-            <Text style={styles.buttonText}>비밀번호 바꾸기</Text>
+            <Text style={styles.buttonText}>Submit</Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>

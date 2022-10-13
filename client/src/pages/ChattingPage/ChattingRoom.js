@@ -110,7 +110,7 @@ function ChattingRoom({route}) {
       }).length === 0
     ) {
       navigation.pop();
-      return showToast('error', '접근권한이 없습니다.');
+      return showToast('error', "You don't have access.");
     }
     Animated.spring(animation, {
       toValue: roomInfo ? windowWidth / 5 : windowWidth,
@@ -196,8 +196,10 @@ function ChattingRoom({route}) {
                     fontWeight: '500',
                     letterSpacing: -0.5,
                     color: '#000000',
+                    textAlign: 'center',
                   }}>
-                  미팅 참가를 확정하시겠습니까?
+                  Are you sure you want to confirm your participation in this
+                  group dating?
                 </Text>
                 <View style={{alignItems: 'flex-start'}}>
                   {/* 리덕스에서 받아오는 meeting 정보로 업데이트할 것  */}
@@ -208,7 +210,7 @@ function ChattingRoom({route}) {
                       letterSpacing: -0.5,
                       color: '#000000',
                     }}>
-                    🗓 날짜:{'   '}
+                    🗓 Date:{'    '}
                     {route.params.data.meetDate
                       .toDate()
                       .toLocaleString()
@@ -221,11 +223,16 @@ function ChattingRoom({route}) {
                       letterSpacing: -0.5,
                       color: '#000000',
                     }}>
-                    ⏰ 시간:{'   '}
+                    ⏰ Time:{'   '}
                     {route.params.data.meetDate
                       .toDate()
-                      .toLocaleString()
-                      .slice(-10, -3)}
+                      .toLocaleString('en')
+                      .slice(-11, -6) +
+                      ' ' +
+                      route.params.data.meetDate
+                        .toDate()
+                        .toLocaleString('en')
+                        .slice(-2)}
                   </Text>
                   <Text
                     style={{
@@ -235,14 +242,14 @@ function ChattingRoom({route}) {
                       marginBottom: 20,
                       color: '#000000',
                     }}>
-                    🏖 장소:{'   '}
+                    🏖 Place:{'   '}
                     {route.params.data.region}
                   </Text>
                 </View>
               </>
             }
-            nButtonText="아니요"
-            pButtonText="네"
+            nButtonText="No"
+            pButtonText="Yes"
             modalVisible={modalVisible}
             setModalVisible={setModalVisible}
             setIsConfirmed={setIsConfirmed}

@@ -87,7 +87,7 @@ const WalletOffchainTransfer = ({navigation}) => {
             height={45}
             backgroundColor="#ffffff"
             border={false}
-            text={'내보내기'}
+            text={'Transfer'}
             textSize={18}
             onPress={() => {
               setModalVisible(true);
@@ -95,10 +95,10 @@ const WalletOffchainTransfer = ({navigation}) => {
           />
         </View>
         <DoubleModal
-          text="TING을 외부 지갑으로 내보내시겠습니까?"
+          text="Do you want to export your TING to an external wallet??"
           //body={<Text>정말로?</Text>}
-          nButtonText="아니요"
-          pButtonText="네"
+          nButtonText="No"
+          pButtonText="Yes"
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
           nFunction={() => {
@@ -107,7 +107,7 @@ const WalletOffchainTransfer = ({navigation}) => {
           pFunction={() => {
             sendToOnChain().then(result => {
               if (result.data.message === 'success') {
-                showToast('success', 'TING을 보냈습니다!');
+                showToast('success', 'Transfer TING!');
                 getUser(userInfo.id).then(userDetail => {
                   updateTokenInfo({
                     tokenAmount: Number(userDetail.tokenAmount),

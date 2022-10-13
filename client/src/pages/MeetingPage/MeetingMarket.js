@@ -47,7 +47,7 @@ function MeetingMarket({navigation}) {
   const [filterModalVisible, setFilterModalVisible] = useState(false);
   const [creationMessage, setCreationMessage] = useState(false);
   const [filter, setFilter] = useState({
-    region: '서울 전체',
+    region: 'Seoul',
     peopleNum: undefined,
     meetDate: new Date(),
     meetingTags: undefined,
@@ -58,7 +58,7 @@ function MeetingMarket({navigation}) {
   useEffect(() => {
     setSortSelect(0);
     setFilter({
-      region: '서울 전체',
+      region: 'Seoul',
       peopleNum: undefined,
       meetDate: new Date(),
       meetingTags: undefined,
@@ -152,7 +152,7 @@ function MeetingMarket({navigation}) {
   const handleRegion = useCallback(
     value => {
       const region = filter.region;
-      if (region === undefined || region === '서울 전체') {
+      if (region === undefined || region === 'Seoul') {
         return value;
       } else {
         return value.filter(meeting => meeting.region === region);
@@ -231,26 +231,26 @@ function MeetingMarket({navigation}) {
   }, [opacity]);
 
   const RegionDropDownData = [
-    {label: 'SEOUL', value: '서울 전체'},
-    {label: '강남', value: '강남'},
-    {label: '신사', value: '신사'},
-    {label: '홍대', value: '홍대'},
-    {label: '신촌', value: '신촌'},
-    {label: '여의도', value: '여의도'},
-    {label: '구로', value: '구로'},
-    {label: '신도림', value: '신도림'},
-    {label: '혜화', value: '혜화'},
-    {label: '안암', value: '안암'},
-    {label: '종로', value: '종로'},
-    {label: '동대문', value: '동대문'},
-    {label: '성수', value: '성수'},
-    {label: '이태원', value: '이태원'},
+    {label: 'SEOUL', value: 'Seoul'},
+    {label: 'Gangnam', value: 'Gangnam'},
+    {label: 'Sinsa', value: 'Sinsa'},
+    {label: 'Hongdae', value: 'Hongdae'},
+    {label: 'Sinchon', value: 'Sinchon'},
+    {label: 'Yeouido', value: 'Yeouido'},
+    {label: 'Guro', value: 'Guro'},
+    {label: 'Sindorim', value: 'Sindorim'},
+    {label: 'Hyehwa', value: 'Hyehwa'},
+    {label: 'Anam', value: 'Anam'},
+    {label: 'Jongro', value: 'Jongro'},
+    {label: 'Dongdaemoon', value: 'Dongdaemoon'},
+    {label: 'Seongsu', value: 'Seongsu'},
+    {label: 'Itaewon', value: 'Itaewon'},
   ];
   const SortDropDownData = [
-    {label: '정렬', value: 0},
-    {label: '시간 가까운 순', value: 1},
-    {label: '나이 젊은 순', value: 2},
-    {label: '위치 가까운 순', value: 3},
+    {label: 'sorting', value: 0},
+    {label: 'date', value: 1},
+    {label: 'age', value: 2},
+    {label: 'location', value: 3},
   ];
   const FilterPeopleDropDownData = [
     {label: '2:2', value: 2},
@@ -296,8 +296,8 @@ function MeetingMarket({navigation}) {
           </View>
           <View style={styles.titleArea}>
             <View>
-              <Text style={styles.title}>새로운 친구들과</Text>
-              <Text style={styles.title}>술 한잔 어때?</Text>
+              <Text style={styles.title}>Let's hang out with</Text>
+              <Text style={styles.title}>new friends!</Text>
             </View>
             <View style={styles.regionView}>
               <RNPickerSelect
@@ -332,7 +332,7 @@ function MeetingMarket({navigation}) {
                 setFilterModalVisible(true);
               }}>
               <Icon name="filter-alt" size={20} color={'#ffffff'} />
-              <Text style={styles.smallText}> 조건 설정</Text>
+              <Text style={styles.smallText}> condition</Text>
               <FilterModal
                 setFilter={setFilter}
                 FilterPeopleDropDownData={FilterPeopleDropDownData}
@@ -385,7 +385,9 @@ function MeetingMarket({navigation}) {
           </View>
           {shownMeetings.length === 0 ? (
             <View style={styles.emptyView}>
-              <Text style={styles.emptyText}>해당하는 미팅이 없습니다</Text>
+              <Text style={styles.emptyText}>
+                There are no group dating rooms.
+              </Text>
             </View>
           ) : (
             <View style={styles.meetingLists}>
@@ -396,9 +398,10 @@ function MeetingMarket({navigation}) {
           )}
 
           <DoubleModal
-            text="미팅을 생성하시겠습니까?"
+            text="Do you want to create a new group dating room?"
             //body={<Text>정말로?</Text>}
-            buttonText="네"
+            pButtonText="Yes"
+            nButtonText="No"
             modalVisible={confirmModalVisible}
             setModalVisible={setConfirmModalVisible}
             pFunction={() => {
@@ -410,9 +413,9 @@ function MeetingMarket({navigation}) {
             }}
           />
           <ActivationModal
-            text="Activation Code가 필요합니다."
+            text="Activation Code is Required"
             //body={<Text>정말로?</Text>}
-            buttonText="인증하기"
+            buttonText="Submit"
             modalVisible={activationModalVisible}
             setModalVisible={setActivationModalVisible}
             setNextModalVisible={setConfirmModalVisible}
@@ -427,7 +430,7 @@ function MeetingMarket({navigation}) {
         {creationMessage ? (
           <Animated.View style={styles.creationMessage}>
             <Text style={styles.creationMessageText}>
-              버튼을 클릭하고 새로운 미팅을 생성하세요!
+              Create a new meeting!
             </Text>
           </Animated.View>
         ) : null}

@@ -70,10 +70,10 @@ function MyLikesRooms() {
         <BackButton />
       </View>
       <View style={styles.wrap}>
-        <Text style={styles.title}>찜한 미팅</Text>
+        <Text style={styles.title}>Bookmarks</Text>
         <View style={styles.meetingList}>
           {likesRooms.length === 0 ? (
-            <Text style={styles.emptyText}>찜한 미팅방이 없습니다</Text>
+            <Text style={styles.emptyText}>There are no bookmarked rooms.</Text>
           ) : (
             <ScrollView>
               {likesRooms.map((el, idx) => {

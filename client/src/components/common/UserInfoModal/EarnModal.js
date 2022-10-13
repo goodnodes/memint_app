@@ -49,12 +49,12 @@ function EarnModal({
                 width: '100%',
               }}>
               <View style={styles.calcText}>
-                <Text style={styles.modalText}>보상 TING</Text>
-                <Text style={styles.modalText}>{amount}개</Text>
+                <Text style={styles.modalText}>Reward</Text>
+                <Text style={styles.modalText}>{amount} TING</Text>
               </View>
               <View style={styles.calcText}>
-                <Text style={styles.modalText}>현재 보유 TING</Text>
-                <Text style={styles.modalText}>{user.tokenAmount}</Text>
+                <Text style={styles.modalText}>Current</Text>
+                <Text style={styles.modalText}>{user.tokenAmount} TING</Text>
               </View>
             </View>
             <View style={styles.buttonRow}>
@@ -65,7 +65,7 @@ function EarnModal({
                 onPress={() => setEarnModalVisible(false)}
               /> */}
               <BasicButton
-                text="보상을 받으세요!"
+                text="Get your reward!"
                 width={120}
                 onPress={() => {
                   pFunction();

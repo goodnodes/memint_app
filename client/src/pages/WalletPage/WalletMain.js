@@ -49,7 +49,7 @@ function WalletMain() {
       </Tab.Navigator>
       {modalVisible ? (
         <SingleModal
-          text="MEMINT 지갑 내 모든 거래는 Baobab Network에서 이루어집니다"
+          text="Memint 지갑 내 모든 거래는 Baobab Network에서 이루어집니다"
           //body={<Text>정말로?</Text>}
           buttonText="확인"
           modalVisible={modalVisible}

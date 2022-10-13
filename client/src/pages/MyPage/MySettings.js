@@ -85,22 +85,22 @@ function MySettings({route}) {
             </TouchableOpacity>
           </View>
 
-          <Text style={styles.title}>설정</Text>
+          <Text style={styles.title}>Setting</Text>
 
           <View style={[styles.li, {paddingVertical: 30}]}>
-            <Text style={[styles.liText, {fontWeight: 'bold'}]}>현재 버전</Text>
+            <Text style={[styles.liText, {fontWeight: 'bold'}]}>Version</Text>
             <Text style={styles.liGrayText}>1.0.0</Text>
           </View>
           <View style={styles.li}>
-            <Text style={styles.liText}>이메일</Text>
+            <Text style={styles.liText}>Email</Text>
             <Text style={styles.liGrayText}>{route.params.email}</Text>
           </View>
           <TouchableOpacity style={styles.li} onPress={handleChangePw}>
-            <Text style={styles.liText}>비밀번호 변경</Text>
+            <Text style={styles.liText}>Change Password</Text>
             <Icon name="arrow-forward-ios" size={20} color={'#000000'} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.li} onPress={handleCsCenter}>
-            <Text style={styles.liText}>고객센터</Text>
+            <Text style={styles.liText}>Service Center</Text>
             <Icon name="arrow-forward-ios" size={20} color={'#000000'} />
           </TouchableOpacity>
           <TouchableOpacity
@@ -108,7 +108,7 @@ function MySettings({route}) {
             onPress={async () => {
               await Linking.openSettings();
             }}>
-            <Text style={styles.liText}>Push 알림 동의</Text>
+            <Text style={styles.liText}>Setting for Push Notification</Text>
             {/* <Switch
           trackColor={{false: '#767577', true: '#81b0ff'}}
           thumbColor={pushAgree ? '#f5dd4b' : '#f4f3f4'}
@@ -118,7 +118,7 @@ function MySettings({route}) {
         /> */}
           </TouchableOpacity>
           <View style={styles.li}>
-            <Text style={styles.liText}>메일 수신 동의</Text>
+            <Text style={styles.liText}>Setting for Receiving Email</Text>
             <Switch
               trackColor={{false: '#767577', true: '#81b0ff'}}
               thumbColor={mailAgree ? '#f5dd4b' : '#f4f3f4'}
@@ -128,7 +128,7 @@ function MySettings({route}) {
             />
           </View>
           <View style={styles.li}>
-            <Text style={styles.liText}>SMS 수신 동의</Text>
+            <Text style={styles.liText}>Setting for Receiving SMS</Text>
             <Switch
               trackColor={{false: '#767577', true: '#81b0ff'}}
               thumbColor={smsAgree ? '#f5dd4b' : '#f4f3f4'}
@@ -138,14 +138,14 @@ function MySettings({route}) {
             />
           </View>
           <TouchableOpacity style={styles.li} onPress={handleDeletePage}>
-            <Text style={styles.liText}>회원 탈퇴</Text>
+            <Text style={styles.liText}>Withdrawal</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.li}
             onPress={() => {
               setModalVisible(true);
             }}>
-            <Text style={styles.liText}>로그아웃</Text>
+            <Text style={styles.liText}>Sign Out</Text>
           </TouchableOpacity>
         </>
       ) : (
@@ -161,20 +161,20 @@ function MySettings({route}) {
             </View>
           </View>
 
-          <Text style={styles.title}>설정</Text>
+          <Text style={styles.title}>Setting</Text>
 
           <View style={[styles.li, {paddingVertical: 30}]}>
-            <Text style={[styles.liText, {fontWeight: 'bold'}]}>현재 버전</Text>
+            <Text style={[styles.liText, {fontWeight: 'bold'}]}>Version</Text>
             <Text style={styles.liGrayText}>1.0.0</Text>
           </View>
           <View style={styles.li}>
-            <Text style={styles.liText}>이메일</Text>
+            <Text style={styles.liText}>Email</Text>
             <Text style={styles.liGrayText}>{route.params.email}</Text>
           </View>
           <View>
             <TouchableNativeFeedback onPress={handleChangePw}>
               <View style={styles.li}>
-                <Text style={styles.liText}>비밀번호 변경</Text>
+                <Text style={styles.liText}>Change Password</Text>
                 <Icon name="arrow-forward-ios" size={20} color={'#000000'} />
               </View>
             </TouchableNativeFeedback>
@@ -182,7 +182,7 @@ function MySettings({route}) {
           <View>
             <TouchableNativeFeedback style={styles.li} onPress={handleCsCenter}>
               <View style={styles.li}>
-                <Text style={styles.liText}>고객센터</Text>
+                <Text style={styles.liText}>Service Center</Text>
                 <Icon name="arrow-forward-ios" size={20} color={'#000000'} />
               </View>
             </TouchableNativeFeedback>
@@ -192,7 +192,7 @@ function MySettings({route}) {
               onPress={async () => {
                 await Linking.openSettings();
               }}>
-              <Text style={styles.liText}>Push 알림 동의</Text>
+              <Text style={styles.liText}>Setting for Push Notification</Text>
               {/* <Switch
           trackColor={{false: '#767577', true: '#81b0ff'}}
           thumbColor={pushAgree ? '#f5dd4b' : '#f4f3f4'}
@@ -204,7 +204,7 @@ function MySettings({route}) {
           </View>
 
           <View style={styles.li}>
-            <Text style={styles.liText}>메일 수신 동의</Text>
+            <Text style={styles.liText}>Setting for Receiving Email</Text>
             <Switch
               trackColor={{false: '#767577', true: '#81b0ff'}}
               thumbColor={mailAgree ? '#f5dd4b' : '#f4f3f4'}
@@ -214,7 +214,7 @@ function MySettings({route}) {
             />
           </View>
           <View style={styles.li}>
-            <Text style={styles.liText}>SMS 수신 동의</Text>
+            <Text style={styles.liText}>Setting for Receiving SMS</Text>
             <Switch
               trackColor={{false: '#767577', true: '#81b0ff'}}
               thumbColor={smsAgree ? '#f5dd4b' : '#f4f3f4'}
@@ -225,7 +225,7 @@ function MySettings({route}) {
           </View>
           <View style={styles.li}>
             <TouchableNativeFeedback onPress={handleDeletePage}>
-              <Text style={styles.liText}>회원 탈퇴</Text>
+              <Text style={styles.liText}>Withdrawal</Text>
             </TouchableNativeFeedback>
           </View>
           <View style={styles.li}>
@@ -233,15 +233,15 @@ function MySettings({route}) {
               onPress={() => {
                 setModalVisible(true);
               }}>
-              <Text style={styles.liText}>로그아웃</Text>
+              <Text style={styles.liText}>Sign Out</Text>
             </TouchableNativeFeedback>
           </View>
         </>
       )}
       <DoubleModal
-        text="로그아웃 하시겠습니까?"
-        nButtonText="아니요"
-        pButtonText="네"
+        text="Do you want to sign out?"
+        nButtonText="No"
+        pButtonText="Yes"
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
         pFunction={handleSignOut}

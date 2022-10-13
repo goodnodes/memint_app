@@ -62,7 +62,7 @@ function FeedbackSendPage({route}) {
         start={{x: 1, y: 0.3}}
         end={{x: 1, y: 1}}
         style={styles.gradientBackground}>
-        <Text style={styles.title}>미팅참여 </Text>
+        <Text style={styles.title}>Feedback </Text>
 
         <View style={styles.wrapper}>
           {/* <Text style={{fontSize: 15, fontWeight: '700', marginBottom: 30}}>
@@ -87,21 +87,21 @@ function FeedbackSendPage({route}) {
               <Emotion
                 uri={knowmore}
                 state="knowmore"
-                text="좀 더 알고싶어요"
+                text="We need more talk"
                 form={form}
                 setForm={setForm}
               />
               <Emotion
                 uri={befriend}
                 state="befriend"
-                text="친구가 되고 싶어요"
+                text="Wanna be a friend"
                 form={form}
                 setForm={setForm}
               />
               <Emotion
                 uri={fallinlove}
                 state="fallinlove"
-                text="사랑에 빠졌어요"
+                text="I'm in love"
                 form={form}
                 setForm={setForm}
               />
@@ -110,33 +110,33 @@ function FeedbackSendPage({route}) {
               <Emotion
                 uri={soso}
                 state="soso"
-                text="그저 그랬어요"
+                text="It wasn't bad"
                 form={form}
                 setForm={setForm}
               />
               <Emotion
                 uri={notgood}
                 state="notgood"
-                text="다신 안 보고 싶어요"
+                text="I didn't like it"
                 form={form}
                 setForm={setForm}
               />
               <Emotion
                 uri={terrible}
                 state="terrible"
-                text="불쾌했어요"
+                text="Uncomfortable"
                 form={form}
                 setForm={setForm}
               />
             </View>
             <View style={styles.message}>
               <Text style={{fontSize: 16, fontWeight: '500', color: '#ffffff'}}>
-                {person[0]}님께 보내는 메세지
+                A message to {person[0]}
               </Text>
               <TextInput
                 multiline={true}
                 style={styles.textInput}
-                placeholder="여기에 자유롭게 적어주세요!"
+                placeholder="Express your feelings!"
                 placeholderTextColor="#1D1E1E"
                 textAlignVertical="top"
                 value={form.message}
@@ -184,7 +184,7 @@ function FeedbackSendPage({route}) {
                   color: '#ffffff',
                   marginTop: 12,
                 }}>
-                상대방에게 보내지 않기
+                Don't send it to {person[0]}
               </Text>
             </View>
           </ScrollView>
@@ -201,14 +201,14 @@ function FeedbackSendPage({route}) {
                 lineHeight: 22,
                 letterSpacing: -1,
               }}>
-              후기 보내기
+              Send
             </Text>
           </Pressable>
         </View>
         <DoubleModal
-          text={`${person[0]}님의\n후기를 보내시겠습니까?`}
-          nButtonText="아니요"
-          pButtonText="네"
+          text={`Would you like to send a feedback?`}
+          nButtonText="No"
+          pButtonText="Yes"
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
           pFunction={() => {
@@ -229,12 +229,12 @@ function FeedbackSendPage({route}) {
                   });
                 notification({
                   receiver: person[2],
-                  message: '미팅 후기 메시지가 도착했습니다',
+                  message: 'Feedback message has arrived.',
                   title: 'MEMINT',
                 });
                 calculateCharm(person[2], form.emotion);
               }
-              showToast('success', '후기를 전송하였습니다.');
+              showToast('success', 'Feedback has been sent.');
               navigation.navigate('FeedbackChoicePage', {data, userInfo});
             });
           }}

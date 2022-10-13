@@ -51,7 +51,7 @@ function AddChat({chatId, roomInfo}) {
     <View style={styles.inputWrapper}>
       <TextInput
         style={styles.input}
-        placeholder="메시지를 입력하세요"
+        placeholder="Message..."
         placeholderTextColor="#ffffff"
         value={text}
         onChangeText={setText}

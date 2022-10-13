@@ -104,11 +104,11 @@ function AlarmPage({navigation}) {
         end={{x: 1, y: 1}}
         style={styles.gradientBackground}>
         <View style={styles.header}>
-          <Text style={styles.title}>알림</Text>
+          <Text style={styles.title}>Alarm</Text>
         </View>
         {alarms.length === 0 ? (
           <View style={styles.emptyView}>
-            <Text style={styles.emptyText}>알림이 없습니다</Text>
+            <Text style={styles.emptyText}>There is no alarm.</Text>
           </View>
         ) : (
           <FlatList

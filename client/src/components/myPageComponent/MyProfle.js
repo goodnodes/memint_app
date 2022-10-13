@@ -84,7 +84,9 @@ function MyProfile({User, navigation}) {
         <Text style={styles.userNickName}>
           {User.nickName} {User.property.emoji}
         </Text>
-        <Text style={styles.userBirth}>{User.birth}</Text>
+        <Text style={styles.userBirth}>
+          {User.birth.replace('년', '.').replace('월', '.').replace('일', '.')}
+        </Text>
         <Text style={styles.userBirth}>
           {User.selfIntroduction === undefined ? '' : User.selfIntroduction}
         </Text>
@@ -97,7 +99,7 @@ function MyProfile({User, navigation}) {
           </View>
         </View>
         <View style={styles.userTag}>
-          <Text style={styles.tagText}>주출몰지</Text>
+          <Text style={styles.tagText}>Favorite Place</Text>
           <View style={styles.tags}>
             {User.property.region.map((el, index) => (
               <View style={styles.tag} key={index}>
@@ -107,25 +109,25 @@ function MyProfile({User, navigation}) {
           </View>
         </View>
         <View style={styles.userTag}>
-          <Text style={styles.tagText}>자주 보는 유튜브</Text>
+          <Text style={styles.tagText}>Favorite Channel</Text>
           <View style={styles.plainTag}>
             <Text style={styles.tagFont}>{User.property.favYoutube}</Text>
           </View>
         </View>
         <View style={styles.userTag}>
-          <Text style={styles.tagText}>닮은꼴 연예인</Text>
+          <Text style={styles.tagText}>Twin Celebrity</Text>
           <View style={styles.plainTag}>
             <Text style={styles.tagFont}>{User.property.twinCeleb}</Text>
           </View>
         </View>
         <View style={styles.userTag}>
-          <Text style={styles.tagText}>주량</Text>
+          <Text style={styles.tagText}>Drink</Text>
           <View style={styles.tag}>
             <Text style={styles.tagFont}>{User.property.drinkCapa}</Text>
           </View>
         </View>
         <View style={styles.userTag}>
-          <Text style={styles.tagText}>선호 주류</Text>
+          <Text style={styles.tagText}>Favorite Liquor</Text>
           <View style={styles.tags}>
             {User.property.alcoholType.map((el, index) => (
               <View style={styles.tag} key={index}>
@@ -135,7 +137,7 @@ function MyProfile({User, navigation}) {
           </View>
         </View>
         <View style={styles.userTag}>
-          <Text style={styles.tagText}>술자리 스타일</Text>
+          <Text style={styles.tagText}>Party Style</Text>
           <View style={styles.tags}>
             {User.property.drinkStyle.map((el, index) => (
               <View style={styles.tag} key={index}>
@@ -145,13 +147,13 @@ function MyProfile({User, navigation}) {
           </View>
         </View>
         <View style={styles.userTag}>
-          <Text style={styles.tagText}>통금</Text>
+          <Text style={styles.tagText}>Curfew</Text>
           <View style={styles.tag}>
             <Text style={styles.tagFont}>{User.property.curfew}</Text>
           </View>
         </View>
         <View style={styles.userTag}>
-          <Text style={styles.tagText}>주력 게임</Text>
+          <Text style={styles.tagText}>Favorite Game</Text>
           <View style={styles.tags}>
             {User.property.favGame.map((el, index) => (
               <View style={styles.tag} key={index}>

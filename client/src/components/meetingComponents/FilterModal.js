@@ -78,16 +78,16 @@ function FilterModal({
 
   return (
     <SingleModal
-      text="필터를 설정하세요"
+      text="Filter"
       body={
         <View style={styles.filterContent}>
-          <Button title="로그아웃 하기" color="red" onPress={handleSignOut} />
+          {/* <Button title="" color="red" onPress={handleSignOut} /> */}
 
           <View style={styles.filterElement}>
-            <Text style={styles.filterText}>인원</Text>
+            <Text style={styles.filterText}>member</Text>
             <View>
               <RNPickerSelect
-                placeholder={{label: '전체', value: 0}}
+                placeholder={{label: 'number of members', value: 0}}
                 onValueChange={value => {
                   setFilter({...filter, peopleNum: value});
                 }}
@@ -113,7 +113,7 @@ function FilterModal({
             </View>
           </View>
           <View style={styles.filterElement}>
-            <Text style={styles.filterText}>날짜</Text>
+            <Text style={styles.filterText}>date</Text>
             {Platform.OS === 'ios' ? (
               <DatePicker
                 value={filter.meetDate}
@@ -149,10 +149,10 @@ function FilterModal({
             )}
           </View>
           <View style={styles.filterElement}>
-            <Text style={styles.filterText}>태그</Text>
+            <Text style={styles.filterText}>tag</Text>
             <View>
               <RNPickerSelect
-                placeholder={{label: '전체', value: 0}}
+                placeholder={{label: 'set tag', value: 0}}
                 onValueChange={value => {
                   setFilter({...filter, meetingTags: value});
                 }}
@@ -179,7 +179,7 @@ function FilterModal({
           </View>
         </View>
       }
-      buttonText="닫기"
+      buttonText="Close"
       modalVisible={filterModalVisible}
       setModalVisible={setFilterModalVisible}
       pFunction={() => {

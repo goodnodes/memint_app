@@ -11,7 +11,7 @@ function WalletKlayHistory({navigation}) {
       <ScrollView>
         {onKlayTxLogs ? (
           onKlayTxLogs.map((log, idx) => {
-            const parsedTime = log.createdAt.toDate().toLocaleString();
+            const parsedTime = log.createdAt.toDate().toLocaleString('en');
             return (
               <OnchainHistory
                 key={idx}

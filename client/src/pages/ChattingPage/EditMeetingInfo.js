@@ -62,20 +62,20 @@ function EditMeetingInfo({route}) {
   const navigation = useNavigation();
   const {showToast} = useToast();
   const RegionDropDownData = [
-    {label: '서울 전체', value: '서울 전체'},
-    {label: '강남', value: '강남'},
-    {label: '신사', value: '신사'},
-    {label: '홍대', value: '홍대'},
-    {label: '신촌', value: '신촌'},
-    {label: '여의도', value: '여의도'},
-    {label: '구로', value: '구로'},
-    {label: '신도림', value: '신도림'},
-    {label: '혜화', value: '혜화'},
-    {label: '안암', value: '안암'},
-    {label: '종로', value: '종로'},
-    {label: '동대문', value: '동대문'},
-    {label: '성수', value: '성수'},
-    {label: '이태원', value: '이태원'},
+    {label: 'SEOUL', value: 'Seoul'},
+    {label: 'Gangnam', value: 'Gangnam'},
+    {label: 'Sinsa', value: 'Sinsa'},
+    {label: 'Hongdae', value: 'Hongdae'},
+    {label: 'Sinchon', value: 'Sinchon'},
+    {label: 'Yeouido', value: 'Yeouido'},
+    {label: 'Guro', value: 'Guro'},
+    {label: 'Sindorim', value: 'Sindorim'},
+    {label: 'Hyehwa', value: 'Hyehwa'},
+    {label: 'Anam', value: 'Anam'},
+    {label: 'Jongro', value: 'Jongro'},
+    {label: 'Dongdaemoon', value: 'Dongdaemoon'},
+    {label: 'Seongsu', value: 'Seongsu'},
+    {label: 'Itaewon', value: 'Itaewon'},
   ];
   const PeopleDropDownData = [
     {label: '2:2', value: 2},
@@ -109,7 +109,7 @@ function EditMeetingInfo({route}) {
 
   const handleSubmit = () => {
     if (!submittable) {
-      showToast('error', '필수 항목들을 작성해주세요');
+      showToast('error', 'Please fill out the required information');
       return;
     } else {
       setConfirmModalVisible(true);
@@ -137,7 +137,7 @@ function EditMeetingInfo({route}) {
         })
         .then(data => {
           setConfirmModalVisible(false);
-          showToast('success', '미팅이 수정되었습니다');
+          showToast('success', 'Successfully Modified');
           navigation.pop();
         })
         .catch(err => {
@@ -166,7 +166,7 @@ function EditMeetingInfo({route}) {
         })
         .then(data => {
           setConfirmModalVisible(false);
-          showToast('success', '미팅이 수정되었습니다');
+          showToast('success', 'Successfully Modified');
           navigation.pop();
         })
         .catch(err => {
@@ -191,7 +191,7 @@ function EditMeetingInfo({route}) {
         })
         .then(data => {
           setConfirmModalVisible(false);
-          showToast('success', '미팅이 수정되었습니다');
+          showToast('success', 'Successfully Modified');
           navigation.pop();
         })
         .catch(err => {
@@ -202,23 +202,26 @@ function EditMeetingInfo({route}) {
 
   const handlePeopleNum = value => {
     if (meetingInfo.members.length > value * 2) {
-      showToast('error', '참여 인원보다 적은 인원으로 변경할 수 없습니다.');
+      showToast(
+        'error',
+        'You cannot change the number of participants to fewer than the number of joiners.',
+      );
       return;
     } else {
       setMeetingInfo({...meetingInfo, peopleNum: value});
     }
   };
 
-  const handleDelete = () => {
-    try {
-      deleteMeeting(item.id);
-      updateUserMeetingOut(userInfo.id, 'createdroomId', item.id);
-      showToast('success', '미팅이 삭제되었습니다.');
-      navigation.pop();
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  // const handleDelete = () => {
+  //   try {
+  //     deleteMeeting(item.id);
+  //     updateUserMeetingOut(userInfo.id, 'createdroomId', item.id);
+  //     showToast('success', '미팅이 삭제되었습니다.');
+  //     navigation.pop();
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
 
   const showDatePicker = () => {
     setDatePicker(true);
@@ -262,14 +265,14 @@ function EditMeetingInfo({route}) {
           <TouchableOpacity onPress={handleSubmit}>
             <Text
               style={submittable ? styles.completeButton : styles.grayButton}>
-              완료
+              Modify
             </Text>
           </TouchableOpacity>
         </View>
-        <Text style={styles.title}>미팅 정보 수정하기</Text>
+        <Text style={styles.title}>Modify Group Dating Information</Text>
         <DoubleModal
-          text="미팅 정보를 수정하시겠습니까?"
-          buttonText="네"
+          text="Do you want to modify the meeting information?"
+          buttonText="Yes"
           modalVisible={confirmModalVisible}
           setModalVisible={setConfirmModalVisible}
           pFunction={handleUpdate}
@@ -286,7 +289,7 @@ function EditMeetingInfo({route}) {
             }}
             autoComplete="off"
             autoCorrect={false}
-            placeholder="제목"
+            placeholder="Title"
             placeholderTextColor="#EAFFEFCC"
             selectionColor={'#AEFFC1'}
           />
@@ -299,7 +302,7 @@ function EditMeetingInfo({route}) {
           <TextInput
             style={styles.textInputDes}
             placeholderTextColor="#EAFFEFCC"
-            placeholder="설명"
+            placeholder="Description"
             value={meetingInfo.description}
             multiline={true}
             onChangeText={text => {
@@ -316,10 +319,10 @@ function EditMeetingInfo({route}) {
             ]}
           />
           <View style={[styles.createElement, styles.flexRow]}>
-            <Text style={styles.text}>날짜</Text>
+            <Text style={styles.text}>Date</Text>
             {Platform.OS === 'ios' ? (
               <RNDateTimePicker
-                locale="ko"
+                locale="en"
                 value={meetingInfo.meetDate}
                 mode="datetime"
                 // textColor="#EAFFEF"
@@ -389,7 +392,7 @@ function EditMeetingInfo({route}) {
           <View style={[styles.createElement, styles.flexRow]}>
             <View style={styles.selectButton}>
               <RNPickerSelect
-                placeholder={{label: '지역'}}
+                placeholder={{label: 'Place'}}
                 onValueChange={value => {
                   setMeetingInfo({...meetingInfo, region: value});
                 }}
@@ -440,7 +443,7 @@ function EditMeetingInfo({route}) {
           <View style={[styles.createElement, styles.flexRow]}>
             <View style={[styles.selectButton, styles.rightMargin]}>
               <RNPickerSelect
-                placeholder={{label: '인원'}}
+                placeholder={{label: 'Joiner'}}
                 onValueChange={handlePeopleNum}
                 items={PeopleDropDownData}
                 value={meetingInfo.peopleNum}
@@ -495,7 +498,7 @@ function EditMeetingInfo({route}) {
             ]}
           />
           <View style={styles.tagElement}>
-            <Text style={[styles.text, styles.tagTitle]}>태그</Text>
+            <Text style={[styles.text, styles.tagTitle]}>Tag</Text>
             <View style={styles.tagsContainer}>
               <View style={styles.tagCategory}>
                 {/* <Text style={styles.tagCategoryTitle}>분위기</Text> */}

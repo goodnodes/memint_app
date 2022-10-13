@@ -1,7 +1,11 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {TouchableOpacity, View, Text, StyleSheet, Image} from 'react-native';
-import {handleBirth, handleDateInFormat} from '../../utils/common/Functions';
+import {
+  handleBirth,
+  handleDate,
+  handleDateInFormat,
+} from '../../utils/common/Functions';
 import MeetingLikes from '../meetingComponents/MeetingLikes';
 
 function MyLikesElement({item}) {
@@ -40,9 +44,7 @@ function MyLikesElement({item}) {
             {handleBirth(item.hostInfo.birth)}
           </Text>
           <View style={styles.bar} />
-          <Text style={[styles.infoEl]}>
-            {handleDateInFormat(item.meetDate)}
-          </Text>
+          <Text style={[styles.infoEl]}>{handleDate(item.meetDate)}</Text>
         </View>
         <View style={styles.meetingTags}>
           <Text style={styles.tagText}>

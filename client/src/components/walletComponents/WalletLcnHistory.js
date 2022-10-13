@@ -11,7 +11,7 @@ function WalletLcnHistory({navigation}) {
       <ScrollView>
         {onLCNTxLogs ? (
           onLCNTxLogs.map((log, idx) => {
-            const parsedTime = log.createdAt.toDate().toLocaleString();
+            const parsedTime = log.createdAt.toDate().toLocaleString('en');
             return (
               <OnchainHistory
                 key={idx}

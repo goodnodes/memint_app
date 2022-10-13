@@ -88,9 +88,9 @@ function MeetingConfirm({route}) {
 
     ActionSheetIOS.showActionSheetWithOptions(
       {
-        title: '사진 업로드',
+        title: 'Upload Picture',
         //사진 선택하기는 이후 삭제될 수 있음
-        options: ['카메라로 촬영하기', '사진 선택하기', '취소'],
+        options: ['Take Photo', 'Choose From Library', 'Cancel'],
         cancelButtonIndex: 2,
       },
       buttonIndex => {
@@ -157,7 +157,7 @@ function MeetingConfirm({route}) {
 
   const renderStatus = () => {
     if (meetingInfo.confirmStatus === 'pending') {
-      return <Text style={styles.subText}>인증 대기중</Text>;
+      return <Text style={styles.subText}>Wating for verification</Text>;
     }
     // } else if (meetingInfo.confirmStatus === 'confirmed') {
     //   return (
@@ -205,7 +205,7 @@ function MeetingConfirm({route}) {
               color="#EE404C"
             />
             <Text style={styles.warningText}>
-              반려 사유: {meetingInfo.confirmMessage}
+              rejection | {meetingInfo.confirmMessage}
             </Text>
           </View>
         );
@@ -225,14 +225,14 @@ function MeetingConfirm({route}) {
               <TouchableOpacity
                 style={styles.eventButton}
                 onPress={goToEventPage}>
-                <Text style={styles.buttonText}>이벤트 상품받기!</Text>
+                <Text style={styles.buttonText}>Get an event prize!</Text>
               </TouchableOpacity>
             ) : (
               <View>
                 <TouchableNativeFeedback onPress={goToEventPage}>
                   <View style={styles.eventButton}>
                     <Text style={styles.buttonText}>
-                      클릭해서 이벤트 상품받기!
+                      Click to get the event prize!
                     </Text>
                   </View>
                 </TouchableNativeFeedback>
@@ -254,7 +254,7 @@ function MeetingConfirm({route}) {
                 source={{uri: image?.assets[0]?.uri}}
                 style={styles.image}
               />
-              <BasicButton text="인증보내기" onPress={handleSecondSubmit} />
+              <BasicButton text="Send Photo" onPress={handleSecondSubmit} />
             </View>
           ) : (
             <View style={styles.deniedArea}>
@@ -268,7 +268,7 @@ function MeetingConfirm({route}) {
                     style={styles.photoIcon}
                     color="#33ED96"
                   />
-                  <Text style={styles.buttonText}>다시 인증하기</Text>
+                  <Text style={styles.buttonText}>Send again</Text>
                 </TouchableOpacity>
               ) : (
                 <View>
@@ -280,7 +280,7 @@ function MeetingConfirm({route}) {
                         style={styles.photoIcon}
                         color="#33ED96"
                       />
-                      <Text style={styles.buttonText}>다시 인증하기</Text>
+                      <Text style={styles.buttonText}>Send again</Text>
                     </View>
                   </TouchableNativeFeedback>
                 </View>
@@ -314,7 +314,7 @@ function MeetingConfirm({route}) {
               />
               <View style={styles.dateText}>
                 <Text style={styles.plainText}>
-                  {meetingInfo?.confirmCreatedAt.toDate().toLocaleString()}
+                  {meetingInfo?.confirmCreatedAt.toDate().toLocaleString('en')}
                 </Text>
               </View>
 
@@ -331,7 +331,7 @@ function MeetingConfirm({route}) {
                     source={{uri: image?.assets[0]?.uri}}
                     style={styles.image}
                   />
-                  <BasicButton text="인증보내기" onPress={handleSubmit} />
+                  <BasicButton text="Send Photo" onPress={handleSubmit} />
                 </View>
               ) : Platform.OS === 'ios' ? (
                 <TouchableOpacity
@@ -343,7 +343,7 @@ function MeetingConfirm({route}) {
                     style={styles.photoIcon}
                     color="#33ED96"
                   />
-                  <Text style={styles.buttonText}>미팅 인증샷</Text>
+                  <Text style={styles.buttonText}>Upload Photo</Text>
                 </TouchableOpacity>
               ) : (
                 <View>
@@ -355,7 +355,7 @@ function MeetingConfirm({route}) {
                         style={styles.photoIcon}
                         color="#33ED96"
                       />
-                      <Text style={styles.buttonText}>미팅 인증샷</Text>
+                      <Text style={styles.buttonText}>Upload Photo</Text>
                     </View>
                   </TouchableNativeFeedback>
                 </View>
@@ -386,16 +386,14 @@ function MeetingConfirm({route}) {
               />
               <View style={styles.dateText}>
                 <Text style={styles.plainText}>
-                  {meetingInfo?.confirmCreatedAt
-                    .toDate()
-                    .toLocaleString('ko-KR')}
+                  {meetingInfo?.confirmCreatedAt.toDate().toLocaleString('en')}
                 </Text>
               </View>
               {renderMessage()}
             </View>
           ) : (
             <Text style={styles.joinerText}>
-              호스트가 이미지를 업로드하지 않았습니다.
+              The host didn't upload the photo.
             </Text>
           )}
         </View>
@@ -431,7 +429,7 @@ function MeetingConfirm({route}) {
               onRefresh={getMeetingInfo}
             />
           }>
-          <Text style={styles.title}>미팅참여 인증하기</Text>
+          <Text style={styles.title}>Verification</Text>
 
           <View style={styles.section}>
             <View style={styles.confirmTitleArea}>
@@ -455,24 +453,28 @@ function MeetingConfirm({route}) {
             />
           </View>
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>인증 방법 및 주의사항</Text>
+            <Text style={styles.sectionTitle}>
+              Verification methods and precautions
+            </Text>
             <View style={styles.warningBox}>
               <Text style={styles.boldText}>
-                미팅 참여자 전원의 얼굴이 보이게 사진을 찍어주세요!
+                Please take a photo to show the faces of all participants in the
+                group dating!
               </Text>
             </View>
             <View style={styles.guideSection}>
               <Text style={styles.plainText}>
-                1. 호스트도 사진에 반드시 포함되어야 합니다.
+                1. The host must also be included in the photo.
               </Text>
               <Text style={styles.plainText}>
-                2. 다음의 경우에는 스탭의 판단에 따라 인증이 반려됩니다.
+                2. In the following cases, the verification will be rejected at
+                the discretion of the staff.
               </Text>
               <Text style={styles.subText}>
-                • 미팅 구성원 전원이 참석하지 않은 경우
+                • All of the meeting members are not present
               </Text>
               <Text style={styles.subText}>
-                • 음식점이 아닌 것 같다고 판단되는 경우
+                • Judging that it doesn't see2m like a restaurant
               </Text>
             </View>
           </View>
@@ -521,6 +523,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     letterSpacing: -0.5,
     color: '#1D1E1E',
+    textAlign: 'center',
   },
   buttonText: {
     fontWeight: '600',

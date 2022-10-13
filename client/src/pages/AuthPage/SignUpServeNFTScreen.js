@@ -115,26 +115,25 @@ const SignUpServeNFTScreen = ({navigation}) => {
         <View style={styles.fullscreenSub}>
           {progress === 100 ? (
             <View style={styles.progressdoneArea}>
-              <Text style={styles.textMain}>
-                {user.nickName}님을 위한 프로필
-              </Text>
+              <Text style={styles.textMain}>Profile for {user.nickName}</Text>
               <Image style={styles.nftImg} source={{uri: user.nftProfile}} />
-              <Text style={styles.textSub}>잘 부탁드려요!</Text>
+              <Text style={styles.textSub}>Nice to meet you!</Text>
               <TouchableOpacity style={styles.button} onPress={onSubmit}>
-                <Text style={styles.buttonText}>다음</Text>
+                <Text style={styles.buttonText}>Continue</Text>
               </TouchableOpacity>
             </View>
           ) : (
             <>
               <Text style={styles.textMain}>
-                {user.nickName}님만을 위한{'\n'} 프로필 이미지를 준비 중입니다!
+                preparing a profile image{'\n'}just for {user.nickName}
+                {/* {user.nickName}님만을 위한{'\n'} 프로필 이미지를 준비 중입니다! */}
               </Text>
 
               <Animated.Image
                 source={memintDino}
                 style={[styles.logo, {transform: [{rotate: spin}]}]}
               />
-              <Text style={styles.textSub}>두근두근...</Text>
+              <Text style={styles.textSub}>I'm so excited...</Text>
             </>
           )}
         </View>

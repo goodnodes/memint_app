@@ -65,7 +65,7 @@ function Main() {
           name="meeting"
           component={MeetingScreen}
           options={{
-            tabBarLabel: '홈',
+            tabBarLabel: 'HOME',
             tabBarIcon: ({color}) => (
               <Icon name="home" color={color} size={24} />
             ),
@@ -76,7 +76,7 @@ function Main() {
           name="ChattingListPage"
           component={ChattingListPage}
           options={{
-            tabBarLabel: '채팅',
+            tabBarLabel: 'CHATTING',
             tabBarIcon: ({color}) => (
               <Icon name="chat-bubble-outline" color={color} size={24} />
             ),
@@ -88,7 +88,7 @@ function Main() {
           name="alarm"
           component={AlarmScreen}
           options={{
-            tabBarLabel: '알림',
+            tabBarLabel: 'ALARM',
             tabBarIcon: ({color}) => (
               <Icon name="notifications-none" color={color} size={24} />
             ),

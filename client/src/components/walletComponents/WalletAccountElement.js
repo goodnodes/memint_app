@@ -6,8 +6,10 @@ import tingsymbol from '../../assets/icons/tingsymbol.png';
 function WalletAccountElement({onPress, balance, content}) {
   const imgSrc = content === 'KLAY' ? klayIcon : tingsymbol;
   return (
-    <TouchableOpacity onPress={() => onPress(content)}>
-      <View style={[styles.button]}>
+    <TouchableOpacity
+      onPress={() => onPress(content)}
+      style={styles.buttonWrapper}>
+      <View style={styles.button}>
         <View style={styles.tokenWrapper}>
           <Image source={imgSrc} style={styles.icon} />
           <Text style={styles.contentText}>{content}</Text>
@@ -55,7 +57,6 @@ const styles = StyleSheet.create({
   button: {
     flexDirection: 'row',
     // paddingHorizontal: 16,
-    width: 330,
     height: 52,
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -64,6 +65,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 12,
     marginVertical: 3,
+  },
+  buttonWrapper: {
+    width: '100%',
   },
 });
 

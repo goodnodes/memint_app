@@ -191,18 +191,23 @@ function MeetingSet({route}) {
                 style={styles.li}
                 onPress={() => {
                   if (meetingInfo.status === 'confirmed') {
-                    showToast('error', '미팅 인증 이후에는 변경할 수 없습니다');
+                    showToast(
+                      'error',
+                      'You cannot modify it after group dating verification',
+                    );
                     return;
                   }
                   setEditModal(true);
                 }}>
-                <Text style={styles.liText}>미팅 정보 변경하기</Text>
+                <Text style={styles.liText}>
+                  Modify group dating information
+                </Text>
                 <Icon name="arrow-forward-ios" size={15} color={'#ffffff'} />
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.li}
                 onPress={handleNavigateToReport}>
-                <Text style={styles.liText}>신고하기</Text>
+                <Text style={styles.liText}>Report</Text>
                 <Icon name="arrow-forward-ios" size={15} color={'#ffffff'} />
               </TouchableOpacity>
 
@@ -211,7 +216,7 @@ function MeetingSet({route}) {
                 <TouchableOpacity
                   style={styles.li}
                   onPress={handleNavigateToMemberOut}>
-                  <Text style={styles.liText}>미팅 멤버 내보내기</Text>
+                  <Text style={styles.liText}>Export Member</Text>
                   <Icon name="arrow-forward-ios" size={15} color={'#ffffff'} />
                 </TouchableOpacity>
               ) : null}
@@ -224,7 +229,7 @@ function MeetingSet({route}) {
                   setDeleteModalVisible(true);
                 }}>
                 <Text style={[styles.liText, styles.deleteText]}>
-                  미팅 삭제하기
+                  Delete group dating room
                 </Text>
               </TouchableOpacity>
             </>
@@ -233,10 +238,19 @@ function MeetingSet({route}) {
               <View>
                 <TouchableNativeFeedback
                   onPress={() => {
+                    if (meetingInfo.status === 'confirmed') {
+                      showToast(
+                        'error',
+                        'You cannot modify it after group dating verification',
+                      );
+                      return;
+                    }
                     setEditModal(true);
                   }}>
                   <View style={styles.li}>
-                    <Text style={styles.liText}>미팅 정보 변경하기</Text>
+                    <Text style={styles.liText}>
+                      Modify group dating information
+                    </Text>
                     <Icon
                       name="arrow-forward-ios"
                       size={15}
@@ -248,7 +262,7 @@ function MeetingSet({route}) {
               <View>
                 <TouchableNativeFeedback onPress={handleNavigateToReport}>
                   <View style={styles.li}>
-                    <Text style={styles.liText}>신고하기</Text>
+                    <Text style={styles.liText}>Report</Text>
                     <Icon
                       name="arrow-forward-ios"
                       size={15}
@@ -263,7 +277,7 @@ function MeetingSet({route}) {
                 <View>
                   <TouchableNativeFeedback onPress={handleNavigateToMemberOut}>
                     <View style={styles.li}>
-                      <Text style={styles.liText}>미팅 멤버 내보내기</Text>
+                      <Text style={styles.liText}>Export Member</Text>
                       <Icon
                         name="arrow-forward-ios"
                         size={15}
@@ -284,7 +298,7 @@ function MeetingSet({route}) {
                     setDeleteModalVisible(true);
                   }}>
                   <Text style={[styles.liText, styles.deleteText]}>
-                    미팅 삭제하기
+                    Delete group dating room
                   </Text>
                 </TouchableNativeFeedback>
               </View>
@@ -292,9 +306,9 @@ function MeetingSet({route}) {
           )}
 
           <DoubleModal
-            text="미팅룸 삭제 후 복구가 불가합니다. 삭제하시겠습니까?"
-            nButtonText="네"
-            pButtonText="아니오"
+            text="Recovery is not possible after deleting the meeting room. Are you sure you want to delete it?"
+            nButtonText="Yes"
+            pButtonText="No"
             modalVisible={deleteModalVisible}
             setModalVisible={setDeleteModalVisible}
             pFunction={() => {
@@ -303,9 +317,9 @@ function MeetingSet({route}) {
             nFunction={handleDelete}
           />
           <DoubleModal
-            text="미팅 정보를 수정하시겠어요?"
-            nButtonText="아니오"
-            pButtonText="네"
+            text="Do you want to modify the group dating information?"
+            nButtonText="No"
+            pButtonText="Yes"
             modalVisible={editModal}
             setModalVisible={setEditModal}
             pFunction={handleNavigateToEdit}
@@ -323,7 +337,7 @@ function MeetingSet({route}) {
               <TouchableOpacity
                 style={styles.li}
                 onPress={handleNavigateToReport}>
-                <Text style={styles.liText}>신고하기</Text>
+                <Text style={styles.liText}>Report</Text>
                 <Icon name="arrow-forward-ios" size={15} color={'#ffffff'} />
               </TouchableOpacity>
               <TouchableOpacity
@@ -336,13 +350,16 @@ function MeetingSet({route}) {
                       })[0],
                     )[0] !== 'accepted'
                   ) {
-                    showToast('error', '미팅 확정 이후에는 나갈 수 없습니다');
+                    showToast(
+                      'error',
+                      "You can't leave after the group dating is confirmed",
+                    );
                     return;
                   }
                   setOutModal(true);
                 }}>
                 <Text style={[styles.liText, styles.deleteText]}>
-                  미팅 나가기
+                  Leave this group dating room
                 </Text>
               </TouchableOpacity>
             </>
@@ -350,7 +367,7 @@ function MeetingSet({route}) {
             <>
               <TouchableNativeFeedback onPress={handleNavigateToReport}>
                 <View style={styles.li}>
-                  <Text style={styles.liText}>신고하기</Text>
+                  <Text style={styles.liText}>Report</Text>
                   <Icon name="arrow-forward-ios" size={15} color={'#ffffff'} />
                 </View>
               </TouchableNativeFeedback>
@@ -363,14 +380,17 @@ function MeetingSet({route}) {
                       })[0],
                     )[0] !== 'accepted'
                   ) {
-                    showToast('error', '미팅 확정 이후에는 나갈 수 없습니다');
+                    showToast(
+                      'error',
+                      "You can't leave after the group dating is confirmed",
+                    );
                     return;
                   }
                   setOutModal(true);
                 }}>
                 <View style={styles.li}>
                   <Text style={[styles.liText, styles.deleteText]}>
-                    미팅 나가기
+                    Leave this group dating room
                   </Text>
                 </View>
               </TouchableNativeFeedback>
@@ -378,9 +398,9 @@ function MeetingSet({route}) {
           )}
 
           <DoubleModal
-            text="미팅방에서 나가시겠습니까?"
-            nButtonText="아니오"
-            pButtonText="네"
+            text="Would you like to leave the group dating room?"
+            nButtonText="No"
+            pButtonText="Yes"
             modalVisible={outModal}
             setModalVisible={setOutModal}
             pFunction={handleMeetingOut}
@@ -406,7 +426,7 @@ function MeetingSet({route}) {
       <View style={styles.header}>
         <BackButton />
       </View>
-      <Text style={styles.title}>채팅방 설정</Text>
+      <Text style={styles.title}>Setting for group dating room</Text>
       <View style={styles.ul}>{renderByUser()}</View>
     </View>
   );

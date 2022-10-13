@@ -64,7 +64,10 @@ function MyDoubleModal({
                     changeJoinerState(id, user, setModalVisible).then(
                       result => {
                         result === 'runModal' &&
-                          showToast('basic', '미팅 참가가 확정되었습니다!');
+                          showToast(
+                            'basic',
+                            'Participation has been confirmed!',
+                          );
                       },
                     );
                   }}

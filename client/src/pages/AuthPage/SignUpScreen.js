@@ -57,25 +57,25 @@ const SignUpScreen = ({navigation}) => {
       const checkEmail = await checkUniqueEmail(email);
       if (password !== confirmPassword) {
         // Alert.alert('실패', '비밀번호가 일치하지 않습니다.');
-        showToast('error', '비밀번호가 일치하지 않습니다.');
+        showToast('error', 'Passwords do not match.');
       } else if (password.length < 6) {
         // let msg = '유효하지 않은 비밀번호입니다.';
         // Alert.alert('실패', msg);
-        showToast('error', '유효하지 않은 비밀번호입니다.');
+        showToast('error', 'Invalid password.');
       } else if (!regex.test(email)) {
         // let msg = '유효하지 않은 이메일입니다.';
         // Alert.alert('실패', msg);
-        showToast('error', '유효하지 않은 이메일입니다.');
+        showToast('error', 'Invalid email.');
       } else if (!checkEmail) {
         // let msg = '이미 가입된 이메일입니다.';
         // Alert.alert('실패', msg);
-        showToast('error', '이미 가입된 이메일입니다.');
+        showToast('error', 'The email already exists.');
       } else {
         navigation.push('SignUpUserInfo', {userInfo});
       }
     } catch (e) {
       const messages = {
-        'auth/invalid-email': '이메일 형식을 올바르게 입력해주세요.',
+        'auth/invalid-email': 'Invalid email.',
       };
       const msg = messages[e.code];
       // Alert.alert('실패', msg);
@@ -131,14 +131,14 @@ const SignUpScreen = ({navigation}) => {
           <BackButton />
         </View>
         <View style={styles.fullscreen}>
-          <Text style={styles.title}>회원가입</Text>
+          <Text style={styles.title}>Sign Up</Text>
 
           <ScrollView style={styles.fullscreenSub}>
             <View style={styles.form}>
-              <Text style={styles.infoText}>이메일</Text>
+              <Text style={styles.infoText}>Email</Text>
               <BorderedInput
                 size="wide"
-                placeholder="이메일"
+                placeholder="Email"
                 value={form.email}
                 onChangeText={createChangeTextHandler('email')}
                 autoCapitalize="none"
@@ -150,10 +150,10 @@ const SignUpScreen = ({navigation}) => {
               />
             </View>
             <View style={styles.form}>
-              <Text style={styles.infoText}>비밀번호</Text>
+              <Text style={styles.infoText}>Password</Text>
               <BorderedInput
                 size="wide"
-                placeholder="비밀번호"
+                placeholder="Password"
                 value={form.password}
                 onChangeText={createChangeTextHandler('password')}
                 autoCapitalize="none"
@@ -165,10 +165,10 @@ const SignUpScreen = ({navigation}) => {
               />
             </View>
             <View style={[styles.form, styles.padding]}>
-              <Text style={styles.infoText}>비밀번호 확인 </Text>
+              <Text style={styles.infoText}>Confirm password </Text>
               <BorderedInput
                 size="wide"
-                placeholder="비밀번호 확인"
+                placeholder="Confirm password"
                 value={form.confirmPassword}
                 onChangeText={createChangeTextHandler('confirmPassword')}
                 autoCapitalize="none"
@@ -190,7 +190,7 @@ const SignUpScreen = ({navigation}) => {
             /> */}
           </ScrollView>
           <TouchableOpacity style={styles.button} onPress={onSubmitSignUp}>
-            <Text style={styles.buttonText}>다음</Text>
+            <Text style={styles.buttonText}>Continue</Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>

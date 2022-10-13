@@ -98,39 +98,42 @@ const EventPage = ({route}) => {
       <ScrollView>
         <View style={styles.eventTitle}>
           <Text style={styles.meetingTitle}>{meetingInfo.title}</Text>
-          <Text style={styles.eventResult}>이벤트 당첨 결과</Text>
+          <Text style={styles.eventResult}>Event Results</Text>
           <Text style={styles.meetingTime}>
-            미팅 인증 일시{' '}
-            {meetingInfo?.confirmCreatedAt.toDate().toLocaleString()}
+            Verified at{'  '}
+            {meetingInfo?.confirmCreatedAt.toDate().toLocaleString('en')}
           </Text>
         </View>
         <View style={styles.popperArea}>
           <Image source={partyPopper} style={styles.partyPopper} />
-          <Text style={styles.meetingTitle}>당첨을 축하합니다 🥳</Text>
-          <Text style={styles.eventResult}>미민크루 출동!</Text>
+          <Text style={styles.meetingTitle}>Congratulations on winning 🥳</Text>
+          <Text style={styles.eventResult}>MEMIN CREW will coming to you!</Text>
         </View>
         <View style={styles.descriptionArea}>
           <Text style={styles.eventNotiTitle}>
-            🦖미민크루🦖 이벤트 당첨자 안내 사항!
+            🦖MEMIN CREW🦖 Event Win Notice!
           </Text>
           <Text style={styles.eventNotiText}>
-            미민크루 이벤트는 미민트 스탭이 여러분의 술 자리에{'\n'}나타나 깜짝
-            선물을 증정하는 이벤트입니다.{'\n'}미민크루의 선물을 받고 싶다면
-            Memint 카카오 채널로{'\n'}다음의 사항을 보내주세요. 최대한 빨리
-            출동할게요 :)
+            MEMIN CREW Event is an event that Memint staff appears at your group
+            dating place and presents a surprise gift.{'\n'}If you want to
+            receive a gift from MEMIN CREW, please send the following to Memint
+            Kakao channel.{'\n'}MEMIN CREW will be on the move as soon as
+            possible :)
           </Text>
           <Text style={styles.eventNotiDesc}>
-            1.{'   '}당첨 페이지 캡처화면{'\n'}2.{'  '}미팅 호스트 이름,
-            전화번호
+            1.{'   '}Screen capture of this page{'\n'}2.{'  '}Name and mobile
+            number of host
             {'\n'}
-            3.{'  '}진행 중인 미팅 장소
+            3.{'  '}Place where you guys are.
           </Text>
           <Text style={styles.grayTitle}>
-            다음의 경우에는 선물 증정이 불가합니다.
+            Gift present is not possible in the following cases.
           </Text>
           <Text style={styles.grayContent}>
-            • 미팅 인증 후 2시간 안에 카카오톡 연락을 보내지 않은 경우
-            {'\n'}• 미팅 멤버 중 과반수 이상이 흩어진 경우(미민크루 도착 시)
+            • If you didn't send a Kakao Talk contact within 2 hours of the
+            group dating verification
+            {'\n'}• If more than half of the group dating members are
+            scattered(When MEMIN CREW arrives)
           </Text>
         </View>
       </ScrollView>
@@ -141,15 +144,17 @@ const EventPage = ({route}) => {
       <ScrollView>
         <View style={styles.eventTitle}>
           <Text style={styles.meetingTitle}>{meetingInfo.title}</Text>
-          <Text style={styles.eventResult}>이벤트 당첨 결과</Text>
+          <Text style={styles.eventResult}>Event Results</Text>
           <Text style={styles.meetingTime}>
-            미팅 인증 일시{' '}
-            {meetingInfo?.confirmCreatedAt.toDate().toLocaleString()}
+            Verified at{'  '}
+            {meetingInfo?.confirmCreatedAt.toDate().toLocaleString('en')}
           </Text>
         </View>
         <View style={styles.bombArea}>
           <Image source={bomb} style={styles.partyPopper} />
-          <Text style={styles.meetingTitle}>아쉽네요 꽝입니다 😭</Text>
+          <Text style={styles.meetingTitle}>
+            That's too bad. Please try next time 😭
+          </Text>
         </View>
       </ScrollView>
     );
@@ -221,20 +226,20 @@ const EventPage = ({route}) => {
             {eventItem === '미민크루' ? (
               <TouchableOpacity style={styles.button} onPress={goToKakao}>
                 <Text style={styles.buttonText}>
-                  Memint 카카오 채널 바로가기
+                  Go to Memint Kakao Channel
                 </Text>
               </TouchableOpacity>
             ) : eventItem === '꽝' ? (
               <TouchableOpacity
                 style={styles.button}
                 onPress={goToMeetingConfirm}>
-                <Text style={styles.buttonText}>돌아가기</Text>
+                <Text style={styles.buttonText}>Back</Text>
               </TouchableOpacity>
             ) : (
               <TouchableOpacity
                 style={styles.button}
                 onPress={goToMeetingConfirm}>
-                <Text style={styles.buttonText}>돌아가기</Text>
+                <Text style={styles.buttonText}>Back</Text>
               </TouchableOpacity>
             )}
           </View>
@@ -247,7 +252,9 @@ const EventPage = ({route}) => {
             />
             <TouchableWithoutFeedback onPress={onEventHandler}>
               <View style={styles.progressArea}>
-                <Text style={styles.textSub}>랜덤박스를 터치해 열어보세요</Text>
+                <Text style={styles.textSub}>
+                  Touch the random box to open it!
+                </Text>
                 <Animatable.Image
                   animation="swing"
                   iterationCount={3}

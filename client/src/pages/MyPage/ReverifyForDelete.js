@@ -34,7 +34,7 @@ const ReverifyForDelete = ({navigation, route}) => {
   const [buttonReady, setButtonReady] = useState(false);
   const [pwButtonReady, setPwButtonReady] = useState(false);
   const [validNumber, setValidNumber] = useState(
-    '11자리 숫자 전화번호를 입력해주세요',
+    'Please enter an 11-digit phone number',
   );
   const [modalVisible, setModalVisible] = useState(false);
   const [textColor, setTextColor] = useState('gray');
@@ -58,15 +58,15 @@ const ReverifyForDelete = ({navigation, route}) => {
     setForm({...form, [name]: value});
     if (name === 'mobileNumber') {
       if (value.length === 0) {
-        setValidNumber('전화번호를 입력해주세요 (11자리 숫자)');
+        setValidNumber('Please enter an 11-digit phone number');
         setTextColor('#EAFFEF');
       } else if (value !== userInfo.phoneNumber) {
         setButtonReady(false);
-        setValidNumber('전화번호가 유효하지 않습니다');
+        setValidNumber('Invalid phone number');
         setTextColor('#FF5029');
       } else if (value === userInfo.phoneNumber) {
         setButtonReady(true);
-        setValidNumber('유효한 전화번호 입니다.');
+        setValidNumber('Valid phone number.');
         setTextColor('#58FF7D');
       }
     } else if (name === 'password') {
@@ -96,19 +96,19 @@ const ReverifyForDelete = ({navigation, route}) => {
   async function verifyPhoneNumber(phoneNumber) {
     if (verified) {
       try {
-        setValidNumber('인증번호가 발송되었습니다');
+        setValidNumber('Authenticate code has been sent');
         const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
         setConfirm(confirmation);
       } catch (e) {
         const messages = {
-          'auth/too-many-requests': `인증 번호 요청을 너무 많이했습니다. ${'\n'} 잠시 후 다시 시도해주세요.`,
+          'auth/too-many-requests': `Too many requests. ${'\n'} Please try again in a moment.`,
         };
         const msg = messages[e.code];
         Alert.alert('실패', msg);
         console.log(e);
       }
     } else {
-      showToast('error', '비밀번호를 먼저 인증해주세요.');
+      showToast('error', 'Please authenticate your password first.');
     }
   }
 
@@ -144,7 +144,10 @@ const ReverifyForDelete = ({navigation, route}) => {
         navigation.navigate('SignIn');
       }
     } else {
-      showToast('error', '비밀번호와 휴대폰 번호를 인증해주세요.');
+      showToast(
+        'error',
+        'Please authenticate your password and mobile number.',
+      );
     }
   };
   return (
@@ -167,19 +170,20 @@ const ReverifyForDelete = ({navigation, route}) => {
         </View>
 
         <View style={styles.fullscreen}>
-          <Text style={styles.title}>본인 인증</Text>
+          <Text style={styles.title}>Authenticate</Text>
           <Text style={styles.contentText}>
-            안전한 탈퇴를 위해 비밀번호와 휴대폰 번호를 인증해주세요.
+            Please authenticate your password and mobile number for safe
+            withdrawal.
           </Text>
 
           <ScrollView style={styles.fullscreenSub}>
             <View style={styles.form}>
-              <Text style={styles.contentText}>비밀번호</Text>
+              <Text style={styles.contentText}>Password</Text>
               <View style={styles.formRow}>
                 <View style={styles.inputWrap}>
                   <BorderedInput
                     size="wide"
-                    placeholder="비밀번호를 입력해주세요"
+                    placeholder="Please enter Password"
                     value={form.password}
                     onChangeText={createChangeTextHandler('password')}
                     autoCapitalize="none"
@@ -199,7 +203,7 @@ const ReverifyForDelete = ({navigation, route}) => {
                   disabled={!pwButtonReady}
                   border={true}
                   backgroundColor={pwButtonReady ? '#AEFFC1' : 'transparent'}
-                  text="인증하기"
+                  text="Submit"
                   hasMarginBottom
                   onPress={() => {
                     onCheckPw();
@@ -214,17 +218,17 @@ const ReverifyForDelete = ({navigation, route}) => {
                 {verified === null
                   ? ''
                   : verified
-                  ? '확인되었습니다.'
-                  : '비밀번호가 유효하지 않습니다.'}
+                  ? 'confirmed.'
+                  : 'Invalid password.'}
               </Text>
             </View>
             <View style={styles.form}>
-              <Text style={styles.contentText}>휴대폰</Text>
+              <Text style={styles.contentText}>Mobile</Text>
               <View style={styles.formRow}>
                 <View style={styles.inputWrap}>
                   <BorderedInput
                     size="wide"
-                    placeholder="전화번호를 입력해주세요"
+                    placeholder="Please enter mobile number"
                     value={form.mobileNumber}
                     onChangeText={createChangeTextHandler('mobileNumber')}
                     autoCapitalize="none"
@@ -245,7 +249,7 @@ const ReverifyForDelete = ({navigation, route}) => {
                   disabled={!buttonReady}
                   border={true}
                   backgroundColor={buttonReady ? '#AEFFC1' : 'transparent'}
-                  text="인증번호받기"
+                  text="Submit"
                   hasMarginBottom
                   onPress={async () =>
                     verifyPhoneNumber(
@@ -266,12 +270,12 @@ const ReverifyForDelete = ({navigation, route}) => {
             </View>
 
             <View style={styles.form} hasMarginBottom>
-              <Text style={styles.contentText}>인증번호</Text>
+              <Text style={styles.contentText}>Authentication code</Text>
               <View style={styles.formRow}>
                 <View style={styles.inputWrap}>
                   <BorderedInput
                     size="wide"
-                    placeholder="인증번호를 입력해주세요"
+                    placeholder="Please enter Authentication code"
                     value={form.code}
                     onChangeText={createChangeTextHandler('code')}
                     // secureTextEntry
@@ -294,7 +298,7 @@ const ReverifyForDelete = ({navigation, route}) => {
                   disabled={!buttonReady}
                   border={true}
                   backgroundColor={buttonReady ? '#AEFFC1' : 'transparent'}
-                  text="인증하기"
+                  text="Authenticate"
                   hasMarginBottom
                   onPress={() => confirmCode()}
                 />
@@ -307,8 +311,8 @@ const ReverifyForDelete = ({navigation, route}) => {
                 {confirmNo === null
                   ? ''
                   : confirmNo
-                  ? '성공적으로 인증되었습니다'
-                  : '인증번호가 유효하지 않습니다.'}
+                  ? 'Successfully authenticated'
+                  : 'Invalid authentication code.'}
               </Text>
             </View>
 
@@ -329,12 +333,12 @@ const ReverifyForDelete = ({navigation, route}) => {
           <TouchableOpacity
             style={styles.button}
             onPress={() => setModalVisible(true)}>
-            <Text style={styles.buttonText}>탈퇴하기</Text>
+            <Text style={styles.buttonText}>Withdrawal</Text>
           </TouchableOpacity>
           <DoubleModal
-            text="MEMINT를 탈퇴하시겠습니까?"
-            nButtonText="아니요"
-            pButtonText="네"
+            text="Do you really want to leave Memint"
+            nButtonText="No"
+            pButtonText="Yes"
             modalVisible={modalVisible}
             setModalVisible={setModalVisible}
             pFunction={() => {

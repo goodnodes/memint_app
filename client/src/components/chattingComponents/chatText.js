@@ -243,7 +243,7 @@ function NotMyChat({item, userDetail, setUserInfoModalVisible, setUserId}) {
   }, [userDetail]);
 
   useEffect(() => {
-    const date = new Date(item.createdAt.seconds * 1000).toLocaleString();
+    const date = new Date(item.createdAt.seconds * 1000).toLocaleString('en');
     setDate(date);
   }, []);
   return (
@@ -285,7 +285,7 @@ function NotMyChat({item, userDetail, setUserInfoModalVisible, setUserId}) {
           <Text style={styles.senderName}>
             {userDetail && userDetail[item.sender]
               ? userDetail[item.sender].nickName
-              : '(알수없음)'}
+              : '(unknown)'}
           </Text>
           <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
             <View style={styles.messageBody}>
@@ -299,7 +299,12 @@ function NotMyChat({item, userDetail, setUserInfoModalVisible, setUserId}) {
                   color: '#ffffff',
                   letterSpacing: -0.5,
                 }}>
-                {date && date.slice(6, date.length - 3)}
+                {date &&
+                  date.slice(0, -17) +
+                    ' ' +
+                    date.slice(-11, -6) +
+                    ' ' +
+                    date.slice(-2)}
               </Text>
             </View>
           </View>
@@ -312,7 +317,7 @@ function NotMyChat({item, userDetail, setUserInfoModalVisible, setUserId}) {
 function MyChat({item}) {
   const [date, setDate] = useState();
   useEffect(() => {
-    const date = new Date(item.createdAt.seconds * 1000).toLocaleString();
+    const date = new Date(item.createdAt.seconds * 1000).toLocaleString('en');
     setDate(date);
   }, []);
   return (
@@ -331,7 +336,12 @@ function MyChat({item}) {
                 .toDate()
                 .toLocaleString()
                 .slice(6, item.createdAt.toDate().toLocaleString().length - 3)} */}
-              {date && date.slice(6, date.length - 3)}
+              {date &&
+                date.slice(0, -17) +
+                  ' ' +
+                  date.slice(-11, -6) +
+                  ' ' +
+                  date.slice(-2)}
             </Text>
           </View>
           <View
@@ -373,12 +383,12 @@ function StatusMessage({item}) {
             fontSize: 13,
             letterSpacing: -0.5,
           }}>
-          {item.nickName} 님이{' '}
+          {item.nickName}{' '}
           {item.status === 'out'
-            ? '나가셨습니다.'
+            ? 'left.'
             : item.status === 'in'
-            ? '입장하셨습니다.'
-            : '퇴장당하셨습니다.'}
+            ? 'has entered.'
+            : 'has been kicked out.'}
         </Text>
       </View>
     </View>

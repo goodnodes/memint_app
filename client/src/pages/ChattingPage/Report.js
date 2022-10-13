@@ -46,24 +46,24 @@ function Report({navigation}) {
           </View>
         )}
       </View>
-      <Text style={styles.title}>고객센터</Text>
+      <Text style={styles.title}>Service Center</Text>
       <View style={styles.wrapper}>
         <View style={styles.section}>
           <Text style={styles.bigText}>
-            궁금하시거나 불편한 점이 있으신가요?
+            Do you have any questions or inconveniences?
           </Text>
           <Text style={styles.bigText}>
-            문의사항에 대해 친절히 답변해 드리겠습니다.
+            Memint team will kindly answer your inquiry.
           </Text>
         </View>
         <View style={styles.section}>
-          <Text style={styles.boldText}>카카오톡 문의</Text>
+          <Text style={styles.boldText}>Kakao Talk Channel</Text>
           <Text style={styles.plainText}>
-            평일 10:00 ~ 19:00 (토, 일, 공휴일 휴무)
+            Weekday 10:00 ~ 19:00 (Weekend, Hoiday off)
           </Text>
         </View>
         <BasicButton
-          text="카카오톡으로 문의하기"
+          text="Ask through Kakao Talk"
           width={'100%'}
           height={50}
           textSize={18}

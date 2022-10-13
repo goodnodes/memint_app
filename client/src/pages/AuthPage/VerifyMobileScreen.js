@@ -36,7 +36,7 @@ const VerifyMobileScreen = ({navigation, route}) => {
   const {showToast} = useToast();
   const [buttonReady, setButtonReady] = useState(false);
   const [validNumber, setValidNumber] = useState(
-    '11자리 숫자 전화번호를 입력해주세요',
+    'Please enter an 11-digit phone number',
   );
   const [textColor, setTextColor] = useState('gray');
   const [verified, setVerified] = useState(null);
@@ -55,15 +55,15 @@ const VerifyMobileScreen = ({navigation, route}) => {
     setForm({...form, [name]: value});
     if (name === 'mobileNumber') {
       if (value.length === 0) {
-        setValidNumber('전화번호를 입력해주세요 (11자리 숫자)');
+        setValidNumber('Please enter an 11-digit phone number');
         setTextColor('#EAFFEF');
       } else if (value.length !== 11 || value.slice(0, 3) !== '010') {
         setButtonReady(false);
-        setValidNumber('전화번호가 유효하지 않습니다');
+        setValidNumber('Invalid phone number');
         setTextColor('#FF5029');
       } else if (value.length === 11) {
         setButtonReady(true);
-        setValidNumber('유효한 전화번호 입니다.');
+        setValidNumber('Valid phone number');
         setTextColor('#58FF7D');
       }
     }
@@ -85,14 +85,16 @@ const VerifyMobileScreen = ({navigation, route}) => {
         setButtonReady(true);
         return true;
       } else {
-        setValidNumber('이미 해당 전화번호로 가입한 회원이 있습니다');
+        setValidNumber(
+          'There is a member who signed up with that phone number',
+        );
         setTextColor('#FF5029');
         setButtonReady(true);
         return false;
       }
     } catch (e) {
       const messages = {
-        'auth/too-many-requests': `인증 번호 요청을 너무 많이했습니다. ${'\n'} 잠시 후 다시 시도해주세요.`,
+        'auth/too-many-requests': `Too many requests. ${'\n'} Please try again in a moment.`,
       };
       const msg = messages[e.code];
       // Alert.alert('실패', msg);
@@ -129,7 +131,7 @@ const VerifyMobileScreen = ({navigation, route}) => {
       userInfo = {...userInfo, phoneNumber: fixedPhoneNumber};
       navigation.push('SignUpUserDetail', {userInfo});
     } else {
-      showToast('error', '휴대폰 번호를 인증해주세요');
+      showToast('error', 'Please verify your phone number');
     }
   };
 
@@ -154,19 +156,19 @@ const VerifyMobileScreen = ({navigation, route}) => {
           <BackButton />
         </View>
         <View style={styles.fullscreen}>
-          <Text style={styles.title}>휴대폰 인증</Text>
+          <Text style={styles.title}>Verify Mobile</Text>
           <Text style={styles.contentText}>
-            안전한 MEMINT를 위해 휴대폰 번호를 인증해주세요!
+            Please verify your mobile phone number for safe use of Memint!
           </Text>
 
           <ScrollView style={styles.fullscreenSub}>
             <View style={styles.form}>
-              <Text style={styles.contentText}>휴대폰</Text>
+              <Text style={styles.contentText}>Mobile</Text>
               <View style={styles.formRow}>
                 <View style={styles.inputWrap}>
                   <BorderedInput
                     size="wide"
-                    placeholder="전화번호를 입력해주세요"
+                    placeholder="Please enter mobile phone number"
                     value={form.mobileNumber}
                     onChangeText={createChangeTextHandler('mobileNumber')}
                     autoCapitalize="none"
@@ -187,12 +189,12 @@ const VerifyMobileScreen = ({navigation, route}) => {
                   disabled={!buttonReady}
                   border={true}
                   backgroundColor={buttonReady ? '#AEFFC1' : 'transparent'}
-                  text="인증번호받기"
+                  text="Submit"
                   hasMarginBottom
                   onPress={async () => {
                     if (form.mobileNumber === '01019920715') {
                       setTextColor('#58FF7D');
-                      setValidNumber('인증번호가 발송되었습니다');
+                      setValidNumber('Verification code has been sent');
                     } else {
                       verifyPhoneNumber(
                         `+82 ${form.mobileNumber.slice(
@@ -205,10 +207,10 @@ const VerifyMobileScreen = ({navigation, route}) => {
                       ).then(result => {
                         if (result) {
                           setTextColor('#58FF7D');
-                          setValidNumber('인증번호가 발송되었습니다');
+                          setValidNumber('Verification code has been sent');
                         } else {
                           setValidNumber(
-                            '이미 해당 전화번호로 가입한 회원이 있습니다',
+                            'There is a member who signed up with that phone number',
                           );
                           setTextColor('#FF5029');
                         }
@@ -223,12 +225,12 @@ const VerifyMobileScreen = ({navigation, route}) => {
             </View>
 
             <View style={styles.form} hasMarginBottom>
-              <Text style={styles.contentText}>인증번호</Text>
+              <Text style={styles.contentText}>Verification code</Text>
               <View style={styles.formRow}>
                 <View style={styles.inputWrap}>
                   <BorderedInput
                     size="wide"
-                    placeholder="인증번호를 입력해주세요"
+                    placeholder="Please enter verification code"
                     value={form.code}
                     onChangeText={createChangeTextHandler('code')}
                     // secureTextEntry
@@ -251,7 +253,7 @@ const VerifyMobileScreen = ({navigation, route}) => {
                   disabled={!buttonReady}
                   border={true}
                   backgroundColor={buttonReady ? '#AEFFC1' : 'transparent'}
-                  text="인증하기"
+                  text="Verify"
                   hasMarginBottom
                   onPress={() => confirmCode()}
                 />
@@ -264,8 +266,8 @@ const VerifyMobileScreen = ({navigation, route}) => {
                 {verified === null
                   ? ''
                   : verified
-                  ? '성공적으로 인증되었습니다'
-                  : '인증번호가 유효하지 않습니다.'}
+                  ? 'Successfully verified'
+                  : 'Invalid verification code'}
               </Text>
             </View>
 
@@ -284,7 +286,7 @@ const VerifyMobileScreen = ({navigation, route}) => {
             /> */}
           </ScrollView>
           <TouchableOpacity style={styles.button} onPress={goToNextPage}>
-            <Text style={styles.buttonText}>다음</Text>
+            <Text style={styles.buttonText}>Continue</Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
