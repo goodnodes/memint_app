@@ -8,7 +8,14 @@ import {useToast} from '../../utils/hooks/useToast';
 import {addFeedbackDoc} from '../../lib/Meeting';
 const likesActive = require('../../assets/icons/likesActive.png');
 
-function RoomInfo({chatInfo, userDetail, setModalVisible}) {
+function RoomInfo({
+  chatInfo,
+  userDetail,
+  setModalVisible,
+
+  setUserInfoModalVisible,
+  setUserId,
+}) {
   const [states, setStates] = useState('');
   const [meetingStatus, setMeetingStatus] = useState('');
   const [people, setPeople] = useState('');
@@ -79,6 +86,8 @@ function RoomInfo({chatInfo, userDetail, setModalVisible}) {
             id={el[2]}
             chatInfo={chatInfo}
             setModalVisible={setModalVisible}
+            setUserInfoModalVisible={setUserInfoModalVisible}
+            setUserId={setUserId}
           />
         );
       }),
@@ -156,18 +165,34 @@ function RoomInfo({chatInfo, userDetail, setModalVisible}) {
   );
 }
 
-function Joiner({nickName, state, img, isHost, id, setModalVisible, chatInfo}) {
+function Joiner({
+  nickName,
+  state,
+  img,
+  isHost,
+  id,
+  setModalVisible,
+  chatInfo,
+  setUserInfoModalVisible,
+  setUserId,
+}) {
   const user = useUser();
   return (
     <View style={styles.person}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <Image
-          style={[
-            styles.personImage,
-            isHost ? {borderColor: '#33ED96', borderWidth: 1} : null,
-          ]}
-          source={{uri: img}}
-        />
+        <Pressable
+          onPress={() => {
+            setUserId(id);
+            setUserInfoModalVisible(true);
+          }}>
+          <Image
+            style={[
+              styles.personImage,
+              isHost ? {borderColor: '#33ED96', borderWidth: 1} : null,
+            ]}
+            source={{uri: img}}
+          />
+        </Pressable>
 
         <Text style={styles.personName}>{nickName}</Text>
         {isHost && (

@@ -52,9 +52,17 @@ function UserInfoModal({
   const [bigPicture, setBicPicture] = useState(false);
 
   useEffect(() => {
-    getOtherUser(userId).then(result => {
-      setUser(result);
-    });
+    console.log(visible);
+    if (userId === owner.id) {
+      setUser(owner);
+    } else {
+      getOtherUser(userId).then(result => {
+        setUser(result);
+      });
+    }
+    return () => {
+      setUser('');
+    };
   }, [userId, visible]);
   return (
     <View style={styles.centeredView}>

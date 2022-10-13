@@ -19,11 +19,18 @@ import {getItem, setItem} from '../../lib/Chatting';
 import * as RNFS from 'react-native-fs';
 import {downloadFile, checkExist} from '../../lib/api/caching';
 
-function ChatText({data, roomInfo, userDetail, setRoomInfo}) {
+function ChatText({
+  data,
+  roomInfo,
+  userDetail,
+  setRoomInfo,
+  userInfoModalVisible,
+  setUserInfoModalVisible,
+  userId,
+  setUserId,
+}) {
   const [chattings, setChattings] = useState('');
   const [lastChat, setLastChat] = useState('');
-  const [userInfoModalVisible, setUserInfoModalVisible] = useState(false);
-  const [userId, setUserId] = useState('');
   const [currentAppState, setCurrentAppState] = useState('');
   const userDesc = useUser();
   const user = userDesc.id;
@@ -37,9 +44,9 @@ function ChatText({data, roomInfo, userDetail, setRoomInfo}) {
       <MyChat item={item} user={userDesc} userDetail={userDetail} key={idx} />
     ) : (
       <NotMyChat
+        setUserId={setUserId}
         item={item}
         userDetail={userDetail}
-        setUserId={setUserId}
         setUserInfoModalVisible={setUserInfoModalVisible}
         key={idx}
       />
@@ -51,7 +58,9 @@ function ChatText({data, roomInfo, userDetail, setRoomInfo}) {
   );
   const checkIsVisible = userId => {
     // console.log(visibleList)
-    if (!visibleList) return false;
+    if (!visibleList) {
+      return false;
+    }
     if (visibleList.indexOf(userId) !== -1) {
       return true;
     }

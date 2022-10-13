@@ -53,7 +53,8 @@ function ChattingRoom({route}) {
   const [meetingEnd, setMeetingEnd] = useState(false);
   const [spendingModalVisible, setSpendingModalVisible] = useState(false);
   const {showToast} = useToast();
-
+  const [userInfoModalVisible, setUserInfoModalVisible] = useState(false);
+  const [userId, setUserId] = useState('');
   // 추후 추가해야할 data
 
   const userRef = useMemo(() => firestore().collection('User'), []);
@@ -172,6 +173,10 @@ function ChattingRoom({route}) {
             roomInfo={roomInfo}
             setRoomInfo={setRoomInfo}
             userDetail={userDetail}
+            userInfoModalVisible={userInfoModalVisible}
+            setUserInfoModalVisible={setUserInfoModalVisible}
+            userId={userId}
+            setUserId={setUserId}
           />
 
           {roomInfoExist ? (
@@ -182,6 +187,9 @@ function ChattingRoom({route}) {
                 setModalVisible={setModalVisible}
                 setMeetingEnd={setMeetingEnd}
                 userDetail={userDetail}
+                userInfoModalVisible={userInfoModalVisible}
+                setUserInfoModalVisible={setUserInfoModalVisible}
+                setUserId={setUserId}
               />
             </Animated.View>
           ) : null}
