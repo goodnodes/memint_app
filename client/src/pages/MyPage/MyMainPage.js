@@ -27,7 +27,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import BottomDrawer from '../../components/myPageComponent/BottomDrawer';
 import {getDino} from '../../components/myPageComponent/MeminStats';
 import {useIsFocused} from '@react-navigation/native';
-import {rechargeEnergy} from '../../lib/NFT';
+import {rechargeEnergy, getFullEnergy} from '../../lib/NFT';
 import useAuthActions from '../../utils/hooks/UseAuthActions';
 import littledino from '../../assets/icons/littledino.png';
 import DoubleModal from '../../components/common/DoubleModal';
@@ -58,21 +58,24 @@ function MyMainPage({navigation}) {
       // console.log(userInfo);
       if (
         Number(userInfo.meminStats.energyRechargeTime) + 86400 <=
-        Number(String(Date.now()).slice(0, 10))
+          Number(String(Date.now()).slice(0, 10)) &&
+        userInfo.meminStats.energy < getFullEnergy(userInfo.meminStats.dino)
       ) {
         // console.log('hi');
         rechargeEnergy(userInfo, Number(String(Date.now()).slice(0, 10)))
           .then(amount => {
-            // console.log('amount: ' + amount);
-            saveInfo({
-              ...userInfo,
-              meminStats: {
-                ...userInfo.meminStats,
-                energy: userInfo.meminStats.energy + amount,
-                energyRechargeTime: Number(String(Date.now()).slice(0, 10)),
-              },
-            });
-            return amount;
+            console.log('amount: ' + amount);
+            if (amount > 0) {
+              saveInfo({
+                ...userInfo,
+                meminStats: {
+                  ...userInfo.meminStats,
+                  energy: userInfo.meminStats.energy + amount,
+                  energyRechargeTime: Number(String(Date.now()).slice(0, 10)),
+                },
+              });
+              return amount;
+            }
           })
           .then(amount => {
             showToast('success', `${amount} 에너지가 충전되었습니다!`);

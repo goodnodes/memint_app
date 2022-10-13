@@ -189,6 +189,8 @@ export const rechargeEnergy = async (userDetail, now) => {
     } else {
       return recharge(5);
     }
+  } else {
+    return 0;
   }
 };
 
@@ -226,5 +228,17 @@ export const chargeEnergy = async (userInfo, fullEnergy) => {
         console.log('work');
         return 10;
       });
+  }
+};
+
+export const getFullEnergy = dino => {
+  if (dino === 'Tyrano') {
+    return 100;
+  } else if (dino === 'Brachio') {
+    return 90;
+  } else if (dino === 'Stego') {
+    return 70;
+  } else if (dino === 'Tricera') {
+    return 60;
   }
 };
