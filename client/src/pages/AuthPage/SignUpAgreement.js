@@ -97,9 +97,7 @@ const SignUpAgreementScreen = ({navigation, route}) => {
         const body = {
           id: user.uid,
         };
-        console.log('account TEst', body);
         const account = await createWallet(body);
-        console.log(account);
         ///////Sigin In process
         const userDetail = await getUser(user.uid);
 

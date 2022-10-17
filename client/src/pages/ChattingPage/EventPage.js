@@ -87,6 +87,7 @@ const EventPage = ({route}) => {
 
   useEffect(() => {
     getMeetingInfo();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const getMeetingInfo = async () => {
     const res = await getMeeting(route.params.meetingInfo.id);
