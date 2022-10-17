@@ -326,7 +326,7 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    position: 'absolute',
+    // position: 'absolute',
     bottom: 20,
     // marginTop: 'auto',
     // marginBottom: 30,
@@ -381,7 +381,7 @@ const styles = StyleSheet.create({
     // fontFamily: 'Roboto',
     fontStyle: 'normal',
     fontWeight: '600',
-    fontSize: 16,
+    fontSize: 17,
     color: '#1D1E1E',
     // lineHeight: 140,
     // marginTop: 5,

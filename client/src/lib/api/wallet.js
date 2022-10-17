@@ -1,7 +1,21 @@
 import axios from '.';
 
 export const createWallet = async body => {
-  await axios.post('/auth/register', body);
+  try {
+    await axios
+      .post('/auth/register', body)
+      .then((result, err) => {
+        console.log({result});
+        console.log({err});
+        return result;
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+  } catch (ex) {
+    console.log({ex});
+    console.log(ex.response.data);
+  }
 };
 
 export const KlayToLCN = async body => {

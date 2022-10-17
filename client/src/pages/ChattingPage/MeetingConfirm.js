@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import BackButton from '../../components/common/BackButton';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import randomBox from '../../assets/icons/randombox.png';
 import memintDino from '../../assets/icons/memintDino.png';
 import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
@@ -225,14 +226,17 @@ function MeetingConfirm({route}) {
               <TouchableOpacity
                 style={styles.eventButton}
                 onPress={goToEventPage}>
-                <Text style={styles.buttonText}>이벤트 상품받기!</Text>
+                <Image source={randomBox} style={styles.randomBox} />
+                <Text style={styles.buttonText}>
+                  클로즈베타 이벤트 참여하기
+                </Text>
               </TouchableOpacity>
             ) : (
               <View>
                 <TouchableNativeFeedback onPress={goToEventPage}>
                   <View style={styles.eventButton}>
                     <Text style={styles.buttonText}>
-                      클릭해서 이벤트 상품받기!
+                      클로즈베타 이벤트 참여하기
                     </Text>
                   </View>
                 </TouchableNativeFeedback>
@@ -320,7 +324,6 @@ function MeetingConfirm({route}) {
 
               {renderMessage()}
               {renderDenied()}
-              {renderEvent()}
             </View>
           ) : (
             <>
@@ -421,6 +424,7 @@ function MeetingConfirm({route}) {
         style={styles.gradientBackground}>
         <View style={styles.header}>
           <BackButton />
+          {renderEvent()}
         </View>
         <ScrollView
           contentContainerStyle={{paddingBottom: 30}}
@@ -523,11 +527,12 @@ const styles = StyleSheet.create({
     color: '#1D1E1E',
   },
   buttonText: {
-    fontWeight: '600',
-    fontSize: 18,
+    fontWeight: '400',
+    fontSize: 16,
     letterSpacing: -0.5,
-    color: '#1D1E1E',
+    color: '#AEFFC1',
     marginRight: 3,
+    marginTop: 3,
   },
   plainText: {
     fontSize: 13,
@@ -584,25 +589,19 @@ const styles = StyleSheet.create({
     marginRight: 7,
   },
   eventButton: {
-    backgroundColor: '#AEFFC1',
+    backgroundColor: '#1D1E1E',
     borderRadius: 99,
+    borderWidth: 0.5,
     flexDirection: 'row',
     justifyContent: 'center',
-    paddingVertical: 13,
+    // paddingVertical: 13,
     alignContent: 'center',
-    marginTop: 10,
-    marginBottom: 10,
-    width: '100%',
-    height: 50,
-    shadowColor: 'rgba(174, 255, 192, 0.5)',
-    shadowOffset: {
-      width: 0,
-      height: 9,
-    },
-    shadowOpacity: 0.48,
-    shadowRadius: 11.95,
-
-    elevation: 18,
+    marginTop: 15,
+    marginLeft: 110,
+    // marginBottom: 10,
+    width: 227,
+    height: 28,
+    borderColor: '#AEFFC1',
   },
   imageView: {
     flexDirection: 'column',
@@ -664,13 +663,20 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   header: {
+    flexDirection: 'row',
     height: 50,
-    justifyContent: 'center',
+    // justifyContent: 'center',
   },
   memintDino: {
     width: 25,
     height: 25,
     marginRight: 10,
+  },
+  randomBox: {
+    marginTop: 3,
+    marginRight: 5,
+    width: 18,
+    height: 18,
   },
 });
 
