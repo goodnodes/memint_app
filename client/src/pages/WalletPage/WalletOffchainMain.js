@@ -131,6 +131,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 25,
+    width: '100%',
+    paddingHorizontal: 15,
   },
   buttonWrapper: {
     flexDirection: 'row',

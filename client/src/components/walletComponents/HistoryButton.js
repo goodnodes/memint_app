@@ -61,14 +61,14 @@ const styles = StyleSheet.create({
   button: {
     flexDirection: 'row',
     // paddingHorizontal: 16,
-    width: 330,
+    width: '100%',
     height: 76,
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: '#EAFFEFCC',
     borderRadius: 10,
-    margin: 3,
     paddingVertical: 15,
+    marginVertical: 3,
   },
   contentWrapper: {
     flexDirection: 'column',
