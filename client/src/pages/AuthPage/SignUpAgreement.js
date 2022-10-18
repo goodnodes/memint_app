@@ -310,8 +310,8 @@ const SignUpAgreementScreen = ({navigation, route}) => {
           <Text style={styles.textSub}>선택</Text>
         </View>
         <Text style={styles.contentText}>
-          마케팅 수신 동의를 체크하지 않으면, 추천 모임 알림, 이벤트 소식 등 앱
-          사용 멤버만을 위한 특별한 혜택 정보를 받을 수 없어요.
+          마케팅 수신 동의를 체크하지 않으면,{'\n'}클로즈베타 관련 중요 공지 및
+          이벤트 당첨{'\n'}안내 등을 받을 수 없어요.
         </Text>
         <View style={styles.formAllAgree}>
           <CheckBox

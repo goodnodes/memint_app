@@ -2,12 +2,10 @@ import RNDateTimePicker from '@react-native-community/datetimepicker';
 import React, {useState, useEffect, useCallback} from 'react';
 import {
   Text,
-  SafeAreaView,
   TouchableOpacity,
   View,
   StyleSheet,
   ScrollView,
-  Button,
   TextInput,
   StatusBar,
   Platform,
@@ -18,19 +16,17 @@ import RNPickerSelect from 'react-native-picker-select';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useToast} from '../../utils/hooks/useToast';
-import SingleModal from '../../components/common/SingleModal';
 import TagElement from '../../components/meetingComponents/TagElement';
 import DoubleModal from '../../components/common/DoubleModal';
 import {getUser, updateUserMeetingOut} from '../../lib/Users';
-import {getMeetingTags} from '../../lib/MeetingTag';
 import {deleteMeeting, getMeeting, updateMeeting} from '../../lib/Meeting';
 import useUser from '../../utils/hooks/UseUser';
-import useAuthActions from '../../utils/hooks/UseAuthActions';
 import {useMeeting} from '../../utils/hooks/UseMeeting';
 import LinearGradient from 'react-native-linear-gradient';
 import useMeetingActions from '../../utils/hooks/UseMeetingActions';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 import {meetingTags} from '../../assets/docs/contents';
+import {notification} from '../../lib/api/notification';
 
 function FocusAwareStatusBar(props) {
   const isFocused = useIsFocused();
@@ -54,10 +50,9 @@ function EditMeetingInfo({route}) {
     region: item.region,
     peopleNum: item.peopleNum,
     members: item.members,
-    meetingTags: route.params.item.meetingTags,
+    meetingTags: item.meetingTags,
   });
   const [confirmModalVisible, setConfirmModalVisible] = useState(false);
-  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
   const navigation = useNavigation();
   const {showToast} = useToast();
@@ -111,92 +106,59 @@ function EditMeetingInfo({route}) {
     if (!submittable) {
       showToast('error', '필수 항목들을 작성해주세요');
       return;
+    } else if (
+      item.title === meetingInfo.title &&
+      item.description === meetingInfo.description &&
+      new Date(item.meetDate).toString() === meetingInfo.meetDate.toString() &&
+      item.region === meetingInfo.region &&
+      item.meetingTags === meetingInfo.meetingTags
+    ) {
+      showToast('error', '변경사항이 없습니다.');
+      return;
     } else {
       setConfirmModalVisible(true);
     }
   };
 
   const handleUpdate = () => {
-    if (meetingInfo.members.length === meetingInfo.peopleNum * 2) {
-      updateMeeting(item.id, {
-        title: meetingInfo.title,
-        description: meetingInfo.description,
-        meetDate: meetingInfo.meetDate,
-        region: meetingInfo.region,
-        peopleNum: meetingInfo.peopleNum,
-        meetingTags: meetingInfo.meetingTags,
-        status: 'full',
+    updateMeeting(item.id, {
+      title: meetingInfo.title,
+      description: meetingInfo.description,
+      meetDate: meetingInfo.meetDate,
+      region: meetingInfo.region,
+      peopleNum: meetingInfo.peopleNum,
+      meetingTags: meetingInfo.meetingTags,
+    })
+      .then(() => {
+        return getMeeting(item.id);
       })
-        .then(() => {
-          return getMeeting(item.id);
-        })
-        .then(res => {
-          return getUser(res.data().hostId).then(hostInfo => {
-            return {id: item.id, ...res.data(), hostInfo: hostInfo};
-          });
-        })
-        .then(data => {
-          setConfirmModalVisible(false);
-          showToast('success', '미팅이 수정되었습니다');
-          navigation.pop();
-        })
-        .catch(err => {
-          console.log(err);
+      .then(res => {
+        return getUser(res.data().hostId).then(hostInfo => {
+          return {id: item.id, ...res.data(), hostInfo: hostInfo};
         });
-    } else if (
-      meetingInfo.members.length < meetingInfo.peopleNum * 2 &&
-      item.status === 'full'
-    ) {
-      updateMeeting(item.id, {
-        title: meetingInfo.title,
-        description: meetingInfo.description,
-        meetDate: meetingInfo.meetDate,
-        region: meetingInfo.region,
-        peopleNum: meetingInfo.peopleNum,
-        meetingTags: meetingInfo.meetingTags,
-        status: 'open',
       })
-        .then(() => {
-          return getMeeting(item.id);
-        })
-        .then(res => {
-          return getUser(res.data().hostId).then(hostInfo => {
-            return {id: item.id, ...res.data(), hostInfo: hostInfo};
-          });
-        })
-        .then(data => {
-          setConfirmModalVisible(false);
-          showToast('success', '미팅이 수정되었습니다');
-          navigation.pop();
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    } else {
-      updateMeeting(item.id, {
-        title: meetingInfo.title,
-        description: meetingInfo.description,
-        meetDate: meetingInfo.meetDate,
-        region: meetingInfo.region,
-        peopleNum: meetingInfo.peopleNum,
-        meetingTags: meetingInfo.meetingTags,
+      .then(data => {
+        setConfirmModalVisible(false);
+        showToast('success', '미팅이 수정되었습니다');
+        sendNotification();
+        navigation.pop();
       })
-        .then(() => {
-          return getMeeting(item.id);
-        })
-        .then(res => {
-          return getUser(res.data().hostId).then(hostInfo => {
-            return {id: item.id, ...res.data(), hostInfo: hostInfo};
-          });
-        })
-        .then(data => {
-          setConfirmModalVisible(false);
-          showToast('success', '미팅이 수정되었습니다');
-          navigation.pop();
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  const sendNotification = () => {
+    for (let member of meetingInfo.members) {
+      notification({
+        receiver: Object.keys(member)[0],
+        message: `"${
+          meetingInfo.title.length > 10
+            ? meetingInfo.title.slice(0, 10) + '...'
+            : meetingInfo.title
+        }" 미팅의 정보가 변경되었습니다. 확인해보세요!`,
+        title: 'MEMINT',
+      });
     }
   };
 
@@ -206,17 +168,6 @@ function EditMeetingInfo({route}) {
       return;
     } else {
       setMeetingInfo({...meetingInfo, peopleNum: value});
-    }
-  };
-
-  const handleDelete = () => {
-    try {
-      deleteMeeting(item.id);
-      updateUserMeetingOut(userInfo.id, 'createdroomId', item.id);
-      showToast('success', '미팅이 삭제되었습니다.');
-      navigation.pop();
-    } catch (e) {
-      console.log(e);
     }
   };
 
@@ -440,6 +391,7 @@ function EditMeetingInfo({route}) {
           <View style={[styles.createElement, styles.flexRow]}>
             <View style={[styles.selectButton, styles.rightMargin]}>
               <RNPickerSelect
+                disabled={true}
                 placeholder={{label: '인원'}}
                 onValueChange={handlePeopleNum}
                 items={PeopleDropDownData}
@@ -478,7 +430,6 @@ function EditMeetingInfo({route}) {
                   );
                 }}
               />
-              {/* <Icon name="arrow-drop-down" size={19} color={'gray'} /> */}
             </View>
             <ScrollView style={styles.invitedFriends} horizontal={true}>
               {meetingInfo.membersNickName?.map((el, idx) => (
@@ -500,33 +451,7 @@ function EditMeetingInfo({route}) {
               <View style={styles.tagCategory}>
                 {/* <Text style={styles.tagCategoryTitle}>분위기</Text> */}
                 <View style={styles.tags} horizontal={true}>
-                  {meetingTags.mood.map((tag, idx) => (
-                    <TagElement
-                      key={idx}
-                      tag={tag}
-                      meetingInfo={meetingInfo}
-                      setMeetingInfo={setMeetingInfo}
-                    />
-                  ))}
-                </View>
-              </View>
-              <View style={styles.tagCategory}>
-                {/* <Text style={styles.tagCategoryTitle}>주제</Text> */}
-                <View style={styles.tags} horizontal={true}>
-                  {meetingTags.topic.map((tag, idx) => (
-                    <TagElement
-                      key={idx}
-                      tag={tag}
-                      meetingInfo={meetingInfo}
-                      setMeetingInfo={setMeetingInfo}
-                    />
-                  ))}
-                </View>
-              </View>
-              <View style={styles.tagCategory}>
-                {/* <Text style={styles.tagCategoryTitle}>술</Text> */}
-                <View style={styles.tags} horizontal={true}>
-                  {meetingTags.alcohol.map((tag, idx) => (
+                  {meetingTags.map((tag, idx) => (
                     <TagElement
                       key={idx}
                       tag={tag}
@@ -538,26 +463,6 @@ function EditMeetingInfo({route}) {
               </View>
             </View>
           </View>
-          {/* <View style={styles.deleteButton}>
-            <Button
-              onPress={() => {
-                setDeleteModalVisible(true);
-              }}
-              title="미팅 삭제하기"
-              color="#DA6262"
-            />
-          </View> */}
-          {/* <DoubleModal
-            text="미팅룸 삭제 후 복구가 불가합니다. 삭제하시겠습니까?"
-            nButtonText="네"
-            pButtonText="아니오"
-            modalVisible={deleteModalVisible}
-            setModalVisible={setDeleteModalVisible}
-            pFunction={() => {
-              setDeleteModalVisible(false);
-            }}
-            nFunction={handleDelete}
-          /> */}
         </ScrollView>
       </LinearGradient>
     </View>

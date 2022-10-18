@@ -72,7 +72,7 @@ function ChattingListPage({navigation}) {
           return {
             ...meetingInfo.data(),
             id: meetingId,
-            hostInfo: hostImage.data().nftProfile,
+            hostInfo: hostImage.data(),
             lastMsg: lastMsg.docs[0] && lastMsg.docs[0].data(),
           };
         }),
@@ -147,7 +147,7 @@ function MetaData({item, navigation, refresh, setRefresh}) {
   // AppState Subscribe 설정 및 foreground / background에 따라 state를 변경해주는 함수
   useEffect(() => {
     console.log('in');
-    setHostImg(item.hostInfo);
+    setHostImg(item.hostInfo.nftProfile);
 
     // chattingListPage 이미지들 캐싱은 일단 보류
 
@@ -181,7 +181,7 @@ function MetaData({item, navigation, refresh, setRefresh}) {
         } else {
           console.log('it is not exists');
           console.log(path);
-          downloadFile(item.hostInfo);
+          downloadFile(item.hostInfo.nftProfile);
         }
       });
     }

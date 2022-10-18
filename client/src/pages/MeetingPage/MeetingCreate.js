@@ -524,43 +524,7 @@ function MeetingCreate({route}) {
                   style={styles.tagIcon}
                 /> */}
                 <View style={styles.tags}>
-                  {meetingTags.mood.map((tag, idx) => (
-                    <TagElement
-                      key={idx}
-                      tag={tag}
-                      meetingInfo={meetingInfo}
-                      setMeetingInfo={setMeetingInfo}
-                    />
-                  ))}
-                </View>
-              </View>
-              <View style={styles.tagCategory}>
-                {/* <Icon
-                  name="circle"
-                  size={8}
-                  color={'#EAFFEF'}
-                  style={styles.tagIcon}
-                /> */}
-                <View style={styles.tags} horizontal={true}>
-                  {meetingTags.topic.map((tag, idx) => (
-                    <TagElement
-                      key={idx}
-                      tag={tag}
-                      meetingInfo={meetingInfo}
-                      setMeetingInfo={setMeetingInfo}
-                    />
-                  ))}
-                </View>
-              </View>
-              <View style={styles.tagCategory}>
-                {/* <Icon
-                  name="circle"
-                  size={8}
-                  color={'#EAFFEF'}
-                  style={styles.tagIcon}
-                /> */}
-                <View style={styles.tags}>
-                  {meetingTags.alcohol.map((tag, idx) => (
+                  {meetingTags.map((tag, idx) => (
                     <TagElement
                       key={idx}
                       tag={tag}

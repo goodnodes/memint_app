@@ -160,11 +160,7 @@ const SignUpUserDetailScreen = ({navigation, route}) => {
               />
             )}
             {!property.emoji ? null : (
-              <Region
-                data={data}
-                property={property}
-                setProperty={setProperty}
-              />
+              <Region property={property} setProperty={setProperty} />
             )}
             {!property.region.length ? null : (
               <FavYoutube property={property} setProperty={setProperty} />
@@ -174,9 +170,9 @@ const SignUpUserDetailScreen = ({navigation, route}) => {
             )}
             {!property.twinCeleb ? null : (
               <DrinkCapa
-                data={data}
                 property={property}
                 setProperty={setProperty}
+                nickName={userInfo.nickName}
               />
             )}
             {!property.drinkCapa ? null : (
@@ -830,7 +826,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     position: 'absolute',
     right: 10,
-    bottom: 90,
+    bottom: 55,
     color: '#EAEAEA',
   },
 });

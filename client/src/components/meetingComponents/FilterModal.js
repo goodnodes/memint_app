@@ -27,13 +27,7 @@ function FilterModal({
   const [datePicker, setDatePicker] = useState(false);
 
   const tags = [
-    ...meetingTags.alcohol.map(el => {
-      return {label: el, value: el};
-    }),
-    ...meetingTags.mood.map(el => {
-      return {label: el, value: el};
-    }),
-    ...meetingTags.topic.map(el => {
+    ...meetingTags.map(el => {
       return {label: el, value: el};
     }),
   ];
