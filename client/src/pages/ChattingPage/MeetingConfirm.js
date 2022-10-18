@@ -532,8 +532,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     letterSpacing: -0.5,
     color: '#AEFFC1',
-    marginRight: 3,
-    marginTop: 3,
+    // marginRight: 3,
+    // marginTop: 3,
   },
   plainText: {
     fontSize: 13,
@@ -596,14 +596,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     // paddingVertical: 13,
-    alignContent: 'center',
+    alignItems: 'center',
     marginTop: 15,
-    marginLeft: 110,
+    marginRight: 5,
     // marginBottom: 10,
     width: 227,
     height: 28,
     borderColor: '#AEFFC1',
   },
+
   imageView: {
     flexDirection: 'column',
     alignItems: 'center',
@@ -666,7 +667,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     height: 50,
-    // justifyContent: 'center',
+    justifyContent: 'space-between',
   },
   memintDino: {
     width: 25,
@@ -674,7 +675,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   randomBox: {
-    marginTop: 3,
+    // marginTop: 3,
     marginRight: 5,
     width: 18,
     height: 18,
