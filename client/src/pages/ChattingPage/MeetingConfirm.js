@@ -27,9 +27,9 @@ import {createConfirmAlarm} from '../../lib/Alarm';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 import LinearGradient from 'react-native-linear-gradient';
 import {makeCreateDiscord} from '../../lib/api/notification';
-import CameraModal from '../../components/AuthComponents/CameraModal';
 import {useIsFocused} from '@react-navigation/native';
 import {useNavigation} from '@react-navigation/native';
+import ConfirmCameraModal from '../../components/meetingComponents/ConfirmCameraModal';
 const window = Dimensions.get('window');
 
 function FocusAwareStatusBar(props) {
@@ -91,15 +91,16 @@ function MeetingConfirm({route}) {
       {
         title: '사진 업로드',
         //사진 선택하기는 이후 삭제될 수 있음
-        options: ['카메라로 촬영하기', '사진 선택하기', '취소'],
-        cancelButtonIndex: 2,
+        options: ['카메라로 촬영하기', '취소'],
+        cancelButtonIndex: 1,
       },
       buttonIndex => {
         if (buttonIndex === 0) {
           onLaunchCamera();
-        } else if (buttonIndex === 1) {
-          onLaunchImageLibrary();
         }
+        // else if (buttonIndex === 1) {
+        //   onLaunchImageLibrary();
+        // }
       },
     );
   };
@@ -443,7 +444,7 @@ function MeetingConfirm({route}) {
             </View>
 
             {renderByUser()}
-            <CameraModal
+            <ConfirmCameraModal
               text="미팅을 생성하시겠습니까?"
               //body={<Text>정말로?</Text>}
               nButtonText="아니요"
