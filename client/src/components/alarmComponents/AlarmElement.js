@@ -30,6 +30,7 @@ function AlarmElement({alarm, getAlarmPage, alarms, setAlarms}) {
   const [chattingConfirmModal, setChattingConfirmModal] = useState(false);
   const [earnAskingModal, setEarnAskingModal] = useState(false);
   const [earnModalVisible, setEarnModalVisible] = useState(false);
+  const [isEarnButtonPressed, setIsEarnButtonPressed] = useState(false);
 
   const handleClick = () => {
     if (!alarm.meetingInfo || alarm.type === 'banned') {
@@ -71,6 +72,10 @@ function AlarmElement({alarm, getAlarmPage, alarms, setAlarms}) {
   };
 
   const handleTokenReceive = async () => {
+    if (isEarnButtonPressed) {
+      return;
+    }
+    setIsEarnButtonPressed(true);
     setEarnModalVisible(false);
     const meminStats = user.meminStats;
     //firestore user 변경 , saveInfo
@@ -99,13 +104,14 @@ function AlarmElement({alarm, getAlarmPage, alarms, setAlarms}) {
     await changeJoinerToTokenReceived(alarm.meetingInfo.id, user.id);
     showToast('success', '미팅 참여 보상을 받았습니다.');
     await getAlarmPage();
+    setEarnAskingModal(true);
   };
 
-  const handleDelete = async () => {
-    await deleteAlarm(user.id, alarm.id);
-    setAlarms([]);
-    setAlarms(alarms.filter(el => el.id !== alarm.id));
-  };
+  // const handleDelete = async () => {
+  //   await deleteAlarm(user.id, alarm.id);
+  //   setAlarms([]);
+  //   setAlarms(alarms.filter(el => el.id !== alarm.id));
+  // };
 
   // const renderRightActions = (progress, dragX) => {
   //   // const trans = dragX.interpolate({
@@ -166,7 +172,6 @@ function AlarmElement({alarm, getAlarmPage, alarms, setAlarms}) {
       />
       <DoubleModal
         text="미팅 참여 보상을 받으시겠습니까?"
-        //body={<Text>정말로?</Text>}
         nButtonText="아니요"
         pButtonText="네"
         modalVisible={earnAskingModal}

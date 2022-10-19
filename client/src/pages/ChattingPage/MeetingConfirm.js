@@ -106,6 +106,9 @@ function MeetingConfirm({route}) {
   };
 
   const handleSubmit = async () => {
+    if (loading) {
+      return;
+    }
     setLoading(true);
     let photoURL = null;
     const asset = image.assets[0];
@@ -128,6 +131,9 @@ function MeetingConfirm({route}) {
   };
 
   const handleSecondSubmit = async () => {
+    if (loading) {
+      return;
+    }
     setLoading(true);
     const existedReference = storage().refFromURL(meetingInfo.confirmImage);
     await existedReference.delete();

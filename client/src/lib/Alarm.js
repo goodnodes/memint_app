@@ -21,16 +21,6 @@ export const getAlarmsById = async userId => {
 //미팅 신청 알림 생성
 //sender, receiver, meetingId, message
 export const createMeetingProposal = data => {
-  // return userCollection.doc(data.receiver).update({
-  //   alarms: firestore.FieldValue.arrayUnion({
-  //     type: 'proposal',
-  //     sender: data.sender,
-  //     meetingId: data.meetingId,
-  //     message: data.message,
-  //     createdAt: firestore.Timestamp.now(),
-  //     complete: false,
-  //   }),
-  // });
   return userCollection
     .doc(data.receiver)
     .collection('Alarm')
@@ -57,14 +47,6 @@ export const createMeetingProposal = data => {
 //미팅 수락 알림 생성
 //sender, receiver, meetingId
 export const createMeetingAccept = ({...data}) => {
-  // return userCollection.doc(data.receiver).update({
-  //   alarms: firestore.FieldValue.arrayUnion({
-  //     type: 'accept',
-  //     sender: data.sender,
-  //     meetingId: data.meetingId,
-  //     createdAt: firestore.Timestamp.now(),
-  //   }),
-  // });
   return userCollection
     .doc(data.receiver)
     .collection('Alarm')
@@ -77,7 +59,7 @@ export const createMeetingAccept = ({...data}) => {
     .then(() => {
       notification({
         receiver: data.receiver,
-        message: '수락 메시지가 도착했습니다',
+        message: `${data.senderNickName}님이 미팅 신청을 수락했습니다`,
         title: 'MEMINT',
       });
     })
@@ -89,14 +71,6 @@ export const createMeetingAccept = ({...data}) => {
 //미팅 퇴장 알림 생성
 //sender, receiver, meetingId
 export const createMeetingBanned = data => {
-  // return userCollection.doc(data.receiver).update({
-  //   alarms: firestore.FieldValue.arrayUnion({
-  //     type: 'banned',
-  //     sender: data.sender,
-  //     meetingId: data.meetingId,
-  //     createdAt: firestore.Timestamp.now(),
-  //   }),
-  // });
   return userCollection.doc(data.receiver).collection('Alarm').add({
     type: 'banned',
     sender: data.sender,
@@ -125,10 +99,10 @@ export const createConfirmAlarm = async data => {
 // };
 
 //delete
-export const deleteAlarm = async (userId, alarmId) => {
-  return await userCollection
-    .doc(userId)
-    .collection('Alarm')
-    .doc(alarmId)
-    .delete();
-};
+// export const deleteAlarm = async (userId, alarmId) => {
+//   return await userCollection
+//     .doc(userId)
+//     .collection('Alarm')
+//     .doc(alarmId)
+//     .delete();
+// };

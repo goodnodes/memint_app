@@ -49,6 +49,7 @@ function AlarmDetail({route}) {
       sender: userInfo.id, //로그인된 유저,
       receiver: alarm.sender, //(신청 메시지의 sender)
       meetingId: alarm.meetingId,
+      senderNickName: userInfo.nickName,
     };
     createMeetingAccept(data);
     //waiting에서 제거, member에 추가

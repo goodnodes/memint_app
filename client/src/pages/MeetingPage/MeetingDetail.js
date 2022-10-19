@@ -46,6 +46,7 @@ function MeetingDetail({route}) {
   const [modalVisible_2, setModalVisible_2] = useState(false);
   const [textMessage, setTextMessage] = useState('');
   const [membersInfo, setMembersInfo] = useState([]);
+  const [isRequestButtonPressed, setIsRequestButtonPressed] = useState(false);
   const {showToast} = useToast();
   const navigation = useNavigation();
   const [activationModalVisible, setActivationModalVisible] = useState(false);
@@ -151,12 +152,16 @@ function MeetingDetail({route}) {
   };
 
   const handleCreateProposal = () => {
+    if (isRequestButtonPressed) {
+      return;
+    }
     if (textMessage.length === 0) {
       setModalVisible_2(!modalVisible_2);
       showToast('error', '메시지를 작성해주세요');
       return;
     }
     try {
+      setIsRequestButtonPressed(true);
       const createData = {
         sender: loginUser, //로그인된 유저
         receiver: data.hostId,
@@ -173,6 +178,7 @@ function MeetingDetail({route}) {
           'success',
           '미팅 신청을 보냈습니다\n주선자의 수락을 기다려주세요!',
         );
+        setIsRequestButtonPressed(false);
         navigation.navigate('MeetingMarket');
       });
     } catch (e) {
