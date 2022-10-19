@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -17,6 +17,7 @@ import {signOut} from '../../lib/Auth';
 import useAuthActions from '../../utils/hooks/UseAuthActions';
 import DoubleModal from '../../components/common/DoubleModal';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import useUser from '../../utils/hooks/UseUser';
 
 function FocusAwareStatusBar(props) {
   const isFocused = useIsFocused();
@@ -26,7 +27,7 @@ function FocusAwareStatusBar(props) {
 
 function MySettings({route}) {
   const {top} = useSafeAreaInsets();
-
+  const userInfo = useUser();
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
   const {logout} = useAuthActions();
@@ -52,18 +53,20 @@ function MySettings({route}) {
   const handleChangePw = () => {
     navigation.navigate('ChangePw', route.params);
   };
-  const [pushAgree, setPushAgree] = useState(false);
-  const [mailAgree, setMailAgree] = useState(false);
-  const [smsAgree, setSMSAgree] = useState(false);
-  const handlePushToggle = () => {
-    setPushAgree(!pushAgree);
+  // const [pushAgree, setPushAgree] = useState(false);
+  const [marketingAgree, setMarketingAgree] = useState(
+    userInfo.marketingAgreement,
+  );
+  // const [smsAgree, setSMSAgree] = useState(false);
+  // const handlePushToggle = () => {
+  //   setPushAgree(!pushAgree);
+  // };
+  const handleMarketingToggle = () => {
+    setMarketingAgree(!marketingAgree);
   };
-  const handleMailTogle = () => {
-    setMailAgree(!mailAgree);
-  };
-  const handleSmsTogle = () => {
-    setSMSAgree(!smsAgree);
-  };
+  // const handleSmsTogle = () => {
+  //   setSMSAgree(!smsAgree);
+  // };
 
   return (
     <View style={styles.container}>
@@ -93,7 +96,7 @@ function MySettings({route}) {
           </View>
           <View style={styles.li}>
             <Text style={styles.liText}>이메일</Text>
-            <Text style={styles.liGrayText}>{route.params.email}</Text>
+            <Text style={styles.liGrayText}>{route.params.emarketing}</Text>
           </View>
           <TouchableOpacity style={styles.li} onPress={handleChangePw}>
             <Text style={styles.liText}>비밀번호 변경</Text>
@@ -118,16 +121,17 @@ function MySettings({route}) {
         /> */}
           </TouchableOpacity>
           <View style={styles.li}>
-            <Text style={styles.liText}>메일 수신 동의</Text>
+            <Text style={styles.liText}>마케팅 수신 동의</Text>
             <Switch
+              disabled={true}
               trackColor={{false: '#767577', true: '#81b0ff'}}
-              thumbColor={mailAgree ? '#f5dd4b' : '#f4f3f4'}
+              thumbColor={marketingAgree ? '#f5dd4b' : '#f4f3f4'}
               ios_backgroundColor="#3e3e3e"
-              onValueChange={handleMailTogle}
-              value={mailAgree}
+              onValueChange={handleMarketingToggle}
+              value={marketingAgree}
             />
           </View>
-          <View style={styles.li}>
+          {/* <View style={styles.li}>
             <Text style={styles.liText}>SMS 수신 동의</Text>
             <Switch
               trackColor={{false: '#767577', true: '#81b0ff'}}
@@ -136,7 +140,7 @@ function MySettings({route}) {
               onValueChange={handleSmsTogle}
               value={smsAgree}
             />
-          </View>
+          </View> */}
           <TouchableOpacity style={styles.li} onPress={handleDeletePage}>
             <Text style={styles.liText}>회원 탈퇴</Text>
           </TouchableOpacity>
@@ -169,7 +173,7 @@ function MySettings({route}) {
           </View>
           <View style={styles.li}>
             <Text style={styles.liText}>이메일</Text>
-            <Text style={styles.liGrayText}>{route.params.email}</Text>
+            <Text style={styles.liGrayText}>{route.params.emarketing}</Text>
           </View>
           <View>
             <TouchableNativeFeedback onPress={handleChangePw}>
@@ -204,16 +208,17 @@ function MySettings({route}) {
           </View>
 
           <View style={styles.li}>
-            <Text style={styles.liText}>메일 수신 동의</Text>
+            <Text style={styles.liText}>마케팅 수신 동의</Text>
             <Switch
+              disabled={true}
               trackColor={{false: '#767577', true: '#81b0ff'}}
-              thumbColor={mailAgree ? '#f5dd4b' : '#f4f3f4'}
+              thumbColor={marketingAgree ? '#f5dd4b' : '#f4f3f4'}
               ios_backgroundColor="#3e3e3e"
-              onValueChange={handleMailTogle}
-              value={mailAgree}
+              onValueChange={handleMarketingToggle}
+              value={marketingAgree}
             />
           </View>
-          <View style={styles.li}>
+          {/* <View style={styles.li}>
             <Text style={styles.liText}>SMS 수신 동의</Text>
             <Switch
               trackColor={{false: '#767577', true: '#81b0ff'}}
@@ -222,7 +227,7 @@ function MySettings({route}) {
               onValueChange={handleSmsTogle}
               value={smsAgree}
             />
-          </View>
+          </View> */}
           <View style={styles.li}>
             <TouchableNativeFeedback onPress={handleDeletePage}>
               <Text style={styles.liText}>회원 탈퇴</Text>

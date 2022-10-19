@@ -49,7 +49,7 @@ import Report from './pages/ChattingPage/Report';
 import MeetingConfirm from './pages/ChattingPage/MeetingConfirm';
 import firestore from '@react-native-firebase/firestore';
 import messaging from '@react-native-firebase/messaging';
-import notifee, {AndroidImportance} from '@notifee/react-native';
+import notifee, {AndroidImportance, EventType} from '@notifee/react-native';
 import {useToast} from './utils/hooks/useToast';
 import MySettings from './pages/MyPage/MySettings';
 import DeleteUser from './pages/MyPage/DeleteUser';
@@ -243,7 +243,7 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  //displaying push notification in foreground
+  //displayting push notification in foreground
   const handleNotification = async message => {
     const channelAnoucement = await notifee.createChannel({
       id: 'default',
@@ -261,6 +261,7 @@ function App() {
     });
   };
 
+  //receiving push notification in foreground
   useEffect(() => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
       if (
@@ -278,6 +279,25 @@ function App() {
     });
 
     return unsubscribe;
+  }, []);
+
+  //event handling when touch foregroudn push notification
+  useEffect(() => {
+    return notifee.onForegroundEvent(({type, detail}) => {
+      switch (type) {
+        case EventType.DISMISSED:
+          // console.log('User dismissed notification', detail.notification);
+          break;
+        case EventType.PRESS:
+          // console.log('User pressed notification', detail.notification);
+          if (detail.notification.title === 'MEMINT') {
+            navigate('alarm');
+          } else {
+            navigate('ChattingListPage');
+          }
+          break;
+      }
+    });
   }, []);
 
   if (initializing) {

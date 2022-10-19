@@ -61,14 +61,16 @@ function MyMeetingList({navigation, user}) {
       style={styles.listView}
       contentContainerStyle={styles.paddingRight}>
       {createdrooms.length !== 0 ? (
-        createdrooms.map((el, index) => (
-          <MyMeetings
-            item={el}
-            navigation={navigation}
-            key={index}
-            // getCreatedRoom={getCreatedRoom}
-          />
-        ))
+        createdrooms
+          .sort((a, b) => b.createdAt.toDate() - a.createdAt.toDate())
+          .map((el, index) => (
+            <MyMeetings
+              item={el}
+              navigation={navigation}
+              key={index}
+              // getCreatedRoom={getCreatedRoom}
+            />
+          ))
       ) : (
         // <View style={styles.emptyView}>
         <Text style={styles.emptyText}>생성한 미팅이 없습니다.</Text>
