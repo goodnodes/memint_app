@@ -291,7 +291,6 @@ export async function calculateCharm(userId, emotion) {
   }
 
   await usersCollection.doc(userId).update({
-    ...doc,
     meminStats: {
       HumanElement: calcHumanElement(grade, meminStats.level),
       receivedFeedbackCount: meminStats.receivedFeedbackCount + 1,
