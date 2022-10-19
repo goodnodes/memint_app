@@ -242,6 +242,7 @@ function MeetingConfirm({route}) {
               <View>
                 <TouchableNativeFeedback onPress={goToEventPage}>
                   <View style={styles.eventButton}>
+                    <Image source={randomBox} style={styles.randomBox} />
                     <Text style={styles.buttonText}>
                       클로즈베타 이벤트 참여하기
                     </Text>
@@ -279,7 +280,7 @@ function MeetingConfirm({route}) {
                     style={styles.photoIcon}
                     color="#33ED96"
                   />
-                  <Text style={styles.buttonText}>다시 인증하기</Text>
+                  <Text style={styles.photoButtonText}>다시 인증하기</Text>
                 </TouchableOpacity>
               ) : (
                 <View>
@@ -291,7 +292,7 @@ function MeetingConfirm({route}) {
                         style={styles.photoIcon}
                         color="#33ED96"
                       />
-                      <Text style={styles.buttonText}>다시 인증하기</Text>
+                      <Text style={styles.photoButtonText}>다시 인증하기</Text>
                     </View>
                   </TouchableNativeFeedback>
                 </View>
@@ -353,7 +354,7 @@ function MeetingConfirm({route}) {
                     style={styles.photoIcon}
                     color="#33ED96"
                   />
-                  <Text style={styles.buttonText}>미팅 인증샷</Text>
+                  <Text style={styles.photoButtonText}>미팅 인증샷</Text>
                 </TouchableOpacity>
               ) : (
                 <View>
@@ -365,7 +366,7 @@ function MeetingConfirm({route}) {
                         style={styles.photoIcon}
                         color="#33ED96"
                       />
-                      <Text style={styles.buttonText}>미팅 인증샷</Text>
+                      <Text style={styles.photoButtonText}>미팅 인증샷</Text>
                     </View>
                   </TouchableNativeFeedback>
                 </View>
@@ -541,6 +542,13 @@ const styles = StyleSheet.create({
     // marginRight: 3,
     // marginTop: 3,
   },
+  photoButtonText: {
+    fontSize: 18,
+    color: '#1D1E1E',
+    fontWeight: '600',
+    letterSpacing: -1,
+    lineHeight: 22,
+  },
   plainText: {
     fontSize: 13,
     marginVertical: 5,
@@ -604,13 +612,12 @@ const styles = StyleSheet.create({
     // paddingVertical: 13,
     alignItems: 'center',
     marginTop: 15,
-    marginRight: 5,
+    marginRight: 15,
     // marginBottom: 10,
     width: 227,
     height: 28,
     borderColor: '#AEFFC1',
   },
-
   imageView: {
     flexDirection: 'column',
     alignItems: 'center',
