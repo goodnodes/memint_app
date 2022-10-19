@@ -232,10 +232,11 @@ function FeedbackSendPage({route}) {
                   message: '미팅 후기 메시지가 도착했습니다',
                   title: 'MEMINT',
                 });
-                calculateCharm(person[2], form.emotion);
               }
-              showToast('success', '후기를 전송하였습니다.');
-              navigation.navigate('FeedbackChoicePage', {data, userInfo});
+              calculateCharm(person[2], form.emotion).then(() => {
+                showToast('success', '후기를 전송하였습니다.');
+                navigation.navigate('FeedbackChoicePage', {data, userInfo});
+              });
             });
           }}
           nFunction={() => {

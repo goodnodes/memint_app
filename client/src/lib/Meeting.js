@@ -216,7 +216,7 @@ export const sendFeedback = async (meetingId, receiver, owner, form) => {
   });
 
   // receiver에게 보내는 로직 추가
-  return userCollection
+  return await userCollection
     .doc(owner)
     .collection('Feedback')
     .doc(meetingId)

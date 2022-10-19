@@ -315,7 +315,7 @@ function MyMainPage({navigation}) {
                   <Progress.Bar
                     width={width * 0.8}
                     height={16}
-                    progress={userInfo.meminStats.HumanElement / 10}
+                    progress={userInfo.meminStats.HumanElement / 20}
                     color={'#2ACFC2'}
                     unfilledColor={'#EDEEF6'}
                     borderRadius={999}
@@ -323,7 +323,7 @@ function MyMainPage({navigation}) {
                     <Text
                       style={
                         styles.statusText
-                      }>{`${userInfo.meminStats.HumanElement} / 10`}</Text>
+                      }>{`${userInfo.meminStats.HumanElement} / 20`}</Text>
                   </Progress.Bar>
                 )}
               </View>
