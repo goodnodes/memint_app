@@ -220,7 +220,13 @@ function ChattingRoom({route}) {
                     {route.params.data.meetDate
                       .toDate()
                       .toLocaleString()
-                      .slice(0, -10)}
+                      .slice(
+                        0,
+                        route.params.data.meetDate
+                          .toDate()
+                          .toLocaleString()
+                          .indexOf('오'),
+                      )}
                   </Text>
                   <Text
                     style={{
@@ -233,7 +239,13 @@ function ChattingRoom({route}) {
                     {route.params.data.meetDate
                       .toDate()
                       .toLocaleString()
-                      .slice(-10, -3)}
+                      .slice(
+                        route.params.data.meetDate
+                          .toDate()
+                          .toLocaleString()
+                          .indexOf('오'),
+                        -3,
+                      )}
                   </Text>
                   <Text
                     style={{

@@ -1,11 +1,9 @@
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {
-  SafeAreaView,
   StyleSheet,
   Text,
   View,
-  AsyncStorage,
   Platform,
   TouchableNativeFeedback,
   StatusBar,
@@ -14,18 +12,15 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import BackButton from '../../components/common/BackButton';
 import DoubleModal from '../../components/common/DoubleModal';
-import firestore from '@react-native-firebase/firestore';
 import {
   deleteMeeting,
+  getMeeting,
   updateMeeting,
   updateMembersOut,
 } from '../../lib/Meeting';
 import {updateUserMeetingOut} from '../../lib/Users';
 import {useToast} from '../../utils/hooks/useToast';
 import useUser from '../../utils/hooks/UseUser';
-import {useMeeting} from '../../utils/hooks/UseMeeting';
-import useMeetingActions from '../../utils/hooks/UseMeetingActions';
-import useAuthActions from '../../utils/hooks/UseAuthActions';
 import {removeItem} from '../../lib/Chatting';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 
@@ -39,47 +34,51 @@ function MeetingSet({route}) {
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [outModal, setOutModal] = useState(false);
+  const [meetingInfo, setMeetingInfo] = useState({});
   const isFocused = useIsFocused();
-  useEffect(() => {
-    // console.log({meetingInfo: route.params.meetingInfo.id});
-    // console.log({userInfo: route.params.userInfo});
-  }, []);
-  const meetingInfo = route.params.meetingInfo;
   const userInfo = useUser();
   const navigation = useNavigation();
   const {showToast} = useToast();
-  const {rooms} = useMeeting();
-  const {saveMeeting} = useMeetingActions();
-  const {saveInfo} = useAuthActions();
+  // useEffect(() => {
+  //   firestore()
+  //     .collection('User')
+  //     .doc(userInfo.id)
+  //     .collection('Feedback')
+  //     .get()
+  //     .then(result =>
+  //       result.docs.forEach(el => {
+  //         console.log(el.id);
+  //       }),
+  //     );
+  //   return () => isFocused;
+  // }, [userInfo.id, isFocused]);
+
   useEffect(() => {
-    firestore()
-      .collection('User')
-      .doc(userInfo.id)
-      .collection('Feedback')
-      .get()
-      .then(result =>
-        result.docs.forEach(el => {
-          console.log(el.id);
-        }),
-      );
-    return () => isFocused;
-  }, [userInfo.id, isFocused]);
+    getMeetingInfo();
+  }, [isFocused]);
+
+  const getMeetingInfo = async () => {
+    const meetingData = await getMeeting(route.params.meetingInfo.id);
+    setMeetingInfo({id: meetingData.id, ...meetingData.data()});
+  };
 
   const handleNavigateToEdit = () => {
     setEditModal(!editModal);
     navigation.navigate('EditMeetingInfo', {
       item: {
-        ...route.params.meetingInfo,
-        meetDate: route.params.meetingInfo.meetDate.toDate().toISOString(),
+        ...meetingInfo,
+        meetDate: meetingInfo.meetDate.toDate().toISOString(),
       },
     });
   };
+
   const handleNavigateToMemberOut = () => {
     navigation.navigate('MeetingMemberOut', {
       data: route.params.userInfo,
       meetingData: route.params.meetingInfo,
     });
   };
+
   const handleNavigateToReport = () => {
     navigation.navigate('Report');
   };
@@ -104,18 +103,6 @@ function MeetingSet({route}) {
       })
       .then(() => {
         removeItem(meetingInfo.id);
-        // saveMeeting({
-        //   ...rooms,
-        //   createdrooms: rooms.createdrooms.filter(
-        //     el => el.id !== meetingInfo.id,
-        //   ),
-        // });
-        // saveInfo({
-        //   ...userInfo,
-        //   createdroomId: userInfo.createdroomId.filter(
-        //     el => el !== meetingInfo.id,
-        //   ),
-        // });
         showToast('success', '미팅이 삭제되었습니다.');
         setDeleteModalVisible(!deleteModalVisible);
         navigation.navigate('ChattingListPage');
@@ -182,7 +169,7 @@ function MeetingSet({route}) {
   // };
 
   const renderByUser = () => {
-    if (route.params.meetingInfo.hostId === userInfo.id) {
+    if (meetingInfo.hostId === userInfo.id) {
       return (
         <>
           {Platform.OS === 'ios' ? (
@@ -206,8 +193,8 @@ function MeetingSet({route}) {
                 <Icon name="arrow-forward-ios" size={15} color={'#ffffff'} />
               </TouchableOpacity>
 
-              {route.params.meetingInfo.status === 'open' ||
-              route.params.meetingInfo.status === 'full' ? (
+              {meetingInfo.status === 'open' ||
+              meetingInfo.status === 'full' ? (
                 <TouchableOpacity
                   style={styles.li}
                   onPress={handleNavigateToMemberOut}>
@@ -233,6 +220,13 @@ function MeetingSet({route}) {
               <View>
                 <TouchableNativeFeedback
                   onPress={() => {
+                    if (meetingInfo.status === 'confirmed') {
+                      showToast(
+                        'error',
+                        '미팅 인증 이후에는 변경할 수 없습니다',
+                      );
+                      return;
+                    }
                     setEditModal(true);
                   }}>
                   <View style={styles.li}>
@@ -258,8 +252,8 @@ function MeetingSet({route}) {
                 </TouchableNativeFeedback>
               </View>
 
-              {route.params.meetingInfo.status === 'open' ||
-              route.params.meetingInfo.status === 'full' ? (
+              {meetingInfo.status === 'open' ||
+              meetingInfo.status === 'full' ? (
                 <View>
                   <TouchableNativeFeedback onPress={handleNavigateToMemberOut}>
                     <View style={styles.li}>
@@ -376,7 +370,6 @@ function MeetingSet({route}) {
               </TouchableNativeFeedback>
             </>
           )}
-
           <DoubleModal
             text="미팅방에서 나가시겠습니까?"
             nButtonText="아니오"

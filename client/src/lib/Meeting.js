@@ -56,6 +56,14 @@ export const updateMembersIn = (meetingId, userId) => {
   });
 };
 
+//미팅 신청 수락 (대기 삭제 & 멤버 추가 & 상태 확인)
+export const updateMeetingAccept = async (meetingId, userId) => {
+  await meetingCollection.doc(meetingId).update({
+    waiting: firestore.FieldValue.arrayRemove(userId),
+    members: firestore.FieldValue.arrayUnion({[userId]: 'accepted'}),
+  });
+};
+
 //미팅 멤버 삭제 - accepted 일 때만
 export const updateMembersOut = (meetingId, userId) => {
   return meetingCollection.doc(meetingId).update({

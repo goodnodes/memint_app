@@ -40,7 +40,10 @@ function AlarmElement({alarm, getAlarmPage, alarms, setAlarms}) {
         alarm,
       });
     } else if (alarm.type === 'earned') {
-      //받았는지, 안받았는지 확인..
+      if (isEarnButtonPressed) {
+        return;
+      }
+      //받았는지, 안받았는지 확인
       if (
         alarm.meetingInfo.members.filter(el => {
           return Object.keys(el)[0] === user.id;
@@ -49,6 +52,7 @@ function AlarmElement({alarm, getAlarmPage, alarms, setAlarms}) {
         showToast('error', '이미 보상을 받았습니다.');
         return;
       }
+      setIsEarnButtonPressed(true);
       setEarnAskingModal(true);
     } else {
       setChattingConfirmModal(!chattingConfirmModal);
@@ -72,10 +76,6 @@ function AlarmElement({alarm, getAlarmPage, alarms, setAlarms}) {
   };
 
   const handleTokenReceive = async () => {
-    if (isEarnButtonPressed) {
-      return;
-    }
-    setIsEarnButtonPressed(true);
     setEarnModalVisible(false);
     const meminStats = user.meminStats;
     //firestore user 변경 , saveInfo
@@ -104,7 +104,7 @@ function AlarmElement({alarm, getAlarmPage, alarms, setAlarms}) {
     await changeJoinerToTokenReceived(alarm.meetingInfo.id, user.id);
     showToast('success', '미팅 참여 보상을 받았습니다.');
     await getAlarmPage();
-    setEarnAskingModal(true);
+    setIsEarnButtonPressed(false);
   };
 
   // const handleDelete = async () => {
@@ -150,7 +150,12 @@ function AlarmElement({alarm, getAlarmPage, alarms, setAlarms}) {
   return (
     // <GestureHandlerRootView>
     // <Swipeable renderRightActions={renderRightActions}>
-    <TouchableOpacity style={styles.container} onPress={handleClick}>
+    <TouchableOpacity
+      style={[
+        styles.container,
+        alarm.type === 'earned' ? styles.earnedContainer : null,
+      ]}
+      onPress={handleClick}>
       <DoubleModal
         text="채팅창으로 이동하시겠습니까?"
         //body={<Text>정말로?</Text>}
@@ -177,7 +182,7 @@ function AlarmElement({alarm, getAlarmPage, alarms, setAlarms}) {
         modalVisible={earnAskingModal}
         setModalVisible={setEarnAskingModal}
         pFunction={() => {
-          setEarnAskingModal(!earnAskingModal);
+          setEarnAskingModal(false);
           setEarnModalVisible(true);
         }}
         nFunction={() => {
@@ -236,7 +241,7 @@ function AlarmElement({alarm, getAlarmPage, alarms, setAlarms}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgba(241, 255, 245, 0.9)',
+    backgroundColor: '#F1FFF5CC',
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 5,
@@ -254,6 +259,9 @@ const styles = StyleSheet.create({
     // shadowRadius: 2.62,
 
     // elevation: 4,
+  },
+  earnedContainer: {
+    backgroundColor: '#F1FFF5',
   },
   icon: {
     marginRight: 13,

@@ -35,6 +35,7 @@ function AlarmPage({navigation}) {
   }, [getAlarmPage, isFocused]);
   const getAlarmPage = useCallback(async () => {
     try {
+      setRefreshing(true)
       //알림 데이터
       const res = await getAlarmsById(userInfo.id);
 
@@ -106,7 +107,8 @@ function AlarmPage({navigation}) {
         <View style={styles.header}>
           <Text style={styles.title}>알림</Text>
         </View>
-        {alarms.length === 0 ? (
+
+        {refreshing || alarms.length === 0 ? (
           <View style={styles.emptyView}>
             <Text style={styles.emptyText}>알림이 없습니다</Text>
           </View>

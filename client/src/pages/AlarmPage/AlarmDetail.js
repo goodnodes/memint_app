@@ -5,6 +5,7 @@ import BasicButton from '../../components/common/BasicButton';
 import {createMeetingAccept, updateMeetingProposal} from '../../lib/Alarm';
 import {
   updateMeeting,
+  updateMeetingAccept,
   updateMembersIn,
   updateWaitingOut,
 } from '../../lib/Meeting';
@@ -53,8 +54,9 @@ function AlarmDetail({route}) {
     };
     createMeetingAccept(data);
     //waiting에서 제거, member에 추가
-    updateWaitingOut(alarm.meetingId, alarm.sender); //신청 메시지의 sender
-    updateMembersIn(alarm.meetingId, alarm.sender); //신청 메시지의 sender
+    updateMeetingAccept(alarm.meetingId, alarm.sender);
+    // updateWaitingOut(alarm.meetingId, alarm.sender); //신청 메시지의 sender
+    // updateMembersIn(alarm.meetingId, alarm.sender); //신청 메시지의 sender
     // updateMeetingProposal(alarm.id); //신청 알림 완료로 update
     updateUserMeetingIn(
       alarm.sender,

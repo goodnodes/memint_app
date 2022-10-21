@@ -46,7 +46,7 @@ function MeetingMemberOut({route}) {
       return el[2] !== user.id;
     })
     .map((el, idx) => {
-      // console.log(el);
+      console.log(el);
       return <Person user={el} key={idx} form={form} setForm={setForm} />;
     });
 
