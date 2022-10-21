@@ -103,7 +103,7 @@ function SpendingModal({
                 // )
               }
             </View>
-            {user.tokenAmount > amount ? (
+            {user.tokenAmount >= amount ? (
               <View style={styles.buttonRow}>
                 <BasicButton
                   text="아니오"

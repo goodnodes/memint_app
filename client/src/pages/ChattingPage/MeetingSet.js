@@ -62,6 +62,22 @@ function MeetingSet({route}) {
     setMeetingInfo({id: meetingData.id, ...meetingData.data()});
   };
 
+  const checkIsFixed = async () => {
+    return firestore()
+      .collection('Meeting')
+      .doc(meetingInfo.id)
+      .get()
+      .then(result => {
+        const status = result.data().status;
+        console.log(status);
+        if (status === open || status === full) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+  };
+
   const handleNavigateToEdit = () => {
     setEditModal(!editModal);
     navigation.navigate('EditMeetingInfo', {
@@ -333,7 +349,14 @@ function MeetingSet({route}) {
                     showToast('error', '미팅 확정 이후에는 나갈 수 없습니다');
                     return;
                   }
-                  setOutModal(true);
+                  checkIsFixed().then(result => {
+                    if (result === true) {
+                      setOutModal(true);
+                    } else {
+                      showToast('error', '미팅 확정 이후에는 나갈 수 없습니다');
+                      return;
+                    }
+                  });
                 }}>
                 <Text style={[styles.liText, styles.deleteText]}>
                   미팅 나가기
@@ -360,7 +383,14 @@ function MeetingSet({route}) {
                     showToast('error', '미팅 확정 이후에는 나갈 수 없습니다');
                     return;
                   }
-                  setOutModal(true);
+                  checkIsFixed().then(result => {
+                    if (result === true) {
+                      setOutModal(true);
+                    } else {
+                      showToast('error', '미팅 확정 이후에는 나갈 수 없습니다');
+                      return;
+                    }
+                  });
                 }}>
                 <View style={styles.li}>
                   <Text style={[styles.liText, styles.deleteText]}>
