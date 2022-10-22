@@ -22,6 +22,7 @@ import DoubleModal from '../../components/common/DoubleModal';
 import LinearGradient from 'react-native-linear-gradient';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 import BackButton from '../../components/common/BackButton';
+import useAuthActions from '../../utils/hooks/UseAuthActions';
 
 function FeedbackChoicePage({route}) {
   const isFocused = useIsFocused();
@@ -35,6 +36,7 @@ function FeedbackChoicePage({route}) {
   const [other, setOther] = useState('');
   const [confirmable, setConfirmable] = useState(true);
   const {data, userInfo} = route.params;
+  const {saveInfo} = useAuthActions;
 
   useEffect(() => {
     setConfirmable(true);
@@ -156,7 +158,8 @@ function FeedbackChoicePage({route}) {
               setModalVisible={setModalVisible}
               pFunction={() => {
                 if (confirmable) {
-                  setFeedbackEnd(data.id, owner.id).then(() => {
+                  setFeedbackEnd(data.id, owner.id).then(result => {
+                    saveInfo(result);
                     setModalVisible(false);
                     setEarnModalVisible(true);
                     // 토큰 보상 로직 추가

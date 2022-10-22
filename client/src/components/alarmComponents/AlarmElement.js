@@ -21,6 +21,7 @@ import {useToast} from '../../utils/hooks/useToast';
 import useUser from '../../utils/hooks/UseUser';
 import DoubleModal from '../common/DoubleModal';
 import EarnModal from '../common/UserInfoModal/EarnModal';
+import firestore from '@react-native-firebase/firestore';
 
 function AlarmElement({alarm, getAlarmPage, alarms, setAlarms}) {
   const user = useUser();
@@ -31,6 +32,16 @@ function AlarmElement({alarm, getAlarmPage, alarms, setAlarms}) {
   const [earnAskingModal, setEarnAskingModal] = useState(false);
   const [earnModalVisible, setEarnModalVisible] = useState(false);
   const [isEarnButtonPressed, setIsEarnButtonPressed] = useState(false);
+
+  const updateBefore = async () => {
+    firestore()
+      .collection('User')
+      .doc(user.id)
+      .get()
+      .then(result => {
+        saveInfo(result.data());
+      });
+  };
 
   const handleClick = () => {
     if (!alarm.meetingInfo || alarm.type === 'banned') {
@@ -182,8 +193,10 @@ function AlarmElement({alarm, getAlarmPage, alarms, setAlarms}) {
         modalVisible={earnAskingModal}
         setModalVisible={setEarnAskingModal}
         pFunction={() => {
-          setEarnAskingModal(false);
-          setEarnModalVisible(true);
+          updateBefore().then(() => {
+            setEarnAskingModal(false);
+            setEarnModalVisible(true);
+          });
         }}
         nFunction={() => {
           setEarnAskingModal(!earnAskingModal);

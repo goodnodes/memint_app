@@ -233,12 +233,16 @@ export const sendFeedback = async (meetingId, receiver, owner, form) => {
     });
 };
 
-export const setFeedbackEnd = (meetingId, owner) => {
-  return userCollection
+export const setFeedbackEnd = async (meetingId, owner) => {
+  return await userCollection
     .doc(owner)
     .collection('Feedback')
     .doc(meetingId)
-    .update({completed: true});
+    .update({completed: true})
+    .then(async () => {
+      const userInfo = await userCollection.doc(owner).get();
+      return userInfo.data();
+    });
 };
 
 /*

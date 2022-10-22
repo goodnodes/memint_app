@@ -214,6 +214,7 @@ function FeedbackSendPage({route}) {
           pFunction={() => {
             if (!form.emotion || !form.message) {
               showToast('error', '후기를 모두 입력해주세요.');
+              setModalVisible(false);
               return;
             }
             sendFeedback(data.id, person[2], owner.id, form).then(async () => {

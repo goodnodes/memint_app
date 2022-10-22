@@ -23,6 +23,7 @@ import {useToast} from '../../utils/hooks/useToast';
 import useUser from '../../utils/hooks/UseUser';
 import {removeItem} from '../../lib/Chatting';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
+import firestore from '@react-native-firebase/firestore';
 
 function FocusAwareStatusBar(props) {
   const isFocused = useIsFocused();
@@ -70,7 +71,7 @@ function MeetingSet({route}) {
       .then(result => {
         const status = result.data().status;
         console.log(status);
-        if (status === open || status === full) {
+        if (status === 'open' || status === 'full') {
           return true;
         } else {
           return false;

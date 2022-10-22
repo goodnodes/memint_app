@@ -69,6 +69,7 @@ function ChatText({
 
   // 채팅방에 들어올 때, AsyncStorage로부터 데이터를 받아와 chattings에 넣어주는 함수
   useEffect(() => {
+    console.log();
     // AppState Subscribe 설정
     const subscription = AppState.addEventListener('change', changedState => {
       if (
@@ -217,6 +218,8 @@ function NotMyChat({item, userDetail, setUserInfoModalVisible, setUserId}) {
 
   useEffect(() => {
     // console.log(item.createdAt);
+    console.log(userDetail);
+    console.log(item);
     if (userDetail[item.sender]) {
       const path =
         Platform.OS === 'android'
@@ -256,7 +259,6 @@ function NotMyChat({item, userDetail, setUserInfoModalVisible, setUserId}) {
     setDate(date);
   }, []);
   return (
-    userImg &&
     userDetail && (
       <View style={styles.messageWrapper}>
         {/* 클릭할 시 유저 정보를 열겠냐고 물어보는 모달 창 띄우는 값 true로 설정 */}
