@@ -59,8 +59,8 @@ function Report({navigation}) {
         <View style={styles.section}>
           <Text style={styles.boldText}>카카오톡 문의</Text>
           <Text style={styles.plainText}>
-            빠른 답장이 어려울 수 있습니다. 카카오톡 메세지를 보내주시면 확인 후
-            빠른 시일 내에 답변드리겠습니다.
+            카카오톡 메세지를 보내주시면 확인 후 빠른 시일 내에
+            답변드리겠습니다.
           </Text>
         </View>
         <BasicButton
