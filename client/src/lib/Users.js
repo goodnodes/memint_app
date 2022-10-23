@@ -68,6 +68,7 @@ export async function getOtherUser(id) {
     picture: userDetail.picture,
     property: userDetail.property,
     meminStats: userDetail.meminStats,
+    selfIntroduction: userDetail.selfIntroduction,
   };
   return otherUser;
 }

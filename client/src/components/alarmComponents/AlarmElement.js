@@ -88,28 +88,30 @@ function AlarmElement({alarm, getAlarmPage, alarms, setAlarms}) {
 
   const handleTokenReceive = async () => {
     setEarnModalVisible(false);
-    const meminStats = user.meminStats;
     //firestore user 변경 , saveInfo
-    if (meminStats.exp === 5) {
+    if (user.meminStats.exp === 5) {
       saveInfo({
         ...user,
         meminStats: {
           ...user.meminStats,
           exp: 0,
-          level: meminStats.level + 1,
+          level: user.meminStats.level + 1,
         },
       });
       await updateMeminStats(user.id, {
-        ...meminStats,
+        ...user.meminStats,
         exp: 0,
-        level: meminStats.level + 1,
+        level: user.meminStats.level + 1,
       });
     } else {
       saveInfo({
         ...user,
-        meminStats: {...user.meminStats, exp: meminStats.exp + 1},
+        meminStats: {...user.meminStats, exp: user.meminStats.exp + 1},
       });
-      await updateMeminStats(user.id, {...meminStats, exp: meminStats.exp + 1});
+      await updateMeminStats(user.id, {
+        ...user.meminStats,
+        exp: user.meminStats.exp + 1,
+      });
     }
     //firebase meeting members 변경
     await changeJoinerToTokenReceived(alarm.meetingInfo.id, user.id);

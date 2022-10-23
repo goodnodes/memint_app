@@ -213,6 +213,16 @@ function UserInfoModal({
                       contentContainerStyle={styles.contentContainerStyle}
                       indicatorStyle="white">
                       <View style={styles.tagRow}>
+                        <Text style={styles.hilightText}>자기소개</Text>
+                        <View style={styles.tags}>
+                          <View style={styles.plainTag}>
+                            <Text style={styles.tagText}>
+                              {user.selfIntroduction}
+                            </Text>
+                          </View>
+                        </View>
+                      </View>
+                      <View style={styles.tagRow}>
                         <Text style={styles.hilightText}>MBTI</Text>
                         <View style={styles.tags}>
                           <View style={styles.tag}>

@@ -35,7 +35,7 @@ function AlarmPage({navigation}) {
   }, [getAlarmPage, isFocused]);
   const getAlarmPage = useCallback(async () => {
     try {
-      setRefreshing(true)
+      setRefreshing(true);
       //알림 데이터
       const res = await getAlarmsById(userInfo.id);
 
@@ -126,6 +126,7 @@ function AlarmPage({navigation}) {
                 />
               );
             }}
+            initialNumToRender={20}
             refreshControl={
               <RefreshControl
                 refreshing={refreshing}
