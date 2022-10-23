@@ -36,7 +36,7 @@ function FeedbackChoicePage({route}) {
   const [other, setOther] = useState('');
   const [confirmable, setConfirmable] = useState(true);
   const {data, userInfo} = route.params;
-  const {saveInfo} = useAuthActions;
+  const {saveInfo} = useAuthActions();
 
   useEffect(() => {
     setConfirmable(true);

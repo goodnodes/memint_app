@@ -118,6 +118,7 @@ function EditMyInfo({route, navigation}) {
             value={selfIntroduction}
             onChangeText={setSelfIntroduction}
             multiline={true}
+            maxLength={100}
           />
         </View>
         <View style={styles.li}>
