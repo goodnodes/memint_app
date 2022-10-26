@@ -27,7 +27,7 @@ import useNftActions from '../../utils/hooks/UseNftActions';
 import {getNFTs, getProfile, getMemin, calcHumanElement} from '../../lib/NFT';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 import LinearGradient from 'react-native-linear-gradient';
-import memintLogo from '../../assets/icons/memintLogo.png'
+import memintLogo from '../../assets/icons/memintLogo.png';
 import {useToast} from '../../utils/hooks/useToast';
 import {useIsFocused} from '@react-navigation/native';
 
@@ -114,7 +114,7 @@ const SignInScreen = ({navigation, route}) => {
           level: userDetail.meminStats.level,
         },
       }),
-        navigation.navigate('Main');
+        navigation.reset({routes: [{name: 'Main'}]});
     } catch (e) {
       showToast('error', '로그인 실패');
       console.log(e);
@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
     width: 116,
     height: 79,
     marginTop: 92,
-    marginBottom: 64
+    marginBottom: 64,
   },
   text: {
     fontSize: 32,

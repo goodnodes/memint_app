@@ -39,7 +39,7 @@ function MySettings({route}) {
       console.log(e);
     } finally {
       setModalVisible(false);
-      navigation.navigate('SignIn');
+      navigation.reset({routes: [{name: 'SignIn'}]});
     }
   }, [navigation, logout]);
 
