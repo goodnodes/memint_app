@@ -1,3 +1,5 @@
+.env
+
 # OSX
 #
 .DS_Store
@@ -21,7 +23,7 @@ DerivedData
 *.ipa
 *.xcuserstate
 ios/.xcode.env.local
-
+*.plist
 # Android/IntelliJ
 #
 build/

@@ -24,6 +24,20 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 import {useToast} from '../../utils/hooks/useToast';
 import {useIsFocused} from '@react-navigation/native';
+// const dotenv = require('dotenv').config();
+const CryptoJS = require('crypto-js');
+const axios = require('axios');
+const Cache = require('memory-cache');
+import {
+  NAVER_CLOUD_ACCESS_KEY,
+  SENS_SECRET_KEY,
+  SENS_SERVICE_ID,
+  SENS_FROM_PHONENUMBER,
+} from '@env';
+const naverCloudAccessKey = NAVER_CLOUD_ACCESS_KEY;
+const sensSecretKey = SENS_SECRET_KEY;
+const sensServiceId = SENS_SERVICE_ID;
+const fromNumber = SENS_FROM_PHONENUMBER;
 
 function FocusAwareStatusBar(props) {
   const isFocused = useIsFocused();
@@ -75,16 +89,73 @@ const VerifyMobileScreen = ({navigation, route}) => {
 
   async function verifyPhoneNumber(phoneNumber) {
     try {
-      setButtonReady(false);
+      // setButtonReady(false);
       const userEmail = await getUserByPhoneNumber(form.mobileNumber);
-      console.log(userEmail);
       if (userEmail === 'NA') {
-        const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
-        setFiexedPhoneNumber(form.mobileNumber);
-        setConfirm(confirmation);
-        setButtonReady(true);
+        Cache.del(phoneNumber);
+
+        let verifyCode = '';
+        for (let i = 0; i < 6; i++) {
+          verifyCode += Math.floor(Math.random() * 10);
+        }
+        console.log(verifyCode);
+        Cache.put(phoneNumber, verifyCode);
+
+        let space = ' ';
+        let newLine = '\n';
+        let method = 'POST';
+        let serviceId = sensServiceId;
+        let url = `/sms/v2/services/${serviceId}/messages`;
+        let timestamp = Date.now().toString();
+        console.log(timestamp);
+        let accessKey = naverCloudAccessKey;
+        let secretKey = sensSecretKey;
+        console.log(accessKey, secretKey, serviceId);
+        // let hmac = method + space + uri + newLine + timestamp + newLine + accessKey;
+
+        var hmac = CryptoJS.algo.HMAC.create(CryptoJS.algo.SHA256, secretKey);
+        hmac.update(method);
+        hmac.update(space);
+        hmac.update(url);
+        hmac.update(newLine);
+        hmac.update(timestamp);
+        hmac.update(newLine);
+        hmac.update(accessKey);
+
+        var hash = hmac.finalize();
+
+        let signature = hash.toString(CryptoJS.enc.Base64);
+
+        let headers = {
+          'Content-Type': 'application/json; charset=utf-8',
+          'x-ncp-apigw-timestamp': timestamp,
+          'x-ncp-iam-access-key': accessKey,
+          'x-ncp-apigw-signature-v2': signature,
+        };
+        console.log(signature, timestamp, phoneNumber, fromNumber, verifyCode);
+        const smsRes = await axios({
+          method: method,
+          url: `https://sens.apigw.ntruss.com/sms/v2/services/${serviceId}/messages`,
+          headers: headers,
+          data: {
+            type: 'SMS',
+            contentType: 'COMM',
+            countryCode: '82',
+            from: fromNumber,
+            content: `[memint] 인증번호는 [${verifyCode}] 입니다.`,
+            messages: [{to: phoneNumber}],
+          },
+        });
+        console.log('response', smsRes.data);
+        // setButtonReady(true);
         return true;
+        // const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
+        // setFiexedPhoneNumber(form.mobileNumber);
+        // setConfirm(confirmation);
+        // setButtonReady(true);
+        // return true;
       } else {
+        Cache.del(phoneNumber);
         setValidNumber('이미 해당 전화번호로 가입한 회원이 있습니다');
         setTextColor('#FF5029');
         setButtonReady(true);
@@ -108,12 +179,27 @@ const VerifyMobileScreen = ({navigation, route}) => {
       setVerifyTextColor('#58FF7D');
     } else {
       try {
-        console.log(form.code);
-        console.log(confirm);
-        await confirm.confirm(form.code).then(console.log);
-        setVerified(true);
-        setVerifyTextColor('#58FF7D');
-        auth().signOut();
+        const CacheData = Cache.get(form.mobileNumber);
+        if (!CacheData) {
+          console.log('Invalid code.');
+          setVerified(false);
+          setVerifyTextColor('#FF5029');
+        } else if (CacheData !== form.code) {
+          console.log('Invalid code.');
+          setVerified(false);
+          setVerifyTextColor('#FF5029');
+        } else {
+          Cache.del(form.mobileNumber);
+          setVerified(true);
+          setVerifyTextColor('#58FF7D');
+        }
+
+        // console.log(form.code);
+        // console.log(confirm);
+        // await confirm.confirm(form.code).then(console.log);
+        // setVerified(true);
+        // setVerifyTextColor('#58FF7D');
+        // auth().signOut();
       } catch (error) {
         console.log(error);
         console.log('Invalid code.');
@@ -195,13 +281,15 @@ const VerifyMobileScreen = ({navigation, route}) => {
                       setValidNumber('인증번호가 발송되었습니다');
                     } else {
                       verifyPhoneNumber(
-                        `+82 ${form.mobileNumber.slice(
-                          0,
-                          3,
-                        )}-${form.mobileNumber.slice(
-                          3,
-                          7,
-                        )}-${form.mobileNumber.slice(7, 11)}`,
+                        form.mobileNumber,
+                        // verifyPhoneNumber(
+                        //   `${form.mobileNumber.slice(
+                        //     0,
+                        //     3,
+                        //   )}-${form.mobileNumber.slice(
+                        //     3,
+                        //     7,
+                        //   )}-${form.mobileNumber.slice(7, 11)}`,
                       ).then(result => {
                         if (result) {
                           setTextColor('#58FF7D');
