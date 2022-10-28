@@ -87,7 +87,7 @@ const WalletOffchainTrade = ({navigation}) => {
           <Text style={styles.freeTingText}> TING을 눌러 무료 TING 받기</Text>
         </View>
         <View style={styles.buttonContainer}>
-          <View style={styles.buttonWrapper}>
+          {/* <View style={styles.buttonWrapper}>
             <WalletCustomButton
               style={styles.buttonWrapper}
               width={140}
@@ -112,12 +112,12 @@ const WalletOffchainTrade = ({navigation}) => {
               onPress={handleTransferSelect}
               selected={transferSelected}
             />
-          </View>
-          {recieveSelected ? (
+          </View> */}
+          {/* {recieveSelected ? (
             <WalletOffchainRecieve />
           ) : (
             <WalletOffchainTransfer />
-          )}
+          )} */}
           <DoubleModal
             text={`하루 한 번 1 TING을 받을 수 있습니다. 받으시겠습니까? \n(베타테스트 기간 한정)`}
             nButtonText="아니요"
