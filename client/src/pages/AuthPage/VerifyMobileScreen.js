@@ -107,10 +107,10 @@ const VerifyMobileScreen = ({navigation, route}) => {
         let serviceId = sensServiceId;
         let url = `/sms/v2/services/${serviceId}/messages`;
         let timestamp = Date.now().toString();
-        console.log(timestamp);
+
         let accessKey = naverCloudAccessKey;
         let secretKey = sensSecretKey;
-        console.log(accessKey, secretKey, serviceId);
+
         // let hmac = method + space + uri + newLine + timestamp + newLine + accessKey;
 
         var hmac = CryptoJS.algo.HMAC.create(CryptoJS.algo.SHA256, secretKey);
@@ -132,7 +132,7 @@ const VerifyMobileScreen = ({navigation, route}) => {
           'x-ncp-iam-access-key': accessKey,
           'x-ncp-apigw-signature-v2': signature,
         };
-        console.log(signature, timestamp, phoneNumber, fromNumber, verifyCode);
+
         const smsRes = await axios({
           method: method,
           url: `https://sens.apigw.ntruss.com/sms/v2/services/${serviceId}/messages`,
@@ -146,7 +146,8 @@ const VerifyMobileScreen = ({navigation, route}) => {
             messages: [{to: phoneNumber}],
           },
         });
-        console.log('response', smsRes.data);
+
+        setFiexedPhoneNumber(form.mobileNumber);
         setButtonReady(true);
         return true;
         // const confirmation = await auth().signInWithPhoneNumber(phoneNumber);

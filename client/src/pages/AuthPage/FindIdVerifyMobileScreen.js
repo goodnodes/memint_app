@@ -19,6 +19,19 @@ import BackButton from '../../components/common/BackButton';
 import {getUserByPhoneNumber} from '../../lib/Users';
 import SafeStatusBar from '../../components/common/SafeStatusBar';
 import {useIsFocused} from '@react-navigation/native';
+const CryptoJS = require('crypto-js');
+const axios = require('axios');
+const Cache = require('memory-cache');
+import {
+  NAVER_CLOUD_ACCESS_KEY,
+  SENS_SECRET_KEY,
+  SENS_SERVICE_ID,
+  SENS_FROM_PHONENUMBER,
+} from '@env';
+const naverCloudAccessKey = NAVER_CLOUD_ACCESS_KEY;
+const sensSecretKey = SENS_SECRET_KEY;
+const sensServiceId = SENS_SERVICE_ID;
+const fromNumber = SENS_FROM_PHONENUMBER;
 
 function FocusAwareStatusBar(props) {
   const isFocused = useIsFocused();
@@ -67,25 +80,93 @@ const FindIdVerifyMobileScreen = ({navigation}) => {
   };
 
   async function verifyPhoneNumber(phoneNumber) {
-    const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
+    setButtonReady(false);
+    Cache.del(phoneNumber);
+
+    let verifyCode = '';
+    for (let i = 0; i < 6; i++) {
+      verifyCode += Math.floor(Math.random() * 10);
+    }
+
+    Cache.put(phoneNumber, verifyCode);
+
+    let space = ' ';
+    let newLine = '\n';
+    let method = 'POST';
+    let serviceId = sensServiceId;
+    let url = `/sms/v2/services/${serviceId}/messages`;
+    let timestamp = Date.now().toString();
+
+    let accessKey = naverCloudAccessKey;
+    let secretKey = sensSecretKey;
+    console.log(accessKey, secretKey, serviceId);
+    // let hmac = method + space + uri + newLine + timestamp + newLine + accessKey;
+
+    var hmac = CryptoJS.algo.HMAC.create(CryptoJS.algo.SHA256, secretKey);
+    hmac.update(method);
+    hmac.update(space);
+    hmac.update(url);
+    hmac.update(newLine);
+    hmac.update(timestamp);
+    hmac.update(newLine);
+    hmac.update(accessKey);
+
+    var hash = hmac.finalize();
+
+    let signature = hash.toString(CryptoJS.enc.Base64);
+
+    let headers = {
+      'Content-Type': 'application/json; charset=utf-8',
+      'x-ncp-apigw-timestamp': timestamp,
+      'x-ncp-iam-access-key': accessKey,
+      'x-ncp-apigw-signature-v2': signature,
+    };
+    const smsRes = await axios({
+      method: method,
+      url: `https://sens.apigw.ntruss.com/sms/v2/services/${serviceId}/messages`,
+      headers: headers,
+      data: {
+        type: 'SMS',
+        contentType: 'COMM',
+        countryCode: '82',
+        from: fromNumber,
+        content: `[memint] 인증번호는 [${verifyCode}] 입니다.`,
+        messages: [{to: phoneNumber}],
+      },
+    });
+    console.log('response', smsRes.data);
     setFiexedPhoneNumber(form.mobileNumber);
-    setConfirm(confirmation);
+    setButtonReady(true);
+    return true;
+    // const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
+    // setFiexedPhoneNumber(form.mobileNumber);
+    // setConfirm(confirmation);
   }
 
   // Handle confirm code button press
   async function confirmCode() {
     try {
-      await confirm.confirm(form.code);
-      setVerified(true);
-      setVerifyTextColor('#58FF7D');
-      auth().signOut();
-      getUserByPhoneNumber(fixedPhoneNumber).then(result => {
-        if (result) {
-          setEmail(result);
-        } else {
-          setEmail('NA');
-        }
-      });
+      const CacheData = Cache.get(form.mobileNumber);
+      if (!CacheData) {
+        console.log('Invalid code.');
+        setVerified(false);
+        setVerifyTextColor('#FF5029');
+      } else if (CacheData !== form.code) {
+        console.log('Invalid code.');
+        setVerified(false);
+        setVerifyTextColor('#FF5029');
+      } else {
+        Cache.del(form.mobileNumber);
+        setVerified(true);
+        setVerifyTextColor('#58FF7D');
+        getUserByPhoneNumber(fixedPhoneNumber).then(result => {
+          if (result) {
+            setEmail(result);
+          } else {
+            setEmail('NA');
+          }
+        });
+      }
     } catch (error) {
       console.log(error);
       console.log('Invalid code.');
@@ -148,13 +229,14 @@ const FindIdVerifyMobileScreen = ({navigation}) => {
                   text="인증번호받기"
                   onPress={async () =>
                     verifyPhoneNumber(
-                      `+82 ${form.mobileNumber.slice(
-                        0,
-                        3,
-                      )}-${form.mobileNumber.slice(
-                        3,
-                        7,
-                      )}-${form.mobileNumber.slice(7, 11)}`,
+                      form.mobileNumber,
+                      // `+82 ${form.mobileNumber.slice(
+                      //   0,
+                      //   3,
+                      // )}-${form.mobileNumber.slice(
+                      //   3,
+                      //   7,
+                      // )}-${form.mobileNumber.slice(7, 11)}`,
                     ).then(setValidNumber('인증번호가 발송되었습니다'))
                   }
                 />

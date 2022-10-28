@@ -25,6 +25,20 @@ import {deleteUserAuth, signIn} from '../../lib/Auth';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {deleteUserDB, deletePhoneNumber} from '../../lib/Users';
 import DoubleModal from '../../components/common/DoubleModal';
+const CryptoJS = require('crypto-js');
+const axios = require('axios');
+const Cache = require('memory-cache');
+import {
+  NAVER_CLOUD_ACCESS_KEY,
+  SENS_SECRET_KEY,
+  SENS_SERVICE_ID,
+  SENS_FROM_PHONENUMBER,
+} from '@env';
+const naverCloudAccessKey = NAVER_CLOUD_ACCESS_KEY;
+const sensSecretKey = SENS_SECRET_KEY;
+const sensServiceId = SENS_SERVICE_ID;
+const fromNumber = SENS_FROM_PHONENUMBER;
+
 const ReverifyForDelete = ({navigation, route}) => {
   let userInfo = route.params.user;
   //   useEffect(() => {
@@ -96,9 +110,67 @@ const ReverifyForDelete = ({navigation, route}) => {
   async function verifyPhoneNumber(phoneNumber) {
     if (verified) {
       try {
+        setButtonReady(false);
+        Cache.del(phoneNumber);
+
+        let verifyCode = '';
+        for (let i = 0; i < 6; i++) {
+          verifyCode += Math.floor(Math.random() * 10);
+        }
+
+        Cache.put(phoneNumber, verifyCode);
+
+        let space = ' ';
+        let newLine = '\n';
+        let method = 'POST';
+        let serviceId = sensServiceId;
+        let url = `/sms/v2/services/${serviceId}/messages`;
+        let timestamp = Date.now().toString();
+
+        let accessKey = naverCloudAccessKey;
+        let secretKey = sensSecretKey;
+
+        // let hmac = method + space + uri + newLine + timestamp + newLine + accessKey;
+
+        var hmac = CryptoJS.algo.HMAC.create(CryptoJS.algo.SHA256, secretKey);
+        hmac.update(method);
+        hmac.update(space);
+        hmac.update(url);
+        hmac.update(newLine);
+        hmac.update(timestamp);
+        hmac.update(newLine);
+        hmac.update(accessKey);
+
+        var hash = hmac.finalize();
+
+        let signature = hash.toString(CryptoJS.enc.Base64);
+
+        let headers = {
+          'Content-Type': 'application/json; charset=utf-8',
+          'x-ncp-apigw-timestamp': timestamp,
+          'x-ncp-iam-access-key': accessKey,
+          'x-ncp-apigw-signature-v2': signature,
+        };
+
+        const smsRes = await axios({
+          method: method,
+          url: `https://sens.apigw.ntruss.com/sms/v2/services/${serviceId}/messages`,
+          headers: headers,
+          data: {
+            type: 'SMS',
+            contentType: 'COMM',
+            countryCode: '82',
+            from: fromNumber,
+            content: `[memint] 인증번호는 [${verifyCode}] 입니다.`,
+            messages: [{to: phoneNumber}],
+          },
+        });
+
+        // setFiexedPhoneNumber(form.mobileNumber);
+        setButtonReady(true);
         setValidNumber('인증번호가 발송되었습니다');
-        const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
-        setConfirm(confirmation);
+        // const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
+        // setConfirm(confirmation);
       } catch (e) {
         const messages = {
           'auth/too-many-requests': `인증 번호 요청을 너무 많이했습니다. ${'\n'} 잠시 후 다시 시도해주세요.`,
@@ -115,9 +187,22 @@ const ReverifyForDelete = ({navigation, route}) => {
   // Handle confirm code button press
   async function confirmCode() {
     try {
-      await confirm.confirm(form.code).then(console.log);
-      setConfirmNo(true);
-      setConfirmTextColor('#58FF7D');
+      const CacheData = Cache.get(form.mobileNumber);
+      if (!CacheData) {
+        console.log('Invalid code.');
+        setConfirmNo(false);
+        setConfirmTextColor('#FF5029');
+      } else if (CacheData !== form.code) {
+        console.log('Invalid code.');
+        setConfirmNo(false);
+        setConfirmTextColor('#FF5029');
+      } else {
+        Cache.del(form.mobileNumber);
+        setConfirmNo(true);
+        setConfirmTextColor('#58FF7D');
+      }
+
+      // await confirm.confirm(form.code).then(console.log);
       //   auth().signOut();
     } catch (error) {
       console.log(error);
@@ -130,18 +215,26 @@ const ReverifyForDelete = ({navigation, route}) => {
   const handleFinalDelete = async () => {
     setModalVisible(!modalVisible);
     if (verified && confirmNo) {
+      // try {
+      //   // 엄청난 혼란 방지를 위해 DB는 삭제 안 함.
+      //   // deleteUserDB(userInfo.id);
+      //   // deleteUserAuth(); // 휴대폰 Auth 삭제
+      // } catch (e) {
+      //   console.log(e);
+      // } finally {
+      //   // 또 가입 기회를 주기 위해 휴대폰번호는 초기화
+      //   // deletePhoneNumber(userInfo.id);
+      //   await signIn({email: userInfo.email, password: form.password});
+      //   deleteUserAuth(); // 이메일, 비밀번호 Auth 삭제
+      //   navigation.navigate('SignIn');
+      // }
+
       try {
-        // 엄청난 혼란 방지를 위해 DB는 삭제 안 함.
-        // deleteUserDB(userInfo.id);
-        deleteUserAuth(); // 휴대폰 Auth 삭제
-      } catch (e) {
-        console.log(e);
-      } finally {
-        // 또 가입 기회를 주기 위해 휴대폰번호는 초기화
-        deletePhoneNumber(userInfo.id);
         await signIn({email: userInfo.email, password: form.password});
         deleteUserAuth(); // 이메일, 비밀번호 Auth 삭제
         navigation.navigate('SignIn');
+      } catch (e) {
+        console.log(e);
       }
     } else {
       showToast('error', '비밀번호와 휴대폰 번호를 인증해주세요.');
@@ -249,13 +342,14 @@ const ReverifyForDelete = ({navigation, route}) => {
                   hasMarginBottom
                   onPress={async () =>
                     verifyPhoneNumber(
-                      `+82 ${form.mobileNumber.slice(
-                        0,
-                        3,
-                      )}-${form.mobileNumber.slice(
-                        3,
-                        7,
-                      )}-${form.mobileNumber.slice(7, 11)}`,
+                      form.mobileNumber,
+                      // `+82 ${form.mobileNumber.slice(
+                      //   0,
+                      //   3,
+                      // )}-${form.mobileNumber.slice(
+                      //   3,
+                      //   7,
+                      // )}-${form.mobileNumber.slice(7, 11)}`,
                     )
                   }
                 />
