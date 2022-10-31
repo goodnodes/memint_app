@@ -92,7 +92,7 @@ function MySettings({route}) {
 
           <View style={[styles.li, {paddingVertical: 30}]}>
             <Text style={[styles.liText, {fontWeight: 'bold'}]}>현재 버전</Text>
-            <Text style={styles.liGrayText}>1.0.0</Text>
+            <Text style={styles.liGrayText}>1.0.1</Text>
           </View>
           <View style={styles.li}>
             <Text style={styles.liText}>이메일</Text>
@@ -169,7 +169,7 @@ function MySettings({route}) {
 
           <View style={[styles.li, {paddingVertical: 30}]}>
             <Text style={[styles.liText, {fontWeight: 'bold'}]}>현재 버전</Text>
-            <Text style={styles.liGrayText}>1.0.0</Text>
+            <Text style={styles.liGrayText}>1.0.1</Text>
           </View>
           <View style={styles.li}>
             <Text style={styles.liText}>이메일</Text>
