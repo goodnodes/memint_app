@@ -300,16 +300,10 @@ function NotMyChat({item, userDetail, setUserInfoModalVisible, setUserId}) {
           </Text>
           <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
             <View style={styles.messageBody}>
-              <Text style={{color: '#3C3D43'}}>{item.text}</Text>
+              <Text style={styles.messageText}>{item.text}</Text>
             </View>
             <View style={styles.date}>
-              <Text
-                style={{
-                  marginBottom: 5,
-                  fontSize: 11,
-                  color: '#ffffff',
-                  letterSpacing: -0.5,
-                }}>
+              <Text style={styles.dateText}>
                 {date && date.slice(6, date.length - 3)}
               </Text>
             </View>
@@ -327,34 +321,14 @@ function MyChat({item}) {
     setDate(date);
   }, []);
   return (
-    <View style={{...styles.MymessageWrapper, paddingTop: 10}}>
-      <View style={[styles.textWrapper, {alignItems: 'flex-end'}]}>
-        <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
-          <View style={styles.date}>
-            <Text
-              style={{
-                marginBottom: 5,
-                fontSize: 11,
-                color: '#ffffff',
-                letterSpacing: -0.5,
-              }}>
-              {/* {item.createdAt
-                .toDate()
-                .toLocaleString()
-                .slice(6, item.createdAt.toDate().toLocaleString().length - 3)} */}
-              {date && date.slice(6, date.length - 3)}
-            </Text>
-          </View>
-          <View
-            style={[
-              styles.messageBody,
-              {backgroundColor: 'rgba(234, 255, 239, 0.8)', maxWidth: 300},
-            ]}>
-            <Text style={{color: '#3C3D43', fontSize: 15, letterSpacing: -0.5}}>
-              {item.text}
-            </Text>
-          </View>
-        </View>
+    <View style={styles.MymessageWrapper}>
+      <View style={[styles.messageBody, styles.myMessageBody]}>
+        <Text style={styles.messageText}>{item.text}</Text>
+      </View>
+      <View style={styles.date}>
+        <Text style={styles.dateText}>
+          {date && date.slice(6, date.length - 3)}
+        </Text>
       </View>
     </View>
   );
@@ -401,21 +375,25 @@ const styles = StyleSheet.create({
   messageWrapper: {
     flexDirection: 'row',
     width: '60%',
-    marginBottom: 10,
+    marginVertical: 10,
+  },
+  MymessageWrapper: {
+    flexDirection: 'row-reverse',
+    marginLeft: 'auto',
+    marginVertical: 10,
+    alignItems: 'flex-end',
   },
   image: {
-    width: 56,
-    height: 56,
+    width: 48,
+    height: 48,
     borderRadius: 30,
-    // backgroundColor: 'gray',
-    marginRight: 7,
+    marginRight: 8,
   },
   textWrapper: {
     flex: 0,
     justifyContent: 'center',
   },
   senderName: {
-    marginTop: 10,
     paddingBottom: 6,
     fontSize: 12,
     fontWeight: '500',
@@ -423,22 +401,30 @@ const styles = StyleSheet.create({
     letterSpacing: -0.5,
   },
   messageBody: {
-    backgroundColor: 'rgba(234, 255, 239, 0.9)',
-    borderRadius: 30,
+    backgroundColor: '#F1FFF4',
+    borderRadius: 12,
     paddingVertical: 7,
     paddingHorizontal: 10,
-    maxWidth: 230,
+    maxWidth: '83%',
+  },
+  myMessageBody: {backgroundColor: '#D1DFD5', maxWidth: 300, marginBottom: 0},
+  messageText: {
+    color: '#3C3D43',
+    lineHeight: 21,
+    fontSize: 15,
+    letterSpacing: -0.5,
   },
   date: {
     justifyContent: 'flex-end',
     marginRight: 7,
     marginLeft: 7,
   },
-  MymessageWrapper: {
-    flexDirection: 'row-reverse',
-    width: '60%',
-    marginLeft: 'auto',
-    marginBottom: 10,
+
+  dateText: {
+    marginBottom: 5,
+    fontSize: 11,
+    color: '#ffffff',
+    letterSpacing: -0.5,
   },
 });
 

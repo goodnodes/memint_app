@@ -139,31 +139,33 @@ function UserInfoModal({
 
                     <View style={styles.meminStats}>
                       <View style={styles.levelRow}>
-                        <Progress.Circle
-                          size={41.5}
-                          progress={
-                            user.meminStats ? user.meminStats.exp / 5 : 0
-                          }
-                          color={'#FFAEF1'}
-                          unfilledColor={'#edeef6'}
-                          borderWidth={0}
-                          thickness={5}
-                          direction="counter-clockwise"
-                          formatText={progress => {
-                            return `LV.${user.meminStats?.level}`;
-                          }}
-                          showsText={true}
-                          textStyle={{
-                            color: '#000000',
-                            fontFamily: 'Silkscreen',
-                            fontSize: 10,
-                            lineHeight: 12,
-                            letterSpacing: -0.5,
-                          }}
-                        />
-                        <View style={styles.gradeView}>
+                        <View style={styles.processView}>
                           <Progress.Circle
-                            size={41.5}
+                            size={42}
+                            progress={
+                              user.meminStats ? user.meminStats.exp / 5 : 0
+                            }
+                            color={'#FFAEF1'}
+                            unfilledColor={'#edeef6'}
+                            borderWidth={0}
+                            thickness={5}
+                            direction="counter-clockwise"
+                            formatText={progress => {
+                              return `LV.${user.meminStats?.level}`;
+                            }}
+                            showsText={true}
+                            textStyle={{
+                              color: '#000000',
+                              fontFamily: 'Silkscreen',
+                              fontSize: 10,
+                              // lineHeight: 12,
+                              letterSpacing: -0.5,
+                            }}
+                          />
+                        </View>
+                        <View style={styles.processView}>
+                          <Progress.Circle
+                            size={42}
                             progress={
                               user.meminStats ? user.meminStats.charm / 100 : 0
                             }
@@ -188,153 +190,8 @@ function UserInfoModal({
                       </View>
                     </View>
                   </View>
+                  <UserProperty user={user} />
 
-                  <View style={styles.scrollContainer}>
-                    <LinearGradient
-                      colors={[
-                        'rgba(255, 255, 255, 0)',
-                        'rgba(255, 255, 255, 1)',
-                      ]}
-                      start={{x: 1, y: 1}}
-                      end={{x: 1, y: 0}}
-                      style={styles.gradientTop}
-                    />
-                    <LinearGradient
-                      colors={[
-                        'rgba(255, 255, 255, 0)',
-                        'rgba(255, 255, 255, 1)',
-                      ]}
-                      start={{x: 1, y: 0}}
-                      end={{x: 1, y: 1}}
-                      style={styles.gradientBottom}
-                    />
-                    <ScrollView
-                      style={styles.usertag}
-                      contentContainerStyle={styles.contentContainerStyle}
-                      indicatorStyle="white">
-                      <View style={styles.tagRow}>
-                        <Text style={styles.hilightText}>자기소개</Text>
-                        <View style={styles.tags}>
-                          <View style={styles.plainTag}>
-                            <Text style={styles.tagText}>
-                              {user.selfIntroduction}
-                            </Text>
-                          </View>
-                        </View>
-                      </View>
-                      <View style={styles.tagRow}>
-                        <Text style={styles.hilightText}>MBTI</Text>
-                        <View style={styles.tags}>
-                          <View style={styles.tag}>
-                            <Text style={styles.tagText}>
-                              {user.property.mbti}
-                            </Text>
-                          </View>
-                        </View>
-                      </View>
-                      <View style={styles.tagRow}>
-                        <Text style={styles.hilightText}>주출몰지</Text>
-                        <View style={styles.tags}>
-                          {user ? (
-                            user.property.region.map((ele, index) => {
-                              return (
-                                <View style={styles.tag} key={index}>
-                                  <Text style={styles.tagText}>{ele}</Text>
-                                </View>
-                              );
-                            })
-                          ) : (
-                            <ActivityIndicator size="large" color="#AEFFC1" />
-                          )}
-                        </View>
-                      </View>
-                      <View style={styles.tagRow}>
-                        <Text style={styles.hilightText}>유튜브</Text>
-                        <View style={styles.tags}>
-                          <View style={styles.plainTag}>
-                            <Text style={styles.tagText}>
-                              {user.property.favYoutube}
-                            </Text>
-                          </View>
-                        </View>
-                      </View>
-                      <View style={styles.tagRow}>
-                        <Text style={styles.hilightText}>닮은꼴</Text>
-                        <View style={styles.tags}>
-                          <View style={styles.plainTag}>
-                            <Text style={styles.tagText}>
-                              {user.property.twinCeleb}
-                            </Text>
-                          </View>
-                        </View>
-                      </View>
-                      <View style={styles.tagRow}>
-                        <Text style={styles.hilightText}>주량</Text>
-                        <View style={styles.tags}>
-                          <View style={styles.tag}>
-                            <Text style={styles.tagText}>
-                              {user.property.drinkCapa}
-                            </Text>
-                          </View>
-                        </View>
-                      </View>
-                      <View style={styles.tagRow}>
-                        <Text style={styles.hilightText}>선호 주류</Text>
-                        <View style={styles.tags}>
-                          {user ? (
-                            user.property.alcoholType.map((ele, index) => {
-                              return (
-                                <View style={styles.tag} key={index}>
-                                  <Text style={styles.tagText}>{ele}</Text>
-                                </View>
-                              );
-                            })
-                          ) : (
-                            <ActivityIndicator size="large" color="#AEFFC1" />
-                          )}
-                        </View>
-                      </View>
-
-                      <View style={styles.tagRow}>
-                        <Text style={styles.hilightText}>술자리</Text>
-                        <View style={styles.tags}>
-                          {user.property.drinkStyle.map((ele, index) => {
-                            return (
-                              <View style={styles.tag} key={index}>
-                                <Text style={styles.tagText}>{ele}</Text>
-                              </View>
-                            );
-                          })}
-                        </View>
-                      </View>
-                      <View style={styles.tagRow}>
-                        <Text style={styles.hilightText}>통금</Text>
-                        <View style={styles.tags}>
-                          <View style={styles.tag}>
-                            <Text style={styles.tagText}>
-                              {user.property.curfew}
-                            </Text>
-                          </View>
-                        </View>
-                      </View>
-                      <View style={styles.tagRow}>
-                        <Text style={styles.hilightText}>주력 게임</Text>
-                        <View style={styles.tags}>
-                          {user ? (
-                            user.property.favGame.map((ele, index) => {
-                              return (
-                                <View style={styles.tag} key={index}>
-                                  <Text style={styles.tagText}>{ele}</Text>
-                                </View>
-                              );
-                            })
-                          ) : (
-                            <ActivityIndicator size="large" color="#AEFFC1" />
-                          )}
-                        </View>
-                      </View>
-                    </ScrollView>
-                  </View>
                   {bigPicture && (
                     <View style={styles.pictureView}>
                       <Modal
@@ -428,6 +285,140 @@ function UserInfoModal({
     </View>
   );
 }
+
+const UserProperty = ({user}) => {
+  return (
+    <View style={styles.scrollContainer}>
+      <LinearGradient
+        colors={['rgba(255, 255, 255, 0)', 'rgba(255, 255, 255, 1)']}
+        start={{x: 1, y: 1}}
+        end={{x: 1, y: 0}}
+        style={styles.gradientTop}
+      />
+      <LinearGradient
+        colors={['rgba(255, 255, 255, 0)', 'rgba(255, 255, 255, 1)']}
+        start={{x: 1, y: 0}}
+        end={{x: 1, y: 1}}
+        style={styles.gradientBottom}
+      />
+      <ScrollView
+        style={styles.usertag}
+        contentContainerStyle={styles.contentContainerStyle}
+        indicatorStyle="white">
+        <View style={styles.tagRow}>
+          <Text style={styles.hilightText}>자기소개</Text>
+          <View style={styles.tags}>
+            <View style={styles.plainTag}>
+              <Text style={styles.tagText}>{user.selfIntroduction}</Text>
+            </View>
+          </View>
+        </View>
+        <View style={styles.tagRow}>
+          <Text style={styles.hilightText}>MBTI</Text>
+          <View style={styles.tags}>
+            <View style={styles.tag}>
+              <Text style={styles.tagText}>{user.property.mbti}</Text>
+            </View>
+          </View>
+        </View>
+        <View style={styles.tagRow}>
+          <Text style={styles.hilightText}>주출몰지</Text>
+          <View style={styles.tags}>
+            {user ? (
+              user.property.region.map((ele, index) => {
+                return (
+                  <View style={styles.tag} key={index}>
+                    <Text style={styles.tagText}>{ele}</Text>
+                  </View>
+                );
+              })
+            ) : (
+              <ActivityIndicator size="large" color="#AEFFC1" />
+            )}
+          </View>
+        </View>
+        <View style={styles.tagRow}>
+          <Text style={styles.hilightText}>유튜브</Text>
+          <View style={styles.tags}>
+            <View style={styles.plainTag}>
+              <Text style={styles.tagText}>{user.property.favYoutube}</Text>
+            </View>
+          </View>
+        </View>
+        <View style={styles.tagRow}>
+          <Text style={styles.hilightText}>닮은꼴</Text>
+          <View style={styles.tags}>
+            <View style={styles.plainTag}>
+              <Text style={styles.tagText}>{user.property.twinCeleb}</Text>
+            </View>
+          </View>
+        </View>
+        <View style={styles.tagRow}>
+          <Text style={styles.hilightText}>주량</Text>
+          <View style={styles.tags}>
+            <View style={styles.tag}>
+              <Text style={styles.tagText}>{user.property.drinkCapa}</Text>
+            </View>
+          </View>
+        </View>
+        <View style={styles.tagRow}>
+          <Text style={styles.hilightText}>선호 주류</Text>
+          <View style={styles.tags}>
+            {user ? (
+              user.property.alcoholType.map((ele, index) => {
+                return (
+                  <View style={styles.tag} key={index}>
+                    <Text style={styles.tagText}>{ele}</Text>
+                  </View>
+                );
+              })
+            ) : (
+              <ActivityIndicator size="large" color="#AEFFC1" />
+            )}
+          </View>
+        </View>
+
+        <View style={styles.tagRow}>
+          <Text style={styles.hilightText}>술자리</Text>
+          <View style={styles.tags}>
+            {user.property.drinkStyle.map((ele, index) => {
+              return (
+                <View style={styles.tag} key={index}>
+                  <Text style={styles.tagText}>{ele}</Text>
+                </View>
+              );
+            })}
+          </View>
+        </View>
+        <View style={styles.tagRow}>
+          <Text style={styles.hilightText}>통금</Text>
+          <View style={styles.tags}>
+            <View style={styles.tag}>
+              <Text style={styles.tagText}>{user.property.curfew}</Text>
+            </View>
+          </View>
+        </View>
+        <View style={styles.tagRow}>
+          <Text style={styles.hilightText}>주력 게임</Text>
+          <View style={styles.tags}>
+            {user ? (
+              user.property.favGame.map((ele, index) => {
+                return (
+                  <View style={styles.tag} key={index}>
+                    <Text style={styles.tagText}>{ele}</Text>
+                  </View>
+                );
+              })
+            ) : (
+              <ActivityIndicator size="large" color="#AEFFC1" />
+            )}
+          </View>
+        </View>
+      </ScrollView>
+    </View>
+  );
+};
+
 const styles = StyleSheet.create({
   centeredView: {
     justifyContent: 'center',
@@ -455,7 +446,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     borderColor: '#58FF7D',
     borderWidth: 1,
-    paddingHorizontal: width * 0.09,
+    paddingHorizontal: width * 0.08,
     paddingTop: 32,
     paddingBottom: 28,
     marginBottom: 30,
@@ -540,8 +531,8 @@ const styles = StyleSheet.create({
   },
   tag: {
     backgroundColor: '#EDEEF6',
-    paddingHorizontal: 10,
-    paddingVertical: 8,
+    paddingHorizontal: 11,
+    paddingVertical: 7,
     borderRadius: 99,
     borderColor: 'transparent',
     borderWidth: 1,
@@ -592,6 +583,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     color: '#1D1E1E',
     lineHeight: 19.6,
+    letterSpacing: -0.5,
   },
   pictureView: {
     justifyContent: 'center',
@@ -617,7 +609,7 @@ const styles = StyleSheet.create({
   gradientBottom: {
     zIndex: 1,
     position: 'absolute',
-    bottom: 0,
+    bottom: -0.5,
     width: '100%',
     height: 40,
   },
@@ -634,7 +626,7 @@ const styles = StyleSheet.create({
     height: 20.33,
     position: 'absolute',
     top: 10.5,
-    left: 21.8,
+    left: 9.1,
   },
   gradeText: {
     color: '#C15D5D',
@@ -644,17 +636,18 @@ const styles = StyleSheet.create({
     fontFamily: 'Silkscreen',
     position: 'absolute',
     top: 16.5,
-    left: 30.7,
+    left: 17.7,
   },
   levelRow: {
     flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'center',
   },
-  smallProgressCircle: {
-    marginLeft: 12,
+  processView: {
+    marginLeft: 10,
   },
   gradeTextNew: {
-    left: 20,
+    left: 8,
   },
 });
 export default UserInfoModal;

@@ -233,6 +233,7 @@ function Joiner({
             fontSize: 14,
             fontWeight: '500',
             letterSpacing: -0.5,
+            lineHeight: 19.6,
           }}>
           확정
         </Text>
@@ -285,8 +286,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 99,
-    paddingHorizontal: 9,
-    paddingVertical: 3,
+    paddingHorizontal: 9.5,
+    paddingVertical: 0.5,
   },
   buttons: {
     width: '100%',

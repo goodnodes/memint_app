@@ -31,7 +31,7 @@ function RoomHeader({title, roomInfo, setRoomInfo, setRoomInfoExist}) {
           }}>
           <Icon
             name="menu"
-            size={25}
+            size={24}
             color="#ffffff"
             style={{marginRight: 15}}
           />
@@ -46,9 +46,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 10,
-    // paddingHorizontal: 5,
-    // paddingTop: 10,
     height: 50,
   },
   buttonText: {
