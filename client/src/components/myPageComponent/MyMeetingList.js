@@ -11,7 +11,7 @@ import {useMeeting} from '../../utils/hooks/UseMeeting';
 import {handleDateInFormat} from '../../utils/common/Functions';
 import {getUser} from '../../lib/Users';
 import {getMeeting} from '../../lib/Meeting';
-import {useIsFocused} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import MeetingLikes from '../meetingComponents/MeetingLikes';
 import {ScrollView} from 'react-native-gesture-handler';
 
@@ -29,7 +29,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 // }
 const {width} = Dimensions.get('window');
 
-function MyMeetingList({navigation, user}) {
+function MyMeetingList({user}) {
   const [createdrooms, setCreatedRoom] = useState([]);
   const isFocused = useIsFocused();
   let {rooms} = useMeeting(); //redux crete, join에 있는 모든 미팅 정보들
@@ -38,7 +38,7 @@ function MyMeetingList({navigation, user}) {
     const userData = await getUser(user?.id);
 
     const data = await Promise.all(
-      userData.createdroomId.map(async el => {
+      userData?.createdroomId.map(async el => {
         const res = await getMeeting(el);
         const host = await getUser(res.data().hostId);
         return {
@@ -66,7 +66,6 @@ function MyMeetingList({navigation, user}) {
           .map((el, index) => (
             <MyMeetings
               item={el}
-              navigation={navigation}
               key={index}
               // getCreatedRoom={getCreatedRoom}
             />
@@ -80,9 +79,10 @@ function MyMeetingList({navigation, user}) {
   );
 }
 
-function MyMeetings({item, navigation}) {
+function MyMeetings({item}) {
   // const meetings = useMeeting();
   // const {saveMeeting} = useMeetingActions();
+  const navigation = useNavigation();
   const renderButton = () => {
     if (item?.status === 'end') {
       return <Text style={styles.finishText}>종료된 미팅</Text>;

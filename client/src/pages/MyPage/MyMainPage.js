@@ -10,19 +10,15 @@ import {
   Dimensions,
 } from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import MyMeetingList from '../../components/myPageComponent/MyMeetingList';
-import ParticipatedMeetingList from '../../components/myPageComponent/ParticipatedMeetingList';
 import WalletButton from '../../components/common/WalletButton';
 import * as Progress from 'react-native-progress';
 import dinoegg from '../../assets/icons/dinoegg.png';
-import BasicButton from '../../components/common/BasicButton';
 import likespink from '../../assets/icons/likespink.png';
 import eggS from '../../assets/icons/eggS.png';
 import eggD from '../../assets/icons/eggD.png';
 import eggB from '../../assets/icons/eggB.png';
 import MyEggModal from '../../components/myPageComponent/MyEggModal';
 import useUser from '../../utils/hooks/UseUser';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import LinearGradient from 'react-native-linear-gradient';
 import BottomDrawer from '../../components/myPageComponent/BottomDrawer';
 import {getDino} from '../../components/myPageComponent/MeminStats';
@@ -44,7 +40,6 @@ function FocusAwareStatusBar(props) {
 const {width} = Dimensions.get('window');
 
 function MyMainPage({navigation}) {
-  // const user = useUser();
   const userInfo = useUser();
   const {saveInfo} = useAuthActions();
   const [rechargeCheck, setRechargeCheck] = useState(false);
@@ -108,34 +103,16 @@ function MyMainPage({navigation}) {
   }, [userInfo]);
   const {top} = useSafeAreaInsets();
   // const animation = useRef(new Animated.Value(1)).current;
-  const [meetingRoom, setMeetingRoom] = useState(0);
-  const [tabActive, setTabActive] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
+  // const [modalVisible, setModalVisible] = useState(false);
 
-  const room = [{name: '내가 만든 방'}, {name: '참여 중인 방'}];
-  const selecteMenuHandler = index => {
-    setMeetingRoom(index);
-  };
   const handleNavigate = () => {
     navigation.navigate('MyPage');
-  };
-  const handleLikesNavigate = () => {
-    navigation.navigate('MyLikesRooms');
   };
 
   const handleMyEgg = () => {
     showToast('basic', 'Coming Soon');
     // setModalVisible(true);
   };
-
-  // useEffect(() => {
-  //   Animated.spring(animation, {
-  //     toValue: tabActive ? windowHeight / 4 : windowHeight / 1.25,
-  //     useNativeDriver: true,
-  //     speed: 10,
-  //     bounciness: 1,
-  //   }).start();
-  // }, [tabActive, animation]);
 
   return (
     <View style={styles.fullScreen}>
@@ -146,13 +123,6 @@ function MyMainPage({navigation}) {
       />
 
       <View style={{backgroundColor: '#82EFC1', height: top}} />
-
-      {/* <TouchableWithoutFeedback
-        onPress={() => {
-          if (tabActive) {
-            setTabActive(false);
-          }
-        }}> */}
       <LinearGradient
         colors={['#82EFC1', '#ffffff']}
         start={{x: 1, y: 0.3}}
@@ -278,13 +248,7 @@ function MyMainPage({navigation}) {
                     return `LV.${meminStats?.level}`;
                   }}
                   showsText={true}
-                  textStyle={{
-                    color: '#000000',
-                    fontFamily: 'Silkscreen',
-                    fontSize: 12,
-                    lineHeight: 12,
-                    letterSpacing: -0.5,
-                  }}
+                  textStyle={styles.levelText}
                 />
                 <View style={styles.gradeView}>
                   <Progress.Circle
@@ -357,56 +321,7 @@ function MyMainPage({navigation}) {
           </View>
         </ScrollView>
       </LinearGradient>
-      {/* </TouchableWithoutFeedback> */}
-      <BottomDrawer
-        onDrawerStateChange={() => {
-          setTabActive(!tabActive);
-        }}>
-        {/* 찜한 미팅방 */}
-        <View style={styles.mylikes}>
-          <TouchableOpacity
-            style={styles.mylikesButton}
-            onPress={handleLikesNavigate}>
-            <Text style={styles.mylikesText}>내가 찜한 미팅</Text>
-            <Icon name="chevron-right" size={22} color={'#AEFFC1'} />
-          </TouchableOpacity>
-        </View>
-        {!tabActive ? (
-          <></>
-        ) : (
-          <>
-            {/* 탭 선택 버튼 */}
-            <View style={styles.meetingButton}>
-              {room.map((ele, index, key) => {
-                return (
-                  <BasicButton
-                    text={ele.name}
-                    width={160}
-                    height={40}
-                    textSize={16}
-                    backgroundColor={
-                      meetingRoom === index ? '#AEFFC0' : 'transparent'
-                    }
-                    textColor={meetingRoom === index ? 'black' : 'white'}
-                    borderRadius={30}
-                    border={meetingRoom === index ? true : false}
-                    margin={[10, 3, 3, 3]}
-                    onPress={() => selecteMenuHandler(index)}
-                    key={index}
-                  />
-                );
-              })}
-            </View>
-            {/* 탭 선택에 따른 미팅 리스트 */}
-
-            {meetingRoom === 0 ? (
-              <MyMeetingList navigation={navigation} user={userInfo} />
-            ) : (
-              <ParticipatedMeetingList user={userInfo} />
-            )}
-          </>
-        )}
-      </BottomDrawer>
+      <BottomDrawer />
     </View>
   );
 }
@@ -576,40 +491,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderColor: '#AEFFC1',
     borderWidth: 1,
-    // shadowColor: '#000',
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 2,
-    // },
-    // shadowOpacity: 0.25,
-    // shadowRadius: 4,
-    // elevation: 5,
-  },
-  mylikesButton: {
-    flexDirection: 'row',
-    width: 118,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  mylikesText: {
-    fontSize: 16,
-    fontWeight: '600',
-    letterSpacing: -0.5,
-    color: '#ffffff',
-    lineHeight: 22.4,
-  },
-  mylikes: {
-    marginTop: 23,
-    justifyContent: 'flex-start',
-    marginHorizontal: 20,
-    marginBottom: 20,
-  },
-  meetingButton: {
-    marginTop: 10,
-    marginBottom: 10,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   gradeImage: {
     width: 28,
@@ -648,6 +529,13 @@ const styles = StyleSheet.create({
   },
   smallProgressCircle: {
     marginHorizontal: 10,
+  },
+  levelText: {
+    color: '#000000',
+    fontFamily: 'Silkscreen',
+    fontSize: 12,
+    lineHeight: 12,
+    letterSpacing: -0.5,
   },
   chargeEnergy: {
     // position: 'absolute',

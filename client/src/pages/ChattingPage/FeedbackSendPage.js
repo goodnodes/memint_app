@@ -354,6 +354,7 @@ const styles = StyleSheet.create({
     marginVertical: 13,
     padding: 10,
     paddingTop: 15,
+    color: '#3D3E44',
   },
   confirmButton: {
     backgroundColor: '#ffffff',

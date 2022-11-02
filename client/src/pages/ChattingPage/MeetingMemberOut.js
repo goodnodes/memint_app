@@ -305,6 +305,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingTop: 10,
     backgroundColor: '#EAFFEFCC',
+    color: '#3D3E44',
   },
   memberoutButton: {
     backgroundColor: '#ffffff',

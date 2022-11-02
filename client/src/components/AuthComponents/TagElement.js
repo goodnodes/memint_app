@@ -1,20 +1,21 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {TouchableOpacity, Text, StyleSheet, View} from 'react-native';
 
 function TagElement({tag, property, setProperty, type, selectLimit}) {
-  const [colored, setColored] = useState(false);
   const handleClick = () => {
-    if (colored) {
-      setColored(false);
+    if (property[type].includes(tag)) {
       setProperty({
         ...property,
         [type]: property[type].filter(el => el !== tag),
       });
     } else {
+      if (type === 'drinkStyle') {
+        setProperty({...property, drinkStyle: [tag]});
+        return;
+      }
       if (property[type].length >= selectLimit) {
         return;
       }
-      setColored(true);
       const value = [...property[type], tag];
       setProperty({...property, [type]: value});
     }
@@ -23,7 +24,7 @@ function TagElement({tag, property, setProperty, type, selectLimit}) {
     <TouchableOpacity
       // style={[styles.tag, colored ? styles.coloredTag : '']}
       onPress={handleClick}>
-      {colored ? (
+      {property[type].includes(tag) ? (
         <View style={[styles.tag, styles.coloredTag]}>
           <Text style={styles.coloredtext}>{tag}</Text>
         </View>

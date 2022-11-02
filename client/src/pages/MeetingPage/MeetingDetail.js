@@ -463,6 +463,9 @@ const styles = StyleSheet.create({
     marginTop: 1,
     backgroundColor: '#B9C5D1',
   },
+  input: {
+    color: '#000000',
+  },
 });
 
 export default MeetingDetail;

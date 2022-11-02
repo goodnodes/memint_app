@@ -10,15 +10,9 @@ import {
   ScrollView,
 } from 'react-native';
 
-// import DoubleModal from '../../components/common/DoubleModal';
 import {changeJoinerToConfirmed, getMeeting} from '../../lib/Meeting';
 import {getUser} from '../../lib/Users';
 import {handleDateInFormat} from '../../utils/common/Functions';
-import {useMeeting} from '../../utils/hooks/UseMeeting';
-import useMeetingActions from '../../utils/hooks/UseMeetingActions';
-import {useToast} from '../../utils/hooks/useToast';
-import useUser from '../../utils/hooks/UseUser';
-// import EarnModal from '../common/UserInfoModal/EarnModal';
 import MeetingLikes from '../meetingComponents/MeetingLikes';
 
 // function ParticipatedMeetingList({List}) {
@@ -35,20 +29,9 @@ import MeetingLikes from '../meetingComponents/MeetingLikes';
 const {width} = Dimensions.get('window');
 
 function ParticipatedMeetingList({user}) {
-  const meetingData = useMeeting();
-  const {saveMeeting} = useMeetingActions();
   const [joinedRoom, setJoinedRoom] = useState([]);
   useEffect(() => {
     getJoinedRoom();
-    // setJoinedRoom(
-    //   user.joinedroomId?.map(el => {
-    //     //내가 가지고 있는 아이디
-    //     const meetingInfo = meetingData.filter(meeting => {
-    //       return meeting.id === el;
-    //     });
-    //     return meetingInfo[0];
-    //   }),
-    // );
   }, [getJoinedRoom, isFocused]);
 
   const isFocused = useIsFocused();
@@ -67,7 +50,6 @@ function ParticipatedMeetingList({user}) {
         };
       }),
     );
-    // saveMeeting({...meetingData.rooms, joinedrooms: data});
     setJoinedRoom(data);
   }, [user]);
 
@@ -87,53 +69,19 @@ function ParticipatedMeetingList({user}) {
             />
           ))
       ) : (
-        // <View style={styles.emptyView}>
         <Text style={styles.emptyText}>참여 중인 미팅이 없습니다.</Text>
-        // </View>
       )}
     </ScrollView>
   );
 }
 
-function ParticipatedMeetings({item, getJoinedRoom}) {
-  const user = useUser();
+function ParticipatedMeetings({item}) {
   const navigation = useNavigation();
   // const [cancelModal, setCancelModal] = useState(false);
   // const [startModalVisible, setStartModalVisible] = useState(false);
   // const [earnModalVisible, setEarnModalVisible] = useState(false);
   // const {showToast} = useToast();
 
-  const renderButton = () => {
-    // if (
-    //   item?.status === 'confirmed' &&
-    //   item.members.filter(el => {
-    //     return Object.keys(el)[0] === user.id;
-    //   })[0][user.id] === 'fixed'
-    // ) {
-    //   return (
-    //     <TouchableOpacity
-    //       style={{
-    //         ...styles.button,
-    //         ...styles.backgroundColorBlue,
-    //       }}
-    //       onPress={() => setStartModalVisible(true)}>
-    //       <Text style={styles.buttonText}>참여 보상받기</Text>
-    //     </TouchableOpacity>
-    //   );
-    // if (item?.status === 'end') {
-    if (item?.status === 'confirmed') {
-      return <Text style={styles.finishText}>종료된 미팅</Text>;
-    }
-  };
-  // const handleStart = () => {
-  //   try {
-  //     changeJoinerToConfirmed(item.id, user.id);
-  //     showToast('success', '1TING이 지급되었습니다!');
-  //     getJoinedRoom();
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // };
   return (
     <>
       <TouchableOpacity

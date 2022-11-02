@@ -347,13 +347,14 @@ function MeetingCreate({route}) {
             <Text style={styles.text}>날짜</Text>
             {Platform.OS === 'ios' ? (
               <RNDateTimePicker
-                locale="ko"
+                locale="ko-KR"
                 value={meetingInfo.meetDate}
                 mode="datetime"
                 // textColor="#EAFFEF"
                 accentColor="#AEFFC1"
                 themeVariant="dark"
                 style={styles.datepicker}
+                minuteInterval={30}
                 onChange={(event, date) =>
                   setMeetingInfo({...meetingInfo, meetDate: date})
                 }
@@ -381,6 +382,7 @@ function MeetingCreate({route}) {
                     // textColor="#EAFFEF"
                     accentColor="#AEFFC1"
                     themeVariant="dark"
+                    minuteInterval={30}
                     style={styles.datepicker}
                     onChange={onTimeSelected}
                   />

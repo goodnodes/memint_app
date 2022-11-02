@@ -277,6 +277,7 @@ function EditMeetingInfo({route}) {
                 accentColor="#AEFFC1"
                 themeVariant="dark"
                 style={styles.datepicker}
+                minuteInterval={30}
                 onChange={(event, date) =>
                   setMeetingInfo({...meetingInfo, meetDate: date})
                 }
@@ -304,6 +305,7 @@ function EditMeetingInfo({route}) {
                     // textColor="#EAFFEF"
                     accentColor="#AEFFC1"
                     themeVariant="dark"
+                    minuteInterval={30}
                     style={styles.datepicker}
                     onChange={onTimeSelected}
                   />
