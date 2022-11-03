@@ -113,7 +113,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   memberInfo: {
-    width: 132,
     flexDirection: 'row',
     marginBottom: 24,
     alignItems: 'center',

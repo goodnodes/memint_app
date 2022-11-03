@@ -9,6 +9,7 @@ import {
   FlatList,
   Platform,
   StatusBar,
+  ActivityIndicator,
 } from 'react-native';
 import AlarmElement from '../../components/alarmComponents/AlarmElement';
 import {getAlarmsById} from '../../lib/Alarm';
@@ -107,10 +108,13 @@ function AlarmPage({navigation}) {
         <View style={styles.header}>
           <Text style={styles.title}>알림</Text>
         </View>
-
         {refreshing || alarms.length === 0 ? (
           <View style={styles.emptyView}>
-            <Text style={styles.emptyText}>알림이 없습니다</Text>
+            {refreshing ? (
+              <ActivityIndicator size={32} color="#58FF7D" />
+            ) : (
+              <Text style={styles.emptyText}>알림이 없습니다</Text>
+            )}
           </View>
         ) : (
           <FlatList
@@ -131,6 +135,7 @@ function AlarmPage({navigation}) {
               <RefreshControl
                 refreshing={refreshing}
                 onRefresh={getAlarmPage}
+                tintColor={'transparent'}
               />
             }
             contentContainerStyle={styles.alarmContainer}

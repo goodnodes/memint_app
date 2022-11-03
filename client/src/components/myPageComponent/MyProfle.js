@@ -255,21 +255,21 @@ const styles = StyleSheet.create({
     paddingBottom: 0,
   },
   tags: {
-    maxWidth: width * 0.67,
+    maxWidth: width * 0.66,
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
 
   tag: {
     backgroundColor: '#EAFFEFCC',
-    paddingHorizontal: 10,
-    paddingVertical: 8,
+    paddingHorizontal: 11,
+    paddingVertical: 7,
     borderRadius: 99,
     borderColor: 'transparent',
     borderWidth: 1,
     marginHorizontal: 4,
     marginVertical: 1,
-    maxWidth: width * 0.67,
+    maxWidth: width * 0.66,
   },
   tagFont: {
     fontSize: 14,

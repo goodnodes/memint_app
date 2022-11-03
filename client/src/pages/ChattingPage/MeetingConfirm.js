@@ -441,6 +441,7 @@ function MeetingConfirm({route}) {
             <RefreshControl
               refreshing={refreshing}
               onRefresh={getMeetingInfo}
+              tintColor={'transparent'}
             />
           }>
           <Text style={styles.title}>미팅참여 인증하기</Text>
@@ -490,7 +491,7 @@ function MeetingConfirm({route}) {
           </View>
         </ScrollView>
         {loading ? (
-          <ActivityIndicator style={styles.loading} size="large" />
+          <ActivityIndicator size={32} color="#58FF7D" style={styles.loading} />
         ) : null}
       </LinearGradient>
     </View>
@@ -666,7 +667,7 @@ const styles = StyleSheet.create({
     top: window.height / 2.2,
     left: window.width / 2.25,
     zIndex: 3,
-    color: 'light-gray',
+    // color: 'light-gray',
   },
   joinerText: {
     color: '#ffffff',

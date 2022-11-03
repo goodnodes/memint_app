@@ -367,19 +367,6 @@ function MeetingMarket({navigation}) {
                 }}
                 fixAndroidTouchableBug={true}
                 useNativeAndroidPickerStyle={false}
-                // Icon={() => {
-                //   return (
-                //     <Icon
-                //       name="swap-vert"
-                //       size={20}
-                //       color={'#ffffff'}
-                //       style={[
-                //         styles.icon,
-                //         Platform.OS === 'android' ? styles.iconAndroid : null,
-                //       ]}
-                //     />
-                //   );
-                // }}
               />
             </View>
           </View>
@@ -418,19 +405,19 @@ function MeetingMarket({navigation}) {
             setNextModalVisible={setConfirmModalVisible}
           />
         </ScrollView>
-        <TouchableOpacity
-          style={styles.createButton}
-          onPress={handleCreateMeeting}
-          onLongPress={handleMessage}>
-          <Icon name="add" size={30} color={'#58FF7D'} />
-        </TouchableOpacity>
-        {creationMessage ? (
+        {userState.isActivated ? null : (
           <Animated.View style={styles.creationMessage}>
             <Text style={styles.creationMessageText}>
               버튼을 클릭하고 새로운 미팅을 생성하세요!
             </Text>
           </Animated.View>
-        ) : null}
+        )}
+        <TouchableOpacity
+          style={styles.createButton}
+          onPress={handleCreateMeeting}
+          onLongPress={handleMessage}>
+          <Icon name="add" size={28} color={'#1D1E1E'} />
+        </TouchableOpacity>
       </LinearGradient>
     </View>
   );
@@ -458,22 +445,25 @@ const styles = StyleSheet.create({
   createButton: {
     position: 'absolute',
     bottom: 110,
-    right: 15,
+    left: 15,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     width: 60,
     height: 60,
-    backgroundColor: '#1D1E1E',
+    backgroundColor: '#FFFFFF',
     borderRadius: 999,
     borderWidth: 1.3,
-    borderColor: '#AEFFC1',
-  },
-  createButtonText: {
-    fontSize: 14,
-    letterSpacing: -0.5,
-    color: '#58FF7D',
-    marginRight: 7,
+    borderColor: '#58FF7D',
+    shadowColor: '#AEFFC080',
+    shadowOffset: {
+      width: 0,
+      height: 9,
+    },
+    shadowOpacity: 0.85,
+    shadowRadius: 11.95,
+
+    elevation: 18,
   },
   titleArea: {
     width: '100%',
@@ -542,11 +532,12 @@ const styles = StyleSheet.create({
   creationMessage: {
     position: 'absolute',
     bottom: 120,
-    left: 15,
+    left: 83,
     backgroundColor: '#1D1E1E',
-    width: '73%',
+    // width: '73%',
     height: 40,
     paddingLeft: 10,
+    paddingRight: 10,
     paddingVertical: 11,
     borderRadius: 12,
     borderColor: '#AEFFC1',

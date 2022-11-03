@@ -1,17 +1,7 @@
-import React, {useEffect, useState} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  View,
-  StyleSheet,
-  Alert,
-  Text,
-  TouchableOpacity,
-  StatusBar,
-} from 'react-native';
+import React from 'react';
+import {View, StyleSheet, TouchableOpacity, StatusBar} from 'react-native';
 import MyProfile from '../../components/myPageComponent/MyProfle';
 import useUser from '../../utils/hooks/UseUser';
-import WalletButton from '../../components/common/WalletButton';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import LinearGradient from 'react-native-linear-gradient';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -19,9 +9,6 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 function MyPage({navigation}) {
   const user = useUser();
   const {top} = useSafeAreaInsets();
-  // useEffect(() => {
-  //   console.log(user);
-  // }, []);
 
   return (
     <View style={styles.view}>
