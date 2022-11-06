@@ -10,6 +10,7 @@ import {
   StatusBar,
   TextInput,
   Animated,
+  KeyboardAvoidingView,
 } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 import BackButton from '../../components/common/BackButton';
@@ -87,7 +88,11 @@ const SignUpUserDetailScreen = ({navigation, route}) => {
   };
 
   return (
+    // <KeyboardAvoidingView
+    //   style={styles.KeyboardAvoidingView}
+    //   behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
     <KeyboardAwareScrollView
+      keyboardShouldPersistTaps="handled"
       contentContainerStyle={styles.KeyboardAvoidingView}
       enableOnAndroid={true}
       enableAutomaticScroll={Platform.OS === 'ios' ? true : false}>
@@ -110,6 +115,7 @@ const SignUpUserDetailScreen = ({navigation, route}) => {
         style={styles.gradientBackground}>
         <View style={styles.fullscreen}>
           <ScrollView
+            keyboardShouldPersistTaps="always"
             style={styles.fullscreenSub}
             contentContainerStyle={styles.paddingBottom}
             behavior={Platform.select({ios: 'padding'})}>
@@ -121,7 +127,7 @@ const SignUpUserDetailScreen = ({navigation, route}) => {
                 더 재밌는 미팅을 위해{'\n'}아래의 질문들에 답해주세요.
               </Text>
             </View>
-            <Animated.View
+            {/* <Animated.View
               style={[
                 styles.propertyView,
                 {
@@ -134,7 +140,8 @@ const SignUpUserDetailScreen = ({navigation, route}) => {
                     },
                   ],
                 },
-              ]}>
+              ]}> */}
+            <View style={styles.propertyView}>
               <Text style={styles.propertyTitle}>가볍게 시작해볼까요?</Text>
               <Text style={styles.propertydesc}>
                 {userInfo.nickName}님의 MBTI는 뭐에요?
@@ -150,73 +157,71 @@ const SignUpUserDetailScreen = ({navigation, route}) => {
                 rowTextStyle={styles.dropdownTextStyle}
                 buttonTextStyle={styles.buttonTextStyle}
               />
-            </Animated.View>
+            </View>
+            {/* </Animated.View> */}
 
-            {!property.mbti ? null : (
-              <Emoji
-                property={property}
-                setProperty={setProperty}
-                nickName={userInfo.nickName}
-              />
-            )}
-            {!property.emoji ? null : (
-              <Region property={property} setProperty={setProperty} />
-            )}
-            {!property.region.length ? null : (
-              <FavYoutube property={property} setProperty={setProperty} />
-            )}
-            {!property.favYoutube ? null : (
-              <TwinCeleb property={property} setProperty={setProperty} />
-            )}
-            {!property.twinCeleb ? null : (
-              <DrinkCapa
-                property={property}
-                setProperty={setProperty}
-                nickName={userInfo.nickName}
-              />
-            )}
-            {!property.drinkCapa ? null : (
-              <AlcoholType
-                data={data}
-                property={property}
-                setProperty={setProperty}
-              />
-            )}
-            {!property.alcoholType.length ? null : (
-              <DrinkStyle
-                data={data}
-                property={property}
-                setProperty={setProperty}
-              />
-            )}
-            {!property.drinkStyle.length ? null : (
-              <Curfew
-                data={data}
-                property={property}
-                setProperty={setProperty}
-              />
-            )}
-            {!property.curfew ? null : (
-              <FavGame
-                data={data}
-                property={property}
-                setProperty={setProperty}
-                nickName={userInfo.nickName}
-              />
-            )}
-            {!property.favGame.length ? null : (
-              <SelfIntroduction
-                selfIntroduction={selfIntroduction}
-                setSelfIntroduction={setSelfIntroduction}
-              />
-            )}
+            {/* {!property.mbti ? null : ( */}
+            <Emoji
+              property={property}
+              setProperty={setProperty}
+              nickName={userInfo.nickName}
+            />
+            {/* )} */}
+            {/* {!property.emoji ? null : ( */}
+            <Region property={property} setProperty={setProperty} />
+            {/* )} */}
+            {/* {!property.region.length ? null : ( */}
+            <FavYoutube property={property} setProperty={setProperty} />
+            {/* )} */}
+            {/* {!property.favYoutube ? null : ( */}
+            <TwinCeleb property={property} setProperty={setProperty} />
+            {/* )} */}
+            {/* {!property.twinCeleb ? null : ( */}
+            <DrinkCapa
+              property={property}
+              setProperty={setProperty}
+              nickName={userInfo.nickName}
+            />
+            {/* )} */}
+            {/* {!property.drinkCapa ? null : ( */}
+            <AlcoholType
+              data={data}
+              property={property}
+              setProperty={setProperty}
+            />
+            {/* )} */}
+            {/* {!property.alcoholType.length ? null : ( */}
+            <DrinkStyle
+              data={data}
+              property={property}
+              setProperty={setProperty}
+            />
+            {/* )} */}
+            {/* {!property.drinkStyle.length ? null : ( */}
+            <Curfew data={data} property={property} setProperty={setProperty} />
+            {/* )} */}
+            {/* {!property.curfew ? null : ( */}
+            <FavGame
+              data={data}
+              property={property}
+              setProperty={setProperty}
+              nickName={userInfo.nickName}
+            />
+            {/* )} */}
+            {/* {!property.favGame.length ? null : ( */}
+            <SelfIntroduction
+              selfIntroduction={selfIntroduction}
+              setSelfIntroduction={setSelfIntroduction}
+            />
+            {/* )} */}
+            <TouchableOpacity style={styles.button} onPress={goToNextPage}>
+              <Text style={styles.buttonText}>다음</Text>
+            </TouchableOpacity>
           </ScrollView>
-          <TouchableOpacity style={styles.button} onPress={goToNextPage}>
-            <Text style={styles.buttonText}>다음</Text>
-          </TouchableOpacity>
         </View>
       </LinearGradient>
     </KeyboardAwareScrollView>
+    // </KeyboardAvoidingView>
   );
 };
 
@@ -244,20 +249,21 @@ const Emoji = ({property, setProperty, nickName}) => {
     }).start();
   }, [animatedValue]);
   return (
-    <Animated.View
-      style={[
-        styles.propertyView,
-        {
-          transform: [
-            {
-              translateY: animatedValue.interpolate({
-                inputRange: [0, 1],
-                outputRange: [200, 0],
-              }),
-            },
-          ],
-        },
-      ]}>
+    // <Animated.View
+    //   style={[
+    //     styles.propertyView,
+    //     {
+    //       transform: [
+    //         {
+    //           translateY: animatedValue.interpolate({
+    //             inputRange: [0, 1],
+    //             outputRange: [200, 0],
+    //           }),
+    //         },
+    //       ],
+    //     },
+    //   ]}>
+    <View style={styles.propertyView}>
       <Text style={styles.propertyTitle}>
         {nickName}님을 가장 잘 표현한 이모지
       </Text>
@@ -279,7 +285,8 @@ const Emoji = ({property, setProperty, nickName}) => {
         onSubmitEditing={() => {}}
         maxLength={7}
       />
-    </Animated.View>
+    </View>
+    // </Animated.View>
   );
 };
 
@@ -293,20 +300,21 @@ const Region = ({property, setProperty}) => {
     }).start();
   }, [animatedValue]);
   return (
-    <Animated.View
-      style={[
-        styles.propertyView,
-        {
-          transform: [
-            {
-              translateY: animatedValue.interpolate({
-                inputRange: [0, 1],
-                outputRange: [200, 0],
-              }),
-            },
-          ],
-        },
-      ]}>
+    // <Animated.View
+    //   style={[
+    //     styles.propertyView,
+    //     {
+    //       transform: [
+    //         {
+    //           translateY: animatedValue.interpolate({
+    //             inputRange: [0, 1],
+    //             outputRange: [200, 0],
+    //           }),
+    //         },
+    //       ],
+    //     },
+    //   ]}>
+    <View style={styles.propertyView}>
       <Text style={styles.propertyTitle}>나의 주출몰지</Text>
       <Text style={styles.propertydesc}>최대 3개까지 선택 가능해요.</Text>
       <View style={styles.tagsContainer}>
@@ -321,7 +329,8 @@ const Region = ({property, setProperty}) => {
           />
         ))}
       </View>
-    </Animated.View>
+    </View>
+    // {/* </Animated.View> */}
   );
 };
 
@@ -335,20 +344,21 @@ const FavYoutube = ({property, setProperty}) => {
     }).start();
   }, [animatedValue]);
   return (
-    <Animated.View
-      style={[
-        styles.propertyView,
-        {
-          transform: [
-            {
-              translateY: animatedValue.interpolate({
-                inputRange: [0, 1],
-                outputRange: [200, 0],
-              }),
-            },
-          ],
-        },
-      ]}>
+    // <Animated.View
+    //   style={[
+    //     styles.propertyView,
+    //     {
+    //       transform: [
+    //         {
+    //           translateY: animatedValue.interpolate({
+    //             inputRange: [0, 1],
+    //             outputRange: [200, 0],
+    //           }),
+    //         },
+    //       ],
+    //     },
+    //   ]}>
+    <View style={styles.propertyView}>
       <Text style={styles.propertyTitle}>최근에 자주 본 유튜브 채널</Text>
       <TextInput
         style={[
@@ -367,7 +377,8 @@ const FavYoutube = ({property, setProperty}) => {
         onSubmitEditing={() => {}}
         maxLength={20}
       />
-    </Animated.View>
+    </View>
+    // </Animated.View>
   );
 };
 
@@ -381,20 +392,21 @@ const TwinCeleb = ({property, setProperty}) => {
     }).start();
   }, [animatedValue]);
   return (
-    <Animated.View
-      style={[
-        styles.propertyView,
-        {
-          transform: [
-            {
-              translateY: animatedValue.interpolate({
-                inputRange: [0, 1],
-                outputRange: [200, 0],
-              }),
-            },
-          ],
-        },
-      ]}>
+    // <Animated.View
+    //   style={[
+    //     styles.propertyView,
+    //     {
+    //       transform: [
+    //         {
+    //           translateY: animatedValue.interpolate({
+    //             inputRange: [0, 1],
+    //             outputRange: [200, 0],
+    //           }),
+    //         },
+    //       ],
+    //     },
+    //   ]}>
+    <View style={styles.propertyView}>
       <Text style={styles.propertyTitle}>나의 닮은꼴 연예인</Text>
       <TextInput
         style={[
@@ -417,7 +429,8 @@ const TwinCeleb = ({property, setProperty}) => {
         onSubmitEditing={() => {}}
         maxLength={20}
       />
-    </Animated.View>
+    </View>
+    // {/* </Animated.View> */}
   );
 };
 
@@ -431,20 +444,21 @@ const DrinkCapa = ({nickName, property, setProperty}) => {
     }).start();
   }, [animatedValue]);
   return (
-    <Animated.View
-      style={[
-        styles.propertyView,
-        {
-          transform: [
-            {
-              translateY: animatedValue.interpolate({
-                inputRange: [0, 1],
-                outputRange: [200, 0],
-              }),
-            },
-          ],
-        },
-      ]}>
+    // <Animated.View
+    //   style={[
+    //     styles.propertyView,
+    //     {
+    //       transform: [
+    //         {
+    //           translateY: animatedValue.interpolate({
+    //             inputRange: [0, 1],
+    //             outputRange: [200, 0],
+    //           }),
+    //         },
+    //       ],
+    //     },
+    //   ]}>
+    <View style={styles.propertyView}>
       <Text style={[styles.propertyTitle, styles.meetingStyle]}>
         이제부터, {nickName}님의{'\n'}미팅 스타일을 알아보려고 해요!
       </Text>
@@ -460,7 +474,8 @@ const DrinkCapa = ({nickName, property, setProperty}) => {
         rowTextStyle={styles.dropdownTextStyle}
         buttonTextStyle={styles.buttonTextStyle}
       />
-    </Animated.View>
+    </View>
+    // {/* </Animated.View> */}
   );
 };
 
@@ -474,20 +489,21 @@ const AlcoholType = ({property, setProperty}) => {
     }).start();
   }, [animatedValue]);
   return (
-    <Animated.View
-      style={[
-        styles.propertyView,
-        {
-          transform: [
-            {
-              translateY: animatedValue.interpolate({
-                inputRange: [0, 1],
-                outputRange: [200, 0],
-              }),
-            },
-          ],
-        },
-      ]}>
+    // <Animated.View
+    //   style={[
+    //     styles.propertyView,
+    //     {
+    //       transform: [
+    //         {
+    //           translateY: animatedValue.interpolate({
+    //             inputRange: [0, 1],
+    //             outputRange: [200, 0],
+    //           }),
+    //         },
+    //       ],
+    //     },
+    //   ]}>
+    <View style={styles.propertyView}>
       <Text style={styles.propertyTitle}>나의 선호 주류</Text>
       <Text style={styles.propertydesc}>최대 3개까지 선택 가능해요.</Text>
       <View style={styles.tagsContainer}>
@@ -502,7 +518,8 @@ const AlcoholType = ({property, setProperty}) => {
           />
         ))}
       </View>
-    </Animated.View>
+    </View>
+    // </Animated.View>
   );
 };
 
@@ -516,20 +533,21 @@ const DrinkStyle = ({property, setProperty}) => {
     }).start();
   }, [animatedValue]);
   return (
-    <Animated.View
-      style={[
-        styles.propertyView,
-        {
-          transform: [
-            {
-              translateY: animatedValue.interpolate({
-                inputRange: [0, 1],
-                outputRange: [200, 0],
-              }),
-            },
-          ],
-        },
-      ]}>
+    // <Animated.View
+    //   style={[
+    //     styles.propertyView,
+    //     {
+    //       transform: [
+    //         {
+    //           translateY: animatedValue.interpolate({
+    //             inputRange: [0, 1],
+    //             outputRange: [200, 0],
+    //           }),
+    //         },
+    //       ],
+    //     },
+    //   ]}>
+    <View style={styles.propertyView}>
       <Text style={styles.propertyTitle}>나의 술자리 스타일</Text>
       <Text style={styles.propertydesc}>하나만 선택해 주세요.</Text>
       <View style={styles.tagsContainer}>
@@ -544,7 +562,8 @@ const DrinkStyle = ({property, setProperty}) => {
           />
         ))}
       </View>
-    </Animated.View>
+    </View>
+    // {/* </Animated.View> */}
   );
 };
 
@@ -558,20 +577,21 @@ const Curfew = ({property, setProperty}) => {
     }).start();
   }, [animatedValue]);
   return (
-    <Animated.View
-      style={[
-        styles.propertyView,
-        {
-          transform: [
-            {
-              translateY: animatedValue.interpolate({
-                inputRange: [0, 1],
-                outputRange: [200, 0],
-              }),
-            },
-          ],
-        },
-      ]}>
+    // <Animated.View
+    //   style={[
+    //     styles.propertyView,
+    //     {
+    //       transform: [
+    //         {
+    //           translateY: animatedValue.interpolate({
+    //             inputRange: [0, 1],
+    //             outputRange: [200, 0],
+    //           }),
+    //         },
+    //       ],
+    //     },
+    //   ]}>
+    <View style={styles.propertyView}>
       <Text style={styles.propertyTitle}>나의 통금</Text>
       <View style={styles.tagsContainer}>
         {data.curfew.map((tag, idx) => (
@@ -585,7 +605,8 @@ const Curfew = ({property, setProperty}) => {
           />
         ))}
       </View>
-    </Animated.View>
+    </View>
+    // </Animated.View>
   );
 };
 
@@ -599,20 +620,21 @@ const FavGame = ({property, setProperty, nickName}) => {
     }).start();
   }, [animatedValue]);
   return (
-    <Animated.View
-      style={[
-        styles.propertyView,
-        {
-          transform: [
-            {
-              translateY: animatedValue.interpolate({
-                inputRange: [0, 1],
-                outputRange: [200, 0],
-              }),
-            },
-          ],
-        },
-      ]}>
+    // <Animated.View
+    //   style={[
+    //     styles.propertyView,
+    //     {
+    //       transform: [
+    //         {
+    //           translateY: animatedValue.interpolate({
+    //             inputRange: [0, 1],
+    //             outputRange: [200, 0],
+    //           }),
+    //         },
+    //       ],
+    //     },
+    //   ]}>
+    <View style={styles.propertyView}>
       <Text style={styles.propertyTitle}>
         {nickName}님이 좋아하는~랜덤~게임~!
       </Text>
@@ -631,7 +653,8 @@ const FavGame = ({property, setProperty, nickName}) => {
           />
         ))}
       </View>
-    </Animated.View>
+    </View>
+    // </Animated.View>
   );
 };
 
@@ -645,20 +668,21 @@ const SelfIntroduction = ({selfIntroduction, setSelfIntroduction}) => {
     }).start();
   }, [animatedValue]);
   return (
-    <Animated.View
-      style={[
-        styles.propertyView,
-        {
-          transform: [
-            {
-              translateY: animatedValue.interpolate({
-                inputRange: [0, 1],
-                outputRange: [200, 0],
-              }),
-            },
-          ],
-        },
-      ]}>
+    // <Animated.View
+    //   style={[
+    //     styles.propertyView,
+    //     {
+    //       transform: [
+    //         {
+    //           translateY: animatedValue.interpolate({
+    //             inputRange: [0, 1],
+    //             outputRange: [200, 0],
+    //           }),
+    //         },
+    //       ],
+    //     },
+    //   ]}>
+    <View style={styles.propertyView}>
       <Text style={styles.propertyTitle}>마지막으로 자기소개 부탁드려요</Text>
       <TextInput
         style={[
@@ -680,7 +704,8 @@ const SelfIntroduction = ({selfIntroduction, setSelfIntroduction}) => {
         maxLength={100}
       />
       <Text style={styles.texinputAlert}>{selfIntroduction.length} / 100</Text>
-    </Animated.View>
+    </View>
+    // </Animated.View>
   );
 };
 
@@ -744,9 +769,9 @@ const styles = StyleSheet.create({
 
     elevation: 18,
 
-    position: 'absolute',
-    bottom: 20,
-    marginHorizontal: 15,
+    // position: 'absolute',
+    // bottom: 20,
+    // marginHorizontal: 15,
   },
   buttonText: {
     color: '#1D1E1E',
@@ -755,7 +780,7 @@ const styles = StyleSheet.create({
     letterSpacing: -0.01,
   },
   paddingBottom: {
-    paddingBottom: 120,
+    paddingBottom: 20,
   },
   propertyView: {
     alignItems: 'center',

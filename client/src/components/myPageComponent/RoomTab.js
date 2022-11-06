@@ -1,6 +1,12 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableNativeFeedback,
+  View,
+} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import useUser from '../../utils/hooks/UseUser';
 import BasicButton from '../common/BasicButton';
@@ -23,12 +29,21 @@ function RoomTab({tabActive}) {
     <>
       {/* 찜한 미팅방 */}
       <View style={styles.mylikes}>
-        <TouchableOpacity
-          style={styles.mylikesButton}
-          onPress={handleLikesNavigate}>
-          <Text style={styles.mylikesText}>내가 찜한 미팅</Text>
-          <Icon name="chevron-right" size={22} color={'#AEFFC1'} />
-        </TouchableOpacity>
+        {Platform.OS === 'ios' ? (
+          <TouchableOpacity
+            style={styles.mylikesButton}
+            onPress={handleLikesNavigate}>
+            <Text style={styles.mylikesText}>내가 찜한 미팅</Text>
+            <Icon name="chevron-right" size={22} color={'#AEFFC1'} />
+          </TouchableOpacity>
+        ) : (
+          <TouchableNativeFeedback onPress={handleLikesNavigate}>
+            <View style={styles.mylikesButton}>
+              <Text style={styles.mylikesText}>내가 찜한 미팅</Text>
+              <Icon name="chevron-right" size={22} color={'#AEFFC1'} />
+            </View>
+          </TouchableNativeFeedback>
+        )}
       </View>
       {tabActive && (
         <>

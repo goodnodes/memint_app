@@ -9,8 +9,8 @@ function TagElement({tag, property, setProperty, type, selectLimit}) {
         [type]: property[type].filter(el => el !== tag),
       });
     } else {
-      if (type === 'drinkStyle') {
-        setProperty({...property, drinkStyle: [tag]});
+      if (type === 'drinkStyle' || type === 'curfew') {
+        setProperty({...property, [type]: [tag]});
         return;
       }
       if (property[type].length >= selectLimit) {

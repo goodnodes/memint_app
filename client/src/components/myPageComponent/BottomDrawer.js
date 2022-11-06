@@ -10,6 +10,7 @@ import RoomTab from './RoomTab';
 const {height} = Dimensions.get('window');
 
 function BottomDrawer() {
+  const [tabActive, setTabActive] = useState(false);
   const DrawerState = {
     Open: height - height / 1.7,
     // Peek: 230,
@@ -25,10 +26,12 @@ function BottomDrawer() {
       //     ? DrawerState.Closed
       //     : DrawerState.Peek;
       case DrawerState.Open:
+        setTabActive(val >= currentState ? true : false);
         return val >= currentState ? DrawerState.Open : DrawerState.Closed;
       // ? DrawerState.Closed
       // : DrawerState.Peek;
       case DrawerState.Closed:
+        setTabActive(val >= currentState ? true : false);
         return val >= currentState + margin
           ? // ? val <= DrawerState.Peek + margin
             //   ? DrawerState.Peek
@@ -103,7 +106,7 @@ function BottomDrawer() {
       <View style={styles.barRow}>
         <View style={styles.bar} />
       </View>
-      <RoomTab tabActive={true} />
+      <RoomTab tabActive={tabActive} />
     </Animated.View>
   );
 }
