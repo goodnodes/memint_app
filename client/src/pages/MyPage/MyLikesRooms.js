@@ -32,6 +32,9 @@ function MyLikesRooms() {
 
   const userInfo = useUser();
   const getMyLikesRooms = useCallback(async () => {
+    if (!userInfo.likesroomId) {
+      return;
+    }
     const meetings = await Promise.all(
       userInfo?.likesroomId?.map(async meetingId => {
         const res = await getMeeting(meetingId);
